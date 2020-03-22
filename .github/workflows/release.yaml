@@ -12,6 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Fetch history
+        run: git fetch --prune --unshallow
+
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
@@ -26,6 +29,6 @@ jobs:
           helm init --client-only
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.0.0-alpha.2
+        uses: helm/chart-releaser-action@v1.0.0-rc.1
         env:
           CR_TOKEN: "${{ secrets.CR_TOKEN }}"
