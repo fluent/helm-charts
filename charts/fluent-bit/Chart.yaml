@@ -1,0 +1,15 @@
+apiVersion: v2
+name: fluent-bit
+description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
+type: application
+version: 0.1.0
+appVersion: 1.3.7
+icon: https://fluentbit.io/assets/img/logo1-default.png
+home: https://fluentbit.io/
+sources:
+  - https://github.com/fluent/fluent-bit/
+maintainers:
+  - name: edsiper
+    email: eduardo@treasure-data.com
+  - name: naseemkullah
+    email: naseem@transit.app
