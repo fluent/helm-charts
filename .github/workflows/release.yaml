@@ -23,10 +23,9 @@ jobs:
       # See https://github.com/helm/chart-releaser-action/issues/6
       - name: Install Helm
         run: |
-          curl -sSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get
+          curl -fsSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
           chmod 700 get_helm.sh
           ./get_helm.sh
-          helm init --client-only
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.0.0-rc.1
