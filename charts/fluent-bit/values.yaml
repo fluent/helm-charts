@@ -2,7 +2,7 @@
 
 image:
   repository: fluent/fluent-bit
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
