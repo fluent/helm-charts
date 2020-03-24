@@ -34,6 +34,14 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- if .Values.env }}
+          env:
+          {{- toYaml .Values.env | nindent 10 }}
+        {{- end }}
+        {{- if .Values.envFrom }}
+          envFrom:
+          {{- toYaml .Values.envFrom | nindent 10 }}
+        {{- end }}
           ports:
             - name: http
               containerPort: 2020
@@ -63,6 +71,9 @@ spec:
             - name: etcmachineid
               mountPath: /etc/machine-id
               readOnly: true
+          {{- if .Values.extraVolumeMounts }}
+            {{- toYaml .Values.extraVolumeMounts | nindent 12 }}
+          {{- end }}
       volumes:
         - name: config
           configMap:
@@ -77,6 +88,9 @@ spec:
           hostPath:
             path: /etc/machine-id
             type: File
+      {{- if .Values.extraVolumes }}
+        {{- toYaml .Values.extraVolumes | nindent 8 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

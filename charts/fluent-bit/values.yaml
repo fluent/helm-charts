@@ -51,8 +51,15 @@ affinity: {}
 
 podAnnotations: {}
 
-## Ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
 priorityClassName: ""
+
+env: []
+
+envFrom: []
+
+extraVolumes: []
+
+extraVolumeMounts: []
 
 config:
   ## Ref: https://docs.fluentbit.io/manual/service
