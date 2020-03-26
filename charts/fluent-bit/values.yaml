@@ -109,7 +109,7 @@ config:
   outputs: |
     [OUTPUT]
         Name es
-        Match "*"
+        Match *
         Host elasticsearch-master
         Logstash_Format On
         Retry_Limit False
