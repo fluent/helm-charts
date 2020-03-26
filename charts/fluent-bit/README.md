@@ -21,35 +21,11 @@ helm install fluent-bit fluent/fluent-bit
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| config.customParsers | list | `[]` |  |
-| config.filters[0]."K8S-Logging.Exclude" | bool | `true` |  |
-| config.filters[0]."K8S-Logging.Parser" | bool | `true` |  |
-| config.filters[0].Keep_Log | bool | `false` |  |
-| config.filters[0].Match | string | `"kube.*"` |  |
-| config.filters[0].Merge_Log | bool | `true` |  |
-| config.filters[0].Name | string | `"kubernetes"` |  |
-| config.inputs[0].Mem_Buf_Limit | string | `"5MB"` |  |
-| config.inputs[0].Name | string | `"tail"` |  |
-| config.inputs[0].Parser | string | `"docker"` |  |
-| config.inputs[0].Path | string | `"/var/log/containers/*.log"` |  |
-| config.inputs[0].Skip_Long_Lines | bool | `true` |  |
-| config.inputs[0].Tag | string | `"kube.*"` |  |
-| config.inputs[1].Name | string | `"systemd"` |  |
-| config.inputs[1].Read_From_Tail | bool | `true` |  |
-| config.inputs[1].Systemd_Filter | string | `"_SYSTEMD_UNIT=kubelet.service"` |  |
-| config.inputs[1].Tag | string | `"host.*"` |  |
-| config.outputs[0].Host | string | `"elasticsearch-master"` |  |
-| config.outputs[0].Logstash_Format | bool | `true` |  |
-| config.outputs[0].Match | string | `"*"` |  |
-| config.outputs[0].Name | string | `"es"` |  |
-| config.outputs[0].Retry_Limit | bool | `false` |  |
-| config.service.Daemon | bool | `false` |  |
-| config.service.Flush | int | `1` |  |
-| config.service.HTTP_Listen | string | `"0.0.0.0"` |  |
-| config.service.HTTP_Port | int | `2020` |  |
-| config.service.HTTP_Server | bool | `true` |  |
-| config.service.Log_Level | string | `"info"` |  |
-| config.service.Parsers_File | string | `"custom_parsers.conf"` |  |
+| config.customParsers | string | `"[PARSER]\n    Name docker_no_time\n    Format json\n    Time_Keep Off\n    Time_Key time\n    Time_Format \"%Y-%m-%dT%H:%M:%S.%L\"\n"` |  |
+| config.filters | string | `"[FILTER]\n    Name kubernetes\n    Match kube.*\n    Merge_Log On\n    Keep_Log Off\n    K8S-Logging.Parser On\n    K8S-Logging.Exclude On\n"` |  |
+| config.inputs | string | `"[INPUT]\n    Name tail\n    Path /var/log/containers/*.log\n    Parser docker\n    Tag kube.*\n    Mem_Buf_Limit 5MB\n    Skip_Long_Lines On\n\n[INPUT]\n    Name systemd\n    Tag host.*\n    Systemd_Filter _SYSTEMD_UNIT=kubelet.service\n    Read_From_Tail On\n"` |  |
+| config.outputs | string | `"[OUTPUT]\n    Name es\n    Match \"*\"\n    Hos: elasticsearch-master\n    Logstash_Format On\n    Retry_Limit False\n"` |  |
+| config.service | string | `"[SERVICE]\n    Flush 1\n    Daemon Off\n    Log_Level info\n    Parsers_File parsers.conf\n    Parsers_File custom_parsers.conf\n    HTTP_Server On\n    HTTP_Listen 0.0.0.0\n    HTTP_Port 2020\n"` |  |
 | env | list | `[]` |  |
 | envFrom | list | `[]` |  |
 | extraVolumeMounts | list | `[]` |  |
