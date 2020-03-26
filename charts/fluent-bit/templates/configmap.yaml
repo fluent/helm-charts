@@ -6,32 +6,9 @@ metadata:
     {{- include "fluent-bit.labels" . | nindent 4 }}
 data:
   custom_parsers.conf: |
-    {{- range $parser := .Values.config.customParsers }}
-    [PARSER]
-      {{- range $key, $value := index $parser }}
-        {{ $key }} {{ $value }}
-      {{- end }}
-    {{ end }}
+    {{- .Values.config.customParsers | nindent 4 }}
   fluent-bit.conf: |
-    [SERVICE]
-      {{- range $key, $value := index .Values.config.service }}
-        {{ $key }} {{ $value }}
-      {{- end }}
-    {{ range $input := .Values.config.inputs }}
-    [INPUT]
-      {{- range $key, $value := index $input }}
-        {{ $key }} {{ $value }}
-      {{- end }}
-    {{ end }}
-    {{- range $filter := .Values.config.filters }}
-    [FILTER]
-      {{- range $key, $value := index $filter }}
-        {{ $key }} {{ $value }}
-      {{- end }}
-    {{ end }}
-    {{- range $output := .Values.config.outputs }}
-    [OUTPUT]
-      {{- range $key, $value := index $output }}
-        {{ $key }} {{ $value }}
-      {{- end }}
-    {{ end }}
+    {{- .Values.config.service  | nindent 4 }}
+    {{- .Values.config.inputs  | nindent 4 }}
+    {{- .Values.config.filters  | nindent 4 }}
+    {{- .Values.config.outputs  | nindent 4 }}
