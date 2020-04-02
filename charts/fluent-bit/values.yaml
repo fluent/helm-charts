@@ -43,7 +43,7 @@ service:
     # interval: 10s
     # scrapeTimeout: 10s
     # selector:
-    #   prometheus: my-prometheus      
+    #  prometheus: my-prometheus
 
 resources:
   {}
