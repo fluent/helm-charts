@@ -33,6 +33,7 @@ helm install fluent-bit fluent/fluent-bit
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"fluent/fluent-bit"` |  |
+| image.tag | string | `.Chart.AppVersion` |  |
 | imagePullSecrets | list | `[]` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
