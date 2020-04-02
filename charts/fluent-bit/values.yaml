@@ -3,6 +3,7 @@
 image:
   repository: fluent/fluent-bit
   pullPolicy: Always
+  # tag:
 
 imagePullSecrets: []
 nameOverride: ""
