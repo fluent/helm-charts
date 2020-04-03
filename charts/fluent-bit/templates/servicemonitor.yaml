@@ -9,7 +9,7 @@ metadata:
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
     {{- with .Values.serviceMonitor.selector }}
-    {{ toYaml . | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
   endpoints:
