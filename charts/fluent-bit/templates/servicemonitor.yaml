@@ -6,7 +6,8 @@ metadata:
   {{- with .Values.serviceMonitor.namespace }}
   namespace: {{ . }}
   {{- end }}
-  labels: {{ include "fluent-bit.labels" . | nindent 4 }}
+  labels:
+    {{- include "fluent-bit.labels" . | nindent 4 }}
     {{- with .Values.serviceMonitor.selector }}
     {{ toYaml . | nindent 4 }}
     {{- end }}
