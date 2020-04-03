@@ -24,5 +24,6 @@ spec:
     matchNames:
       - {{ .Release.Namespace }}
   selector:
-    matchLabels: {{ include "fluent-bit.selectorLabels" . | nindent 6 }}
+    matchLabels:
+      {{- include "fluent-bit.selectorLabels" . | nindent 6 }}
 {{- end }}
