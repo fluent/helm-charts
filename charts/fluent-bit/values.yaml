@@ -37,13 +37,14 @@ service:
     # prometheus.io/path: "/api/v1/metrics/prometheus"
     # prometheus.io/port: "2020"
     # prometheus.io/scrape: "true"
-  serviceMonitor:
-    enabled: false
-    # namespace: monitoring
-    # interval: 10s
-    # scrapeTimeout: 10s
-    # selector:
-    #  prometheus: my-prometheus
+
+serviceMonitor:
+  enabled: false
+  # namespace: monitoring
+  # interval: 10s
+  # scrapeTimeout: 10s
+  # selector:
+  #  prometheus: my-prometheus
 
 resources:
   {}
