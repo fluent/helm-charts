@@ -1,0 +1,71 @@
+# Default values for fluent-bit.
+
+image:
+  repository: fluent/fluentd-kubernetes-daemonset
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name:
+
+rbac:
+  create: true
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 24231
+  annotations:
+    {}
+    # prometheus.io/path: "/metrics"
+    # prometheus.io/port: "24231"
+    # prometheus.io/scrape: "true"
+
+resources:
+  {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+podAnnotations: {}
+
+priorityClassName: ""
+
+env:
+  - name: FLUENT_ELASTICSEARCH_HOST
+    value: "elasticsearch-master"
+  - name: FLUENT_ELASTICSEARCH_PORT
+    value: "9200"
+
+envFrom: []
+
+extraVolumes: []
+
+extraVolumeMounts: []
