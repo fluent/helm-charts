@@ -256,4 +256,14 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.1.0/fluent-bit-0.1.0.tgz
     version: 0.1.0
+  fluentd:
+  - apiVersion: v2
+    appVersion: v1
+    created: "2020-04-06T03:41:52.666053388Z"
+    description: A Helm chart for Kubernetes
+    digest: 2afa5bc3ba8a2b5ffe830b9b527a2c2dad2b7cb4708597546d8fd88caf9d1590
+    name: fluentd
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
+    version: 0.1.0
 generated: "2020-03-22T21:40:46.55347677Z"
