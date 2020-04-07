@@ -69,3 +69,9 @@ envFrom: []
 extraVolumes: []
 
 extraVolumeMounts: []
+
+# DaemonSet or Deployment
+kind: DaemonSet
+
+# Only applicable for Deployment
+replicaCount: 1

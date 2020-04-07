@@ -1,11 +1,12 @@
-{{- if eq .Values.kind "DaemonSet" }}
+{{- if eq .Values.kind "Deployment" }}
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: {{ include "fluentd.fullname" . }}
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
 spec:
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "fluentd.selectorLabels" . | nindent 6 }}

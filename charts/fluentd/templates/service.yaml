@@ -11,9 +11,13 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    # - port: 24224
+    #   targetPort: forward
+    #   protocol: TCP
+    #   name: forward
+    - port: 24231
+      targetPort: metrics
       protocol: TCP
-      name: http
+      name: metrics
   selector:
     {{- include "fluentd.selectorLabels" . | nindent 4 }}
