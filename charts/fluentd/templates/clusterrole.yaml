@@ -16,3 +16,10 @@ rules:
       - list
       - watch
 {{- end -}}
+{{- if .Values.podSecurityPolicy.enabled }}
+  - apiGroups: ['extensions']
+    resources: ['podsecuritypolicies']
+    verbs:     ['use']
+    resourceNames:
+    - {{ template "fluentd.fullname" . }}
+{{- end }}

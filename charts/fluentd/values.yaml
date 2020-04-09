@@ -17,18 +17,11 @@ serviceAccount:
 rbac:
   create: true
 
-podSecurityContext:
-  {}
-  # fsGroup: 2000
-
-securityContext:
-  {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+# Configure podsecuritypolicy
+# Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+podSecurityPolicy:
+  enabled: true
+  annotations: {}
 
 service:
   type: ClusterIP
@@ -63,7 +56,7 @@ env:
     value: "elasticsearch-master"
   - name: FLUENT_ELASTICSEARCH_PORT
     value: "9200"
-
+    
 envFrom: []
 
 extraVolumes: []
