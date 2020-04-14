@@ -2,27 +2,27 @@
 {{- $defaultTag := printf "%s-debian-elasticsearch" (.Chart.AppVersion) -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
-  {{- toYaml . | nindent 8 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- if .Values.priorityClassName }}
 priorityClassName: {{ .Values.priorityClassName }}
 {{- end }}
 serviceAccountName: {{ include "fluentd.serviceAccountName" . }}
 securityContext:
-  {{- toYaml .Values.podSecurityContext | nindent 8 }}
+  {{- toYaml .Values.podSecurityContext | nindent 2 }}
 containers:
   - name: {{ .Chart.Name }}
     securityContext:
-      {{- toYaml .Values.securityContext | nindent 12 }}
+      {{- toYaml .Values.securityContext | nindent 6 }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $defaultTag }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
   {{- if .Values.env }}
     env:
-    {{- toYaml .Values.env | nindent 10 }}
+    {{- toYaml .Values.env | nindent 6 }}
   {{- end }}
   {{- if .Values.envFrom }}
     envFrom:
-    {{- toYaml .Values.envFrom | nindent 10 }}
+    {{- toYaml .Values.envFrom | nindent 6 }}
   {{- end }}
     ports:
       # - name: forward
@@ -40,7 +40,7 @@ containers:
         path: /metrics
         port: metrics
     resources:
-      {{- toYaml .Values.resources | nindent 12 }}
+      {{- toYaml .Values.resources | nindent 8 }}
     volumeMounts:
       - name: varlog
         mountPath: /var/log
@@ -48,7 +48,7 @@ containers:
         mountPath: /var/lib/docker/containers
         readOnly: true
     {{- if .Values.extraVolumeMounts }}
-      {{- toYaml .Values.extraVolumeMounts | nindent 12 }}
+      {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
     {{- end }}
 volumes:
   - name: varlog
@@ -58,19 +58,19 @@ volumes:
     hostPath:
       path: /var/lib/docker/containers
 {{- if .Values.extraVolumes }}
-  {{- toYaml .Values.extraVolumes | nindent 8 }}
+  {{- toYaml .Values.extraVolumes | nindent 2 }}
 {{- end }}
 {{- with .Values.nodeSelector }}
 nodeSelector:
-  {{- toYaml . | nindent 8 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- with .Values.affinity }}
 affinity:
-  {{- toYaml . | nindent 8 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- with .Values.tolerations }}
 tolerations:
-  {{- toYaml . | nindent 8 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 
 {{- end -}}
