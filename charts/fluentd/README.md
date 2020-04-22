@@ -22,6 +22,9 @@
 | kind | string | `"DaemonSet"` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
+| output.plugins.enabled | bool | `false` |  |
+| output.plugins.pluginsList | list | `[]` |  |
+| output.type | string | `"elasticsearch"` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | priorityClassName | string | `""` |  |
@@ -30,9 +33,10 @@
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.annotations | object | `{}` |  |
-| service.port | int | `24231` |  |
+| service.ports | list | `[]` |  |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `nil` |  |
-| tolerations | list | `[]` |  |
+| serviceMonitor.enabled | bool | `false` |  |
+| tolerations | list | `[]`
