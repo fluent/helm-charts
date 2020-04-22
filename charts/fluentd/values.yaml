@@ -54,9 +54,9 @@ resources:
 nodeSelector: {}
 
 output:
-  # Preset output type to use - 
-  # Use it from here: https://github.com/fluent/fluentd-kubernetes-daemonset - For example for elasticsearch7: 
-  # https://github.com/fluent/fluentd-kubernetes-daemonset/tree/master/docker-image/v1.10/debian-elasticsearch7. 
+  # Preset output type to use -
+  # Use it from here: https://github.com/fluent/fluentd-kubernetes-daemonset - For example for elasticsearch7:
+  # https://github.com/fluent/fluentd-kubernetes-daemonset/tree/master/docker-image/v1.10/debian-elasticsearch7
   # Configuration to be passed via Environment variables
   type: elasticsearch
   # Chart supports custom configuration using custom configuration.
