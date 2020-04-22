@@ -52,12 +52,12 @@ containers:
       - name: varlibdockercontainers
         mountPath: /var/lib/docker/containers
         readOnly: true
-      {{- if eq .Values.output.type "custome" }}  
-      - name: custome-config-volume-{{ template "fluentd.fullname" . }}
+      {{- if eq .Values.output.type "custom" }}  
+      - name: custom-config-volume-{{ template "fluentd.fullname" . }}
         mountPath: /fluentd/etc/
       {{- end }}
       {{- if or (.Values.output.extraConfigs) ( and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0)) -}}  
-      - name: custome-config-volume-{{ template "fluentd.fullname" . }}
+      - name: custom-config-volume-{{ template "fluentd.fullname" . }}
         mountPath: /fluentd/etc/config.d/
       {{- end }}        
     {{- if .Values.extraVolumeMounts }}
@@ -70,10 +70,10 @@ volumes:
   - name: varlibdockercontainers
     hostPath:
       path: /var/lib/docker/containers
-  {{- if eq .Values.output.type "custome" }}
-  - name: custome-config-volume-{{ template "fluentd.fullname" . }}
+  {{- if eq .Values.output.type "custom" }}
+  - name: custom-config-volume-{{ template "fluentd.fullname" . }}
     configMap:
-      name: {{ template "fluentd.fullname" . }}-customeconfig
+      name: {{ template "fluentd.fullname" . }}-customconfig
       defaultMode: 0777
   {{- end }}
   {{- if or (.Values.output.extraConfigs) ( and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0)) -}}

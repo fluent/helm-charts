@@ -1,8 +1,8 @@
-{{- if eq .Values.output.type "custome" }}
+{{- if eq .Values.output.type "custom" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "fluentd.fullname" . }}-customeconfig
+  name: {{ template "fluentd.fullname" . }}-customconfig
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
 data:

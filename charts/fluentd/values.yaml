@@ -33,7 +33,7 @@ securityContext:
 service:
   type: ClusterIP
   ports: []
-  # - name: "monitor-agent"
+  # - name: "metrics"
   #   protocol: TCP
   #   containerPort: 24220
   annotations:
@@ -59,10 +59,10 @@ output:
   # https://github.com/fluent/fluentd-kubernetes-daemonset/tree/master/docker-image/v1.10/debian-elasticsearch7. 
   # Configuration to be passed via Environment variables
   type: elasticsearch
-  # Chart supports custome configuration using custome configuration.
-  # Default configuration fromn https://github.com/fluent/fluentd-kubernetes-daemonset will be reset to the custome configs.
+  # Chart supports custom configuration using custom configuration.
+  # Default configuration fromn https://github.com/fluent/fluentd-kubernetes-daemonset will be reset to the custom configs.
   # Please add all neccessary configs into extraConfigs section.
-  # type: custome
+  # type: custom
   plugins:
     enabled: false
     pluginsList: []
