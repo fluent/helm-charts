@@ -11,10 +11,12 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    # - port: 24224
-    #   targetPort: forward
-    #   protocol: TCP
-    #   name: forward
+  {{- range $port := .Values.service.ports }}
+    - name: {{ $port.name }}
+      port: {{ $port.containerPort }}
+      targetPort: {{ $port.containerPort }}
+      protocol: {{ $port.protocol }}
+  {{- end }}
     - port: 24231
       targetPort: metrics
       protocol: TCP

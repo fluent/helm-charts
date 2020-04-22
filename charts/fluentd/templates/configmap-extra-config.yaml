@@ -1,0 +1,21 @@
+{{- if or (.Values.output.extraConfigs) ( and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0)) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fluentd.fullname" . }}-additionalconfigs
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+data:
+{{- range $key, $value := .Values.configMaps }}
+  {{ $key }}: |-
+{{ $value | indent 4 }}
+{{- end }}
+{{- if and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0) }}
+  install-plugins.sh: |-
+    #!/bin/sh
+  {{- range $plugin := .Values.output.plugins.pluginsList }}
+    fluent-gem install {{ $plugin }}
+  {{- end }}
+    exec 
+{{- end }}
+{{- end }}

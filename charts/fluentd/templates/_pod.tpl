@@ -1,5 +1,5 @@
 {{- define "fluentd.pod" -}}
-{{- $defaultTag := printf "%s-debian-elasticsearch" (.Chart.AppVersion) -}}
+{{- $defaultTag := printf "%s-debian-%s" (.Chart.AppVersion) (.Values.output.type) -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
@@ -16,6 +16,9 @@ containers:
       {{- toYaml .Values.securityContext | nindent 6 }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $defaultTag }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
+  {{- if and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0) }}
+    command: ["/bin/sh", "-c", "/fluentd/etc/config.d/install-plugins.sh"]
+  {{- end }}
   {{- if .Values.env }}
     env:
     {{- toYaml .Values.env | nindent 6 }}
@@ -25,9 +28,11 @@ containers:
     {{- toYaml .Values.envFrom | nindent 6 }}
   {{- end }}
     ports:
-      # - name: forward
-      #   containerPort: 24224
-      #   protocol: TCP
+{{- range $port := .Values.service.ports }}
+      - name: {{ $port.name }}
+        containerPort: {{ $port.containerPort }}
+        protocol: {{ $port.protocol }}
+{{- end }}
       - name: metrics
         containerPort: 24231
         protocol: TCP
@@ -47,16 +52,36 @@ containers:
       - name: varlibdockercontainers
         mountPath: /var/lib/docker/containers
         readOnly: true
+      {{- if eq .Values.output.type "custome" }}  
+      - name: custome-config-volume-{{ template "fluentd.fullname" . }}
+        mountPath: /fluentd/etc/
+      {{- end }}
+      {{- if or (.Values.output.extraConfigs) ( and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0)) -}}  
+      - name: custome-config-volume-{{ template "fluentd.fullname" . }}
+        mountPath: /fluentd/etc/config.d/
+      {{- end }}        
     {{- if .Values.extraVolumeMounts }}
       {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
     {{- end }}
-volumes:
+volumes:  
   - name: varlog
     hostPath:
       path: /var/log
   - name: varlibdockercontainers
     hostPath:
       path: /var/lib/docker/containers
+  {{- if eq .Values.output.type "custome" }}
+  - name: custome-config-volume-{{ template "fluentd.fullname" . }}
+    configMap:
+      name: {{ template "fluentd.fullname" . }}-customeconfig
+      defaultMode: 0777
+  {{- end }}
+  {{- if or (.Values.output.extraConfigs) ( and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0)) -}}
+  - name: additional-config-volume-{{ template "fluentd.fullname" . }}
+    configMap:
+      name: {{ template "fluentd.fullname" . }}-additionalconfigs
+      defaultMode: 0777
+  {{- end }}        
 {{- if .Values.extraVolumes }}
   {{- toYaml .Values.extraVolumes | nindent 2 }}
 {{- end }}

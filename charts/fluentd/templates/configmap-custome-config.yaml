@@ -1,0 +1,25 @@
+{{- if eq .Values.output.type "custome" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fluentd.fullname" . }}-customeconfig
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+data:
+  fluent.conf: |
+    @include metrics.conf
+    @include config.d/*.conf
+  metrics.conf: |
+    <source>
+      @type prometheus
+      port 24231
+    </source>
+
+    <source>
+      @type prometheus_monitor
+    </source>
+
+    <source>
+      @type prometheus_output_monitor
+    </source>
+{{- end }}  

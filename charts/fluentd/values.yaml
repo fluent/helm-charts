@@ -32,7 +32,10 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 24231
+  ports: []
+  # - name: "monitor-agent"
+  #   protocol: TCP
+  #   containerPort: 24220
   annotations:
     {}
     # prometheus.io/path: "/metrics"
@@ -49,6 +52,47 @@ resources:
   #   memory: 128Mi
 
 nodeSelector: {}
+
+output:
+  # Preset output type to use - 
+  # Use it from here: https://github.com/fluent/fluentd-kubernetes-daemonset - For example for elasticsearch7: 
+  # https://github.com/fluent/fluentd-kubernetes-daemonset/tree/master/docker-image/v1.10/debian-elasticsearch7. 
+  # Configuration to be passed via Environment variables
+  type: elasticsearch
+  # Chart supports custome configuration using custome configuration.
+  # Default configuration fromn https://github.com/fluent/fluentd-kubernetes-daemonset will be reset to the custome configs.
+  # Please add all neccessary configs into extraConfigs section.
+  # type: custome
+  plugins:
+    enabled: false
+    pluginsList: []
+  #   - fluent-plugin-cloudwatch-logs
+
+  # Additional Configs support
+  # extraConfigs:
+  #   cloudwatch-input.conf: |-
+  #     <source>
+  #       @type cloudwatch_logs
+  #       tag cloudwatch_logs.in
+  #       log_group_name "/aws/eks/sre-eks-test-1/cluster"
+  #       region us-east-1
+  #       log_stream_name "authenticator"
+  #       use_log_stream_name_prefix true
+  #       state_file /tmp/fluentd-buffers/fluent-plugin-cloudwatch.state
+  #       format none
+  #     </source>
+  #   outputs.conf: |-
+  #     <match cloudwatch_logs.in>
+  #       @type stdout
+  #     </match>
+
+serviceMonitor:
+  enabled: false
+  # namespace: monitoring
+  # interval: 10s
+  # scrapeTimeout: 10s
+  # selector:
+  #  prometheus: my-prometheus
 
 tolerations: []
 

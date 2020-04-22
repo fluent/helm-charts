@@ -11,8 +11,13 @@ spec:
       {{- include "fluentd.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+      {{- if or (.Values.output.extraConfigs) ( and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0)) -}}
+        checksum/configmap-extra: {{ include (print $.Template.BasePath "/configmap-extra-config.yaml") . | sha256sum }}
+      {{- end }}
+      {{- if eq .Values.output.type "custome" }}
+        checksum/configmap-custome: {{ include (print $.Template.BasePath "/configmap-custome-config.yaml") . | sha256sum }}
+      {{- end }}       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
