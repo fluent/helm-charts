@@ -1,5 +1,6 @@
 {{- define "fluentd.pod" -}}
-{{- $defaultTag := printf "%s-debian-%s" (.Chart.AppVersion) (.Values.output.type) -}}
+ {{- $defaultTagCustom := printf "%s-debian-%s" (.Chart.AppVersion) "forward" -}}
+ {{- $defaultTag := printf "%s-debian-%s" (.Chart.AppVersion) (.Values.output.type) -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
@@ -14,7 +15,11 @@ containers:
   - name: {{ .Chart.Name }}
     securityContext:
       {{- toYaml .Values.securityContext | nindent 6 }}
+    {{- if eq .Values.output.type "custom" }}
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $defaultTagCustom }}"
+    {{- else }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $defaultTag }}"
+    {{- end }}
     imagePullPolicy: {{ .Values.image.pullPolicy }}
   {{- if and (.Values.output.plugins.enabled) (gt (len .Values.output.plugins.pluginsList) 0) }}
     command: ["/bin/sh", "-c", "/fluentd/etc/config.d/install-plugins.sh"]
