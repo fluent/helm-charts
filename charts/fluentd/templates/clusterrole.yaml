@@ -15,4 +15,12 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - policy
+    resourceNames:
+      - {{ include "fluentd.fullname" . }}
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
 {{- end -}}
