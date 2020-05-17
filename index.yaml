@@ -309,6 +309,15 @@ entries:
   fluentd:
   - apiVersion: v2
     appVersion: v1
+    created: "2020-05-17T04:46:53.164574391Z"
+    description: A Helm chart for Kubernetes
+    digest: 6da2fbaee4363ccfeffd3e357b3ff23e843983c7b4bea9c152a29ca8e231ded9
+    name: fluentd
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.3/fluentd-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: v1
     created: "2020-04-14T16:56:00.036002076Z"
     description: A Helm chart for Kubernetes
     digest: d84b8b366267615aa97bc6522e7eb6833768ce9bbce67fc5be4315f02545ea5d
