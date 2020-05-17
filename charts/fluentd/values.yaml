@@ -17,6 +17,12 @@ serviceAccount:
 rbac:
   create: true
 
+# Configure podsecuritypolicy
+# Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+podSecurityPolicy:
+  enabled: true
+  annotations: {}
+
 podSecurityContext:
   {}
   # fsGroup: 2000
