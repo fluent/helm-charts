@@ -70,6 +70,13 @@ env: []
 
 envFrom: []
 
+extraServices: []
+# extraServices:
+  # - port: 1234
+  #   containerPort: 5678
+  #   protocol: TCP
+  #   name: http2
+
 extraVolumes: []
 
 extraVolumeMounts: []

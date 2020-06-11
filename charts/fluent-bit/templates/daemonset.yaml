@@ -46,6 +46,13 @@ spec:
             - name: http
               containerPort: 2020
               protocol: TCP
+          {{- if .Values.extraServices }}
+            {{- range .Values.extraServices }}
+            - name: {{ .name }}
+              containerPort: {{ .containerPort }}
+              protocol: {{ .protocol }}
+            {{- end }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: /
