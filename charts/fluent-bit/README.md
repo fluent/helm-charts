@@ -28,6 +28,7 @@ helm install fluent-bit fluent/fluent-bit
 | config.service | string | `"[SERVICE]\n    Flush 1\n    Daemon Off\n    Log_Level info\n    Parsers_File parsers.conf\n    Parsers_File custom_parsers.conf\n    HTTP_Server On\n    HTTP_Listen 0.0.0.0\n    HTTP_Port 2020\n"` |  |
 | env | list | `[]` |  |
 | envFrom | list | `[]` |  |
+| extraServices | list | `[]` |  |
 | extraVolumeMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
