@@ -71,8 +71,8 @@ env: []
 envFrom: []
 
 extraPorts: []
-#   - port: 1234
-#     containerPort: 5678
+#   - port: 5170
+#     containerPort: 5170
 #     protocol: TCP
 #     name: tcp
 
