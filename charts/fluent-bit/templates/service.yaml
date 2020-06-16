@@ -15,5 +15,13 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+  {{- if .Values.extraPorts }}
+    {{- range .Values.extraPorts }}
+    - name: {{ .name }}
+      targetPort: {{ .name }}
+      protocol: {{ .protocol }}
+      port: {{ .port }}
+    {{- end }}
+  {{- end }}
   selector:
     {{- include "fluent-bit.selectorLabels" . | nindent 4 }}
