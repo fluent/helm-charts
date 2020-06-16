@@ -70,6 +70,12 @@ env: []
 
 envFrom: []
 
+extraPorts: []
+#   - port: 5170
+#     containerPort: 5170
+#     protocol: TCP
+#     name: tcp
+
 extraVolumes: []
 
 extraVolumeMounts: []
