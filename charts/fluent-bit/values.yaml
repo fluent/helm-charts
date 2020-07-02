@@ -125,6 +125,13 @@ config:
     enabled: true
     match: kube.*
 
+    ## List of the respective patterns and replacements for metadata keys replacements
+    ## Pattern must satisfy the Lua spec (see https://www.lua.org/pil/20.2.html)
+    ## Replacement is a plain symbol to replace with
+    replaceMap:
+      - pattern: "[/.]"
+        replacement: "_"
+
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
     [OUTPUT]

@@ -27,7 +27,7 @@ data:
         for k, v in pairs(map) do
             local remapped = k
 
-            {{- range .Values.filter.kubeRemapMetaKeys }}
+            {{- range .Values.config.remapMetadataKeysFilter.replaceMap }}
             remapped = string.gsub(remapped, {{ .pattern | quote }}, {{ .replacement | quote }})
             {{- end }}
 
