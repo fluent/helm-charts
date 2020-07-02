@@ -120,6 +120,11 @@ config:
         K8S-Logging.Parser On
         K8S-Logging.Exclude On
 
+  # https://github.com/fluent/fluent-bit/issues/1134 
+  remapMetadataKeysFilter:
+    enabled: true
+    match: kube.*
+
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
     [OUTPUT]

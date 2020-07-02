@@ -70,6 +70,11 @@ spec:
             - name: config
               mountPath: /fluent-bit/etc/custom_parsers.conf
               subPath: custom_parsers.conf
+          {{- if .Values.config.remapMetadataKeysFilter.enabled }}
+            - name: config
+              mountPath: /fluent-bit/scripts/kubernetes_remap.lua
+              subPath: kubernetes_remap.lua
+          {{- end }}
             - name: varlog
               mountPath: /var/log
             - name: varlibdockercontainers

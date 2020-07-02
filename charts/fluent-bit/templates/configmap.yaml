@@ -5,10 +5,59 @@ metadata:
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
 data:
+{{ if .Values.config.remapMetadataKeysFilter.enabled  }}
+  kubernetes_remap.lua: |-
+    function remap_meta_keys(tag, timestamp, record)
+        if record["kubernetes"] == nil then
+            return 0, 0, 0
+        end
+        remap_keys(record["kubernetes"]["annotations"])
+        remap_keys(record["kubernetes"]["labels"])
+        return 1, timestamp, record
+    end
+
+    function remap_keys(map)
+        if map == nil then
+            return
+        end
+
+        local new_map = {}
+        local changed_keys = {}
+
+        for k, v in pairs(map) do
+            local remapped = k
+
+            {{- range .Values.filter.kubeRemapMetaKeys }}
+            remapped = string.gsub(remapped, {{ .pattern | quote }}, {{ .replacement | quote }})
+            {{- end }}
+
+            if remapped ~= k then
+                new_map[remapped] = v
+                changed_keys[k] = true
+            end
+        end
+
+        for k in pairs(changed_keys) do
+            map[k] = nil
+        end
+
+        for k, v in pairs(new_map) do
+            map[k] = v
+        end
+    end   
+{{ end }}
+
   custom_parsers.conf: |
     {{- .Values.config.customParsers | nindent 4 }}
   fluent-bit.conf: |
     {{- .Values.config.service  | nindent 4 }}
     {{- .Values.config.inputs  | nindent 4 }}
     {{- .Values.config.filters  | nindent 4 }}
+{{- if .Values.config.remapMetadataKeysFilter.enabled  }}
+    [FILTER]
+        Name    lua
+        Match   {{ .Values.config.remapMetadataKeysFilter.match }}
+        script  /fluent-bit/scripts/kubernetes_remap.lua
+        call    remap_meta_keys
+{{- end }}
     {{- .Values.config.outputs  | nindent 4 }}
