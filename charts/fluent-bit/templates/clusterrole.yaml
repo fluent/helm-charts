@@ -15,4 +15,14 @@ rules:
       - get
       - list
       - watch
+  {{- if .Values.podSecurityPolicy.create }}
+  - apiGroups:
+      - policy
+    resources:
+      - podsecuritypolicies
+    resourceNames:
+      - {{ include "fluent-bit.fullname" . }}
+    verbs:
+      - use
+  {{- end }}
 {{- end -}}

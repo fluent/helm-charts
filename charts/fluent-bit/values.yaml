@@ -17,6 +17,9 @@ serviceAccount:
 rbac:
   create: true
 
+podSecurityPolicy:
+  create: false
+
 podSecurityContext:
   {}
   # fsGroup: 2000
