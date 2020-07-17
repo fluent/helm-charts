@@ -34,8 +34,8 @@ helm install fluent-bit fluent/fluent-bit
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"fluent/fluent-bit"` |  |
-| image.tag | string | `.Chart.AppVersion` |  |
 | imagePullSecrets | list | `[]` |  |
+| kind | string | `"DaemonSet"` | DaemonSet or Deployment |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
@@ -43,6 +43,7 @@ helm install fluent-bit fluent/fluent-bit
 | podSecurityPolicy.create | bool | `false` |  |
 | priorityClassName | string | `""` |  |
 | rbac.create | bool | `true` |  |
+| replicaCount | int | `1` | Only applicable if kind=Deployment |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.annotations | object | `{}` |  |
@@ -52,8 +53,4 @@ helm install fluent-bit fluent/fluent-bit
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `nil` |  |
 | serviceMonitor.enabled | bool | `false` |  |
-| serviceMonitor.namespace | string | `monitoring` |  |
-| serviceMonitor.interval | string | `10s` |  |
-| serviceMonitor.scrapeTimeout | string | `10s` |  |
-| serviceMonitor.selector | object | `{}` |  |
 | tolerations | list | `[]` |  |
