@@ -2,6 +2,31 @@ apiVersion: v1
 entries:
   fluent-bit:
   - apiVersion: v1
+    appVersion: 1.5.2
+    created: "2020-07-25T02:54:50.689738534Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 95a967c146c7c696b1b5575cfa6140db752a85c231ee514309ad4e085d7ef9c2
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.6.1/fluent-bit-0.6.1.tgz
+    version: 0.6.1
+  - apiVersion: v1
     appVersion: 1.5.0
     created: "2020-07-17T01:18:59.170976713Z"
     description: Fast and lightweight log processor and forwarder or Linux, OSX and
