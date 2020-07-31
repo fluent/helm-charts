@@ -42,6 +42,8 @@ securityContext:
 service:
   type: ClusterIP
   port: 2020
+  labels:
+    {}
   annotations:
     {}
     # prometheus.io/path: "/api/v1/metrics/prometheus"
