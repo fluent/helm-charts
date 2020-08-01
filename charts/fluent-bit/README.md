@@ -46,6 +46,7 @@ helm install fluent-bit fluent/fluent-bit
 | replicaCount | int | `1` | Only applicable if kind=Deployment |
 | resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
+| service.labels | object | `{}` |  |
 | service.annotations | object | `{}` |  |
 | service.port | int | `2020` |  |
 | service.type | string | `"ClusterIP"` |  |
