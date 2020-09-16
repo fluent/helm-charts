@@ -51,7 +51,6 @@ containers:
       - name: config
         mountPath: /fluent-bit/etc/custom_parsers.conf
         subPath: custom_parsers.conf
-    {{- if eq .Values.kind "DaemonSet" }}
       - name: varlog
         mountPath: /var/log
       - name: varlibdockercontainers
@@ -60,7 +59,6 @@ containers:
       - name: etcmachineid
         mountPath: /etc/machine-id
         readOnly: true
-    {{- end }}
     {{- if .Values.extraVolumeMounts }}
       {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
     {{- end }}
@@ -68,7 +66,6 @@ volumes:
   - name: config
     configMap:
       name: {{ include "fluent-bit.fullname" . }}
-{{- if eq .Values.kind "DaemonSet" }}
   - name: varlog
     hostPath:
       path: /var/log
@@ -79,7 +76,6 @@ volumes:
     hostPath:
       path: /etc/machine-id
       type: File
-{{- end }}
 {{- if .Values.extraVolumes }}
   {{- toYaml .Values.extraVolumes | nindent 2 }}
 {{- end }}
