@@ -5,6 +5,9 @@ metadata:
   name: {{ include "fluent-bit.fullname" . }}
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
+    {{- with .Values.podAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:

@@ -75,6 +75,8 @@ affinity: {}
 
 podAnnotations: {}
 
+podLabels: {}
+
 priorityClassName: ""
 
 env: []
