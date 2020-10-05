@@ -19,6 +19,9 @@ spec:
       {{- end }}
       labels:
         {{- include "fluent-bit.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- include "fluent-bit.pod" . | nindent 6 }}
 {{- end }}
