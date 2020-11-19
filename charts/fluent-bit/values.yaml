@@ -93,10 +93,10 @@ extraVolumes: []
 
 extraVolumeMounts: []
 
-updateStrategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxUnavailable: 1
+updateStrategy: {}
+  # type: RollingUpdate
+  # rollingUpdate:
+  #   maxUnavailable: 1
 
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit
 config:
