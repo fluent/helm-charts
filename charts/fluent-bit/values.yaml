@@ -98,6 +98,9 @@ updateStrategy: {}
   # rollingUpdate:
   #   maxUnavailable: 1
 
+# Make use of a pre-defined configmap instead of the one templated here
+existingConfigMap: ""
+
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit
 config:
   ## https://docs.fluentbit.io/manual/service

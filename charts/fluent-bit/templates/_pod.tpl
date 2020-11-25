@@ -67,7 +67,7 @@ containers:
 volumes:
   - name: config
     configMap:
-      name: {{ include "fluent-bit.fullname" . }}
+      name: {{ if .Values.existingConfigMap }}{{ .Values.existingConfigMap }}{{- else }}{{ include "fluent-bit.fullname" . }}{{- end }}
 {{- if eq .Values.kind "DaemonSet" }}
   - name: varlog
     hostPath:
