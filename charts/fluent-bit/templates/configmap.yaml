@@ -1,3 +1,4 @@
+{{- if (empty .Values.existingConfigMap) -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,3 +13,4 @@ data:
     {{- .Values.config.inputs  | nindent 4 }}
     {{- .Values.config.filters  | nindent 4 }}
     {{- .Values.config.outputs  | nindent 4 }}
+{{- end -}}
