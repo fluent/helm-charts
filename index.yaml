@@ -2,10 +2,33 @@ apiVersion: v1
 entries:
   fluent-bit:
   - apiVersion: v1
+    appVersion: 1.6.6
+    created: "2020-11-26T13:05:42.793009237Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
+    digest: fcf854dbb34273002f1e0b8ecbd0054f6115347f8d02c569b05749218ba782e0
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.7.8/fluent-bit-0.7.8.tgz
+    version: 0.7.8
+  - apiVersion: v1
     appVersion: 1.6.5
     created: "2020-11-25T13:19:19.674552697Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 688a72bf277c2242a2f50aaec8cbc28f33b832b1cf4728e58e8e6f51fbaadc4e
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -29,8 +52,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.6.5
     created: "2020-11-23T14:13:30.725835581Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 6af83dc971decd2824e443dd367cffb9778b0c3b45a8a9b61e32cdb38e263929
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -54,8 +76,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.6.3
     created: "2020-11-19T14:52:21.155498594Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 33f50e55db91233c3899db7600cd6eb0dd1980aac3856acc17d6212c29e304f9
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -79,8 +100,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.6.3
     created: "2020-11-05T13:27:45.911394763Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 580c6a8c8e987ca506940641896c8b9f1d343ecc60b79d4447c40c79de1d436d
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -104,8 +124,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.5.7
     created: "2020-10-05T18:42:58.663635073Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 369856d92557353abdb669d39896a968d8046a20ab88e79e4f5424281b84b73a
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -129,8 +148,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.5.7
     created: "2020-09-28T14:04:23.786275383Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 79adc367022fccf77d9a5ba73579c02241a8358a03f943f3ba02106eaf1191b2
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -154,8 +172,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.5.6
     created: "2020-09-13T20:42:47.276216883Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 06e6808a8c121e9cbd0227e0dfc54aab564490f40300c77d87cfefb4e0870c49
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -179,8 +196,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.5.4
     created: "2020-08-25T01:56:45.043597865Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: cea37c759a739753fdb99e280a67eb76f415e98a493b5e1cb1c54ba313e7ecef
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -204,8 +220,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.5.2
     created: "2020-08-01T00:43:06.606842742Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 59516189498db2ba99489a7ff9e41f28022a7afe609a8727e14bafdceb6a0380
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -229,8 +244,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.5.2
     created: "2020-07-25T02:54:50.689738534Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 95a967c146c7c696b1b5575cfa6140db752a85c231ee514309ad4e085d7ef9c2
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -254,8 +268,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.5.0
     created: "2020-07-17T01:18:59.170976713Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 89bc19db92c5b603523fbc3af5175a10b5eb97a5934310024c976812acb54366
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -279,8 +292,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.4.6
     created: "2020-07-10T03:42:44.104329716Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 911d765bb3a31129a8735a361b39fed8cddb3d90d71ade99e256e4bfae10e74c
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -304,8 +316,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.4.6
     created: "2020-06-30T13:02:12.561990451Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 5da54e1d6ba253a99517bd429c6037754858ae17f09e3757a7ed65268126638c
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -329,8 +340,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.4.4
     created: "2020-06-30T12:52:10.548689416Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 9e2289c8c4beaaf0dc9ab5a4b78e445488d6e36643680f33aba2a1f41a482637
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -354,8 +364,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.4.4
     created: "2020-06-16T15:07:37.524919623Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 8f0b3562c16a243cdfa2dda15eace1a1345e1e0204dd55f3acbf630aa6261240
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -379,8 +388,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.4.4
     created: "2020-05-12T18:22:27.613174867Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: c4fd9a613e07742c71fe9eb5e61858d021d5c85e768c062a2d82f3e95ec4e142
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -404,8 +412,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.4.1
     created: "2020-05-07T11:59:12.454308936Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 28171cb3ca530019d0877d71f1be8bf42db7f8d4bc32e06cb4cfbb5c7f30d05a
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -429,8 +436,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-04-05T00:11:44.996855618Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 20467ee6215cb2dc7762c773e7e429fa3062487a032423daf175b8a317bf1a47
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -450,8 +456,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-04-02T21:44:22.163033879Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: e199ac4665ba5520f61b62d2d29d8c214d13dd21c0d1d3e564cf0f1ee4afa765
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -471,8 +476,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-31T19:25:02.12811348Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: e0c032567fd04790eb879d82ee013b87a97f77ccaebf4d48bb9771aa3f267111
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -492,8 +496,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-27T12:46:56.059552721Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 48b9716a57e81352f74c61f44d7094da0a207f1c685e6aff95a1eb03582f796f
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -513,8 +516,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-26T15:46:58.59657127Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 942b8bf8d995be1052451910218b0d345ff5e55ab6018a3c2e85dbe764dbd7ac
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -532,8 +534,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-26T15:45:56.478894531Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 3b115846872f94a38ec4d843ff8301182f17dd285f6dd4e9cf406dda4e29464a
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -551,8 +552,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-26T15:45:20.376961714Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 3501a9c6b539cc8c7f46fd1f124a403d5e873f92809825a8aa128b21e4e2bc08
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -570,8 +570,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-26T15:29:22.411865098Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: f93960930908b470b93981d6daa0e359472505a6c5637cbe43b0cd61fae1220e
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -589,8 +588,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-24T21:17:52.022887157Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: a9101b1400ea6c7cbbf480fa10abdef78000fbd1d899657f19606e7c3de24d6a
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -608,8 +606,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-24T04:20:56.222180731Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 1de8a316393e1356d4f3da10658dbbd677b604cd85d31d1cc4d0743fa069280e
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -627,8 +624,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-24T00:08:56.028514706Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 6407da749294ead2fe2ed9acfd0b4f964b13aded7e249414dcc9469007006817
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -646,8 +642,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-22T21:55:00.09880583Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 6885f67b487d60d65f1058297eeb890a6186e1ba502acf1f0cb35f33c1680047
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
@@ -665,8 +660,7 @@ entries:
   - apiVersion: v1
     appVersion: 1.3.7
     created: "2020-03-22T21:40:46.650347237Z"
-    description: Fast and lightweight log processor and forwarder or Linux, OSX and
-      BSD family operating systems.
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
     digest: 5325503f2f203d979ed2f7dbb69b62a88908de007dc2e46fb67cc300efcaf712
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
