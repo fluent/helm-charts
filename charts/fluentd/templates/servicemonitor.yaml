@@ -1,0 +1,35 @@
+{{- if .Values.metrics.serviceMonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "fluentd.fullname" . }}
+  {{- with .Values.metrics.serviceMonitor.namespace }}
+  namespace: {{ . }}
+  {{- end }}
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+    {{- with .Values.metrics.serviceMonitor.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  endpoints:
+    - port: metrics
+      path: /metrics
+      {{- with .Values.metrics.serviceMonitor.interval }}
+      interval: {{ . }}
+      {{- end }}
+      {{- with .Values.metrics.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ . }}
+      {{- end }}
+  {{- if .Values.metrics.serviceMonitor.namespaceSelector }}
+  namespaceSelector:
+    {{ toYaml .Values.metrics.serviceMonitor.namespaceSelector | indent 4 -}}
+  {{ else }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "fluentd.selectorLabels" . | nindent 6 }}
+{{- end }}

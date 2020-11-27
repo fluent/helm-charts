@@ -1,34 +1,38 @@
-# Default values for fluent-bit.
-
-image:
-  repository: fluent/fluentd-kubernetes-daemonset
-  pullPolicy: IfNotPresent
-  tag: ""
-
-imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+# DaemonSet or Deployment
+kind: "DaemonSet"
+
+# # Only applicable for Deployment
+# replicaCount: 1
+
+image:
+  repository: "fluent/fluentd-kubernetes-daemonset"
+  pullPolicy: "IfNotPresent"
+  tag: "v1.11.5-debian-elasticsearch7-1.0"
+
+## Optional array of imagePullSecrets containing private registry credentials
+## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
 
 serviceAccount:
   create: true
   annotations: {}
-  name:
+  name: null
 
 rbac:
   create: true
 
-# Configure podsecuritypolicy
-# Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
-podSecurityPolicy:
-  enabled: true
-  annotations: {}
-
+## Security Context policies for controller pods
+## See https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/ for
+## notes on enabling and using sysctls
+##
 podSecurityContext:
-  {}
-  # fsGroup: 2000
+  seLinuxOptions:
+    type: "spc_t"
 
-securityContext:
-  {}
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -36,48 +40,206 @@ securityContext:
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: ClusterIP
-  port: 24231
-  annotations:
-    {}
-    # prometheus.io/path: "/metrics"
-    # prometheus.io/port: "24231"
-    # prometheus.io/scrape: "true"
-
-resources:
-  {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
+resources: {}
   # requests:
-  #   cpu: 100m
+  #   cpu: 10m
   #   memory: 128Mi
+  # limits:
+  #   memory: 128Mi
+
+# priorityClassName: "system-node-critical"
 
 nodeSelector: {}
 
+## Node tolerations for server scheduling to nodes with taints
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+##
 tolerations: []
+# - key: null
+#   operator: Exists
+#   effect: "NoSchedule"
 
+## Affinity and anti-affinity
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
 affinity: {}
 
+## Annotations to be added to fluentd pods
+##
 podAnnotations: {}
 
-priorityClassName: ""
-
+## Additional environment variables to set for fluentd pods
 env:
-  - name: FLUENT_ELASTICSEARCH_HOST
-    value: "elasticsearch-master"
-  - name: FLUENT_ELASTICSEARCH_PORT
-    value: "9200"
+- name: "FLUENTD_CONF"
+  value: "/etc/fluent/fluent.conf"
+  # - name: FLUENT_ELASTICSEARCH_HOST
+  #   value: "elasticsearch-master"
+  # - name: FLUENT_ELASTICSEARCH_PORT
+  #   value: "9200"
 
 envFrom: []
 
-extraVolumes: []
+volumes:
+- name: varlog
+  hostPath:
+    path: /var/log
+- name: varlibdockercontainers
+  hostPath:
+    path: /var/lib/docker/containers
+- name: etcfluentd-main
+  configMap:
+    name: fluentd-main
+    defaultMode: 0777
+- name: etcfluentd-config
+  configMap:
+    name: fluentd-config
+    defaultMode: 0777
 
-extraVolumeMounts: []
+volumeMounts:
+- name: varlog
+  mountPath: /var/log
+- name: varlibdockercontainers
+  mountPath: /var/lib/docker/containers
+  readOnly: true
+- name: etcfluentd-main
+  mountPath: /etc/fluent
+- name: etcfluentd-config
+  mountPath: /etc/fluent/config.d/
 
-# DaemonSet or Deployment
-kind: DaemonSet
+## Fluentd service
+##
+service:
+  type: "ClusterIP"
+  annotations: {}
+  ports: []
+  # - name: "forwarder"
+  #   protocol: TCP
+  #   containerPort: 24224
 
-# Only applicable for Deployment
-replicaCount: 1
+## Prometheus Monitoring
+##
+metrics:
+  serviceMonitor:
+    enabled: false
+    additionalLabels:
+      release: prometheus-operator
+    namespace: ""
+    namespaceSelector: {}
+    # scrapeInterval: 30s
+    # scrapeTimeout: 5s
+    # honorLabels: true
+
+  prometheusRule:
+    enabled: false
+    additionalLabels: {}
+    namespace: ""
+    rules: []
+
+## Grafana Monitoring Dashboard
+##
+dashboards:
+  enabled: "true"
+  namespace: ""
+
+## Fluentd list of plugins to install
+##
+plugins: []
+# - fluent-plugin-out-http
+
+## Add fluentd config files from K8s configMaps
+##
+configMapConfigs:
+  - fluentd-prometheus-conf
+# - fluentd-systemd-conf
+
+## Fluentd configurations:
+##
+fileConfigs:
+  01_sources.conf: |-
+    ## logs from podman
+    <source>
+      @type tail
+      @id in_tail_container_logs
+      @label @KUBERNETES
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      read_from_head true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+          time_key time
+          time_type string
+          time_format "%Y-%m-%dT%H:%M:%S.%NZ"
+          keep_time_key false
+        </pattern>
+        <pattern>
+          format regexp
+          expression /^(?<time>.+) (?<stream>stdout|stderr)( (.))? (?<log>.*)$/
+          time_format '%Y-%m-%dT%H:%M:%S.%NZ'
+          keep_time_key false
+        </pattern>
+      </parse>
+      emit_unmatched_lines true
+    </source>
+
+  02_filters.conf: |-
+    <label @KUBERNETES>
+      <match kubernetes.var.log.containers.fluentd**>
+        @type relabel
+        @label @FLUENT_LOG
+      </match>
+
+      # <match kubernetes.var.log.containers.**_kube-system_**>
+      #   @type null
+      #   @id ignore_kube_system_logs
+      # </match>
+
+      <filter kubernetes.**>
+        @type kubernetes_metadata
+        @id filter_kube_metadata
+        skip_labels false
+        skip_container_metadata false
+        skip_namespace_metadata true
+        skip_master_url true
+      </filter>
+
+      <match **>
+        @type relabel
+        @label @DISPATCH
+      </match>
+    </label>
+
+  03_dispatch.conf: |-
+    <label @DISPATCH>
+      <filter **>
+        @type prometheus
+        <metric>
+          name fluentd_input_status_num_records_total
+          type counter
+          desc The total number of incoming records
+          <labels>
+            tag ${tag}
+            hostname ${hostname}
+          </labels>
+        </metric>
+      </filter>
+
+      <match **>
+        @type relabel
+        @label @OUTPUT
+      </match>
+    </label>
+
+  04_outputs.conf: |-
+    <label @OUTPUT>
+      <match **>
+        @type elasticsearch
+        host "elasticsearch-master"
+        port 9200
+        path ""
+        user elastic
+        password changeme
+      </match>
+    </label>
