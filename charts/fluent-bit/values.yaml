@@ -58,6 +58,16 @@ serviceMonitor:
   # selector:
   #  prometheus: my-prometheus
 
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
 resources:
   {}
   # limits:

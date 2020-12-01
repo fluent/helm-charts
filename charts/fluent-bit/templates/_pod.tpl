@@ -34,14 +34,14 @@ containers:
         protocol: {{ .protocol }}
       {{- end }}
     {{- end }}
+    {{- if .Values.livenessProbe }}
     livenessProbe:
-      httpGet:
-        path: /
-        port: http
+      {{- toYaml .Values.livenessProbe | nindent 6 }}
+    {{- end }}
+    {{- if .Values.readinessProbe }}
     readinessProbe:
-      httpGet:
-        path: /
-        port: http
+      {{- toYaml .Values.readinessProbe | nindent 6 }}
+    {{- end }}
     resources:
       {{- toYaml .Values.resources | nindent 6 }}
     volumeMounts:
