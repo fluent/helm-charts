@@ -7,9 +7,13 @@ metadata:
   annotations:
     "helm.sh/hook": test-success
 spec:
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   containers:
     - name: wget
-      image: busybox
+      image: "{{ .Values.testImage.repository }}:{{ .Values.testImage.tag }}"
       command: ['wget']
       args: ['{{ include "fluentd.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never

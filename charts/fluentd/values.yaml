@@ -5,7 +5,12 @@ image:
   pullPolicy: IfNotPresent
   tag: ""
 
+testImage:
+  repository: busybox
+  tag: latest
+
 imagePullSecrets: []
+  # - name: mysecret
 nameOverride: ""
 fullnameOverride: ""
 
