@@ -11,6 +11,12 @@ image:
   pullPolicy: Always
   # tag:
 
+testFramework:
+  image:
+    repository: busybox
+    pullPolicy: Always
+    tag: latest
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
