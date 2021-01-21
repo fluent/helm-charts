@@ -2,10 +2,10 @@ apiVersion: v1
 entries:
   fluent-bit:
   - apiVersion: v1
-    appVersion: 1.6.8
-    created: "2021-01-19T14:32:41.415698015Z"
+    appVersion: 1.6.10
+    created: "2021-01-21T14:18:14.459012069Z"
     description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
-    digest: a6b4e4e72dbc41600b289e051074999dea7c5dd3c523119213850774b7f7a779
+    digest: a6907ff1272d021e091cd285155ea3be580967ef9ebd1674aa6fe96cba43b7f3
     home: https://fluentbit.io/
     icon: https://fluentbit.io/assets/img/logo1-default.png
     keywords:
@@ -23,8 +23,8 @@ entries:
     sources:
     - https://github.com/fluent/fluent-bit/
     urls:
-    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.8.1/fluent-bit-0.8.1.tgz
-    version: 0.8.1
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.8.2/fluent-bit-0.8.2.tgz
+    version: 0.8.2
   - apiVersion: v1
     appVersion: 1.6.8
     created: "2021-01-18T15:20:03.792828816Z"
