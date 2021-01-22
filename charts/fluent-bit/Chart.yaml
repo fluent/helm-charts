@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.8.2
+version: 0.8.3
 appVersion: 1.6.10
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
@@ -18,3 +18,6 @@ maintainers:
     email: naseem@transit.app
   - name: Towmeykaw
     email: towmeykaw@gmail.com
+annotations:
+  artifacthub.io/changes: |
+    - Add Grafana dashboard config map for sidecar

@@ -73,6 +73,10 @@ serviceMonitor:
   # selector:
   #  prometheus: my-prometheus
 
+dashboards:
+  enabled: false
+  labelKey: grafana_dashboard
+
 livenessProbe:
   httpGet:
     path: /
