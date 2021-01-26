@@ -130,6 +130,11 @@ updateStrategy: {}
 # Make use of a pre-defined configmap instead of the one templated here
 existingConfigMap: ""
 
+networkPolicy:
+  enabled: false
+  # ingress:
+  #   from: []
+
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
 config:
   service: |
