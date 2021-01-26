@@ -73,6 +73,22 @@ serviceMonitor:
   # selector:
   #  prometheus: my-prometheus
 
+prometheusRule:
+  enabled: false
+  # namespace: ""
+  # additionnalLabels: {}
+  # rules:
+  # - alert: NoOutputBytesProcessed
+  #   expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
+  #   annotations:
+  #     message: |
+  #       Fluent Bit instance {{ $labels.instance }}'s output plugin {{ $labels.name }} has not processed any
+  #       bytes for at least 15 minutes.
+  #     summary: No Output Bytes Processed
+  #   for: 15m
+  #   labels:
+  #     severity: critical
+
 dashboards:
   enabled: false
   labelKey: grafana_dashboard
@@ -130,6 +146,11 @@ updateStrategy: {}
 # Make use of a pre-defined configmap instead of the one templated here
 existingConfigMap: ""
 
+networkPolicy:
+  enabled: false
+  # ingress:
+  #   from: []
+
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
 config:
   service: |
@@ -141,7 +162,7 @@ config:
         Parsers_File custom_parsers.conf
         HTTP_Server On
         HTTP_Listen 0.0.0.0
-        HTTP_Port 2020
+        HTTP_Port {{ .Values.service.port }}
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs
   inputs: |
