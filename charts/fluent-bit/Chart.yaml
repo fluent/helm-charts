@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.9.0
+version: 0.10.0
 appVersion: 1.6.10
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
@@ -20,6 +20,4 @@ maintainers:
     email: towmeykaw@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - add prometheusrule
-    - add networkpolicy ingress support
-    - use tpl in configmap
+    - add custom annotations on dashboards configmap
