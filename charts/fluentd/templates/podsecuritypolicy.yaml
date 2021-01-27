@@ -1,0 +1,39 @@
+{{- if .Values.podSecurityPolicy.enabled }}
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ include "fluentd.fullname" . }}
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+{{- if .Values.podSecurityPolicy.annotations }}
+  annotations:
+{{ toYaml .Values.podSecurityPolicy.annotations | indent 4 }}
+{{- end }}
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:
+    - ALL
+  hostNetwork: false
+  hostIPC: false
+  hostPID: false
+  volumes:
+    - 'configMap'
+    - 'secret'
+    - 'hostPath'
+  runAsUser:
+    rule: 'RunAsAny'    
+  seLinux:
+    rule: 'RunAsAny'
+  supplementalGroups:
+    rule: 'MustRunAs'
+    ranges:
+      - min: 1
+        max: 65535
+  fsGroup:
+    rule: 'MustRunAs'
+    ranges:
+      - min: 1
+        max: 65535
+  readOnlyRootFilesystem: false
+{{- end }}

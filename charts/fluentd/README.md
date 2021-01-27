@@ -37,7 +37,9 @@ helm show values fluent/fluentd
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.name | string | `null` |  |
 | rbac.create | bool | `true` |  |
-| podSecurityContext | object | `{seLinuxOptions: {type: "spc_t"}}` |  |
+| podSecurityPolicy.enabled | bool | `true` |  |
+| podSecurityPolicy.annotations | object | `{}` |  |
+| podSecurityContext | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | resources | object | `{}` |  |
 | priorityClassName | string | `""` |  |
@@ -56,7 +58,7 @@ helm show values fluent/fluentd
 | metrics.serviceMonitor.enabled | bool | `false` |  |
 | metrics.serviceMonitor.additionalLabels | object | `{release: prometheus-operator}` |  |
 | metrics.serviceMonitor.namespace | string | `""` |  |
-| metrics.serviceMonitor.namespaceSelector | object | `{}` |  | <~~ we can change this to also include the user added labels
+| metrics.serviceMonitor.namespaceSelector | object | `{}` |  |
 | metrics.serviceMonitor.scrapeInterval | string | `null` |  |
 | metrics.serviceMonitor.scrapeTimeout | string | `null` |  |
 | metrics.serviceMonitor.honorLabels | bool | `true` |  |
@@ -161,7 +163,7 @@ The `fileConfigs` section is organized by sources -> filters -> destinations. Fl
     #   @type null
     #   @id ignore_kube_system_logs
     # </match>
-    
+
     <filter kubernetes.**>
       @type record_transformer
       enable_ruby
