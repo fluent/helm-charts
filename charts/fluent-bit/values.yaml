@@ -92,6 +92,8 @@ prometheusRule:
 dashboards:
   enabled: false
   labelKey: grafana_dashboard
+  annotations: {}
+
 
 livenessProbe:
   httpGet:
