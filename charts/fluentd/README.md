@@ -23,56 +23,6 @@ helm install fluentd fluent/fluentd
 helm show values fluent/fluentd
 ```
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| nameOverride | string | `""` |  |
-| fullnameOverride | string | `""` |  |
-| kind | string | `"DaemonSet"` | The kind of kubernetes controller to use "DaemonSet" or "Deployement" |
-| replicaCount | int | `1` | Only for kind: Deployment |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"fluent/fluentd-kubernetes-daemonset"` |  |
-| image.tag | string | `"v1.11.5-debian-elasticsearch7-1.0"` |  |
-| imagePullSecrets | list | `[]` | Optional array of imagePullSecrets containing private registry credentials |  |
-| serviceAccount.create | bool | `true` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.name | string | `null` |  |
-| rbac.create | bool | `true` |  |
-| podSecurityPolicy.enabled | bool | `true` |  |
-| podSecurityPolicy.annotations | object | `{}` |  |
-| podSecurityContext | object | `{}` |  |
-| securityContext | object | `{}` |  |
-| resources | object | `{}` |  |
-| priorityClassName | string | `""` |  |
-| nodeSelector | object | `{}` |  |
-| tolerations | list | `[]` |  |
-| affinity | object | `{}` |  |
-| podAnnotations | object | `{}` |  |
-| env[0].name | string | `"FLUENTD_CONF"` |  |
-| env[0].value | string | `"/etc/fluent/fluent.conf"` |  |
-| envFrom | list | `[]` |  |
-| volumes | list | [default-volumes](#default-volumes) | The external volumes to use |
-| volumeMounts | list | [default-volumeMounts](#default-volumeMounts) | The volume to mount with the pods |
-| service.type | string | `"ClusterIP"` |  |
-| service.annotations | object | `{}` |  |
-| service.ports | list | `[]` |  |
-| metrics.serviceMonitor.enabled | bool | `false` |  |
-| metrics.serviceMonitor.additionalLabels | object | `{release: prometheus-operator}` |  |
-| metrics.serviceMonitor.namespace | string | `""` |  |
-| metrics.serviceMonitor.namespaceSelector | object | `{}` |  |
-| metrics.serviceMonitor.scrapeInterval | string | `null` |  |
-| metrics.serviceMonitor.scrapeTimeout | string | `null` |  |
-| metrics.serviceMonitor.honorLabels | bool | `true` |  |
-| metrics.prometheusRule.enabled | bool | `false` |  |
-| metrics.prometheusRule.additionalLabels | object | `{}` |  |
-| metrics.prometheusRule.namespace | string | `""` |  |
-| metrics.prometheusRule.rules | list | `[]` |  |
-| dashboards.enabled | bool | `true` |  |
-| dashboards.additionalLabels | object | `{grafana_dashboard: "1"}` |  |
-| dashboards.namespace | string | `""` |  |
-| plugins | list | `[]` | Fluentd list of plugins to install |
-| configMapConfigs | list | `["fluentd-prometheus-conf"]` | List of fluentd.conf type configMaps to mount |
-| fileConfigs | object | [default-volumes](#default-fluentdConfig) | Configuration files to be read by the fluentd engine |
-
 ## Value Details
 
 ### default-volumes
@@ -97,7 +47,6 @@ The default configurations bellow are required for the fluentd pod to be able to
     defaultMode: 0777
 ```
 
-
 ### default-volumeMounts
 
 The default configurations bellow are required for the fluentd pod to be able to read the hosts container logs. They should not be removed unless for some reason your container logs are accessible through a different path
@@ -110,7 +59,7 @@ The default configurations bellow are required for the fluentd pod to be able to
   readOnly: true
 ```
 
-The section bellow is responsible for  allowing the user to load the "extra" configMaps either defined by the `configMapConfigs` contained objects or otherwise load externally and indicated by `configMapConfigs`.
+The section bellow is responsible for allowing the user to load the "extra" configMaps either defined by the `fileConfigs` contained objects or otherwise load externally and indicated by `configMapConfigs`.
 
 ```yaml
 - name: etcfluentd-main
@@ -121,7 +70,7 @@ The section bellow is responsible for  allowing the user to load the "extra" con
 
 ### default-fluentdConfig
 
-The `fileConfigs` section is organized by sources -> filters -> destinations. Flow control must be controlled using fluentd routing with tags or labels to guarantee that the configurations are executed as intended. Alternatively you can use numeration on your files to control the configurations loading order.
+The `fileConfigs` section is organized by sources -> filters -> destinations. Flow control must be configured using fluentd routing with tags or labels to guarantee that the configurations are executed as intended. Alternatively you can use numeration on your files to control the configurations loading order.
 
 ```yaml
 01_sources.conf: |-
