@@ -10,7 +10,7 @@ kind: "DaemonSet"
 image:
   repository: "fluent/fluentd-kubernetes-daemonset"
   pullPolicy: "IfNotPresent"
-  tag: "v1.11.5-debian-elasticsearch7-1.0"
+  tag: ""
 
 ## Optional array of imagePullSecrets containing private registry credentials
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/

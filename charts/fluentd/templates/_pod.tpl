@@ -1,4 +1,5 @@
 {{- define "fluentd.pod" -}}
+{{- $defaultTag := printf "%s-debian-elasticsearch" (.Chart.AppVersion) -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
@@ -13,7 +14,7 @@ containers:
   - name: {{ .Chart.Name }}
     securityContext:
       {{- toYaml .Values.securityContext | nindent 6 }}
-    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $defaultTag }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
   {{- if .Values.plugins }}
     command:
