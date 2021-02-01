@@ -150,6 +150,8 @@ metrics:
 dashboards:
   enabled: "true"
   namespace: ""
+  labels:
+    grafana_dashboard: '"1"'
 
 ## Fluentd list of plugins to install
 ##
