@@ -217,3 +217,26 @@ config:
         Time_Keep Off
         Time_Key time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
+
+  ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/upstream-servers
+  upstream: |
+    [UPSTREAM]
+        name       forward-balancing
+
+    [NODE]
+        name       node-1
+        host       127.0.0.1
+        port       43000
+
+    [NODE]
+        name       node-2
+        host       127.0.0.1
+        port       44000
+
+    [NODE]
+        name       node-3
+        host       127.0.0.1
+        port       45000
+        tls        on
+        tls.verify off
+        shared_key secret
