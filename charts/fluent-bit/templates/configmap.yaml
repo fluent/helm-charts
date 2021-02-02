@@ -13,4 +13,6 @@ data:
     {{- (tpl .Values.config.inputs $)  | nindent 4 }}
     {{- (tpl .Values.config.filters $)  | nindent 4 }}
     {{- (tpl .Values.config.outputs $)  | nindent 4 }}
+  upstream.conf: |
+    {{- (tpl .Values.config.upstream $)  | nindent 4 }}
 {{- end -}}
