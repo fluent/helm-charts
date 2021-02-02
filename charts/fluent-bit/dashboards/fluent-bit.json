@@ -967,7 +967,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod }}/{{name}}",
+          "legendFormat": "{{ instance }}/{{name}}",
           "refId": "A"
         }
       ],
@@ -1161,7 +1161,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod }}/{{name}}",
+          "legendFormat": "{{ instance }}/{{name}}",
           "refId": "A"
         }
       ],
