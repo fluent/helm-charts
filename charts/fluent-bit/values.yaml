@@ -140,6 +140,8 @@ extraVolumes: []
 
 extraVolumeMounts: []
 
+extraLuaScripts: {}
+
 updateStrategy: {}
   # type: RollingUpdate
   # rollingUpdate:
