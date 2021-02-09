@@ -74,6 +74,10 @@ affinity: {}
 ##
 podAnnotations: {}
 
+## Labels to be added to fluentd pods
+##
+podLabels: {}
+
 ## Additional environment variables to set for fluentd pods
 env:
 - name: "FLUENTD_CONF"
