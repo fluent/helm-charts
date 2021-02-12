@@ -153,6 +153,8 @@ networkPolicy:
   # ingress:
   #   from: []
 
+luaScripts: {}
+
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
 config:
   service: |
