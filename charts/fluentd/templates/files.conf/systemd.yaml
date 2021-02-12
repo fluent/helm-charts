@@ -61,7 +61,7 @@ data:
         key_name message
         <parse>
           @type regexp
-          expression /^([^ ]+ s[^ ]+) (?<level>[A-Z]) \| (?<component>[a-zA-Z-_.]+): (?<log>.*)$/
+          expression /^([^ ]+\s[^ ]+) (?<level>[A-Z]) \| (?<component>[a-zA-Z-_.]+): (?<log>.*)$/
         </parse>
         reserve_data true
         reserve_time true

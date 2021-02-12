@@ -3,7 +3,7 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "Prometheus",
+        "datasource": "$DS_PROMETHEUS",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -16,12 +16,12 @@
   "editable": true,
   "gnetId": 13042,
   "graphTooltip": 1,
-  "id": 28,
+  "iteration": 1613145081841,
   "links": [],
   "panels": [
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -38,7 +38,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "If you see errors then you probbaly have serious issues with log processing, see https://docs.fluentd.org/buffer#handling-unrecoverable-errors\n\nRetries are normal but should occur only from time to time, otherwise check for network errors or destination is too slow and requires additional tuning per given provider.",
       "fill": 1,
       "fillGradient": 0,
@@ -85,7 +85,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_retry_count[1m]))",
+          "expr": "sum(rate(fluentd_output_status_retry_count{pod=~\"$pod\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -93,7 +93,7 @@
           "refId": "A"
         },
         {
-          "expr": "sum(rate(fluentd_output_status_num_errors[1m]))",
+          "expr": "sum(rate(fluentd_output_status_num_errors{pod=~\"$pod\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Error rate",
@@ -146,7 +146,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "Input  and output total rates",
       "fill": 1,
       "fillGradient": 0,
@@ -188,7 +188,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_input_status_num_records_total[1m]))",
+          "expr": "sum(rate(fluentd_input_status_num_records_total{pod=~\"$pod\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -197,7 +197,7 @@
           "refId": "A"
         },
         {
-          "expr": "sum(rate(fluentd_output_status_write_count[1m]))",
+          "expr": "sum(rate(fluentd_output_status_write_count{pod=~\"$pod\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -252,7 +252,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "This should not reach 0 otherwise logs are blocked from processing or even dropped",
       "fill": 1,
       "fillGradient": 0,
@@ -351,7 +351,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "total flush time",
       "fill": 1,
       "fillGradient": 0,
@@ -398,7 +398,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_flush_time_count[1m]))",
+          "expr": "sum(rate(fluentd_output_status_flush_time_count{pod=~\"$pod\"}[1m]))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -464,7 +464,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "Current total size of stage and queue buffers.\nfluentd_output_status_buffer_total_bytes",
       "fill": 1,
       "fillGradient": 0,
@@ -561,7 +561,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -654,7 +654,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -671,7 +671,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_input_status_num_records_total",
       "fill": 1,
       "fillGradient": 0,
@@ -713,7 +713,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_input_status_num_records_total[1m])) ",
+          "expr": "sum(rate(fluentd_input_status_num_records_total{pod=~\"$pod\"}[1m])) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -768,7 +768,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_input_status_num_records_total",
       "fill": 1,
       "fillGradient": 0,
@@ -780,6 +780,7 @@
       },
       "hiddenSeries": false,
       "id": 47,
+      "interval": "",
       "legend": {
         "alignAsTable": false,
         "avg": false,
@@ -810,7 +811,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_input_status_num_records_total[1m])) by (hostname)",
+          "expr": "sum(rate(fluentd_input_status_num_records_total{pod=~\"$pod\"}[1m])) by (hostname)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -865,7 +866,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_input_status_num_records_total",
       "fill": 1,
       "fillGradient": 0,
@@ -907,7 +908,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_input_status_num_records_total[1m])) by (namespace)",
+          "expr": "sum(rate(fluentd_input_status_num_records_total{pod=~\"$pod\"}[1m])) by (namespace)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -962,7 +963,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_input_status_num_records_total",
       "fill": 1,
       "fillGradient": 0,
@@ -1004,7 +1005,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_input_status_num_records_total[1m])) by (instance)",
+          "expr": "sum(rate(fluentd_input_status_num_records_total{pod=~\"$pod\"}[1m])) by (instance)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1056,7 +1057,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1073,7 +1074,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_input_status_num_records_total",
       "fill": 1,
       "fillGradient": 0,
@@ -1115,7 +1116,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_input_status_num_records_total[1m])) by (tag)",
+          "expr": "sum(rate(fluentd_input_status_num_records_total{pod=~\"$pod\"}[1m])) by (tag)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1167,7 +1168,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1184,7 +1185,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_buffer_stage_length",
       "fill": 1,
       "fillGradient": 0,
@@ -1281,7 +1282,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_buffer_stage_byte_size",
       "fill": 1,
       "fillGradient": 0,
@@ -1375,7 +1376,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1392,7 +1393,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -1489,7 +1490,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -1586,7 +1587,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_buffer_queue_length",
       "fill": 1,
       "fillGradient": 0,
@@ -1683,7 +1684,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_queue_byte_size",
       "fill": 1,
       "fillGradient": 0,
@@ -1777,7 +1778,7 @@
     },
     {
       "collapsed": true,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1791,7 +1792,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "Prometheus",
+          "datasource": "$DS_PROMETHEUS",
           "description": "fluentd_output_status_buffer_available_space_ratio",
           "fill": 1,
           "fillGradient": 0,
@@ -1889,7 +1890,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1906,7 +1907,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_retry_count",
       "fill": 1,
       "fillGradient": 0,
@@ -1948,7 +1949,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_retry_count[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_retry_count{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2003,7 +2004,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_emit_records",
       "fill": 1,
       "fillGradient": 0,
@@ -2045,7 +2046,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_emit_records[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_emit_records{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2100,7 +2101,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_emit_count",
       "fill": 1,
       "fillGradient": 0,
@@ -2142,7 +2143,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_emit_count[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_emit_count{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2197,7 +2198,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_rollback_count",
       "fill": 1,
       "fillGradient": 0,
@@ -2239,7 +2240,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_rollback_count[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_rollback_count{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2294,7 +2295,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_write_count",
       "fill": 1,
       "fillGradient": 0,
@@ -2336,7 +2337,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_write_count[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_write_count{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2391,7 +2392,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_slow_flush_count",
       "fill": 1,
       "fillGradient": 0,
@@ -2433,7 +2434,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_slow_flush_count[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_slow_flush_count{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2488,7 +2489,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_retry_wait",
       "fill": 1,
       "fillGradient": 0,
@@ -2530,7 +2531,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_retry_wait[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_retry_wait{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2585,7 +2586,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_flush_time_count",
       "fill": 1,
       "fillGradient": 0,
@@ -2627,7 +2628,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_flush_time_count[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_flush_time_count{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2679,7 +2680,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2696,7 +2697,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_num_errors",
       "fill": 1,
       "fillGradient": 0,
@@ -2738,7 +2739,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(fluentd_output_status_num_errors[1m])) by (type)",
+          "expr": "sum(rate(fluentd_output_status_num_errors{pod=~\"$pod\"}[1m])) by (type)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2790,7 +2791,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2807,7 +2808,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -2904,7 +2905,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_buffer_newest_timekey",
       "fill": 1,
       "fillGradient": 0,
@@ -3001,7 +3002,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
+      "datasource": "$DS_PROMETHEUS",
       "description": "fluentd_output_status_buffer_oldest_timekey",
       "fill": 1,
       "fillGradient": 0,
@@ -3102,10 +3103,54 @@
     "logging"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "DS_PROMETHEUS",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "$DS_PROMETHEUS",
+        "definition": "label_values(kube_pod_info{pod=~\".*fluentd.*\"}, pod)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "pod",
+        "multi": false,
+        "name": "pod",
+        "options": [],
+        "query": "label_values(kube_pod_info{pod=~\".*fluentd.*\"}, pod)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
