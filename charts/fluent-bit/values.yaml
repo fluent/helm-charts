@@ -140,8 +140,6 @@ extraVolumes: []
 
 extraVolumeMounts: []
 
-extraLuaScripts: {}
-
 updateStrategy: {}
   # type: RollingUpdate
   # rollingUpdate:
@@ -154,6 +152,8 @@ networkPolicy:
   enabled: false
   # ingress:
   #   from: []
+
+luaScripts: {}
 
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
 config:

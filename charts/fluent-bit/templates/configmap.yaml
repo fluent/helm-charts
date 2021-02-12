@@ -6,9 +6,6 @@ metadata:
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
 data:
-{{ range $key, $value := .Values.extraLuaScripts }}
-  script-{{ $key }}: {{ $value | quote }}
-{{ end }}
   custom_parsers.conf: |
     {{- (tpl .Values.config.customParsers $) | nindent 4 }}
   fluent-bit.conf: |
