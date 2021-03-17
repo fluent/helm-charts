@@ -130,6 +130,11 @@ env: []
 
 envFrom: []
 
+extraContainers: []
+  # - name: do-something
+  #   image: busybox
+  #   command: ['do', 'something']
+
 extraPorts: []
 #   - port: 5170
 #     containerPort: 5170

@@ -73,6 +73,9 @@ containers:
     {{- if .Values.extraVolumeMounts }}
       {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
     {{- end }}
+  {{- if .Values.extraContainers }}
+    {{- toYaml .Values.extraContainers | nindent 2 }}
+  {{- end }}
 volumes:
   - name: config
     configMap:
