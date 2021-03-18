@@ -5,6 +5,33 @@ entries:
       artifacthub.io/changes: |
         - add custom annotations on dashboards configmap
     apiVersion: v1
+    appVersion: 1.7.2
+    created: "2021-03-18T12:50:27.654862364Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
+    digest: 22265683bf5a950fc304dddf70901a93cbeb71a53403820cc95a8fba05fbce41
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.13.1/fluent-bit-0.13.1.tgz
+    version: 0.13.1
+  - annotations:
+      artifacthub.io/changes: |
+        - add custom annotations on dashboards configmap
+    apiVersion: v1
     appVersion: 1.7.1
     created: "2021-03-17T12:39:11.817047897Z"
     description: Fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
