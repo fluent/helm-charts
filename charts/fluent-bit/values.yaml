@@ -225,7 +225,6 @@ config:
         Time_Key time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
 
-
 # The config volume is mounted by default, either to the existingConfigMap value, or the default of "fluent-bit.fullname"
 volumeMounts:
   - name: config
