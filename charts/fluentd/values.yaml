@@ -135,9 +135,9 @@ metrics:
       release: prometheus-operator
     namespace: ""
     namespaceSelector: {}
-    ##	metric relabel configs to apply to samples before ingestion.
+    ## metric relabel configs to apply to samples before ingestion.
     metricRelabelings: []
-    ##	relabel configs to apply to samples before ingestion.
+    ## relabel configs to apply to samples before ingestion.
     relabelings: []
     # jobLabel: fluentd
     # scrapeInterval: 30s
