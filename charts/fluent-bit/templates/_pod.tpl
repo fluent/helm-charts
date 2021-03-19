@@ -49,26 +49,14 @@ containers:
     resources:
       {{- toYaml .Values.resources | nindent 6 }}
     volumeMounts:
-      - name: config
-        mountPath: /fluent-bit/etc/fluent-bit.conf
-        subPath: fluent-bit.conf
-      - name: config
-        mountPath: /fluent-bit/etc/custom_parsers.conf
-        subPath: custom_parsers.conf
+      {{- toYaml .Values.volumeMounts | nindent 6 }}
     {{- range $key, $value := .Values.luaScripts }}
       - name: luascripts
         mountPath: /fluent-bit/scripts/{{ $key }}
         subPath: {{ $key }}
     {{- end }}
     {{- if eq .Values.kind "DaemonSet" }}
-      - name: varlog
-        mountPath: /var/log
-      - name: varlibdockercontainers
-        mountPath: /var/lib/docker/containers
-        readOnly: true
-      - name: etcmachineid
-        mountPath: /etc/machine-id
-        readOnly: true
+      {{- toYaml .Values.daemonSetVolumeMounts | nindent 6 }}
     {{- end }}
     {{- if .Values.extraVolumeMounts }}
       {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
@@ -86,16 +74,7 @@ volumes:
       name: {{ include "fluent-bit.fullname" . }}-luascripts
 {{- end }}
 {{- if eq .Values.kind "DaemonSet" }}
-  - name: varlog
-    hostPath:
-      path: /var/log
-  - name: varlibdockercontainers
-    hostPath:
-      path: /var/lib/docker/containers
-  - name: etcmachineid
-    hostPath:
-      path: /etc/machine-id
-      type: File
+  {{- toYaml .Values.daemonSetVolumes | nindent 2 }}
 {{- end }}
 {{- if .Values.extraVolumes }}
   {{- toYaml .Values.extraVolumes | nindent 2 }}
