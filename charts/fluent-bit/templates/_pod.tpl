@@ -27,6 +27,14 @@ containers:
     envFrom:
     {{- toYaml .Values.envFrom | nindent 4 }}
   {{- end }}
+  {{- if .Values.args }}
+    args:
+    {{- toYaml .Values.args | nindent 6 }}
+  {{- end}}
+  {{- if .Values.command }}
+    command:
+    {{- toYaml .Values.command | nindent 6 }}
+  {{- end }}
     ports:
       - name: http
         containerPort: 2020
