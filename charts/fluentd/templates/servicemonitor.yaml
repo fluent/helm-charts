@@ -12,7 +12,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
-  jobLabel: {{ .Values.metrics.serviceMonitor.jobLabel | default "fluentd" }}
+  jobLabel: {{ .Values.metrics.serviceMonitor.jobLabel | default .Release.Name }}
   endpoints:
     - port: metrics
       path: /metrics

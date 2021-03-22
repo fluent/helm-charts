@@ -136,9 +136,24 @@ metrics:
     namespace: ""
     namespaceSelector: {}
     ## metric relabel configs to apply to samples before ingestion.
+    ##
     metricRelabelings: []
-    ## relabel configs to apply to samples before ingestion.
+    # - sourceLabels: [__name__]
+    #   separator: ;
+    #   regex: ^fluentd_output_status_buffer_(oldest|newest)_.+
+    #   replacement: $1
+    #   action: drop
+    ## relabel configs to apply to samples after ingestion.
+    ##
     relabelings: []
+    # - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #   separator: ;
+    #   regex: ^(.*)$
+    #   targetLabel: nodename
+    #   replacement: $1
+    #   action: replace
+    ## Additional serviceMonitor config
+    ##
     # jobLabel: fluentd
     # scrapeInterval: 30s
     # scrapeTimeout: 5s
