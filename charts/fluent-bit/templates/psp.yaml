@@ -3,6 +3,10 @@ apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: {{ include "fluent-bit.fullname" . }}
+{{- if .Values.podSecurityPolicy.annotations }}
+  annotations:
+    {{- toYaml .Values.podSecurityPolicy.annotations | nindent 4 }}
+{{- end }}
 spec:
   privileged: false
   # Required to prevent escalations to root.
