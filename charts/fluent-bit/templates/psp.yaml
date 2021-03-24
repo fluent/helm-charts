@@ -4,8 +4,7 @@ kind: PodSecurityPolicy
 metadata:
   name: {{ include "fluent-bit.fullname" . }}
 {{- if .Values.podSecurityPolicy.annotations }}
-  annotations:
-    {{- toYaml .Values.podSecurityPolicy.annotations | nindent 4 }}
+  annotations: {{- toYaml .Values.podSecurityPolicy.annotations | nindent 4 }}
 {{- end }}
 spec:
   privileged: false
