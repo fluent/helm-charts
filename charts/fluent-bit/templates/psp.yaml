@@ -6,6 +6,7 @@ metadata:
 {{- if .Values.podSecurityPolicy.annotations }}
   annotations:
 {{ toYaml .Values.podSecurityPolicy.annotations | indent 4 }}
+{{- end }}
 spec:
   privileged: false
   # Required to prevent escalations to root.
