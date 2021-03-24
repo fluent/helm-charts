@@ -5,7 +5,7 @@ metadata:
   name: {{ include "fluent-bit.fullname" . }}
 {{- if .Values.podSecurityPolicy.annotations }}
   annotations:
-{{ toYaml .Values.podSecurityPolicy.annotations | indent 4 }}
+    {{- toYaml .Values.podSecurityPolicy.annotations | nindent 4 }}
 {{- end }}
 spec:
   privileged: false
