@@ -14,7 +14,8 @@ metadata:
 spec:
   {{- with .Values.metrics.prometheusRule.rules }}
   groups:
-  - name: {{ template "fluentd.fullname" . }}
-    rules: {{- toYaml . | nindent 4 }}
+  - name: {{ template "fluentd.fullname" $ }}
+    rules:
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 {{- end }}
