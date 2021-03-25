@@ -44,19 +44,9 @@ containers:
       protocol: {{ $port.protocol }}
     {{- end }}
     livenessProbe:
-      httpGet:
-        path: /metrics
-        port: metrics
-    {{- if .Values.livenessProbe }}
       {{- toYaml .Values.livenessProbe | nindent 6 }}
-    {{- end }}
     readinessProbe:
-      httpGet:
-        path: /metrics
-        port: metrics
-    {{- if .Values.readinessProbe }}
       {{- toYaml .Values.readinessProbe | nindent 6 }}
-    {{- end }}
     resources:
       {{- toYaml .Values.resources | nindent 8 }}
     volumeMounts:
