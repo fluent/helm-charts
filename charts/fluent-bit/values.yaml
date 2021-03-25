@@ -31,6 +31,7 @@ rbac:
 
 podSecurityPolicy:
   create: false
+  annotations: {}
 
 podSecurityContext:
   {}
