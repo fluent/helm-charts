@@ -48,7 +48,7 @@ securityContext: {}
 
 # Congigure the livessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-livenessProbeConfig: {}
+livenessProbe: {}
   # initialDelaySeconds: 0
   # periodSeconds: 10
   # timeoutSeconds: 1
@@ -57,7 +57,7 @@ livenessProbeConfig: {}
 
 # Congigure the readinessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-readinessProbeConfig: {}
+readinessProbe: {}
   # initialDelaySeconds: 0
   # periodSeconds: 10
   # timeoutSeconds: 1

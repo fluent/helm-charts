@@ -47,15 +47,15 @@ containers:
       httpGet:
         path: /metrics
         port: metrics
-    {{- if .Values.livenessProbeConfig }}
-      {{- toYaml .Values.livenessProbeConfig | nindent 6 }}
+    {{- if .Values.livenessProbe }}
+      {{- toYaml .Values.livenessProbe | nindent 6 }}
     {{- end }}
     readinessProbe:
       httpGet:
         path: /metrics
         port: metrics
-    {{- if .Values.readinessProbeConfig }}
-      {{- toYaml .Values.readinessProbeConfig | nindent 6 }}
+    {{- if .Values.readinessProbe }}
+      {{- toYaml .Values.readinessProbe | nindent 6 }}
     {{- end }}
     resources:
       {{- toYaml .Values.resources | nindent 8 }}
