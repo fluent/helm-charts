@@ -122,7 +122,7 @@
       "pluginVersion": "7.2.1",
       "targets": [
         {
-          "expr": "sum(kube_pod_info{pod=~\".*fluent-bit.*\"})",
+          "expr": "sum(kube_pod_info{pod=~\".*{{ include "fluent-bit.fullname" . }}.*\"})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -221,7 +221,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod }}/{{name}}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}}/{{"{{"}}name{{"}}"}}",
           "refId": "A"
         }
       ],
@@ -325,7 +325,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod }}/{{name}}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}}/{{"{{"}}name{{"}}"}}",
           "refId": "A"
         }
       ],
@@ -429,7 +429,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod }}/{{name}}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}}/{{"{{"}}name{{"}}"}}",
           "refId": "A"
         }
       ],
@@ -535,7 +535,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod }}/{{name}}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}}/{{"{{"}}name{{"}}"}}",
           "refId": "A"
         }
       ],
@@ -641,7 +641,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{pod}} Retries to {{name}}",
+          "legendFormat": "{{"{{"}}pod{{"}}"}} Retries to {{"{{"}}name{{"}}"}}",
           "refId": "A"
         },
         {
@@ -649,7 +649,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{pod}} Failed Retries to {{ name }}",
+          "legendFormat": "{{"{{"}}pod{{"}}"}} Failed Retries to {{"{{"}} name {{"}}"}}",
           "refId": "B"
         }
       ],
@@ -756,7 +756,7 @@
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ pod }}/{{ name }}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}}/{{"{{"}} name {{"}}"}}",
           "refId": "A"
         }
       ],
@@ -851,7 +851,7 @@
         {
           "expr": "sum(rate(fluentbit_filter_drop_records_total{pod=~\"$pod\"}[5m])) by (pod, instance, name)",
           "interval": "",
-          "legendFormat": "{{ pod }} / {{ name }}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}} / {{"{{"}} name {{"}}"}}",
           "refId": "A"
         }
       ],
@@ -946,7 +946,7 @@
         {
           "expr": "sum(rate(fluentbit_filter_add_records_total{pod=~\"$pod\"}[5m])) by (pod, instance, name)",
           "interval": "",
-          "legendFormat": "{{ pod }} / {{ name }}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}} / {{"{{"}} name {{"}}"}}",
           "refId": "A"
         }
       ],
@@ -1059,15 +1059,15 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "container_memory_working_set_bytes{pod=~\".*fluent-bit.*\",pod=~\"$pod\", image!=\"\", container!=\"POD\"}\n",
+          "expr": "container_memory_working_set_bytes{pod=~\".*{{ include "fluent-bit.fullname" . }}.*\",pod=~\"$pod\", image!=\"\", container!=\"POD\"}\n",
           "interval": "",
-          "legendFormat": "{{ pod }}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}}",
           "refId": "A"
         },
         {
-          "expr": "avg(kube_pod_container_resource_requests_memory_bytes{pod=~\".*fluent-bit.*\",pod=~\"$pod\"}) by (pod)",
+          "expr": "avg(kube_pod_container_resource_requests_memory_bytes{pod=~\".*{{ include "fluent-bit.fullname" . }}.*\",pod=~\"$pod\"}) by (pod)",
           "interval": "",
-          "legendFormat": "{{ pod }} request",
+          "legendFormat": "{{"{{"}} pod {{"}}"}} request",
           "refId": "B"
         }
       ],
@@ -1075,7 +1075,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Memroy Usage",
+      "title": "Memory Usage",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1166,15 +1166,15 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(container_cpu_usage_seconds_total{pod=~\".*fluent-bit.*\",pod=~\"$pod\",image!=\"\",container!=\"POD\"}[5m])",
+          "expr": "rate(container_cpu_usage_seconds_total{pod=~\".*{{ include "fluent-bit.fullname" . }}.*\",pod=~\"$pod\",image!=\"\",container!=\"POD\"}[5m])",
           "interval": "",
-          "legendFormat": "{{ pod }}",
+          "legendFormat": "{{"{{"}} pod {{"}}"}}",
           "refId": "A"
         },
         {
           "expr": "avg(kube_pod_container_resource_requests_cpu_cores{pod=~\"$pod\"}) by (pod)",
           "interval": "",
-          "legendFormat": "{{ pod }} request",
+          "legendFormat": "{{"{{"}} pod {{"}}"}} request",
           "refId": "B"
         }
       ],
@@ -1249,14 +1249,14 @@
         "allValue": null,
         "current": {},
         "datasource": "$DS_PROMETHEUS",
-        "definition": "label_values(kube_pod_info{pod=~\".*fluent-bit.*\"}, pod)",
+        "definition": "label_values(kube_pod_info{pod=~\".*{{ include "fluent-bit.fullname" . }}.*\"}, pod)",
         "hide": 0,
         "includeAll": true,
         "label": "pod",
         "multi": false,
         "name": "pod",
         "options": [],
-        "query": "label_values(kube_pod_info{pod=~\".*fluent-bit.*\"}, pod)",
+        "query": "label_values(kube_pod_info{pod=~\".*{{ include "fluent-bit.fullname" . }}.*\"}, pod)",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -1299,7 +1299,7 @@
     ]
   },
   "timezone": "",
-  "title": "Fluent Bit",
-  "uid": "fluentbit",
+  "title": "{{ include "fluent-bit.fullname" . }}",
+  "uid": "{{ include "fluent-bit.fullname" . }}",
   "version": 2
 }
