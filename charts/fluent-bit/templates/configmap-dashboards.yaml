@@ -14,7 +14,7 @@ metadata:
     {{ $.Values.dashboards.labelKey }}: "1"
 data:
   {{ base $path }}: |
-    {{- $.Files.Get $path | nindent 4 }}
+    {{- tpl ($.Files.Get $path) $ | nindent 4 }}
 ---
 {{- end }}
 {{- end -}}
