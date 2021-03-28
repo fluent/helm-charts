@@ -96,15 +96,15 @@ dashboards:
   annotations: {}
 
 
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
+livenessProbe: {}
+  # httpGet:
+  #   path: /
+  #   port: http
 
 readinessProbe:
-  httpGet:
-    path: /
-    port: http
+  # httpGet:
+  #   path: /
+  #   port: http
 
 resources:
   {}

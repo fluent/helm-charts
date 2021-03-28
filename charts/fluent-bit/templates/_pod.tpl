@@ -49,10 +49,20 @@ containers:
     {{- if .Values.livenessProbe }}
     livenessProbe:
       {{- toYaml .Values.livenessProbe | nindent 6 }}
+    {{- else }}
+    livenessProbe:
+      httpGet:
+        path: /
+        port: http
     {{- end }}
     {{- if .Values.readinessProbe }}
     readinessProbe:
       {{- toYaml .Values.readinessProbe | nindent 6 }}
+    {{- else }}
+    readinessProbe:
+      httpGet:
+        path: /
+        port: http
     {{- end }}
     resources:
       {{- toYaml .Values.resources | nindent 6 }}
