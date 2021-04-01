@@ -229,7 +229,7 @@ config:
 # The config volume is mounted by default, either to the existingConfigMap value, or the default of "fluent-bit.fullname"
 volumeMounts:
   - name: config
-    mountPath: fluent-bit/etc/fluent-bit.conf
+    mountPath: /fluent-bit/etc/fluent-bit.conf
     subPath: fluent-bit.conf
   - name: config
     mountPath: /fluent-bit/etc/custom_parsers.conf
