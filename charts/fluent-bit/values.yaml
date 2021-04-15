@@ -260,3 +260,8 @@ daemonSetVolumeMounts:
 args: []
 
 command: []
+
+initContainers: []
+  # - name: do-something
+  #   image: busybox
+  #   command: ['do', 'something']
