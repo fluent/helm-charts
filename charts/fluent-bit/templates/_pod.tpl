@@ -15,7 +15,7 @@ dnsConfig:
 {{- end }}
 {{ if .Values.initContainers }}
 initContainers:
-  {{ toYaml .Values.initContainers | nindent 2 }}
+  {{- toYaml .Values.initContainers | nindent 2 }}
 {{- end }}
 containers:
   - name: {{ .Chart.Name }}
