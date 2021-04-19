@@ -77,6 +77,14 @@ resources: {}
   # limits:
   #   memory: 128Mi
 
+## only available if kind is Deployment
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
 # priorityClassName: "system-node-critical"
 
 nodeSelector: {}
