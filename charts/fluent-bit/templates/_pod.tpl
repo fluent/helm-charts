@@ -13,6 +13,10 @@ securityContext:
 dnsConfig:
   {{- toYaml . | nindent 2 }}
 {{- end }}
+{{- if .Values.initContainers }}
+initContainers:
+  {{- toYaml .Values.initContainers | nindent 2 }}
+{{- end }}
 containers:
   - name: {{ .Chart.Name }}
     securityContext:
