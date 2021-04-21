@@ -46,6 +46,30 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+# Congigure the livessProbe
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+livenessProbe:
+  httpGet:
+    path: /metrics
+    port: metrics
+  # initialDelaySeconds: 0
+  # periodSeconds: 10
+  # timeoutSeconds: 1
+  # successThreshold: 1
+  # failureThreshold: 3
+
+# Congigure the readinessProbe
+# Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+readinessProbe:
+  httpGet:
+    path: /metrics
+    port: metrics
+  # initialDelaySeconds: 0
+  # periodSeconds: 10
+  # timeoutSeconds: 1
+  # successThreshold: 1
+  # failureThreshold: 3
+
 resources: {}
   # requests:
   #   cpu: 10m
@@ -186,7 +210,7 @@ metrics:
 ## Grafana Monitoring Dashboard
 ##
 dashboards:
-  enabled: true
+  enabled: "true"
   namespace: ""
   labels:
     grafana_dashboard: '"1"'
