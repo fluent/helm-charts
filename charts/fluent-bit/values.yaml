@@ -46,6 +46,13 @@ dnsConfig: {}
   #   - name: ndots
 #     value: "2"
 #   - name: edns0
+
+hostAliases: []
+  # - ip: "1.2.3.4"
+  #   hostnames:
+  #   - "foo.local"
+  #   - "bar.local"
+
 securityContext:
   {}
   # capabilities:
