@@ -11,6 +11,9 @@ rules:
     resources:
       - pods
       - namespaces
+    {{- if eq .Values.rbac.additionalRoles }}
+      {{- toYaml .Values.rbac.additionalRoles | nindent 6 }}
+    {{- end }}
     verbs:
       - get
       - list

@@ -28,6 +28,9 @@ serviceAccount:
 
 rbac:
   create: true
+  additionalRoles: []
+  # - nodes
+  # - nodes/proxy
 
 podSecurityPolicy:
   create: false
@@ -36,6 +39,10 @@ podSecurityPolicy:
 podSecurityContext:
   {}
   # fsGroup: 2000
+hostNetwork: false
+# A requirement when using Use_Kubelet: True.
+# See: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+# dnsPolicy: ClusterFirstWithHostNet
 dnsConfig: {}
   # nameservers:
   #   - 1.2.3.4
@@ -84,7 +91,7 @@ serviceMonitor:
 prometheusRule:
   enabled: false
   # namespace: ""
-  # additionnalLabels: {}
+  # additionalLabels: {}
   # rules:
   # - alert: NoOutputBytesProcessed
   #   expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0

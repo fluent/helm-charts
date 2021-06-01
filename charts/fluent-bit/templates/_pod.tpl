@@ -13,6 +13,12 @@ securityContext:
 dnsConfig:
   {{- toYaml . | nindent 2 }}
 {{- end }}
+{{- if .Values.dnsPolicy }}
+dnsPolicy: {{ .Values.dnsPolicy }}
+{{- end }}
+{{- if .Values.hostNetwork }}
+hostNetwork: {{ .Values.hostNetwork }}
+{{- end }}
 {{- with .Values.hostAliases }}
 hostAliases:
   {{- toYaml . | nindent 2 }}
