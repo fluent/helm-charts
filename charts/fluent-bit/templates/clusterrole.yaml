@@ -9,8 +9,12 @@ rules:
   - apiGroups:
       - ""
     resources:
-      - pods
       - namespaces
+      - pods
+      {{- if .Values.rbac.nodeAccess }}
+      - nodes
+      - nodes/proxy
+      {{- end }}
     verbs:
       - get
       - list

@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.15.15
-appVersion: 1.7.9
+version: 0.16.0
+appVersion: 1.8.2
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -20,4 +20,15 @@ maintainers:
     email: towmeykaw@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - Upgrade fluent-bit image to v1.7.9
+    - kind: changed
+      description: Upgrade fluent-bit image to v1.8.2.
+    - kind: changed
+      description: Use new health check endpoint for readiness.
+    - kind: changed
+      description: Use liveness and rediness config from values, this means setting httpGet: {} if you want to use exec.
+    - kind: added
+      description: Multiline docker and cri logs in the default tail input.
+    - kind: added
+      description: Support for Use_Kubelet true in the Kubernetes filter config by enabling setting rbac.nodeAccess: true, hostNetwork: true and dnsPolicy: ClusterFirstWithHostNet.
+    - kind: added
+      description: Customisable log level via logLevel value.
