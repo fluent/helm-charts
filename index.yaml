@@ -4,6 +4,35 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Fix PSP hostNetwork value reference.
+    apiVersion: v1
+    appVersion: 1.8.2
+    created: "2021-07-22T13:38:03.443723283Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 4e0919d48f1c64c6cdd1964e76abca8b6188b833983018756275c4c7ea8154d1
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.16.1/fluent-bit-0.16.1.tgz
+    version: 0.16.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Upgrade fluent-bit image to v1.8.2.
         - kind: changed
           description: Use new health check endpoint for readiness.
@@ -1818,4 +1847,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2021-07-22T11:59:40.901309446Z"
+generated: "2021-07-22T13:38:03.44457222Z"
