@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.16.0
+version: 0.16.1
 appVersion: 1.8.2
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
@@ -21,14 +21,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Upgrade fluent-bit image to v1.8.2.
-    - kind: changed
-      description: Use new health check endpoint for readiness.
-    - kind: changed
-      description: Use liveness and rediness config from values, this means setting httpGet: {} if you want to use exec.
-    - kind: added
-      description: Multiline docker and cri logs in the default tail input.
-    - kind: added
-      description: Support for Use_Kubelet true in the Kubernetes filter config by enabling setting rbac.nodeAccess: true, hostNetwork: true and dnsPolicy: ClusterFirstWithHostNet.
-    - kind: added
-      description: Customisable log level via logLevel value.
+      description: Fix PSP hostNetwork value reference.
