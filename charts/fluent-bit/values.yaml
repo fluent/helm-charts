@@ -114,6 +114,11 @@ readinessProbe:
     path: /api/v1/health
     port: http
 
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+
 resources: {}
 #   limits:
 #     cpu: 100m
