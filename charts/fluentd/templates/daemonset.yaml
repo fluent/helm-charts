@@ -22,8 +22,8 @@ spec:
         {{- end }}
     spec:
       {{- include "fluentd.pod" . | nindent 6 }}
-    {{- with .Values.updateStrategy }}
-    updateStrategy:
-      {{- toYaml . | nindent 6 }}
-    {{- end }}
+  {{- with .Values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}
