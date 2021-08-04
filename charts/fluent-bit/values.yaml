@@ -8,8 +8,9 @@ replicaCount: 1
 
 image:
   repository: fluent/fluent-bit
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}
+  tag: ""
   pullPolicy: Always
-  # tag:
 
 testFramework:
   image:
@@ -28,99 +29,98 @@ serviceAccount:
 
 rbac:
   create: true
+  nodeAccess: false
 
 podSecurityPolicy:
   create: false
   annotations: {}
 
-podSecurityContext:
-  {}
-  # fsGroup: 2000
+podSecurityContext: {}
+#   fsGroup: 2000
+
+hostNetwork: false
+dnsPolicy: ClusterFirst
+
 dnsConfig: {}
-  # nameservers:
-  #   - 1.2.3.4
-  # searches:
-  #   - ns1.svc.cluster-domain.example
-  #   - my.dns.search.suffix
-  # options:
-  #   - name: ndots
-#     value: "2"
-#   - name: edns0
+#   nameservers:
+#     - 1.2.3.4
+#   searches:
+#     - ns1.svc.cluster-domain.example
+#     - my.dns.search.suffix
+#   options:
+#     - name: ndots
+#       value: "2"
+#     - name: edns0
 
 hostAliases: []
-  # - ip: "1.2.3.4"
-  #   hostnames:
-  #   - "foo.local"
-  #   - "bar.local"
+#   - ip: "1.2.3.4"
+#     hostnames:
+#     - "foo.local"
+#     - "bar.local"
 
-securityContext:
-  {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext: {}
+#   capabilities:
+#     drop:
+#     - ALL
+#   readOnlyRootFilesystem: true
+#   runAsNonRoot: true
+#   runAsUser: 1000
 
 service:
   type: ClusterIP
   port: 2020
-  labels:
-    {}
-  annotations:
-    {}
-    # prometheus.io/path: "/api/v1/metrics/prometheus"
-    # prometheus.io/port: "2020"
-    # prometheus.io/scrape: "true"
+  labels: {}
+  annotations: {}
+#   prometheus.io/path: "/api/v1/metrics/prometheus"
+#   prometheus.io/port: "2020"
+#   prometheus.io/scrape: "true"
 
 serviceMonitor:
   enabled: false
-  # namespace: monitoring
-  # interval: 10s
-  # scrapeTimeout: 10s
-  # selector:
-  #  prometheus: my-prometheus
+#   namespace: monitoring
+#   interval: 10s
+#   scrapeTimeout: 10s
+#   selector:
+#    prometheus: my-prometheus
 
 prometheusRule:
   enabled: false
-  # namespace: ""
-  # additionnalLabels: {}
-  # rules:
-  # - alert: NoOutputBytesProcessed
-  #   expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
-  #   annotations:
-  #     message: |
-  #       Fluent Bit instance {{ $labels.instance }}'s output plugin {{ $labels.name }} has not processed any
-  #       bytes for at least 15 minutes.
-  #     summary: No Output Bytes Processed
-  #   for: 15m
-  #   labels:
-  #     severity: critical
+#   namespace: ""
+#   additionnalLabels: {}
+#   rules:
+#   - alert: NoOutputBytesProcessed
+#     expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
+#     annotations:
+#       message: |
+#         Fluent Bit instance {{ $labels.instance }}'s output plugin {{ $labels.name }} has not processed any
+#         bytes for at least 15 minutes.
+#       summary: No Output Bytes Processed
+#     for: 15m
+#     labels:
+#       severity: critical
 
 dashboards:
   enabled: false
   labelKey: grafana_dashboard
   annotations: {}
 
-
-livenessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: http
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
 
 readinessProbe:
-  # httpGet:
-  #   path: /
-  #   port: http
+  httpGet:
+    path: /api/v1/health
+    port: http
 
-resources:
-  {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+resources: {}
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
 
 nodeSelector: {}
 
@@ -139,9 +139,9 @@ env: []
 envFrom: []
 
 extraContainers: []
-  # - name: do-something
-  #   image: busybox
-  #   command: ['do', 'something']
+#   - name: do-something
+#     image: busybox
+#     command: ['do', 'something']
 
 extraPorts: []
 #   - port: 5170
@@ -154,17 +154,17 @@ extraVolumes: []
 extraVolumeMounts: []
 
 updateStrategy: {}
-  # type: RollingUpdate
-  # rollingUpdate:
-  #   maxUnavailable: 1
+#   type: RollingUpdate
+#   rollingUpdate:
+#     maxUnavailable: 1
 
 # Make use of a pre-defined configmap instead of the one templated here
 existingConfigMap: ""
 
 networkPolicy:
   enabled: false
-  # ingress:
-  #   from: []
+#   ingress:
+#     from: []
 
 luaScripts: {}
 
@@ -172,21 +172,22 @@ luaScripts: {}
 config:
   service: |
     [SERVICE]
-        Flush 1
         Daemon Off
-        Log_Level info
+        Flush 1
+        Log_Level {{ .Values.logLevel }}
         Parsers_File parsers.conf
         Parsers_File custom_parsers.conf
         HTTP_Server On
         HTTP_Listen 0.0.0.0
         HTTP_Port {{ .Values.service.port }}
+        Health_Check On
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs
   inputs: |
     [INPUT]
         Name tail
         Path /var/log/containers/*.log
-        Parser docker
+        multiline.parser docker, cri
         Tag kube.*
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
@@ -269,6 +270,8 @@ args: []
 command: []
 
 initContainers: []
-  # - name: do-something
-  #   image: busybox
-  #   command: ['do', 'something']
+#   - name: do-something
+#     image: busybox
+#     command: ['do', 'something']
+
+logLevel: info

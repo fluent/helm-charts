@@ -9,6 +9,8 @@ priorityClassName: {{ .Values.priorityClassName }}
 serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
 securityContext:
   {{- toYaml .Values.podSecurityContext | nindent 2 }}
+hostNetwork: {{ .Values.hostNetwork }}
+dnsPolicy: {{ .Values.dnsPolicy }}
 {{- with .Values.dnsConfig }}
 dnsConfig:
   {{- toYaml . | nindent 2 }}
@@ -54,24 +56,10 @@ containers:
         protocol: {{ .protocol }}
       {{- end }}
     {{- end }}
-    {{- if .Values.livenessProbe }}
     livenessProbe:
       {{- toYaml .Values.livenessProbe | nindent 6 }}
-    {{- else }}
-    livenessProbe:
-      httpGet:
-        path: /
-        port: http
-    {{- end }}
-    {{- if .Values.readinessProbe }}
     readinessProbe:
       {{- toYaml .Values.readinessProbe | nindent 6 }}
-    {{- else }}
-    readinessProbe:
-      httpGet:
-        path: /
-        port: http
-    {{- end }}
     resources:
       {{- toYaml .Values.resources | nindent 6 }}
     volumeMounts:

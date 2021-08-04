@@ -17,7 +17,7 @@ spec:
     - ALL
   volumes:
     - '*'
-  hostNetwork: false
+  hostNetwork: {{ .Values.hostNetwork }}
   hostIPC: false
   hostPID: false
   runAsUser:
