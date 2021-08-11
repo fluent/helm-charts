@@ -121,6 +121,14 @@ tolerations: []
 ##
 affinity: {}
 
+## Annotations to be added to fluentd DaemonSet/Deployment
+##
+annotations: {}
+
+## Labels to be added to fluentd DaemonSet/Deployment
+##
+labels: {}
+
 ## Annotations to be added to fluentd pods
 ##
 podAnnotations: {}
