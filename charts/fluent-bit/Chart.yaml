@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.16.1
-appVersion: 1.8.2
+version: 0.16.2
+appVersion: 1.8.3
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -21,4 +21,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Fix PSP hostNetwork value reference.
+      description: Update image version to v1.8.3.
