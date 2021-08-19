@@ -1,6 +1,6 @@
 # Fluent Bit Helm Chart
 
-[Fluent Bit](https://fluentbit.io) is a fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
+[Fluent Bit](https://fluentbit.io) is a fast and lightweight log processor and forwarder for Linux, OSX, and BSD family operating systems.
 
 ## Installation
 
