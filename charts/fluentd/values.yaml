@@ -46,7 +46,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-# Congigure the livessProbe
+# Configure the livessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
   httpGet:
@@ -58,7 +58,7 @@ livenessProbe:
   # successThreshold: 1
   # failureThreshold: 3
 
-# Congigure the readinessProbe
+# Configure the readinessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 readinessProbe:
   httpGet:
