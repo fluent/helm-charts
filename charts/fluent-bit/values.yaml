@@ -128,6 +128,10 @@ tolerations: []
 
 affinity: {}
 
+labels: {}
+
+annotations: {}
+
 podAnnotations: {}
 
 podLabels: {}
