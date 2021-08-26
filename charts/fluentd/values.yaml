@@ -129,6 +129,13 @@ podAnnotations: {}
 ##
 podLabels: {}
 
+## Deployment strategy / DaemonSet updateStrategy
+##
+updateStrategy: {}
+#   type: RollingUpdate
+#   rollingUpdate:
+#     maxUnavailable: 1
+
 ## Additional environment variables to set for fluentd pods
 env:
 - name: "FLUENTD_CONF"

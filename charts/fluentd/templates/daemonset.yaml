@@ -9,6 +9,10 @@ spec:
   selector:
     matchLabels:
       {{- include "fluentd.selectorLabels" . | nindent 6 }}
+  {{- with .Values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   template:
     metadata:
       annotations:
