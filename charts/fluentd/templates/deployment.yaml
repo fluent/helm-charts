@@ -14,15 +14,20 @@ metadata:
   {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  {{- with .Values.updateStrategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "fluentd.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/fluentd-configurations-cm.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "fluentd.selectorLabels" . | nindent 8 }}
         {{- with .Values.podLabels }}
