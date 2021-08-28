@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.7.2
-appVersion: 1.5.6
+version: 0.16.3
+appVersion: 1.8.3
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -18,3 +18,7 @@ maintainers:
     email: naseem@transit.app
   - name: Towmeykaw
     email: towmeykaw@gmail.com
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Update image version to v1.8.3.

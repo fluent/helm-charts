@@ -1,5 +1,5 @@
 {{- define "fluentd.pod" -}}
-{{- $defaultTag := printf "%s-debian-elasticsearch" (.Chart.AppVersion) -}}
+{{- $defaultTag := printf "%s-debian-elasticsearch7-1.0" (.Chart.AppVersion) -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
@@ -16,6 +16,16 @@ containers:
       {{- toYaml .Values.securityContext | nindent 6 }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $defaultTag }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
+  {{- if .Values.plugins }}
+    command:
+    - "/bin/sh"
+    - "-c"
+    - |
+      {{- range $plugin := .Values.plugins }}
+        {{- print "fluent-gem install " $plugin | nindent 6 }}
+      {{- end }}
+      exec /fluentd/entrypoint.sh
+  {{- end }}
   {{- if .Values.env }}
     env:
     {{- toYaml .Values.env | nindent 6 }}
@@ -25,41 +35,34 @@ containers:
     {{- toYaml .Values.envFrom | nindent 6 }}
   {{- end }}
     ports:
-      # - name: forward
-      #   containerPort: 24224
-      #   protocol: TCP
-      - name: metrics
-        containerPort: 24231
-        protocol: TCP
+    - name: metrics
+      containerPort: 24231
+      protocol: TCP
+    {{- range $port := .Values.service.ports }}
+    - name: {{ $port.name }}
+      containerPort: {{ $port.containerPort }}
+      protocol: {{ $port.protocol }}
+    {{- end }}
     livenessProbe:
-      httpGet:
-        path: /metrics
-        port: metrics
+      {{- toYaml .Values.livenessProbe | nindent 6 }}
     readinessProbe:
-      httpGet:
-        path: /metrics
-        port: metrics
+      {{- toYaml .Values.readinessProbe | nindent 6 }}
     resources:
       {{- toYaml .Values.resources | nindent 8 }}
     volumeMounts:
-      - name: varlog
-        mountPath: /var/log
-      - name: varlibdockercontainers
-        mountPath: /var/lib/docker/containers
-        readOnly: true
-    {{- if .Values.extraVolumeMounts }}
-      {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
-    {{- end }}
+      {{- toYaml .Values.volumeMounts | nindent 6 }}
+      {{- range $key := .Values.configMapConfigs }}
+      {{- print "- name: fluentd-custom-cm-" $key  | nindent 6 }}
+        {{- print "mountPath: /etc/fluent/" $key ".d"  | nindent 8 }}
+      {{- end }}
 volumes:
-  - name: varlog
-    hostPath:
-      path: /var/log
-  - name: varlibdockercontainers
-    hostPath:
-      path: /var/lib/docker/containers
-{{- if .Values.extraVolumes }}
-  {{- toYaml .Values.extraVolumes | nindent 2 }}
-{{- end }}
+  {{- toYaml .Values.volumes | nindent 2 }}
+  {{- range $key := .Values.configMapConfigs }}
+  {{- print "- name: fluentd-custom-cm-" $key  | nindent 2 }}
+    configMap:
+      {{- print "name: " .  | nindent 6 }}
+      defaultMode: 0777
+  {{- end }}
 {{- with .Values.nodeSelector }}
 nodeSelector:
   {{- toYaml . | nindent 2 }}
@@ -72,5 +75,4 @@ affinity:
 tolerations:
   {{- toYaml . | nindent 2 }}
 {{- end }}
-
 {{- end -}}

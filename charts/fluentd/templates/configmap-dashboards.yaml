@@ -1,0 +1,18 @@
+{{- if .Values.dashboards.enabled -}}
+{{- range $path, $_ :=  .Files.Glob "dashboards/*.json" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboard-{{ trimSuffix ".json" (base $path) }}
+  namespace: {{ $.Values.dashboards.namespace | default $.Release.Namespace }}
+  labels:
+    {{- include "fluentd.labels" $ | nindent 4 }}
+    {{- range $key, $val := $.Values.dashboards.labels }}
+    {{ $key }}: {{ $val }}
+    {{- end }}
+data:
+  {{ base $path }}: |-
+    {{- $.Files.Get $path | nindent 4 }}
+---
+{{- end }}
+{{- end -}}

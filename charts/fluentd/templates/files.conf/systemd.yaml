@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+  name: fluentd-systemd-conf
+data:
+  systemd.conf: |-
+    <source>
+      @type systemd
+      @id in_systemd_internal_kubernetes
+      @label @KUBERNETES_SYSTEM
+      matches [{"_SYSTEMD_UNIT":"kubelet.service"},{"_SYSTEMD_UNIT":"kube-apiserver.service"},{"_SYSTEMD_UNIT":"kube-controller-manager.service"},{"_SYSTEMD_UNIT":"kube-proxy.service"},{"_SYSTEMD_UNIT":"kube-scheduler.service"}]
+      read_from_head true
+      tag "internal-kubernetes.systemd"
+      <storage>
+        @type "local"
+        persistent true
+        path "/var/log/fluentd-journald-internal_kubernetes-cursor.json"
+      </storage>
+      <entry>
+        fields_strip_underscores true
+        field_map {"MESSAGE": "message", "_TRANSPORT": "stream", "_SYSTEMD_UNIT": "systemd_unit", "_HOSTNAME": "hostname"}
+        field_map_strict true
+      </entry>
+    </source>
+
+    <source>
+      @type systemd
+      @id in_systemd_etcd
+      @label @KUBERNETES_SYSTEM
+      matches [{"_SYSTEMD_UNIT":"etcd.service"}]
+      read_from_head true
+      tag "etcd.systemd"
+      <storage>
+        @type "local"
+        persistent true
+        path "/var/log/fluentd-journald-internal_etcd-cursor.json"
+      </storage>
+      <entry>
+        fields_strip_underscores true
+        field_map {"MESSAGE": "message", "_TRANSPORT": "stream", "_SYSTEMD_UNIT": "systemd_unit", "_HOSTNAME": "hostname"}
+        field_map_strict true
+      </entry>
+    </source>
+
+    <label @KUBERNETES_SYSTEM>
+      <filter internal-kubernetes.systemd>
+        @type parser
+        key_name message
+        <parse>
+          @type regexp
+          expression /^(?<level>[a-zA-Z])[0-9]* ([\d:.]+)\s+\d+ (?<file>[a-zA-Z-_.]+):(?<line>[\d]+)\]\s+(?<log>.*)$/
+        </parse>
+        reserve_data true
+        reserve_time true
+      </filter>
+
+      <filter etcd.systemd>
+        @type parser
+        key_name message
+        <parse>
+          @type regexp
+          expression /^([^ ]+\s[^ ]+) (?<level>[A-Z]) \| (?<component>[a-zA-Z-_.]+): (?<log>.*)$/
+        </parse>
+        reserve_data true
+        reserve_time true
+      </filter>
+
+      <filter **>
+        @type record_transformer
+        enable_ruby
+        <record>
+          raw ${record["message"]}
+        </record>
+        remove_keys message
+      </filter>
+
+      <match **>
+        @type relabel
+        @label @DISPATCH
+      </match>
+    </label>

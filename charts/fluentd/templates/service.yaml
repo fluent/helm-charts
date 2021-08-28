@@ -1,3 +1,4 @@
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -11,13 +12,17 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    # - port: 24224
-    #   targetPort: forward
-    #   protocol: TCP
-    #   name: forward
-    - port: 24231
-      targetPort: metrics
-      protocol: TCP
-      name: metrics
+  - port: 24231
+    targetPort: metrics
+    protocol: TCP
+    name: metrics
+  {{- if .Values.service.ports }}
+  {{- range $port := .Values.service.ports }}
+  - name: {{ $port.name }}
+    port: {{ $port.containerPort }}
+    targetPort: {{ $port.containerPort }}
+    protocol: {{ $port.protocol }}
+  {{- end }}
+  {{- end }}
   selector:
     {{- include "fluentd.selectorLabels" . | nindent 4 }}

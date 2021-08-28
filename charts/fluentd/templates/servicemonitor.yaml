@@ -1,0 +1,44 @@
+{{- if and ( .Capabilities.APIVersions.Has "monitoring.coreos.com/v1" ) .Values.metrics.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "fluentd.fullname" . }}
+  {{- with .Values.metrics.serviceMonitor.namespace }}
+  namespace: {{ . }}
+  {{- end }}
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+    {{- with .Values.metrics.serviceMonitor.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  jobLabel: {{ .Values.metrics.serviceMonitor.jobLabel | default .Release.Name }}
+  endpoints:
+    - port: metrics
+      path: /metrics
+      {{- with .Values.metrics.serviceMonitor.interval }}
+      interval: {{ . }}
+      {{- end }}
+      {{- with .Values.metrics.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ . }}
+      {{- end }}
+{{- if .Values.metrics.serviceMonitor.metricRelabelings }}
+      metricRelabelings:
+{{ tpl (toYaml .Values.metrics.serviceMonitor.metricRelabelings | indent 6) . }}
+{{- end }}
+{{- if .Values.metrics.serviceMonitor.relabelings }}
+      relabelings:
+{{ toYaml .Values.metrics.serviceMonitor.relabelings | indent 6 }}
+{{- end }}
+  {{- if .Values.metrics.serviceMonitor.namespaceSelector }}
+  namespaceSelector:
+    {{ toYaml .Values.metrics.serviceMonitor.namespaceSelector | indent 4 -}}
+  {{ else }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "fluentd.selectorLabels" . | nindent 6 }}
+{{- end }}

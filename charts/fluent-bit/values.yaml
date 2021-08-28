@@ -8,8 +8,15 @@ replicaCount: 1
 
 image:
   repository: fluent/fluent-bit
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}
+  tag: ""
   pullPolicy: Always
-  # tag:
+
+testFramework:
+  image:
+    repository: busybox
+    pullPolicy: Always
+    tag: latest
 
 imagePullSecrets: []
 nameOverride: ""
@@ -22,50 +29,98 @@ serviceAccount:
 
 rbac:
   create: true
+  nodeAccess: false
 
 podSecurityPolicy:
   create: false
+  annotations: {}
 
-podSecurityContext:
-  {}
-  # fsGroup: 2000
+podSecurityContext: {}
+#   fsGroup: 2000
 
-securityContext:
-  {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+hostNetwork: false
+dnsPolicy: ClusterFirst
+
+dnsConfig: {}
+#   nameservers:
+#     - 1.2.3.4
+#   searches:
+#     - ns1.svc.cluster-domain.example
+#     - my.dns.search.suffix
+#   options:
+#     - name: ndots
+#       value: "2"
+#     - name: edns0
+
+hostAliases: []
+#   - ip: "1.2.3.4"
+#     hostnames:
+#     - "foo.local"
+#     - "bar.local"
+
+securityContext: {}
+#   capabilities:
+#     drop:
+#     - ALL
+#   readOnlyRootFilesystem: true
+#   runAsNonRoot: true
+#   runAsUser: 1000
 
 service:
   type: ClusterIP
   port: 2020
-  labels:
-    {}
-  annotations:
-    {}
-    # prometheus.io/path: "/api/v1/metrics/prometheus"
-    # prometheus.io/port: "2020"
-    # prometheus.io/scrape: "true"
+  labels: {}
+  annotations: {}
+#   prometheus.io/path: "/api/v1/metrics/prometheus"
+#   prometheus.io/port: "2020"
+#   prometheus.io/scrape: "true"
 
 serviceMonitor:
   enabled: false
-  # namespace: monitoring
-  # interval: 10s
-  # scrapeTimeout: 10s
-  # selector:
-  #  prometheus: my-prometheus
+#   namespace: monitoring
+#   interval: 10s
+#   scrapeTimeout: 10s
+#   selector:
+#    prometheus: my-prometheus
 
-resources:
-  {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+prometheusRule:
+  enabled: false
+#   namespace: ""
+#   additionnalLabels: {}
+#   rules:
+#   - alert: NoOutputBytesProcessed
+#     expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
+#     annotations:
+#       message: |
+#         Fluent Bit instance {{ $labels.instance }}'s output plugin {{ $labels.name }} has not processed any
+#         bytes for at least 15 minutes.
+#       summary: No Output Bytes Processed
+#     for: 15m
+#     labels:
+#       severity: critical
+
+dashboards:
+  enabled: false
+  labelKey: grafana_dashboard
+  annotations: {}
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /api/v1/health
+    port: http
+
+resources: {}
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
 
 nodeSelector: {}
 
@@ -73,13 +128,24 @@ tolerations: []
 
 affinity: {}
 
+labels: {}
+
+annotations: {}
+
 podAnnotations: {}
+
+podLabels: {}
 
 priorityClassName: ""
 
 env: []
 
 envFrom: []
+
+extraContainers: []
+#   - name: do-something
+#     image: busybox
+#     command: ['do', 'something']
 
 extraPorts: []
 #   - port: 5170
@@ -91,26 +157,41 @@ extraVolumes: []
 
 extraVolumeMounts: []
 
-## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit
+updateStrategy: {}
+#   type: RollingUpdate
+#   rollingUpdate:
+#     maxUnavailable: 1
+
+# Make use of a pre-defined configmap instead of the one templated here
+existingConfigMap: ""
+
+networkPolicy:
+  enabled: false
+#   ingress:
+#     from: []
+
+luaScripts: {}
+
+## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
 config:
-  ## https://docs.fluentbit.io/manual/service
   service: |
     [SERVICE]
-        Flush 1
         Daemon Off
-        Log_Level info
+        Flush 1
+        Log_Level {{ .Values.logLevel }}
         Parsers_File parsers.conf
         Parsers_File custom_parsers.conf
         HTTP_Server On
         HTTP_Listen 0.0.0.0
-        HTTP_Port 2020
+        HTTP_Port {{ .Values.service.port }}
+        Health_Check On
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs
   inputs: |
     [INPUT]
         Name tail
         Path /var/log/containers/*.log
-        Parser docker
+        multiline.parser docker, cri
         Tag kube.*
         Mem_Buf_Limit 5MB
         Skip_Long_Lines On
@@ -158,3 +239,45 @@ config:
         Time_Format %Y-%m-%dT%H:%M:%S.%L
 
   extraFiles: {}
+
+# The config volume is mounted by default, either to the existingConfigMap value, or the default of "fluent-bit.fullname"
+volumeMounts:
+  - name: config
+    mountPath: /fluent-bit/etc/fluent-bit.conf
+    subPath: fluent-bit.conf
+  - name: config
+    mountPath: /fluent-bit/etc/custom_parsers.conf
+    subPath: custom_parsers.conf
+
+daemonSetVolumes:
+  - name: varlog
+    hostPath:
+      path: /var/log
+  - name: varlibdockercontainers
+    hostPath:
+      path: /var/lib/docker/containers
+  - name: etcmachineid
+    hostPath:
+      path: /etc/machine-id
+      type: File
+
+daemonSetVolumeMounts:
+  - name: varlog
+    mountPath: /var/log
+  - name: varlibdockercontainers
+    mountPath: /var/lib/docker/containers
+    readOnly: true
+  - name: etcmachineid
+    mountPath: /etc/machine-id
+    readOnly: true
+
+args: []
+
+command: []
+
+initContainers: []
+#   - name: do-something
+#     image: busybox
+#     command: ['do', 'something']
+
+logLevel: info
