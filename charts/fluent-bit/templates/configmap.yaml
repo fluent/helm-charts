@@ -13,4 +13,8 @@ data:
     {{- (tpl .Values.config.inputs $)  | nindent 4 }}
     {{- (tpl .Values.config.filters $)  | nindent 4 }}
     {{- (tpl .Values.config.outputs $)  | nindent 4 }}
+  {{- range $key, $val := .Values.config.extraFiles }}
+  {{ $key }}: |
+    {{- $val | nindent 4 }}
+  {{- end }}
 {{- end -}}

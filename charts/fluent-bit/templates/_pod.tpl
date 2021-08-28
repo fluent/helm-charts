@@ -64,6 +64,11 @@ containers:
       {{- toYaml .Values.resources | nindent 6 }}
     volumeMounts:
       {{- toYaml .Values.volumeMounts | nindent 6 }}
+    {{- range $key, $val := .Values.config.extraFiles }}
+      - name: config
+        mountPath: /fluent-bit/etc/{{ $key }}
+        subPath: {{ $key }}
+    {{- end }}
     {{- range $key, $value := .Values.luaScripts }}
       - name: luascripts
         mountPath: /fluent-bit/scripts/{{ $key }}
