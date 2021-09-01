@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.16.5
-appVersion: 1.8.5
+version: 0.16.6
+appVersion: 1.8.6
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -21,4 +21,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: "Update image version to v1.8.5."
+      description: "Update image version to v1.8.6."
