@@ -46,7 +46,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-# Configure the livessProbe
+# Configure the livenessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
   httpGet:
