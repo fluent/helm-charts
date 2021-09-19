@@ -70,6 +70,7 @@ service:
   type: ClusterIP
   port: 2020
   labels: {}
+  # nodePort: 30020
   annotations: {}
 #   prometheus.io/path: "/api/v1/metrics/prometheus"
 #   prometheus.io/port: "2020"
@@ -152,6 +153,7 @@ extraPorts: []
 #     containerPort: 5170
 #     protocol: TCP
 #     name: tcp
+#     nodePort: 30517
 
 extraVolumes: []
 
