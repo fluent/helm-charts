@@ -1,4 +1,4 @@
-# Fluent Bit Helm Chart
+# Fluent Bit Helm chart
 
 [Fluent Bit](https://fluentbit.io) is a fast and lightweight log processor and forwarder or Linux, OSX and BSD family operating systems.
 
@@ -16,7 +16,7 @@ To install a release named `fluent-bit`, run:
 helm install fluent-bit fluent/fluent-bit
 ```
 
-## Chart Values
+## Chart values
 
 ```sh
 helm show values fluent/fluent-bit
