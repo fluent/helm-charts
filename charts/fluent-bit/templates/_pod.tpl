@@ -1,4 +1,5 @@
 {{- define "fluent-bit.pod" -}}
+serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
@@ -6,9 +7,10 @@ imagePullSecrets:
 {{- if .Values.priorityClassName }}
 priorityClassName: {{ .Values.priorityClassName }}
 {{- end }}
-serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
+{{- with .Values.podSecurityContext }}
 securityContext:
-  {{- toYaml .Values.podSecurityContext | nindent 2 }}
+  {{- toYaml . | nindent 2 }}
+{{- end }}
 hostNetwork: {{ .Values.hostNetwork }}
 dnsPolicy: {{ .Values.dnsPolicy }}
 {{- with .Values.dnsConfig }}
@@ -19,14 +21,20 @@ dnsConfig:
 hostAliases:
   {{- toYaml . | nindent 2 }}
 {{- end }}
-{{- if .Values.initContainers }}
+{{- with .Values.initContainers }}
 initContainers:
-  {{- tpl (toYaml .Values.initContainers) $ | nindent 2 }}
+{{- if kindIs "string" . }}
+  {{- tpl . $ | nindent 2 }}
+{{- else }}
+  {{-  toYaml . | nindent 2 }}
+{{- end -}}
 {{- end }}
 containers:
   - name: {{ .Chart.Name }}
+  {{- with .Values.securityContext }}
     securityContext:
-      {{- toYaml .Values.securityContext | nindent 6 }}
+      {{- toYaml . | nindent 6 }}
+  {{- end }}
     image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
   {{- if .Values.env }}
@@ -60,8 +68,10 @@ containers:
       {{- toYaml .Values.livenessProbe | nindent 6 }}
     readinessProbe:
       {{- toYaml .Values.readinessProbe | nindent 6 }}
+  {{- with .Values.resources }}
     resources:
-      {{- toYaml .Values.resources | nindent 6 }}
+      {{- toYaml . | nindent 6 }}
+  {{- end }}
     volumeMounts:
       {{- toYaml .Values.volumeMounts | nindent 6 }}
     {{- range $key, $val := .Values.config.extraFiles }}

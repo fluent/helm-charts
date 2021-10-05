@@ -284,7 +284,17 @@ args: []
 
 command: []
 
+# This supports either a structured array or a templatable string
 initContainers: []
+
+# Array mode
+# initContainers:
+#   - name: do-something
+#     image: bitnami/kubectl:1.22
+#     command: ['kubectl', 'version']
+
+# String mode
+# initContainers: |-
 #   - name: do-something
 #     image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}
 #     command: ['kubectl', 'version']
