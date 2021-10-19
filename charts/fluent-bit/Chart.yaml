@@ -6,7 +6,7 @@ keywords:
   - fluent-bit
   - fluentd
 version: 0.19.1
-appVersion: 1.8.7
+appVersion: 1.8.9
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -20,7 +20,5 @@ maintainers:
     email: towmeykaw@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: "Support setting initContainers to a string value to enable full templating."
-    - kind: removed
-      description: "Don't template initContainers when set to an array."
+    - kind: changed
+      description: "Update Fluent Bit image to v1.8.8."
