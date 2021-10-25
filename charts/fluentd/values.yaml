@@ -1,10 +1,10 @@
 nameOverride: ""
 fullnameOverride: ""
 
-# DaemonSet or Deployment
+# DaemonSet, Deployment or StatefulSet
 kind: "DaemonSet"
 
-# # Only applicable for Deployment
+# # Only applicable for Deployment or StatefulSet
 # replicaCount: 1
 
 image:
@@ -181,6 +181,15 @@ volumeMounts:
   mountPath: /etc/fluent
 - name: etcfluentd-config
   mountPath: /etc/fluent/config.d/
+
+## Only available if kind is StatefulSet
+## Fluentd persistence
+##
+persistence:
+  enabled: false
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 10Gi
 
 ## Fluentd service
 ##
