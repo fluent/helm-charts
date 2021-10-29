@@ -55,6 +55,10 @@ containers:
       {{- print "- name: fluentd-custom-cm-" $key  | nindent 6 }}
         {{- print "mountPath: /etc/fluent/" $key ".d"  | nindent 8 }}
       {{- end }}
+      {{- if .Values.persistence.enabled }}
+      - mountPath: /var/log/fluent
+        name: {{ include "fluentd.fullname" . }}-buffer
+      {{- end }}
 volumes:
   {{- toYaml .Values.volumes | nindent 2 }}
   {{- range $key := .Values.configMapConfigs }}
