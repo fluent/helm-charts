@@ -59,6 +59,9 @@ containers:
       - mountPath: /var/log/fluent
         name: {{ include "fluentd.fullname" . }}-buffer
       {{- end }}
+    {{- if .Values.extraVolumeMounts }}
+      {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
+    {{- end }}  
 volumes:
   {{- toYaml .Values.volumes | nindent 2 }}
   {{- range $key := .Values.configMapConfigs }}
@@ -67,6 +70,9 @@ volumes:
       {{- print "name: " .  | nindent 6 }}
       defaultMode: 0777
   {{- end }}
+{{- if .Values.extraVolumes }}
+  {{- toYaml .Values.extraVolumes | nindent 2 }}
+{{- end }}
 {{- with .Values.nodeSelector }}
 nodeSelector:
   {{- toYaml . | nindent 2 }}
