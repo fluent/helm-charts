@@ -6,7 +6,7 @@ keywords:
   - fluent-bit
   - fluentd
 version: 0.19.3
-appVersion: 1.8.10
+appVersion: 1.8.9
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
