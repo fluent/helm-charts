@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Add stevehipwell to maintainers."
+    apiVersion: v1
+    appVersion: 1.8.9
+    created: "2021-11-03T15:15:20.768249649Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: f5f0140c728d75b1981b4a9e6703c3f676b2094538296ace25686f436370a800
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.19.3/fluent-bit-0.19.3.tgz
+    version: 0.19.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Update Fluent Bit image to v1.8.9."
     apiVersion: v1
     appVersion: 1.8.9
@@ -2301,4 +2332,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-29T13:09:57.660626017Z"
+generated: "2021-11-03T15:15:20.768956105Z"
