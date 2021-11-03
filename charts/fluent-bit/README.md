@@ -37,7 +37,7 @@ luaScripts:
     end
 ```
 
-After that, the Lua scripts will be ready to be used as filters. So next step is to add your Fuent bit [filter](https://docs.fluentbit.io/manual/concepts/data-pipeline/filter) to `config.filters` in values.yaml, for example:
+After that, the Lua scripts will be ready to be used as filters. So next step is to add your Fluent bit [filter](https://docs.fluentbit.io/manual/concepts/data-pipeline/filter) to `config.filters` in values.yaml, for example:
 
 ```yaml
 config:
