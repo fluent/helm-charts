@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Added on serviceMonitor possibility to define jobLabel, metricRelabelings and relabelings"
+    apiVersion: v1
+    appVersion: 1.8.9
+    created: "2021-11-09T17:56:41.17693503Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 89352a9f316e6fd693c4612418822342d47ba4274a3c24669edd9a5f20e8a682
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.19.5/fluent-bit-0.19.5.tgz
+    version: 0.19.5
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Add stevehipwell to maintainers."
     apiVersion: v1
     appVersion: 1.8.9
@@ -2363,4 +2394,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2021-11-05T12:14:23.965149113Z"
+generated: "2021-11-09T17:56:41.177819485Z"
