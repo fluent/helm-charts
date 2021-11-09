@@ -12,6 +12,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
+  jobLabel: {{ .Values.serviceMonitor.jobLabel | default .Release.Name }}
   endpoints:
     - port: http
       path: /api/v1/metrics/prometheus
@@ -21,6 +22,14 @@ spec:
       {{- with .Values.serviceMonitor.scrapeTimeout }}
       scrapeTimeout: {{ . }}
       {{- end }}
+{{- if .Values.serviceMonitor.metricRelabelings }}
+      metricRelabelings:
+{{ tpl (toYaml .Values.serviceMonitor.metricRelabelings | indent 6) . }}
+{{- end }}
+{{- if .Values.serviceMonitor.relabelings }}
+      relabelings:
+{{ toYaml .Values.serviceMonitor.relabelings | indent 6 }}
+{{- end }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
