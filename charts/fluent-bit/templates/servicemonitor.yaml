@@ -24,9 +24,13 @@ spec:
       {{- with .Values.serviceMonitor.scrapeTimeout }}
       scrapeTimeout: {{ . }}
       {{- end }}
-      {{- if .Values.serviceMonitor.metricRelabelings }}
+      {{- with .Values.serviceMonitor.metricRelabelings }}
       metricRelabelings:
-      {{ toYaml .Values.serviceMonitor.metricRelabelings | nindent 6 }}
+      {{- if kindIs "string" . }}
+      {{- tpl . $ | nindent 6 }}
+      {{- else }}
+      {{-  toYaml . | nindent 6 }}
+      {{- end }}
       {{- end }}
       {{- with .Values.serviceMonitor.relabelings }}
       relabelings:
