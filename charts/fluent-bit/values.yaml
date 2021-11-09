@@ -94,7 +94,7 @@ serviceMonitor:
 #      action: replace
 #  ## relabel configs to apply to samples after ingestion.
 #  ##
-#  relabelings: 
+#  relabelings:
 #    - sourceLabels: [__meta_kubernetes_pod_node_name]
 #      separator: ;
 #      regex: ^(.*)$
