@@ -176,16 +176,27 @@ podDisruptionBudget:
 
 ingress:
   enabled: false
+  className: ""
   annotations: {}
-  # hosts:
-  # - host: foobar.fluent-bit.tld
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+  # - host: fluent-bit.example.tld
+  #   paths:
+  #    - path: /
+  #      pathType: ImplementationSpecific
+  extraHosts: []
+  # - host: fluent-bit-extra.example.tld
   #   paths:
   #   - path: /
-  #     port: 80
-  # tls:
-  # - hosts:
-  #   - foobar.fluent-bit.tld
-  #   secretName: secret-tls
+  #     pathType: ImplementationSpecific
+        ## specify extraPort number
+  #     port: 666
+  tls: []
+  #  - secretName: fluent-bit-example-tld
+  #    hosts:
+  #      - fluent-bit.example.tld
+
 
 
 nodeSelector: {}
