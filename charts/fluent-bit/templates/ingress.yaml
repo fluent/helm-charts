@@ -1,0 +1,41 @@
+{{- if .Values.ingress.enabled -}}
+{{- $dot := . }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "fluent-bit.fullname" . }}
+  labels:
+    {{- include "fluent-bit.labels" . | nindent 4 }}
+{{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+{{- if .Values.ingress.tls }}
+  tls:
+  {{- range .Values.ingress.tls }}
+  - hosts:
+  {{- range .hosts }}
+    - {{ . }}
+  {{- end}}
+    {{- with .secretName }}
+    secretName: {{ . }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .type | default "ImplementationSpecific" }}
+            backend:
+              service:
+                name: {{ include "fluent-bit.fullname" $dot }}
+                port:
+                  number: {{ .port }}
+        {{- end }}
+  {{- end }}
+{{- end }}
