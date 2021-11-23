@@ -182,16 +182,10 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts: []
   # - host: fluent-bit.example.tld
-  #   paths:
-  #    - path: /
-  #      pathType: ImplementationSpecific
   extraHosts: []
   # - host: fluent-bit-extra.example.tld
-  #   paths:
-  #   - path: /
-  #     pathType: ImplementationSpecific
-        ## specify extraPort number
-  #     port: 666
+      ## specify extraPort number
+  #   port: 5170
   tls: []
   #  - secretName: fluent-bit-example-tld
   #    hosts:
