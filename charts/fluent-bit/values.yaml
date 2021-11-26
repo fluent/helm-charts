@@ -123,6 +123,11 @@ dashboards:
   labelKey: grafana_dashboard
   annotations: {}
 
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command: ["/bin/sh", "-c", "sleep 20"]
+
 livenessProbe:
   httpGet:
     path: /

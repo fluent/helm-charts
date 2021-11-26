@@ -64,6 +64,8 @@ containers:
         protocol: {{ .protocol }}
       {{- end }}
     {{- end }}
+    lifecycle:
+      {{- toYaml .Values.lifecycle | nindent 6 }}
     livenessProbe:
       {{- toYaml .Values.livenessProbe | nindent 6 }}
     readinessProbe:
