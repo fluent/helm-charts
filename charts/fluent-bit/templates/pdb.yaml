@@ -1,5 +1,5 @@
 {{- if and  ( eq  .Values.kind "Deployment" )  .Values.podDisruptionBudget.enabled  }}
-{{- if semverCompare ">=1.21-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- if and (.Capabilities.APIVersions.Has "policy/v1") (semverCompare ">=1.21-0" .Capabilities.KubeVersion.GitVersion) -}}
 apiVersion: policy/v1
 {{- else }}
 apiVersion: policy/v1beta1
