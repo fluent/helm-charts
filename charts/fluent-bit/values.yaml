@@ -144,10 +144,10 @@ resources: {}
 ## only available if kind is Deployment
 autoscaling:
   enabled: false
-#  minReplicas: 1
-#  maxReplicas: 100
-#  targetCPUUtilizationPercentage: 80
-#  targetMemoryUtilizationPercentage: 80
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 75
+  targetMemoryUtilizationPercentage: 75
    ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
   customRules: []
 #     - type: Pods
@@ -158,7 +158,7 @@ autoscaling:
 #           type: AverageValue
 #           averageValue: 1k
     ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
-#   behavior:
+  behavior: {}
 #      scaleDown:
 #        policies:
 #          - type: Pods
