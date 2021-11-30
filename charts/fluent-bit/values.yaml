@@ -172,7 +172,7 @@ autoscaling:
 podDisruptionBudget:
   enabled: false
   annotations: {}
-#  maxUnavailable: "30%"
+  maxUnavailable: "30%"
 
 nodeSelector: {}
 
