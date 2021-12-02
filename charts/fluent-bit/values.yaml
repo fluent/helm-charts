@@ -122,6 +122,7 @@ dashboards:
   enabled: false
   labelKey: grafana_dashboard
   annotations: {}
+  # namespace: ""
 
 lifecycle: {}
   # preStop:
