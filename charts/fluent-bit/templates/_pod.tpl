@@ -55,7 +55,7 @@ containers:
   {{- end }}
     ports:
       - name: http
-        containerPort: 2020
+        containerPort: {{ .Values.defaultContainerPort }}
         protocol: TCP
     {{- if .Values.extraPorts }}
       {{- range .Values.extraPorts }}

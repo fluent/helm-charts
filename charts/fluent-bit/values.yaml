@@ -172,6 +172,8 @@ extraContainers: []
 #     image: busybox
 #     command: ['do', 'something']
 
+defaultContainerPort: 2020
+
 extraPorts: []
 #   - port: 5170
 #     containerPort: 5170
