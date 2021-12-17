@@ -6,7 +6,7 @@ keywords:
   - fluent-bit
   - fluentd
 version: 0.19.11
-appVersion: 1.8.10
+appVersion: 1.8.11
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: "Update Fluent Bit image to v1.8.10."
+      description: "Update Fluent Bit image to v1.8.11."

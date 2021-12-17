@@ -122,6 +122,12 @@ dashboards:
   enabled: false
   labelKey: grafana_dashboard
   annotations: {}
+  namespace: ""
+
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command: ["/bin/sh", "-c", "sleep 20"]
 
 livenessProbe:
   httpGet:
