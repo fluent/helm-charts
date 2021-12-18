@@ -4,7 +4,7 @@
 {{- $fullName := include "fluent-bit.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 
-{{- if .Values.ingress.enabled -}}
+{{- if and ( eq .Values.kind "Deployment" ) .Values.ingress.enabled }}
 apiVersion: {{ include "fluent-bit.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
