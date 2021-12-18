@@ -61,3 +61,14 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Pdb apiVersion according k8s version and capabilities
+*/}}
+{{- define "fluent-bit.pdb.apiVersion" -}}
+{{- if and (.Capabilities.APIVersions.Has "policy/v1") (semverCompare ">=1.21-0" .Capabilities.KubeVersion.GitVersion) -}}
+policy/v1
+{{- else -}}
+policy/v1beta1
+{{- end }}
+{{- end -}}
