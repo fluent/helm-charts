@@ -22,6 +22,11 @@ spec:
     port: {{ $port.containerPort }}
     targetPort: {{ $port.containerPort }}
     protocol: {{ $port.protocol }}
+    {{- if eq .Values.service.type "NodePort" }}
+    {{- if $port.nodePort }}
+    nodePort: {{ $port.nodePort }}   
+    {{- end }}
+    {{- end }}
   {{- end }}
   {{- end }}
   selector:
