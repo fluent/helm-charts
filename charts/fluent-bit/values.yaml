@@ -148,6 +148,24 @@ resources: {}
 #     memory: 128Mi
 
 ## only available if kind is Deployment
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+  # - host: fluent-bit.example.tld
+  extraHosts: []
+  # - host: fluent-bit-extra.example.tld
+      ## specify extraPort number
+  #   port: 5170
+  tls: []
+  #  - secretName: fluent-bit-example-tld
+  #    hosts:
+  #      - fluent-bit.example.tld
+
+## only available if kind is Deployment
 autoscaling:
   enabled: false
   minReplicas: 1
