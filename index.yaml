@@ -7,6 +7,37 @@ entries:
           description: "Update Fluent Bit image to v1.8.11."
     apiVersion: v1
     appVersion: 1.8.11
+    created: "2021-12-20T21:08:36.274433329Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: cbfa1a63122a28a4463d355145b8060d05fe4e02dcdc12c8b0ee4b9a8b43c33b
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.19.14/fluent-bit-0.19.14.tgz
+    version: 0.19.14
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: "Update Fluent Bit image to v1.8.11."
+    apiVersion: v1
+    appVersion: 1.8.11
     created: "2021-12-20T13:31:07.486370579Z"
     description: Fast and lightweight log processor and forwarder or Linux, OSX and
       BSD family operating systems.
@@ -2347,6 +2378,25 @@ entries:
   fluentd:
   - apiVersion: v2
     appVersion: v1.12.4
+    created: "2021-12-20T21:08:36.396139322Z"
+    description: A Helm chart for Kubernetes
+    digest: 93b449632bb49252cb916de6564e330526e73c9a35eb1cf6f8a744e4c28309fd
+    home: https://www.fluentd.org/
+    icon: https://www.fluentd.org/images/miscellany/fluentd-logo_2x.png
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: diogo.filipe.tomas.guerra@cern.ch
+      name: dioguerra
+    name: fluentd
+    sources:
+    - https://github.com/fluent/fluentd/
+    - https://github.com/fluent/fluentd-kubernetes-daemonset
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluentd-0.3.3/fluentd-0.3.3.tgz
+    version: 0.3.3
+  - apiVersion: v2
+    appVersion: v1.12.4
     created: "2021-12-09T00:03:47.581017645Z"
     description: A Helm chart for Kubernetes
     digest: 5397b259c06f08b8d620da9e91d913f858143f99295e58ade2dc4e97801da689
@@ -2680,4 +2730,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2021-12-20T13:31:07.487679861Z"
+generated: "2021-12-20T21:08:36.398535549Z"
