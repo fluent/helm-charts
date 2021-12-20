@@ -92,4 +92,14 @@ Return if ingress supports pathType.
 */}}
 {{- define "fluent-bit.ingress.supportsPathType" -}}
   {{- or (eq (include "fluent-bit.ingress.isStable" .) "true") (and (eq (include "fluent-bit.ingress.apiVersion" .) "networking.k8s.io/v1beta1") (semverCompare ">= 1.18-0" .Capabilities.KubeVersion.Version)) -}}
+
+{{/*
+Pdb apiVersion according k8s version and capabilities
+*/}}
+{{- define "fluent-bit.pdb.apiVersion" -}}
+{{- if and (.Capabilities.APIVersions.Has "policy/v1") (semverCompare ">=1.21-0" .Capabilities.KubeVersion.GitVersion) -}}
+policy/v1
+{{- else -}}
+policy/v1beta1
+{{- end }}
 {{- end -}}
