@@ -105,7 +105,7 @@ serviceMonitor:
 prometheusRule:
   enabled: false
 #   namespace: ""
-#   additionnalLabels: {}
+#   additionalLabels: {}
 #   rules:
 #   - alert: NoOutputBytesProcessed
 #     expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
