@@ -223,6 +223,8 @@ extraContainers: []
 #     image: busybox
 #     command: ['do', 'something']
 
+metricsPort: 2020
+
 extraPorts: []
 #   - port: 5170
 #     containerPort: 5170
@@ -260,7 +262,7 @@ config:
         Parsers_File custom_parsers.conf
         HTTP_Server On
         HTTP_Listen 0.0.0.0
-        HTTP_Port {{ .Values.service.port }}
+        HTTP_Port {{ .Values.metricsPort }}
         Health_Check On
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs
