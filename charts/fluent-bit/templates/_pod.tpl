@@ -39,7 +39,7 @@ containers:
     imagePullPolicy: {{ .Values.image.pullPolicy }}
   {{- if .Values.env }}
     env:
-      {{- toYaml .Values.env | nindent 6 }}
+      {{- tpl (toYaml .Values.env) . | nindent 6 }}
   {{- end }}
   {{- if .Values.envFrom }}
     envFrom:
