@@ -215,6 +215,11 @@ podLabels: {}
 priorityClassName: ""
 
 env: []
+#  - name: FOO
+#    value: "bar"
+
+extraEnv: {}
+#  FOO_2: "bar2"
 
 envFrom: []
 
