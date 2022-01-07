@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Add envWithTpl to support templatable strings in Environment Variables"
+    - kind: added
+      description: "New envWithTpl value to support using templatable strings in environment variables."
