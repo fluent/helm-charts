@@ -16,12 +16,15 @@ spec:
   replicas: {{ .Values.replicaCount }}
   serviceName: {{ include "fluentd.fullname" . }}
   {{- with .Values.updateStrategy }}
-  strategy:
+  updateStrategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "fluentd.selectorLabels" . | nindent 6 }}
+  {{- with .Values.minReadySeconds }}
+  minReadySeconds: {{ . }}
+  {{- end }}
   template:
     metadata:
       annotations:
