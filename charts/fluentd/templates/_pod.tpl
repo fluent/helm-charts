@@ -64,7 +64,7 @@ containers:
         name: {{ include "fluentd.fullname" . }}-buffer
       {{- end }}
 volumes:
-  {{- tpl toYaml .Values.volumes | nindent 2 }}
+  {{- tpl (toYaml .Values.volumes) . | nindent 2 }}
   {{- range $key := .Values.configMapConfigs }}
   {{- print "- name: fluentd-custom-cm-" $key  | nindent 2 }}
     configMap:
