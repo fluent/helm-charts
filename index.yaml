@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: "Update fluent-bit image to 1.8.12."
+    apiVersion: v1
+    appVersion: 1.8.12
+    created: "2022-01-28T09:39:41.125390516Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 7cd8ba8dce7c09fb323e80e2e2b500f493ac51bb4e2dc22f67f31b2605b9e6df
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.19.18/fluent-bit-0.19.18.tgz
+    version: 0.19.18
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: "New envWithTpl value to support using templatable strings in environment variables."
     apiVersion: v1
@@ -2861,4 +2892,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-14T12:50:39.921008215Z"
+generated: "2022-01-28T09:39:41.127226275Z"
