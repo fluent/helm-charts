@@ -7,6 +7,37 @@ entries:
           description: "Update fluent-bit image to 1.8.12."
     apiVersion: v1
     appVersion: 1.8.12
+    created: "2022-02-08T01:00:29.604088161Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 107998ca940d0e0db34b482fe01b92685b05d1a5664f6a17d547f0a47547c52e
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.19.19/fluent-bit-0.19.19.tgz
+    version: 0.19.19
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: "Update fluent-bit image to 1.8.12."
+    apiVersion: v1
+    appVersion: 1.8.12
     created: "2022-01-28T09:39:41.125390516Z"
     description: Fast and lightweight log processor and forwarder or Linux, OSX and
       BSD family operating systems.
@@ -2892,4 +2923,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2022-01-28T09:39:41.127226275Z"
+generated: "2022-02-08T01:00:29.606302189Z"
