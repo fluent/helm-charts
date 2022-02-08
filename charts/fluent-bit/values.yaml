@@ -234,6 +234,8 @@ extraContainers: []
 #     image: busybox
 #     command: ['do', 'something']
 
+flush: 1
+
 metricsPort: 2020
 
 extraPorts: []
@@ -267,7 +269,7 @@ config:
   service: |
     [SERVICE]
         Daemon Off
-        Flush 1
+        Flush {{ .Values.flush }}
         Log_Level {{ .Values.logLevel }}
         Parsers_File parsers.conf
         Parsers_File custom_parsers.conf
