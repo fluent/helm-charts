@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.19.21
+version: 0.19.22
 appVersion: 1.8.14
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
