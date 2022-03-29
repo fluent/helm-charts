@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.19.21
+version: 0.19.22
 appVersion: 1.8.14
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
@@ -13,7 +13,7 @@ sources:
   - https://github.com/fluent/fluent-bit/
 maintainers:
   - name: edsiper
-    email: eduardo@treasure-data.com
+    email: eduardo@calyptia.com
   - name: naseemkullah
     email: naseem@transit.app
   - name: Towmeykaw

@@ -7,7 +7,7 @@ kind: DaemonSet
 replicaCount: 1
 
 image:
-  repository: fluent/fluent-bit
+  repository: cr.fluentbit.io/fluent/fluent-bit
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}
   tag: ""
   pullPolicy: Always
