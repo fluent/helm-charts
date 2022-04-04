@@ -211,6 +211,8 @@ persistence:
 service:
   type: "ClusterIP"
   annotations: {}
+  # loadBalancerIP:
+  # externalTrafficPolicy: Local
   ports: []
   # - name: "forwarder"
   #   protocol: TCP
