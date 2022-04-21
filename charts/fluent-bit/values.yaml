@@ -71,6 +71,7 @@ service:
   port: 2020
   labels: {}
   # nodePort: 30020
+  # clusterIP: 172.16.0.1
   annotations: {}
 #   prometheus.io/path: "/api/v1/metrics/prometheus"
 #   prometheus.io/port: "2020"
@@ -124,7 +125,8 @@ dashboards:
   annotations: {}
   namespace: ""
 
-lifecycle: {}
+lifecycle:
+  {}
   # preStop:
   #   exec:
   #     command: ["/bin/sh", "-c", "sleep 20"]
@@ -151,14 +153,15 @@ resources: {}
 ingress:
   enabled: false
   className: ""
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts: []
   # - host: fluent-bit.example.tld
   extraHosts: []
   # - host: fluent-bit-extra.example.tld
-      ## specify extraPort number
+  ## specify extraPort number
   #   port: 5170
   tls: []
   #  - secretName: fluent-bit-example-tld
@@ -171,17 +174,17 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 75
-#  targetMemoryUtilizationPercentage: 75
-   ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
+  #  targetMemoryUtilizationPercentage: 75
+  ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
   customRules: []
-#     - type: Pods
-#       pods:
-#         metric:
-#           name: packets-per-second
-#         target:
-#           type: AverageValue
-#           averageValue: 1k
-    ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
+  #     - type: Pods
+  #       pods:
+  #         metric:
+  #           name: packets-per-second
+  #         target:
+  #           type: AverageValue
+  #           averageValue: 1k
+  ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
   behavior: {}
 #      scaleDown:
 #        policies:
