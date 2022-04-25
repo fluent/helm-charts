@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "Add ability to manually set clusterIP address."
+    apiVersion: v1
+    appVersion: 1.8.15
+    created: "2022-04-25T00:44:34.006070569Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 93e0cd95c55fbdd2aedd4a674ec13cb55caee192600b11ee459872dace5a68b0
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.19.24/fluent-bit-0.19.24.tgz
+    version: 0.19.24
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: "Update fluent-bit image to 1.8.15."
     apiVersion: v1
@@ -3085,4 +3116,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-05T12:54:12.431894964Z"
+generated: "2022-04-25T00:44:34.00742498Z"
