@@ -179,11 +179,11 @@ volumes:
     path: /var/lib/docker/containers
 - name: etcfluentd-main
   configMap:
-    name: fluentd-main
+    name: "fluentd-main-{{ .Release.Name }}"
     defaultMode: 0777
 - name: etcfluentd-config
   configMap:
-    name: fluentd-config
+    name: "fluentd-config-{{ .Release.Name }}"
     defaultMode: 0777
 
 volumeMounts:
