@@ -53,7 +53,7 @@ lifecycle: {}
   #   exec:
   #     command: ["/bin/sh", "-c", "sleep 20"]
 
-# Configure the livessProbe
+# Configure the livenessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
   httpGet:
@@ -144,6 +144,14 @@ podAnnotations: {}
 ##
 podLabels: {}
 
+## How long (in seconds) a pods needs to be stable before progressing the deployment
+##
+minReadySeconds:
+
+## How long (in seconds) a pod may take to exit (useful with lifecycle hooks to ensure lb deregistration is done)
+##
+terminationGracePeriodSeconds:
+
 ## Deployment strategy / DaemonSet updateStrategy
 ##
 updateStrategy: {}
@@ -154,7 +162,7 @@ updateStrategy: {}
 ## Additional environment variables to set for fluentd pods
 env:
 - name: "FLUENTD_CONF"
-  value: "../../etc/fluent/fluent.conf"
+  value: "../../../etc/fluent/fluent.conf"
   # - name: FLUENT_ELASTICSEARCH_HOST
   #   value: "elasticsearch-master"
   # - name: FLUENT_ELASTICSEARCH_PORT
@@ -203,6 +211,8 @@ persistence:
 service:
   type: "ClusterIP"
   annotations: {}
+  # loadBalancerIP:
+  # externalTrafficPolicy: Local
   ports: []
   # - name: "forwarder"
   #   protocol: TCP

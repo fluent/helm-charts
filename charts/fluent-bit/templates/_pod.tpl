@@ -37,9 +37,15 @@ containers:
   {{- end }}
     image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
-  {{- if .Values.env }}
+  {{- if or .Values.env .Values.envWithTpl }}
     env:
-      {{- toYaml .Values.env | nindent 6 }}
+    {{- with .Values.env }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- range $item := .Values.envWithTpl }}
+      - name: {{ $item.name }}
+        value: {{ tpl $item.value $ | quote }}
+    {{- end }}
   {{- end }}
   {{- if .Values.envFrom }}
     envFrom:
@@ -55,7 +61,7 @@ containers:
   {{- end }}
     ports:
       - name: http
-        containerPort: 2020
+        containerPort: {{ .Values.metricsPort }}
         protocol: TCP
     {{- if .Values.extraPorts }}
       {{- range .Values.extraPorts }}

@@ -13,7 +13,7 @@ spec:
   maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
   selector:
     matchLabels:
-      {{- include "fluent-bit.labels" . | nindent 6 }}
+      {{- include "fluent-bit.selectorLabels" . | nindent 6 }}
       {{- with .Values.labels }}
         {{- toYaml . | nindent 6 }}
       {{- end }}

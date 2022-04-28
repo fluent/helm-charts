@@ -7,7 +7,7 @@ kind: DaemonSet
 replicaCount: 1
 
 image:
-  repository: fluent/fluent-bit
+  repository: cr.fluentbit.io/fluent/fluent-bit
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}
   tag: ""
   pullPolicy: Always
@@ -71,6 +71,7 @@ service:
   port: 2020
   labels: {}
   # nodePort: 30020
+  # clusterIP: 172.16.10.1
   annotations: {}
 #   prometheus.io/path: "/api/v1/metrics/prometheus"
 #   prometheus.io/port: "2020"
@@ -105,7 +106,7 @@ serviceMonitor:
 prometheusRule:
   enabled: false
 #   namespace: ""
-#   additionnalLabels: {}
+#   additionalLabels: {}
 #   rules:
 #   - alert: NoOutputBytesProcessed
 #     expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
@@ -146,6 +147,24 @@ resources: {}
 #   requests:
 #     cpu: 100m
 #     memory: 128Mi
+
+## only available if kind is Deployment
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+  # - host: fluent-bit.example.tld
+  extraHosts: []
+  # - host: fluent-bit-extra.example.tld
+      ## specify extraPort number
+  #   port: 5170
+  tls: []
+  #  - secretName: fluent-bit-example-tld
+  #    hosts:
+  #      - fluent-bit.example.tld
 
 ## only available if kind is Deployment
 autoscaling:
@@ -197,6 +216,17 @@ podLabels: {}
 priorityClassName: ""
 
 env: []
+#  - name: FOO
+#    value: "bar"
+
+# The envWithTpl array below has the same usage as "env", but is using the tpl function to support templatable string.
+# This can be useful when you want to pass dynamic values to the Chart using the helm argument "--set <variable>=<value>"
+# https://helm.sh/docs/howto/charts_tips_and_tricks/#using-the-tpl-function
+envWithTpl: []
+#  - name: FOO_2
+#    value: "{{ .Values.foo2 }}"
+#
+# foo2: bar2
 
 envFrom: []
 
@@ -204,6 +234,10 @@ extraContainers: []
 #   - name: do-something
 #     image: busybox
 #     command: ['do', 'something']
+
+flush: 1
+
+metricsPort: 2020
 
 extraPorts: []
 #   - port: 5170
@@ -236,13 +270,13 @@ config:
   service: |
     [SERVICE]
         Daemon Off
-        Flush 1
+        Flush {{ .Values.flush }}
         Log_Level {{ .Values.logLevel }}
         Parsers_File parsers.conf
         Parsers_File custom_parsers.conf
         HTTP_Server On
         HTTP_Listen 0.0.0.0
-        HTTP_Port {{ .Values.service.port }}
+        HTTP_Port {{ .Values.metricsPort }}
         Health_Check On
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs

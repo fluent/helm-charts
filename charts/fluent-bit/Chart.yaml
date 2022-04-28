@@ -5,15 +5,15 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.19.11
-appVersion: 1.8.11
+version: 0.19.24
+appVersion: 1.8.15
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
   - https://github.com/fluent/fluent-bit/
 maintainers:
   - name: edsiper
-    email: eduardo@treasure-data.com
+    email: eduardo@calyptia.com
   - name: naseemkullah
     email: naseem@transit.app
   - name: Towmeykaw
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Update Fluent Bit image to v1.8.11."
+    - kind: added
+      description: "Add ability to manually set clusterIP address."
