@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.19.24
-appVersion: 1.8.15
+version: 0.20.0
+appVersion: 1.9.3
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: "Add ability to manually set clusterIP address."
+    - kind: changed
+      description: "Update fluent-bit image to 1.9.3."
