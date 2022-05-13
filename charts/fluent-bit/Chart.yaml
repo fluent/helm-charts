@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.20.0
+version: 0.20.1
 appVersion: 1.9.3
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Update fluent-bit image to 1.9.3."
+    - kind: added
+      description: "Add initial Openshift SCC support"
