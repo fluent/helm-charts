@@ -170,6 +170,8 @@ env:
 
 envFrom: []
 
+initContainers: []
+
 volumes:
 - name: varlog
   hostPath:
