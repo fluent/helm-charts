@@ -13,6 +13,10 @@ securityContext:
 {{- with .Values.terminationGracePeriodSeconds }}
 terminationGracePeriodSeconds: {{ . }}
 {{- end }}
+{{- with .Values.initContainers }}
+initContainers:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
 containers:
   - name: {{ .Chart.Name }}
     securityContext:
