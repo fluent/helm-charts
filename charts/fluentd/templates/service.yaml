@@ -28,7 +28,7 @@ spec:
     port: {{ $port.containerPort }}
     targetPort: {{ $port.containerPort }}
     protocol: {{ $port.protocol }}
-    {{- if and ( eq .Values.service.type "NodePort" ) $port.nodePort }}
+    {{- if and ( eq $.Values.service.type "NodePort" ) $port.nodePort }}
     nodePort: {{ $port.nodePort }}
     {{- end }}
   {{- end }}
