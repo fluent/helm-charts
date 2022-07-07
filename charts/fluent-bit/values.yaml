@@ -364,6 +364,9 @@ daemonSetVolumes:
   - name: varlibdockercontainers
     hostPath:
       path: /var/lib/docker/containers
+  - name: varlibcontainerdlogpods
+    hostPath:
+      path: /var/lib/containerd/log/pods
   - name: etcmachineid
     hostPath:
       path: /etc/machine-id
@@ -374,6 +377,9 @@ daemonSetVolumeMounts:
     mountPath: /var/log
   - name: varlibdockercontainers
     mountPath: /var/lib/docker/containers
+    readOnly: true
+  - name: varlibcontainerdlogpods
+    mountPath: /var/lib/containerd/log/pods
     readOnly: true
   - name: etcmachineid
     mountPath: /etc/machine-id
