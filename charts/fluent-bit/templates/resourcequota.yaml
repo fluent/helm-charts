@@ -1,0 +1,17 @@
+{{- if .Values.resourceQuota }}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  labels:
+    {{- include "fluent-bit.labels" . | nindent 4 }}
+  name: {{ include "fluent-bit.fullname" . }}-critical-pods
+spec:
+  hard:
+    pods: {{ .Values.podCountLimit }}
+  scopeSelector:
+    matchExpressions:
+      - operator: In
+        scopeName: PriorityClass
+        values:
+          - {{ .Values.priorityClassName }}
+{{- end }}

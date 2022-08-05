@@ -221,6 +221,10 @@ podAnnotations: {}
 
 podLabels: {}
 
+resourceQuota: false
+
+podCountLimit: "1G"
+
 priorityClassName: ""
 
 env: []
