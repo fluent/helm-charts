@@ -221,9 +221,10 @@ podAnnotations: {}
 
 podLabels: {}
 
-resourceQuota: false
-
-podCountLimit: "1G"
+resourceQuota:
+  enabled: false
+  hard:
+    pods: "1G"
 
 priorityClassName: ""
 

@@ -1,13 +1,15 @@
-{{- if .Values.resourceQuota }}
+{{- if .Values.resourceQuota.enabled }}
 apiVersion: v1
 kind: ResourceQuota
 metadata:
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
-  name: {{ include "fluent-bit.fullname" . }}-critical-pods
+  name: {{ include "fluent-bit.fullname" . }}
 spec:
+  {{- with .Values.resourceQuota.hard }}
   hard:
-    pods: {{ .Values.podCountLimit }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   scopeSelector:
     matchExpressions:
       - operator: In
