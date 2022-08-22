@@ -330,6 +330,17 @@ config:
         Logstash_Prefix node
         Retry_Limit False
 
+  ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
+  upstream: {}
+#      upstream.conf: |
+#        [UPSTREAM]
+#            upstream1
+#
+#        [NODE]
+#            name       node-1
+#            host       127.0.0.1
+#            port       43000
+
   ## https://docs.fluentbit.io/manual/pipeline/parsers
   customParsers: |
     [PARSER]
