@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Update fluent-bit image to 1.9.8"
+    - kind: added
+      description: "tlsConfig and scheme values added for serviceMonitor"
