@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "tlsConfig and scheme values added for serviceMonitor"
+    apiVersion: v1
+    appVersion: 1.9.8
+    created: "2022-09-12T17:54:46.375931157Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: a094641a6e0bdf99675a6ecb98ed7404f0b1da8f1195ea991675cedc1563d768
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.20.8/fluent-bit-0.20.8.tgz
+    version: 0.20.8
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: "Update fluent-bit image to 1.9.8"
     apiVersion: v1
@@ -3402,4 +3433,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2022-09-12T11:03:01.704093776Z"
+generated: "2022-09-12T17:54:46.379864618Z"
