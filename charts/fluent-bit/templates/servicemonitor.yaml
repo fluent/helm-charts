@@ -36,6 +36,13 @@ spec:
       relabelings:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.serviceMonitor.scheme }}
+      scheme: {{ .Values.serviceMonitor.scheme }}
+      {{- end }}
+      {{- if .Values.serviceMonitor.tlsConfig }}
+      tlsConfig:
+        {{- toYaml .Values.serviceMonitor.tlsConfig | nindent 8 }}
+      {{- end }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
