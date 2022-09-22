@@ -7,16 +7,30 @@ metadata:
     {{- include "fluent-bit.labels" . | nindent 4 }}
 spec:
   policyTypes:
+    {{- if .Values.networkPolicy.egress.customRules }}
+    - "Egress"
+    {{- end }}
     - "Ingress"
   podSelector:
     matchLabels:
       {{- include "fluent-bit.selectorLabels" . | nindent 6 }}
+  {{- with .Values.networkPolicy.egress.customRules }}
+  egress:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   ingress:
-    {{- with .Values.networkPolicy.ingress }}
     - from:
-        {{- with .from }}{{- . | toYaml | nindent 8 }}{{- else }} []{{- end }}
+        {{- toYaml .Values.networkPolicy.ingress.from | nindent 8 }}
       ports:
         - protocol: "TCP"
-          port: {{ $.Values.service.port }}
+          port: {{ .Values.service.port }}
+        {{- if .Values.networkPolicy.ingress.includeExtraPorts }}
+          {{- range .Values.extraPorts }}
+        - protocol: {{ .protocol | quote }}
+          port: {{ .port }}
+          {{- end }}
+        {{- end}}
+    {{- with .Values.networkPolicy.ingress.customRules }}
+      {{- toYaml . | nindent 4 }}
     {{- end }}
 {{- end }}

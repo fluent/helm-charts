@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.21.3
+version: 0.22.0
 appVersion: 2.0.5
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -22,5 +22,9 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Update Fluent Bit configuration files URL"
+    - kind: added
+      description: "Ability to include provided extraPorts inside NetworkPolicy"
+    - kind: added
+      description: "Ability to provide custom egress rules inside NetworkPolicy"
+    - kind: added
+      description: "Ability to provide custom ingress rules inside NetworkPolicy"

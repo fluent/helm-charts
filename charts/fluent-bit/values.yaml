@@ -279,8 +279,30 @@ existingConfigMap: ""
 
 networkPolicy:
   enabled: false
-#   ingress:
-#     from: []
+  egress:
+    customRules: []
+    # - to:
+    #     - ipBlock:
+    #         cidr: 10.0.0.0/24
+    #   ports:
+    #     - protocol: TCP
+    #       port: 8443
+  ingress:
+    customRules: []
+    # - from:
+    #     - ipBlock:
+    #         cidr: 172.17.0.0/16
+    #         except:
+    #           - 172.17.1.0/24
+    #   ports:
+    #     - protocol: TCP
+    #       port: 2020
+    from: []
+    # - ipBlock:
+    #     cidr: 172.17.0.0/16
+    #     except:
+    #       - 172.17.1.0/24
+    includeExtraPorts: false
 
 luaScripts: {}
 
