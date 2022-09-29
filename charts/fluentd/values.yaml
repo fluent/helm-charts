@@ -56,26 +56,30 @@ lifecycle: {}
 # Configure the livenessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
-  httpGet:
-    path: /metrics
-    port: metrics
-    initialDelaySeconds: 60
-  # periodSeconds: 10
-  # timeoutSeconds: 1
-  # successThreshold: 1
-  # failureThreshold: 3
+  enabled: false
+  probes:
+    httpGet:
+      path: /metrics
+      port: metrics
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
 
 # Configure the readinessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 readinessProbe:
-  httpGet:
-    path: /metrics
-    port: metrics
-    initialDelaySeconds: 60
-  # periodSeconds: 10
-  # timeoutSeconds: 1
-  # successThreshold: 1
-  # failureThreshold: 3
+  enabled: false
+  probes:
+    httpGet:
+      path: /metrics
+      port: metrics
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
 
 resources: {}
   # requests:
