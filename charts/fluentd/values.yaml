@@ -375,10 +375,11 @@ fileConfigs:
         </metric>
       </filter>
 
-      <match **>
-        @type relabel
-        @label @OUTPUT
-      </match>
+      # elasticsearch must be running
+      # <match **>
+      #   @type relabel
+      #   @label @OUTPUT
+      # </match>
     </label>
 
   # elasticsearch must be running
