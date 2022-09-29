@@ -287,13 +287,14 @@ dashboards:
 
 ## Fluentd list of plugins to install
 ##
-plugins: []
+plugins:
+  - fluentd-prometheus-conf # required for liveness/readiness probes
 # - fluent-plugin-out-http
 
 ## Add fluentd config files from K8s configMaps
 ##
 configMapConfigs:
-  - fluentd-prometheus-conf
+  - fluentd-prometheus-conf # required for liveness/readiness probes
 # - fluentd-systemd-conf
 
 ## Fluentd configurations:
