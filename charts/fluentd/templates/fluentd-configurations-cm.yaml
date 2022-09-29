@@ -6,7 +6,7 @@ metadata:
     {{- include "fluentd.labels" . | nindent 4 }}
 data:
 {{- range $key, $value := .Values.fileConfigs }}
-  {{$key }}: |-
+  {{$key }}: |
     {{- $value | nindent 4 }}
 {{- end }}
 
@@ -19,7 +19,7 @@ metadata:
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
 data:
-  fluent.conf: |-
+  fluent.conf: |
     # do not collect fluentd logs to avoid infinite loops.
     <label @FLUENT_LOG>
       <match **>

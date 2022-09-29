@@ -299,7 +299,7 @@ configMapConfigs:
 ## Fluentd configurations:
 ##
 fileConfigs:
-  01_sources.conf: |-
+  01_sources.conf: |
     ## logs from podman
     <source>
       @type tail
@@ -328,7 +328,7 @@ fileConfigs:
       emit_unmatched_lines true
     </source>
 
-  02_filters.conf: |-
+  02_filters.conf: |
     <label @KUBERNETES>
       <match kubernetes.var.log.containers.fluentd**>
         @type relabel
@@ -355,7 +355,7 @@ fileConfigs:
       </match>
     </label>
 
-  03_dispatch.conf: |-
+  03_dispatch.conf: |
     <label @DISPATCH>
       <filter **>
         @type prometheus
@@ -376,7 +376,7 @@ fileConfigs:
       </match>
     </label>
 
-  04_outputs.conf: |-
+  04_outputs.conf: |
     <label @OUTPUT>
       <match **>
         @type elasticsearch
