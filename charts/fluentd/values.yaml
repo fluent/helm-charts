@@ -59,7 +59,7 @@ livenessProbe:
   httpGet:
     path: /metrics
     port: metrics
-  # initialDelaySeconds: 0
+    initialDelaySeconds: 60
   # periodSeconds: 10
   # timeoutSeconds: 1
   # successThreshold: 1
@@ -71,7 +71,7 @@ readinessProbe:
   httpGet:
     path: /metrics
     port: metrics
-  # initialDelaySeconds: 0
+    initialDelaySeconds: 60
   # periodSeconds: 10
   # timeoutSeconds: 1
   # successThreshold: 1
