@@ -381,14 +381,15 @@ fileConfigs:
       </match>
     </label>
 
-  04_outputs.conf: |+
-    <label @OUTPUT>
-      <match **>
-        @type elasticsearch
-        host "elasticsearch-master"
-        port 9200
-        path ""
-        user elastic
-        password changeme
-      </match>
-    </label>
+  # elasticsearch must be running
+  # 04_outputs.conf: |+
+  #   <label @OUTPUT>
+  #     <match **>
+  #       @type elasticsearch
+  #       host "elasticsearch-master"
+  #       port 9200
+  #       path ""
+  #       user elastic
+  #       password changeme
+  #     </match>
+  #   </label>
