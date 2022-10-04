@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.20.8
-appVersion: 1.9.8
+version: 0.20.9
+appVersion: 1.9.9
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: "tlsConfig and scheme values added for serviceMonitor"
+    - kind: changed
+      description: "Updated Fluent Bit image to v1.9.9."
