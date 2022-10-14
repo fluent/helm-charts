@@ -387,3 +387,6 @@ fileConfigs:
         password changeme
       </match>
     </label>
+
+testFramework:
+  enabled: true
