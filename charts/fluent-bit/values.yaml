@@ -13,6 +13,7 @@ image:
   pullPolicy: Always
 
 testFramework:
+  enabled: true
   image:
     repository: busybox
     pullPolicy: Always
