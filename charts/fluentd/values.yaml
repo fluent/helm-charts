@@ -159,6 +159,11 @@ updateStrategy: {}
 #   rollingUpdate:
 #     maxUnavailable: 1
 
+# NetworkPolicy, egress rules can be configured if needed
+networkPolicy:
+  enabled: false
+  egress: []
+
 ## Additional environment variables to set for fluentd pods
 env:
 - name: "FLUENTD_CONF"
