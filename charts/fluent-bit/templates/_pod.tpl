@@ -84,6 +84,11 @@ containers:
   {{- end }}
     volumeMounts:
       {{- toYaml .Values.volumeMounts | nindent 6 }}
+    {{- range $key, $val := .Values.config.upstream }}
+      - name: config
+        mountPath: /fluent-bit/etc/{{ $key }}
+        subPath: {{ $key }}
+    {{- end }}
     {{- range $key, $val := .Values.config.extraFiles }}
       - name: config
         mountPath: /fluent-bit/etc/{{ $key }}
