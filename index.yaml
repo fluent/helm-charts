@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Mark config.upstream as deprecated"
+    apiVersion: v1
+    appVersion: 1.9.9
+    created: "2022-11-01T10:01:21.433964057Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: aac81fbec14fc296d79a9bb4901df8e3dd2ecaeb771ecfee6688a9a9a47cb603
+    home: https://fluentbit.io/
+    icon: https://fluentbit.io/assets/img/logo1-default.png
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.20.10/fluent-bit-0.20.10.tgz
+    version: 0.20.10
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Updated Fluent Bit image to v1.9.9."
     apiVersion: v1
     appVersion: 1.9.9
@@ -3464,4 +3495,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2022-10-04T15:42:29.154486816Z"
+generated: "2022-11-01T10:01:21.435383569Z"
