@@ -31,7 +31,7 @@ First, you should add your Lua scripts to `luaScripts` in values.yaml, for examp
 
 ```yaml
 luaScripts:
- filter_example.lua: |
+  filter_example.lua: |
     function filter_name(tag, timestamp, record)
         -- put your lua code here.
     end
