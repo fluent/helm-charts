@@ -223,6 +223,14 @@ podAnnotations: {}
 
 podLabels: {}
 
+## How long (in seconds) a pods needs to be stable before progressing the deployment
+##
+minReadySeconds:
+
+## How long (in seconds) a pod may take to exit (useful with lifecycle hooks to ensure lb deregistration is done)
+##
+terminationGracePeriodSeconds:
+
 priorityClassName: ""
 
 env: []
