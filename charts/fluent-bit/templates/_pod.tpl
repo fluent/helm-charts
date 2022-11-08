@@ -74,10 +74,12 @@ containers:
     lifecycle:
       {{- toYaml . | nindent 6 }}
   {{- end }}
+  {{- if .Values.podHealthCheck }}
     livenessProbe:
       {{- toYaml .Values.livenessProbe | nindent 6 }}
     readinessProbe:
       {{- toYaml .Values.readinessProbe | nindent 6 }}
+  {{- end }}
   {{- with .Values.resources }}
     resources:
       {{- toYaml . | nindent 6 }}

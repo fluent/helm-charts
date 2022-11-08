@@ -140,6 +140,8 @@ lifecycle: {}
   #   exec:
   #     command: ["/bin/sh", "-c", "sleep 20"]
 
+podHealthCheck: false
+
 livenessProbe:
   httpGet:
     path: /
