@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.20.11
-appVersion: 1.9.9
+version: 0.21.0
+appVersion: 2.0.4
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
 sources:
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: "Support for terminationGracePeriodSeconds and minReadySeconds added"
+    - kind: changed
+      description: "Update fluent-bit image to 2.0.4"
