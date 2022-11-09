@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Mark config.upstream as deprecated"
+    - kind: added
+      description: "Support for terminationGracePeriodSeconds and minReadySeconds added"
