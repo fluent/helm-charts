@@ -11,6 +11,9 @@ priorityClassName: {{ .Values.priorityClassName }}
 securityContext:
   {{- toYaml . | nindent 2 }}
 {{- end }}
+{{- with .Values.terminationGracePeriodSeconds }}
+terminationGracePeriodSeconds: {{ . }}
+{{- end }}
 hostNetwork: {{ .Values.hostNetwork }}
 dnsPolicy: {{ .Values.dnsPolicy }}
 {{- with .Values.dnsConfig }}

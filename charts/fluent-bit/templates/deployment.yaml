@@ -23,6 +23,9 @@ spec:
   selector:
     matchLabels:
       {{- include "fluent-bit.selectorLabels" . | nindent 6 }}
+  {{- with .Values.minReadySeconds }}
+  minReadySeconds: {{ . }}
+  {{- end }}
   template:
     metadata:
       annotations:

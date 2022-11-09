@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.20.10
+version: 0.20.11
 appVersion: 1.9.9
 icon: https://fluentbit.io/assets/img/logo1-default.png
 home: https://fluentbit.io/
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Mark config.upstream as deprecated"
+    - kind: added
+      description: "Support for terminationGracePeriodSeconds and minReadySeconds added"
