@@ -5,9 +5,9 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.21.1
+version: 0.21.2
 appVersion: 2.0.5
-icon: https://fluentbit.io/assets/img/logo1-default.png
+icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
 sources:
   - https://github.com/fluent/fluent-bit/
@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: "Update fluent-bit image to 2.0.5"
+      description: "Fix broken icon URL"
