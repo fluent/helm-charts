@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Update Fluent Bit configuration files URL"
+    apiVersion: v1
+    appVersion: 2.0.5
+    created: "2022-11-24T17:12:55.335559997Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 468231d8731f4a3077cae9ca553e3bdfd18415251b0ec7a15496d11e2c12daa3
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.21.3/fluent-bit-0.21.3.tgz
+    version: 0.21.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Fix broken icon URL"
     apiVersion: v1
     appVersion: 2.0.5
@@ -3619,4 +3650,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2022-11-21T18:19:11.745948531Z"
+generated: "2022-11-24T17:12:55.336953504Z"
