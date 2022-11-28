@@ -78,6 +78,8 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 2020
+  loadBalancerClass:
+  loadBalancerSourceRanges: []
   labels: {}
   # nodePort: 30020
   # clusterIP: 172.16.10.1
