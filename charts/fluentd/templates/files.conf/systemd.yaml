@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
-  name: fluentd-systemd-conf
+  name: {{ include "fluentd.fullname" . }}-fluentd-systemd-conf
 data:
   systemd.conf: |-
     <source>
