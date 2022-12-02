@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "Add support for service.loadBalancerSourceRanges and service.loadBalancerClass"
+    apiVersion: v1
+    appVersion: 2.0.6
+    created: "2022-12-02T00:03:28.496339457Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: fd45b504670cc67367d10f5f5827b525df49976c6f4e025b41dc7c77b70f4ed8
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.21.5/fluent-bit-0.21.5.tgz
+    version: 0.21.5
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: "Update fluent-bit image to 2.0.6"
     apiVersion: v1
@@ -3681,4 +3712,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2022-11-28T11:14:05.621597358Z"
+generated: "2022-12-02T00:03:28.497912639Z"
