@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.21.5
+version: 0.21.6
 appVersion: 2.0.6
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: "Add support for service.loadBalancerSourceRanges and service.loadBalancerClass"
+    - kind: fixed
+      description: "Prevent PodSecurityPolicy from being created when Kubernetes version is 1.25 or higher"
