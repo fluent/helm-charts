@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: "Prevent PodSecurityPolicy from being created when Kubernetes version is 1.25 or higher"
+    apiVersion: v1
+    appVersion: 2.0.6
+    created: "2022-12-14T09:43:14.418340392Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 8d7bbe5e0bb101bbbe29206495780895f22d71897a818b1945aa7738cd443f8f
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.21.6/fluent-bit-0.21.6.tgz
+    version: 0.21.6
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: "Add support for service.loadBalancerSourceRanges and service.loadBalancerClass"
     apiVersion: v1
@@ -3712,4 +3743,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2022-12-02T00:03:28.497912639Z"
+generated: "2022-12-14T09:43:14.420756804Z"
