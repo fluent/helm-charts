@@ -19,7 +19,7 @@ rules:
       - get
       - list
       - watch
-  {{- if .Values.podSecurityPolicy.create }}
+  {{- if and .Values.podSecurityPolicy.create (semverCompare "<=1.25-0" .Capabilities.KubeVersion.GitVersion) }}
   - apiGroups:
       - policy
     resources:
