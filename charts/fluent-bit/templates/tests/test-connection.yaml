@@ -8,6 +8,7 @@ metadata:
   annotations:
     "helm.sh/hook": test-success
 spec:
+  serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
   containers:
     - name: wget
       image: "{{ .Values.testFramework.image.repository }}:{{ .Values.testFramework.image.tag }}"
