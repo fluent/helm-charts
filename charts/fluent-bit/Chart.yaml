@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.21.6
-appVersion: 2.0.6
+version: 0.21.7
+appVersion: 2.0.8
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
 sources:
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: "Prevent PodSecurityPolicy from being created when Kubernetes version is 1.25 or higher"
+    - kind: changed
+      description: "Update fluent-bit image to 2.0.8"
