@@ -1,0 +1,14 @@
+{{- if .Values.Kubernetes -}}
+{{- if .Values.fluentbit.output.stdout.enable -}}
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterOutput
+metadata:
+  name: stdout
+  labels:
+    fluentbit.fluent.io/enabled: "true"
+    fluentbit.fluent.io/component: logging
+spec:
+  match: "*"
+  stdout: {}
+{{- end }}
+{{- end }}
