@@ -1,6 +1,9 @@
 {{- define "fluent-bit.pod" -}}
 serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
 {{- with .Values.imagePullSecrets }}
+{{ if .Values.shareProcessNamespace }}
+shareProcessNamespace: true
+{{ end }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
 {{- end }}
