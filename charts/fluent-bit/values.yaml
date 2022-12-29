@@ -256,6 +256,10 @@ envWithTpl: []
 
 envFrom: []
 
+# shareProcessNamespace enables process namespace sharing between fluent-bit and the extraContainers
+# This is useful if fluent-bit must be signaled, e.g. to send a SIGHUP for a configuration reload
+shareProcessNamespace: false
+
 extraContainers: []
 #   - name: do-something
 #     image: busybox
