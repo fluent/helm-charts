@@ -35,6 +35,8 @@ containers:
   {{- end }}
   {{- if .Values.env }}
     env:
+      - name: FLUENTD_CONF
+        value: "../../../etc/fluent/fluent.conf"
     {{- toYaml .Values.env | nindent 6 }}
   {{- end }}
   {{- if .Values.envFrom }}
@@ -42,14 +44,14 @@ containers:
     {{- toYaml .Values.envFrom | nindent 6 }}
   {{- end }}
     ports:
-    - name: metrics
-      containerPort: 24231
-      protocol: TCP
-    {{- range $port := .Values.service.ports }}
-    - name: {{ $port.name }}
-      containerPort: {{ $port.containerPort }}
-      protocol: {{ $port.protocol }}
-    {{- end }}
+      - name: metrics
+        containerPort: 24231
+        protocol: TCP
+      {{- range $port := .Values.service.ports }}
+      - name: {{ $port.name }}
+        containerPort: {{ $port.containerPort }}
+        protocol: {{ $port.protocol }}
+      {{- end }}
     {{- with .Values.lifecycle }}
     lifecycle:
       {{- toYaml . | nindent 6 }}
@@ -61,9 +63,24 @@ containers:
     resources:
       {{- toYaml .Values.resources | nindent 8 }}
     volumeMounts:
+      - name: etcfluentd-main
+        mountPath: /etc/fluent
+      - name: etcfluentd-config
+        mountPath: /etc/fluent/config.d/
+      {{- if .Values.mountVarLogDirectory }}
+      - name: varlog
+        mountPath: /var/log
+      {{- end }}
+      {{- if .Values.mountDockerContainersDirectory }}
+      - name: varlibdockercontainers
+        mountPath: /var/lib/docker/containers
+        readOnly: true
+      {{- end }}
+      {{- if .Values.volumeMounts -}}
       {{- toYaml .Values.volumeMounts | nindent 6 }}
+      {{- end -}}
       {{- range $key := .Values.configMapConfigs }}
-      {{- print "- name: fluentd-custom-cm-" $key  | nindent 6 }}
+      {{- print "- name: " $key | nindent 6 }}
         {{- print "mountPath: /etc/fluent/" $key ".d"  | nindent 8 }}
       {{- end }}
       {{- if .Values.persistence.enabled }}
@@ -71,11 +88,31 @@ containers:
         name: {{ include "fluentd.fullname" . }}-buffer
       {{- end }}
 volumes:
-  {{- toYaml .Values.volumes | nindent 2 }}
-  {{- range $key := .Values.configMapConfigs }}
-  {{- print "- name: fluentd-custom-cm-" $key  | nindent 2 }}
+  - name: etcfluentd-main
     configMap:
-      {{- print "name: " .  | nindent 6 }}
+      name: {{ include "fluentd.mainConfigMapName" . }}
+      defaultMode: 0777
+  - name: etcfluentd-config
+    configMap:
+      name: {{ include "fluentd.extraFilesConfigMapName" . }}
+      defaultMode: 0777
+  {{- if .Values.mountVarLogDirectory }}
+  - name: varlog
+    hostPath:
+      path: /var/log
+  {{- end }}
+  {{- if .Values.mountDockerContainersDirectory }}
+  - name: varlibdockercontainers
+    hostPath:
+      path: /var/lib/docker/containers
+  {{- end }}
+  {{- if .Values.volumes -}}
+  {{- toYaml .Values.volumes | nindent 2 }}
+  {{- end -}}
+  {{- range $key := .Values.configMapConfigs }}
+  {{- print "- name: " $key | nindent 2 }}
+    configMap:
+      {{- print "name: " $key "-" ( include "fluentd.shortReleaseName" $ ) | nindent 6 }}
       defaultMode: 0777
   {{- end }}
 {{- with .Values.nodeSelector }}

@@ -61,3 +61,32 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "fluentd.shortReleaseName" -}}
+{{- .Release.Name | trunc 35 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "fluentd.mainConfigMapName" -}}
+{{- if .Values.mainConfigMapNameOverride -}}
+    {{ .Values.mainConfigMapNameOverride }}
+{{- else -}}
+    {{ printf "%s-%s" "fluentd-main" ( include "fluentd.shortReleaseName" . ) }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "fluentd.extraFilesConfigMapName" -}}
+{{- if .Values.extraFilesConfigMapNameOverride -}}
+    {{ printf "%s" .Values.extraFilesConfigMapNameOverride }}
+{{- else -}}
+    {{ printf "%s-%s" "fluentd-config" ( include "fluentd.shortReleaseName" . ) }}
+{{- end -}}
+{{- end -}}

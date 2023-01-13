@@ -18,6 +18,16 @@ helm repo add fluent https://fluent.github.io/helm-charts
 
 You can then run `helm search repo fluent` to see the charts.
 
+## Upgrading
+
+Although the services will deploy and generally work, version 1.0 introduces some changes that are considered _breaking changes_. To upgrade, you should do the following to avoid any potential conflicts or problems:
+
+- Add the `mountVarLogDirectory` and `mountDockerContainersDirectory` values and set them to the values you need; to follow the previous setup where these were mounted by default, set the values to `true`, e.g. `mountVarLogDirectory: true`
+- If you have the `varlog` mount point defined and enabled under both `volumes` and `volumeMounts`, set `mountVarLogDirectory` to true
+- If you have the `varlibdockercontainers` mount point defined and enabled under both `volumes` and `volumeMounts`, set `mountDockerContainersDirectory` to true
+- Remove the previous default volume and volume mount definitions - `etcfluentd-main`, `etcfluentd-config`, `varlog`, and `varlibdockercontainers`
+- Remove the `FLUENTD_CONF` entry from the `env:` list
+
 ## Contributing
 
 We'd love to have you contribute! Please refer to our [contribution guidelines](CONTRIBUTING.md) for details.
