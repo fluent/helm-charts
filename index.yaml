@@ -3336,6 +3336,29 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.1.0/fluent-bit-0.1.0.tgz
     version: 0.1.0
+  fluent-operator:
+  - apiVersion: v2
+    appVersion: 1.7.0
+    created: "2023-02-01T13:10:04.819814816Z"
+    description: Fluent Operator provides great flexibility in building a logging
+      layer based on Fluent Bit and Fluentd.
+    digest: 781a00eff240f045c52acc92d64bf4bd3e2830ab46079e2536a896df1e0cd0fc
+    home: https://www.fluentd.org/
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    - operator
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    name: fluent-operator
+    sources:
+    - https://github.com/fluent/fluent-operator
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-1.7.2/fluent-operator-1.7.2.tgz
+    version: 1.7.2
   fluentd:
   - apiVersion: v2
     appVersion: v1.14.6
@@ -3805,4 +3828,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2023-01-20T16:31:32.036102618Z"
+generated: "2023-02-01T13:10:04.82103451Z"
