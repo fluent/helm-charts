@@ -1,0 +1,42 @@
+{{- if .Values.Kubernetes -}}
+{{- if .Values.fluentbit.output.es.enable -}}
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterOutput
+metadata:
+  name: es
+  labels:
+    fluentbit.fluent.io/enabled: "true"
+    fluentbit.fluent.io/component: logging
+spec:
+  matchRegex: (?:kube|service)\.(.*)
+  es:
+    host: {{ .Values.fluentbit.output.es.host }}
+    port: {{ .Values.fluentbit.output.es.port }}
+{{- if .Values.fluentbit.output.es.path }}
+    path: {{ .Values.fluentbit.output.es.path }}
+{{- end }}
+{{- if .Values.fluentbit.output.es.bufferSize }}
+    bufferSize: {{ .Values.fluentbit.output.es.bufferSize }}
+{{- end }}
+{{- if .Values.fluentbit.output.es.index }}
+    index: {{ .Values.fluentbit.output.es.index }}
+{{- end }}
+{{- if .Values.fluentbit.output.es.httpUser }}
+    httpUser:
+{{ toYaml .Values.fluentbit.output.es.httpUser | indent 6 }}
+{{- end }}
+{{- if .Values.fluentbit.output.es.httpPassword }}
+    httpPassword:
+{{ toYaml .Values.fluentbit.output.es.httpPassword | indent 6 }}
+{{- end }}
+    logstashFormat: {{ .Values.fluentbit.output.es.logstashFormat | default true }}
+    logstashPrefix: {{ .Values.fluentbit.output.es.logstashPrefix | default "ks-logstash-log" | quote }}
+    replaceDots: {{ .Values.fluentbit.output.es.replaceDots | default false }}
+    generateID: true
+    timeKey: "@timestamp"
+{{- if .Values.fluentbit.output.es.enableTLS }}
+    tls:
+{{ toYaml .Values.fluentbit.output.es.tls | indent 6 }}
+{{- end }}
+{{- end }}
+{{- end }}

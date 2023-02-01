@@ -120,7 +120,7 @@ serviceMonitor:
 #      action: replace
 #  scheme: ""
 #  tlsConfig: {}
-  
+
   ## Beare in mind if youn want to collec metrics from a different port
   ## you will need to configure the new ports on the extraPorts property.
   additionalEndpoints: {}

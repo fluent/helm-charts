@@ -1,0 +1,17 @@
+apiVersion: v2
+name: fluent-operator
+description: Fluent Operator provides great flexibility in building a logging layer based on Fluent Bit and Fluentd.
+keywords:
+  - logging
+  - fluent-bit
+  - fluentd
+  - operator
+version: 1.7.2
+appVersion: 1.7.0
+icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+home: https://www.fluentd.org/
+sources:
+  - https://github.com/fluent/fluent-operator
+maintainers:
+  - name: wenchajun
+    email: dehaocheng@kubesphere.io
