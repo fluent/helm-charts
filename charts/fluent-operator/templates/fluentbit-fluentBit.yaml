@@ -1,0 +1,52 @@
+{{- if .Values.Kubernetes -}}
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: FluentBit
+metadata:
+  name: fluent-bit
+  labels:
+    app.kubernetes.io/name: fluent-bit
+spec:
+  image: {{ .Values.fluentbit.image.repository }}:{{ .Values.fluentbit.image.tag }}
+  {{- if .Values.fluentbit.imagePullSecrets }}
+  imagePullSecrets:
+{{ toYaml .Values.fluentbit.imagePullSecrets | indent 4 }}
+  {{- end }}
+  positionDB:
+    hostPath:
+      path: /var/lib/fluent-bit/
+  resources:
+{{- toYaml .Values.fluentbit.resources | nindent 4  }}
+  fluentBitConfigName: fluent-bit-config
+  tolerations:
+    - operator: Exists
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/edge
+                operator: DoesNotExist
+  {{- if .Values.fluentbit.secrets }}
+  secrets:
+{{ toYaml .Values.fluentbit.secrets | indent 4 }}
+  {{- end }}
+  {{- if .Values.fluentbit.additionalVolumes }}
+  volumes:
+{{ toYaml .Values.fluentbit.additionalVolumes | indent 4 }}
+  {{- end }}
+  {{- if .Values.fluentbit.additionalVolumesMounts }}
+  volumesMounts:
+{{ toYaml .Values.fluentbit.additionalVolumesMounts | indent 4 }}
+  {{- end }}
+  {{- if .Values.fluentbit.annotations }}
+  annotations:
+{{ toYaml .Values.fluentbit.annotations | indent 4 }}
+  {{- if .Values.fluentbit.output.stdout }}
+    fluentbit.io/exclude: "true"
+  {{- end }}
+  {{- end }}
+  {{- if .Values.fluentbit.labels }}
+  labels:
+{{ toYaml .Values.fluentbit.labels | indent 4 }}
+  {{- end }}
+{{- end }}
