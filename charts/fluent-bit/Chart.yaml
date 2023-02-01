@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.22.0
+version: 0.23.0
 appVersion: 2.0.8
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: "Added support for using the Vertical Pod Autoscaler (VPA) to recommend or modify pod resources."
+      description: "Service monitor additional endpoints support"
