@@ -33,12 +33,12 @@ containers:
       {{- end }}
       exec /fluentd/entrypoint.sh
   {{- end }}
-  {{- if .Values.env }}
     env:
       - name: FLUENTD_CONF
         value: "../../../etc/fluent/fluent.conf"
+    {{- if .Values.env }}
     {{- toYaml .Values.env | nindent 6 }}
-  {{- end }}
+    {{- end }}
   {{- if .Values.envFrom }}
     envFrom:
     {{- toYaml .Values.envFrom | nindent 6 }}
