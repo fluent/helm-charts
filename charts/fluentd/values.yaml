@@ -290,100 +290,108 @@ dashboards:
 plugins: []
 # - fluent-plugin-out-http
 
+defaultConfigs:
+  prometheusConf:
+    enabled: true
+  systemdConf:
+    enabled: false
+
 ## Add fluentd config files from K8s configMaps
 ##
 configMapConfigs:
-  - fluentd-prometheus-conf
-# - fluentd-systemd-conf
+# - 01_sources.conf
+# - 02_filters.conf
+# - 03_dispatch.conf
+# - 04_outputs.conf
 
 ## Fluentd configurations:
 ##
 fileConfigs:
-  01_sources.conf: |-
-    ## logs from podman
-    <source>
-      @type tail
-      @id in_tail_container_logs
-      @label @KUBERNETES
-      path /var/log/containers/*.log
-      pos_file /var/log/fluentd-containers.log.pos
-      tag kubernetes.*
-      read_from_head true
-      <parse>
-        @type multi_format
-        <pattern>
-          format json
-          time_key time
-          time_type string
-          time_format "%Y-%m-%dT%H:%M:%S.%NZ"
-          keep_time_key false
-        </pattern>
-        <pattern>
-          format regexp
-          expression /^(?<time>.+) (?<stream>stdout|stderr)( (.))? (?<log>.*)$/
-          time_format '%Y-%m-%dT%H:%M:%S.%NZ'
-          keep_time_key false
-        </pattern>
-      </parse>
-      emit_unmatched_lines true
-    </source>
+  - 01_sources.conf: |-
+      ## logs from podman
+      <source>
+        @type tail
+        @id in_tail_container_logs
+        @label @KUBERNETES
+        path /var/log/containers/*.log
+        pos_file /var/log/fluentd-containers.log.pos
+        tag kubernetes.*
+        read_from_head true
+        <parse>
+          @type multi_format
+          <pattern>
+            format json
+            time_key time
+            time_type string
+            time_format "%Y-%m-%dT%H:%M:%S.%NZ"
+            keep_time_key false
+          </pattern>
+          <pattern>
+            format regexp
+            expression /^(?<time>.+) (?<stream>stdout|stderr)( (.))? (?<log>.*)$/
+            time_format '%Y-%m-%dT%H:%M:%S.%NZ'
+            keep_time_key false
+          </pattern>
+        </parse>
+        emit_unmatched_lines true
+      </source>
 
-  02_filters.conf: |-
-    <label @KUBERNETES>
-      <match kubernetes.var.log.containers.fluentd**>
-        @type relabel
-        @label @FLUENT_LOG
-      </match>
+  - 02_filters.conf: |-
+      <label @KUBERNETES>
+        <match kubernetes.var.log.containers.fluentd**>
+          @type relabel
+          @label @FLUENT_LOG
+        </match>
 
-      # <match kubernetes.var.log.containers.**_kube-system_**>
-      #   @type null
-      #   @id ignore_kube_system_logs
-      # </match>
+        # <match kubernetes.var.log.containers.**_kube-system_**>
+        #   @type null
+        #   @id ignore_kube_system_logs
+        # </match>
 
-      <filter kubernetes.**>
-        @type kubernetes_metadata
-        @id filter_kube_metadata
-        skip_labels false
-        skip_container_metadata false
-        skip_namespace_metadata true
-        skip_master_url true
-      </filter>
+        <filter kubernetes.**>
+          @type kubernetes_metadata
+          @id filter_kube_metadata
+          skip_labels false
+          skip_container_metadata false
+          skip_namespace_metadata true
+          skip_master_url true
+        </filter>
 
-      <match **>
-        @type relabel
-        @label @DISPATCH
-      </match>
-    </label>
+        <match **>
+          @type relabel
+          @label @DISPATCH
+        </match>
+      </label>
 
-  03_dispatch.conf: |-
-    <label @DISPATCH>
-      <filter **>
-        @type prometheus
-        <metric>
-          name fluentd_input_status_num_records_total
-          type counter
-          desc The total number of incoming records
-          <labels>
-            tag ${tag}
-            hostname ${hostname}
-          </labels>
-        </metric>
-      </filter>
+  - 03_dispatch.conf: |-
+      <label @DISPATCH>
+        <filter **>
+          @type prometheus
+          <metric>
+            name fluentd_input_status_num_records_total
+            type counter
+            desc The total number of incoming records
+            <labels>
+              tag ${tag}
+              hostname ${hostname}
+            </labels>
+          </metric>
+        </filter>
 
-      <match **>
-        @type relabel
-        @label @OUTPUT
-      </match>
-    </label>
+        <match **>
+          @type relabel
+          @label @OUTPUT
+        </match>
+      </label>
 
-  04_outputs.conf: |-
-    <label @OUTPUT>
-      <match **>
-        @type elasticsearch
-        host "elasticsearch-master"
-        port 9200
-        path ""
-        user elastic
-        password changeme
-      </match>
-    </label>
+  - 04_outputs.conf: |-
+      <label @OUTPUT>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+        </match>
+      </label>

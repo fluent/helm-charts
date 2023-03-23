@@ -62,6 +62,14 @@ containers:
       {{- toYaml .Values.resources | nindent 8 }}
     volumeMounts:
       {{- toYaml .Values.volumeMounts | nindent 6 }}
+      {{- if .Values.defaultConfigs.prometheusConf.enabled }}
+      - name: fluentd-custom-cm-fluentd-prometheus-conf
+        mountPath: /etc/fluent/fluentd-prometheus-conf.d
+      {{- end }}
+      {{- if .Values.defaultConfigs.systemdConf.enabled }}
+      - name: fluentd-custom-cm-fluentd-systemd-conf
+        mountPath: /etc/fluent/fluentd-systemd-conf.d
+      {{- end }}
       {{- range $key := .Values.configMapConfigs }}
       {{- print "- name: fluentd-custom-cm-" $key  | nindent 6 }}
         {{- print "mountPath: /etc/fluent/" $key ".d"  | nindent 8 }}
@@ -72,6 +80,18 @@ containers:
       {{- end }}
 volumes:
   {{- toYaml .Values.volumes | nindent 2 }}
+  {{- if .Values.defaultConfigs.prometheusConf.enabled }}
+  - name: fluentd-custom-cm-fluentd-prometheus-conf
+    configMap:
+      name: fluentd-prometheus-conf
+      defaultMode: 0777
+  {{- end }}
+  {{- if .Values.defaultConfigs.systemdConf.enabled }}
+  - name: fluentd-custom-cm-fluentd-systemd-conf
+    configMap:
+      name: fluentd-systemd-conf
+      defaultMode: 0777
+  {{- end }}
   {{- range $key := .Values.configMapConfigs }}
   {{- print "- name: fluentd-custom-cm-" $key  | nindent 2 }}
     configMap:
