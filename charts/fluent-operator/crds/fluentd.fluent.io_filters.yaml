@@ -43,6 +43,14 @@ spec:
                   description: Filter defines all available filter plugins and their
                     parameters.
                   properties:
+                    customPlugin:
+                      description: Custom plugin type
+                      properties:
+                        config:
+                          type: string
+                      required:
+                      - config
+                      type: object
                     grep:
                       description: The filter_grep filter plugin
                       properties:
