@@ -14,7 +14,7 @@ metadata:
   {{- end }}
   labels:
     {{- include "fluent-bit.labels" $ | nindent 4 }}
-    {{ $.Values.dashboards.labelKey }}: "1"
+    {{ $.Values.dashboards.labelKey }}: {{ $.Values.dashboards.labelValue | quote }}
 data:
   {{ base $path }}: |
     {{- tpl ($.Files.Get $path) $ | nindent 4 }}
