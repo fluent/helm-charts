@@ -167,6 +167,7 @@ prometheusRule:
 dashboards:
   enabled: false
   labelKey: grafana_dashboard
+  labelValue: 1
   annotations: {}
   namespace: ""
 
