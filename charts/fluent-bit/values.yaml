@@ -479,3 +479,10 @@ initContainers: []
 #     command: ['kubectl', 'version']
 
 logLevel: info
+
+# Applicable to kind=StatefulSet only
+persistence: {}
+#  enabled: "true"
+#  size: 50Gi
+#  storageClass: ebs-gp3
+#  accessMode: ReadWriteOnce
