@@ -5,22 +5,22 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: clusteroutputs.fluentbit.fluent.io
+  name: outputs.fluentbit.fluent.io
 spec:
   group: fluentbit.fluent.io
   names:
-    kind: ClusterOutput
-    listKind: ClusterOutputList
-    plural: clusteroutputs
+    kind: Output
+    listKind: OutputList
+    plural: outputs
     shortNames:
-    - cfbo
-    singular: clusteroutput
-  scope: Cluster
+    - fbo
+    singular: output
+  scope: Namespaced
   versions:
   - name: v1alpha2
     schema:
       openAPIV3Schema:
-        description: ClusterOutput is the Schema for the cluster-level outputs API
+        description: Output is the schema for namespace level output API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

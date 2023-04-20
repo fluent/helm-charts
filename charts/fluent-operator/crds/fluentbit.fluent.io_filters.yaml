@@ -5,22 +5,22 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: clusterfilters.fluentbit.fluent.io
+  name: filters.fluentbit.fluent.io
 spec:
   group: fluentbit.fluent.io
   names:
-    kind: ClusterFilter
-    listKind: ClusterFilterList
-    plural: clusterfilters
+    kind: Filter
+    listKind: FilterList
+    plural: filters
     shortNames:
-    - cfbf
-    singular: clusterfilter
-  scope: Cluster
+    - fbf
+    singular: filter
+  scope: Namespaced
   versions:
   - name: v1alpha2
     schema:
       openAPIV3Schema:
-        description: ClusterFilter defines a cluster-level Filter configuration.
+        description: Filter is the Schema for namespace level filter API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -35,7 +35,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: Specification of desired Filter configuration.
+            description: FilterSpec defines the desired state of ClusterFilter
             properties:
               filters:
                 description: A set of filter plugins in order.
