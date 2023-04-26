@@ -1,3 +1,4 @@
+{{- if .Values.defaultConfigs.prometheusConf.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -23,3 +24,4 @@ data:
       @type prometheus_output_monitor
       @id in_prometheus_output_monitor
     </source>
+{{- end }}

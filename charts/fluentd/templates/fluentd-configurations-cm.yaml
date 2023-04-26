@@ -1,3 +1,4 @@
+{{- if .Values.fileConfigs }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -5,9 +6,9 @@ metadata:
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
 data:
-{{- range $key, $value := .Values.fileConfigs }}
-  {{$key }}: |-
-    {{- $value | nindent 4 }}
+{{- range .Values.fileConfigs }}
+  {{- . | toYaml | nindent 2 }}
+{{- end }}
 {{- end }}
 
 ---
@@ -29,6 +30,12 @@ data:
     </label>
 
     @include config.d/*.conf
+    {{- if .Values.defaultConfigs.prometheusConf.enabled }}
+    {{- print "@include fluentd-prometheus-conf.d/*"  | nindent 4 }}
+    {{- end}}
+    {{- if .Values.defaultConfigs.systemdConf.enabled }}
+    {{- print "@include fluentd-systemd-conf.d/*"  | nindent 4 }}
+    {{- end}}
     {{- range $key := .Values.configMapConfigs }}
     {{- print "@include " $key ".d/*"  | nindent 4 }}
     {{- end }}
