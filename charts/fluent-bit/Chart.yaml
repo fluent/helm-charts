@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.27.0
-appVersion: 2.0.11
+version: 0.28.0
+appVersion: 2.1.2
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
 sources:
@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: "Added support for modifying the Grafana dashboard label value."
+      description: "Updated Fluent Bit image to v2.1.2."
