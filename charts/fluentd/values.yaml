@@ -56,26 +56,30 @@ lifecycle: {}
 # Configure the livenessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
-  httpGet:
-    path: /metrics
-    port: metrics
-  # initialDelaySeconds: 0
-  # periodSeconds: 10
-  # timeoutSeconds: 1
-  # successThreshold: 1
-  # failureThreshold: 3
+  enabled: false
+  probes:
+    httpGet:
+      path: /metrics
+      port: metrics
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
 
 # Configure the readinessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 readinessProbe:
-  httpGet:
-    path: /metrics
-    port: metrics
-  # initialDelaySeconds: 0
-  # periodSeconds: 10
-  # timeoutSeconds: 1
-  # successThreshold: 1
-  # failureThreshold: 3
+  enabled: false
+  probes:
+    httpGet:
+      path: /metrics
+      port: metrics
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
 
 resources: {}
   # requests:
@@ -287,19 +291,20 @@ dashboards:
 
 ## Fluentd list of plugins to install
 ##
-plugins: []
+plugins:
+  - fluentd-prometheus-conf # required for liveness/readiness probes
 # - fluent-plugin-out-http
 
 ## Add fluentd config files from K8s configMaps
 ##
 configMapConfigs:
-  - fluentd-prometheus-conf
+  - fluentd-prometheus-conf # required for liveness/readiness probes
 # - fluentd-systemd-conf
 
 ## Fluentd configurations:
 ##
 fileConfigs:
-  01_sources.conf: |-
+  01_sources.conf: |+
     ## logs from podman
     <source>
       @type tail
@@ -328,7 +333,7 @@ fileConfigs:
       emit_unmatched_lines true
     </source>
 
-  02_filters.conf: |-
+  02_filters.conf: |+
     <label @KUBERNETES>
       <match kubernetes.var.log.containers.fluentd**>
         @type relabel
@@ -355,7 +360,7 @@ fileConfigs:
       </match>
     </label>
 
-  03_dispatch.conf: |-
+  03_dispatch.conf: |+
     <label @DISPATCH>
       <filter **>
         @type prometheus
@@ -370,20 +375,22 @@ fileConfigs:
         </metric>
       </filter>
 
-      <match **>
-        @type relabel
-        @label @OUTPUT
-      </match>
+      # elasticsearch must be running
+      # <match **>
+      #   @type relabel
+      #   @label @OUTPUT
+      # </match>
     </label>
 
-  04_outputs.conf: |-
-    <label @OUTPUT>
-      <match **>
-        @type elasticsearch
-        host "elasticsearch-master"
-        port 9200
-        path ""
-        user elastic
-        password changeme
-      </match>
-    </label>
+  # elasticsearch must be running
+  # 04_outputs.conf: |+
+  #   <label @OUTPUT>
+  #     <match **>
+  #       @type elasticsearch
+  #       host "elasticsearch-master"
+  #       port 9200
+  #       path ""
+  #       user elastic
+  #       password changeme
+  #     </match>
+  #   </label>

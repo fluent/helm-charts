@@ -54,10 +54,14 @@ containers:
     lifecycle:
       {{- toYaml . | nindent 6 }}
     {{- end }}
+    {{- if .Values.livenessProbe.enabled }}
     livenessProbe:
-      {{- toYaml .Values.livenessProbe | nindent 6 }}
+      {{- toYaml .Values.livenessProbe.probes | nindent 6 }}
+    {{- end }}
+    {{- if .Values.readinessProbe.enabled }}
     readinessProbe:
-      {{- toYaml .Values.readinessProbe | nindent 6 }}
+      {{- toYaml .Values.readinessProbe.probes | nindent 6 }}
+    {{- end }}
     resources:
       {{- toYaml .Values.resources | nindent 8 }}
     volumeMounts:
