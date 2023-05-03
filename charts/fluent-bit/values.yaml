@@ -479,3 +479,11 @@ initContainers: []
 #     command: ['kubectl', 'version']
 
 logLevel: info
+
+topologySpreadConstraints: {}
+  # - maxSkew: 1
+  #   topologyKey: kubernetes.io/zone
+  #   whenUnsatisfiable: ScheduleAnyway
+  #   labelSelector:
+  #     matchLabels:
+  #       app.kubernetes.io/instance: {{ .Release.Name }}
