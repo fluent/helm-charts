@@ -136,10 +136,10 @@ tolerations:
 {{- with .Values.topologySpreadConstraints }}
 topologySpreadConstraints:
   {{- range . }}
-  - {{- . | toYaml | nindent 4 }}
+  - {{ . | toYaml | indent 4 | trim}}
     labelSelector:
       matchLabels:
-        {{- include "fluent-bit.selectorLabels" $ | nindent 6 }}
+        {{- include "fluent-bit.selectorLabels" $ | nindent 8 }}
   {{- end }}
 {{- end }}
 {{- end -}}
