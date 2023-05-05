@@ -63,14 +63,14 @@ Create the name of the service account to use
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
+Shortened version of the releaseName, applied as a suffix to numerous resources.
 */}}
 {{- define "fluentd.shortReleaseName" -}}
 {{- .Release.Name | trunc 35 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
+Name of the configMap used for the fluentd.conf configuration file; allows users to override the default.
 */}}
 {{- define "fluentd.mainConfigMapName" -}}
 {{- if .Values.mainConfigMapNameOverride -}}
@@ -81,7 +81,7 @@ Create the name of the service account to use
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
+Name of the configMap used for additional configuration files; allows users to override the default.
 */}}
 {{- define "fluentd.extraFilesConfigMapName" -}}
 {{- if .Values.extraFilesConfigMapNameOverride -}}

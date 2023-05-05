@@ -172,15 +172,11 @@ envFrom: []
 
 initContainers: []
 
-# To use a custom configuration for the fluent.conf file, create a new ConfigMap containing your custom values
-# and specify the name of that ConfigMap here. That file will be mounted instead of the built in fluent.conf
-# file.
+## Name of the configMap containing a custom fluentd.conf configuration file to use instead of the default.
 # mainConfigMapNameOverride: ""
 
-# To use a custom configuration used to mount the /etc/fluent/config.d/ directory (and all files within that
-# directory), create a new ConfigMap containing all the files to be mounted in /etc/fluent/config.d/ and
-# specify the name of that ConfigMap here. That ConfigMap will be mounted under /etc/fluent/config.d/ instead
-# of the built in ConfigMap.
+## Name of the configMap containing files to be placed under /etc/fluent/config.d/
+## NOTE: This will replace ALL default files in the aforementioned path!
 # extraFilesConfigMapNameOverride: ""
 
 mountVarLogDirectory: true
@@ -283,7 +279,7 @@ plugins: []
 
 ## Add fluentd config files from K8s configMaps
 ##
-# configMapConfigs:
+configMapConfigs: []
 #  - fluentd-prometheus-conf
 #  - fluentd-systemd-conf
 
