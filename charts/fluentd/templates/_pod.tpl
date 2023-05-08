@@ -37,12 +37,12 @@ containers:
     - name: FLUENTD_CONF
       value: "../../../etc/fluent/fluent.conf"
     {{- if .Values.env }}
-      {{- toYaml .Values.env | nindent 4 }}
+    {{- toYaml .Values.env | nindent 4 }}
     {{- end }}
-    {{- if .Values.envFrom }}
+  {{- if .Values.envFrom }}
     envFrom:
-      {{- toYaml .Values.envFrom | nindent 4 }}
-    {{- end }}
+    {{- toYaml .Values.envFrom | nindent 4 }}
+  {{- end }}
     ports:
     - name: metrics
       containerPort: 24231
@@ -57,11 +57,11 @@ containers:
       {{- toYaml . | nindent 6 }}
     {{- end }}
     livenessProbe:
-      {{- toYaml .Values.livenessProbe | nindent 4 }}
+      {{- toYaml .Values.livenessProbe | nindent 6 }}
     readinessProbe:
-      {{- toYaml .Values.readinessProbe | nindent 4 }}
+      {{- toYaml .Values.readinessProbe | nindent 6 }}
     resources:
-      {{- toYaml .Values.resources | nindent 4 }}
+      {{- toYaml .Values.resources | nindent 8 }}
     volumeMounts:
     - name: etcfluentd-main
       mountPath: /etc/fluent
