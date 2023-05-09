@@ -43,6 +43,9 @@ spec:
       tlsConfig:
         {{- toYaml .Values.serviceMonitor.tlsConfig | nindent 8 }}
       {{- end }}
+    {{- with .Values.serviceMonitor.additionalEndpoints }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}
