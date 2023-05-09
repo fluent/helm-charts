@@ -61,3 +61,32 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Shortened version of the releaseName, applied as a suffix to numerous resources.
+*/}}
+{{- define "fluentd.shortReleaseName" -}}
+{{- .Release.Name | trunc 35 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Name of the configMap used for the fluentd.conf configuration file; allows users to override the default.
+*/}}
+{{- define "fluentd.mainConfigMapName" -}}
+{{- if .Values.mainConfigMapNameOverride -}}
+    {{ .Values.mainConfigMapNameOverride }}
+{{- else -}}
+    {{ printf "%s-%s" "fluentd-main" ( include "fluentd.shortReleaseName" . ) }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Name of the configMap used for additional configuration files; allows users to override the default.
+*/}}
+{{- define "fluentd.extraFilesConfigMapName" -}}
+{{- if .Values.extraFilesConfigMapNameOverride -}}
+    {{ printf "%s" .Values.extraFilesConfigMapNameOverride }}
+{{- else -}}
+    {{ printf "%s-%s" "fluentd-config" ( include "fluentd.shortReleaseName" . ) }}
+{{- end -}}
+{{- end -}}

@@ -16,6 +16,17 @@ To install a release named `fluentd`, run:
 ```sh
 helm install fluentd fluent/fluentd
 ```
+## Upgrading
+
+### To 0.4.0
+
+Although the services will deploy and generally work, version 0.4.0 introduces some changes that are considered _breaking changes_. To upgrade, you should do the following to avoid any potential conflicts or problems:
+
+- Add the `mountVarLogDirectory` and `mountDockerContainersDirectory` values and set them to the values you need; to follow the previous setup where these were mounted by default, set the values to `true`, e.g. `mountVarLogDirectory: true`
+- If you have the `varlog` mount point defined and enabled under both `volumes` and `volumeMounts`, set `mountVarLogDirectory` to true
+- If you have the `varlibdockercontainers` mount point defined and enabled under both `volumes` and `volumeMounts`, set `mountDockerContainersDirectory` to true
+- Remove the previous default volume and volume mount definitions - `etcfluentd-main`, `etcfluentd-config`, `varlog`, and `varlibdockercontainers`
+- Remove the `FLUENTD_CONF` entry from the `env:` list
 
 ## Chart Values
 
