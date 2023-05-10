@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
-  name: fluentd-prometheus-conf
+  name: fluentd-prometheus-conf-{{ include "fluentd.shortReleaseName" . }}
 data:
   prometheus.conf: |-
     <source>
