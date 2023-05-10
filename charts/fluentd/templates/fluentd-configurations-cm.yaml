@@ -1,3 +1,5 @@
+{{- if not .Values.extraFilesConfigMapNameOverride }}
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,10 +11,10 @@ data:
   {{$key }}: |-
     {{- $value | nindent 4 }}
 {{- end }}
+{{- end }}
 
 {{- if not .Values.mainConfigMapNameOverride }}
 ---
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
