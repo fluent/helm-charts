@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dashboard-{{ trimSuffix ".json" (base $path) }}
+  name: dashboard-{{ trimSuffix ".json" (base $path) }}-{{ include "fluentd.shortReleaseName" $ }}
   namespace: {{ $.Values.dashboards.namespace | default $.Release.Namespace }}
   labels:
     {{- include "fluentd.labels" $ | nindent 4 }}
