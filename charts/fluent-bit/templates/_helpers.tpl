@@ -66,16 +66,8 @@ Create the name of the service account to use
 Fluent-bit image with tag/digest
 */}}
 {{- define "fluent-bit.image" -}}
-{{ .Values.image.repository }}{{ ternary (printf ":%s" (toString (default .Chart.AppVersion .Values.image.tag))) (printf "@%s" .Values.image.digest) (empty .Values.image.digest) }}
+{{ .repository }}{{ ternary (printf ":%s" (toString .tag)) (printf "@%s" .digest) (empty .digest) }}
 {{- end -}}
-
-{{/*
-Fluent-bit test image
-*/}}
-{{- define "fluent-bit.testimage" -}}
-{{ .Values.testFramework.image.repository }}{{ ternary (printf ":%s" (toString .Values.testFramework.image.tag)) (printf "@%s" .Values.testFramework.image.digest) (empty .Values.testFramework.image.digest) }}
-{{- end -}}
-
 
 {{/*
 Ingress ApiVersion according k8s version
