@@ -4,6 +4,10 @@ metadata:
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
   name: fluentd-prometheus-conf-{{ include "fluentd.shortReleaseName" . }}
+  {{- with .Values.configs.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 -}}
+  {{- end }}
 data:
   prometheus.conf: |-
     <source>
