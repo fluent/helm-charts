@@ -15,6 +15,7 @@ rules:
       - get
       - list
       - watch
+  {{- if and .Values.podSecurityPolicy.enabled (semverCompare "<1.25-0" .Capabilities.KubeVersion.GitVersion) }}
   - apiGroups:
       - policy
     resourceNames:
@@ -23,4 +24,5 @@ rules:
       - podsecuritypolicies
     verbs:
       - use
+  {{- end }}
 {{- end -}}
