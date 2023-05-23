@@ -61,3 +61,10 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Fluentbit operator image with tag/digest
+*/}}
+{{- define "fluentbit-operator.image" -}}
+{{ .repository }}{{ ternary (printf ":%s" (toString .tag)) (printf "@%s" .digest) (empty .digest) }}
+{{- end -}}
