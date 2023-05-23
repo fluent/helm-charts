@@ -10,6 +10,8 @@ image:
   repository: cr.fluentbit.io/fluent/fluent-bit
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}
   tag: ""
+  # Digest overrides tag
+  digest: ""
   pullPolicy: Always
 
 testFramework:
@@ -18,6 +20,8 @@ testFramework:
     repository: busybox
     pullPolicy: Always
     tag: latest
+    # Digest overrides tag
+    digest: ""
 
 imagePullSecrets: []
 nameOverride: ""

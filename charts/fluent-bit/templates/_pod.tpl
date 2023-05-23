@@ -38,7 +38,7 @@ containers:
     securityContext:
       {{- toYaml . | nindent 6 }}
   {{- end }}
-    image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+    image: {{ include "fluent-bit.image" . | quote }}
     imagePullPolicy: {{ .Values.image.pullPolicy }}
   {{- if or .Values.env .Values.envWithTpl }}
     env:
