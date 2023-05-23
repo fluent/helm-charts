@@ -90,3 +90,10 @@ Name of the configMap used for additional configuration files; allows users to o
     {{ printf "%s-%s" "fluentd-config" ( include "fluentd.shortReleaseName" . ) }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Fluentd image with tag/digest
+*/}}
+{{- define "fluentd.image" -}}
+{{ .repository }}{{ ternary (printf ":%s" (toString .tag)) (printf "@%s" .digest) (empty .digest) }}
+{{- end -}}
