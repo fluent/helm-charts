@@ -63,6 +63,15 @@ Create the name of the service account to use
 {{- end -}}
 
 {{/*
+Fluent-bit image with tag/digest
+*/}}
+{{- define "fluent-bit.image" -}}
+{{- $tag := ternary "" (printf ":%s" (toString .tag)) (or (empty .tag) (eq "-" (toString .tag))) -}}
+{{- $digest := ternary "" (printf "@%s" .digest) (empty .digest) -}}
+{{- printf "%s%s%s" .repository $tag $digest -}}
+{{- end -}}
+
+{{/*
 Ingress ApiVersion according k8s version
 */}}
 {{- define "fluent-bit.ingress.apiVersion" -}}
