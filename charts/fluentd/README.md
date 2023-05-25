@@ -51,11 +51,9 @@ The default configurations bellow are required for the fluentd pod to be able to
 - name: etcfluentd-main
   configMap:
     name: fluentd-main
-    defaultMode: 0777
 - name: etcfluentd-config
   configMap:
     name: fluentd-config
-    defaultMode: 0777
 ```
 
 ### default-volumeMounts
