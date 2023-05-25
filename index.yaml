@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: "Added image reference by digest."
+    apiVersion: v1
+    appVersion: 2.1.4
+    created: "2023-05-25T16:56:44.309624334Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 639c13d2eab4c5d717f16c5be9183c37aa8a6bc51f6c67793b0f54b6ca684323
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.30.2/fluent-bit-0.30.2.tgz
+    version: 0.30.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: "Updated autoscale API version to v2"
     apiVersion: v1
     appVersion: 2.1.4
@@ -4249,4 +4280,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-25T14:05:42.531328594Z"
+generated: "2023-05-25T16:56:44.311295876Z"
