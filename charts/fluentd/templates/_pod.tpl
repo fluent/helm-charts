@@ -91,11 +91,9 @@ volumes:
 - name: etcfluentd-main
   configMap:
     name: {{ include "fluentd.mainConfigMapName" . }}
-    defaultMode: 0777
 - name: etcfluentd-config
   configMap:
     name: {{ include "fluentd.extraFilesConfigMapName" . }}
-    defaultMode: 0777
 {{- if .Values.mountVarLogDirectory }}
 - name: varlog
   hostPath:
@@ -113,7 +111,6 @@ volumes:
 {{- print "- name: " $key | nindent 0 }}
   configMap:
     {{- print "name: " $key "-" ( include "fluentd.shortReleaseName" $ ) | nindent 4 }}
-    defaultMode: 0777
 {{- end }}
 {{- with .Values.nodeSelector }}
 nodeSelector:
