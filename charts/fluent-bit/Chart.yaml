@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.30.1
+version: 0.30.2
 appVersion: 2.1.4
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: "Updated autoscale API version to v2"
+      description: "Added image reference by digest."
