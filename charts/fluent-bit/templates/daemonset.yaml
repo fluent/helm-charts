@@ -3,6 +3,9 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ include "fluent-bit.fullname" . }}
+  {{- with $.Values.namespace }}
+  namespace: {{ . }}
+  {{- end }}
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
     {{- with .Values.labels }}

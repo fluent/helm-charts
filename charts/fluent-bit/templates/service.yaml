@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "fluent-bit.fullname" . }}
+  {{- with $.Values.namespace }}
+  namespace: {{ . }}
+  {{- end }}
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
     {{- with .Values.service.labels }}

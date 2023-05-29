@@ -3,6 +3,9 @@ apiVersion: {{ include "fluent-bit.hpa.apiVersion" . }}
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "fluent-bit.fullname" . }}
+  {{- with $.Values.namespace }}
+  namespace: {{ . }}
+  {{- end }}
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
 spec:

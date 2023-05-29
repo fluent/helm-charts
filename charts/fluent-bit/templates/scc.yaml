@@ -3,6 +3,9 @@ apiVersion: security.openshift.io/v1
 kind: SecurityContextConstraints
 metadata:
   name: {{ include "fluent-bit.fullname" . }}
+  {{- with $.Values.namespace }}
+  namespace: {{ . }}
+  {{- end }}
 {{- if .Values.openShift.securityContextConstraints.annotations }}
   annotations:
     {{- toYaml .Values.openShift.securityContextConstraints.annotations | nindent 4 }}
