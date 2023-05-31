@@ -95,5 +95,7 @@ Name of the configMap used for additional configuration files; allows users to o
 Fluentd image with tag/digest
 */}}
 {{- define "fluentd.image" -}}
-{{ .repository }}{{ ternary (printf ":%s" (toString .tag)) (printf "@%s" .digest) (empty .digest) }}
+{{- $tag := ternary "" (printf ":%s" (toString .tag)) (or (empty .tag) (eq "-" (toString .tag))) -}}
+{{- $digest := ternary "" (printf "@%s" .digest) (empty .digest) -}}
+{{- printf "%s%s%s" .repository $tag $digest -}}
 {{- end -}}

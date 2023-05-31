@@ -10,8 +10,7 @@ kind: "DaemonSet"
 image:
   repository: "fluent/fluentd-kubernetes-daemonset"
   pullPolicy: "IfNotPresent"
-  tag: ""
-  # Digest overrides tag
+  tag: "" # Set to "-" to not use the default value
   digest: ""
 
 testFramework:
@@ -20,7 +19,6 @@ testFramework:
     repository: busybox
     pullPolicy: Always
     tag: latest
-    # Digest overrides tag
     digest: ""
 
 ## Optional array of imagePullSecrets containing private registry credentials
