@@ -15,7 +15,7 @@ terminationGracePeriodSeconds: {{ . }}
 {{- end }}
 {{- with .Values.initContainers }}
 initContainers:
-  {{- toYaml . | nindent 2 }}
+  {{- tpl (ternary . (toYaml .) (kindIs "string" .)) $ | trim | nindent 2 -}}
 {{- end }}
 containers:
   - name: {{ .Chart.Name }}
@@ -76,8 +76,8 @@ containers:
       mountPath: /var/lib/docker/containers
       readOnly: true
     {{- end }}
-    {{- if .Values.volumeMounts -}}
-    {{- toYaml .Values.volumeMounts | nindent 4 }}
+    {{- with .Values.volumeMounts -}}
+    {{- tpl (ternary . (toYaml .) (kindIs "string" .)) $ | trim | nindent 4 -}}
     {{- end -}}
     {{- range $key := .Values.configMapConfigs }}
     {{- print "- name: " $key | nindent 4 }}
@@ -106,8 +106,8 @@ volumes:
   hostPath:
     path: /var/lib/docker/containers
 {{- end }}
-{{- if .Values.volumes -}}
-{{- toYaml .Values.volumes | nindent 0 }}
+{{- with .Values.volumes -}}
+{{- tpl (ternary . (toYaml .) (kindIs "string" .)) $ | trim | nindent 0 -}}
 {{- end -}}
 {{- range $key := .Values.configMapConfigs }}
 {{- print "- name: " $key | nindent 0 }}
