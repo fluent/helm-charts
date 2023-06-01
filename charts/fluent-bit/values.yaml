@@ -15,6 +15,7 @@ image:
 
 testFramework:
   enabled: true
+  namespace:
   image:
     repository: busybox
     pullPolicy: Always

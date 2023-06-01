@@ -5,9 +5,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "fluent-bit.fullname" $ }}-dashboard-{{ trimSuffix ".json" (base $path) }}
-  {{- with $.Values.dashboards.namespace }}
-  namespace: {{ . }}
-  {{- end }}
+  namespace: {{ default $.Release.Namespace $.Values.dashboards.namespace }}
   {{- with $.Values.dashboards.annotations }}
   annotations:
     {{- toYaml . | nindent 4 -}}
