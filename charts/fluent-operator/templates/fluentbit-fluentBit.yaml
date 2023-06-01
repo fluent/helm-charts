@@ -7,7 +7,7 @@ metadata:
   labels:
     app.kubernetes.io/name: fluent-bit
 spec:
-  image: {{ .Values.fluentbit.image.repository }}:{{ .Values.fluentbit.image.tag }}
+  image: {{ include "fluentbit-operator.image" .Values.fluentbit.image }}
   {{- if .Values.fluentbit.imagePullSecrets }}
   imagePullSecrets:
 {{ toYaml .Values.fluentbit.imagePullSecrets | indent 4 }}

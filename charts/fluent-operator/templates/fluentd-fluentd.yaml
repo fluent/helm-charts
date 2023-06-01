@@ -12,7 +12,7 @@ spec:
         bind: 0.0.0.0
         port: {{ .Values.fluentd.port }}
   replicas: {{ .Values.fluentd.replicas }}
-  image: {{ .Values.fluentd.image.repository }}:{{ .Values.fluentd.image.tag }}
+  image: {{ include "fluentbit-operator.image" .Values.fluentd.image }}
   resources:
   {{- toYaml .Values.fluentd.resources | nindent 4  }}
   fluentdCfgSelector:

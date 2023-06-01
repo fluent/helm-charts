@@ -14,9 +14,11 @@ operator:
   initcontainer:
     repository: "docker"
     tag: "20.10"
+    digest: ""
   container:
     repository: "kubesphere/fluent-operator"
     tag: "v2.2.0"
+    digest: ""
     # FluentBit operator resources. Usually user needn't to adjust these.
   resources:
     limits:
@@ -54,6 +56,7 @@ fluentbit:
   image:
     repository: "kubesphere/fluent-bit"
     tag: "v2.0.11"
+    digest: ""
   # fluentbit resources. If you do want to specify resources, adjust them as necessary
   # You can adjust it based on the log volume.
   resources:
@@ -197,6 +200,7 @@ fluentd:
   image:
     repository: "kubesphere/fluentd"
     tag: "v1.15.3"
+    digest: ""
   replicas: 1
   forward:
     port: 24224
