@@ -6,7 +6,7 @@ keywords:
   - fluent-bit
   - fluentd
 
-version: 0.30.3
+version: 0.31.0
 appVersion: 2.1.4
 
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
