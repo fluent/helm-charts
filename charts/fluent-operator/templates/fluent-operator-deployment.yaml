@@ -52,7 +52,7 @@ spec:
         emptyDir: {}
       initContainers:
       - name: setenv
-        image: {{ .Values.operator.initcontainer.repository }}{{ ternary (printf ":%s" (toString .Values.operator.initcontainer.tag)) (printf "@%s" .Values.operator.initcontainer.digest) (empty .Values.operator.initcontainer.digest) }}
+        image: {{ include "fluentbit-operator.image" .Values.operator.initcontainer }}
         command:
         - /bin/sh
         - '-c'
@@ -67,7 +67,7 @@ spec:
           emptyDir: {}
       initContainers:
       - name: setenv
-        image: {{ .Values.operator.initcontainer.repository }}{{ ternary (printf ":%s" (toString .Values.operator.initcontainer.tag)) (printf "@%s" .Values.operator.initcontainer.digest) (empty .Values.operator.initcontainer.digest) }}
+        image: {{ include "fluentbit-operator.image" .Values.operator.initcontainer }}
         command:
         - /bin/sh
         - '-c'
@@ -79,7 +79,7 @@ spec:
       {{- end }}
       containers:
       - name: fluent-operator
-        image: {{ .Values.operator.container.repository }}{{ ternary (printf ":%s" (toString .Values.operator.container.tag)) (printf "@%s" .Values.operator.container.digest) (empty .Values.operator.container.digest) }}
+        image: {{ include "fluentbit-operator.image" .Values.operator.container }}
         resources:
           {{- toYaml .Values.operator.resources | nindent 10 }}
         env:

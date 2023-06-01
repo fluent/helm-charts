@@ -66,5 +66,7 @@ Create the name of the service account to use
 Fluentbit operator image with tag/digest
 */}}
 {{- define "fluentbit-operator.image" -}}
-{{ .repository }}{{ ternary (printf ":%s" (toString .tag)) (printf "@%s" .digest) (empty .digest) }}
+{{- $tag := ternary "" (printf ":%s" (toString .tag)) (or (empty .tag) (eq "-" (toString .tag))) -}}
+{{- $digest := ternary "" (printf "@%s" .digest) (empty .digest) -}}
+{{- printf "%s%s%s" .repository $tag $digest -}}
 {{- end -}}
