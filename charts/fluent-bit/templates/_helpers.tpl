@@ -63,6 +63,15 @@ Create the name of the service account to use
 {{- end -}}
 
 {{/*
+Fluent-bit image with tag/digest
+*/}}
+{{- define "fluent-bit.image" -}}
+{{- $tag := ternary "" (printf ":%s" (toString .tag)) (or (empty .tag) (eq "-" (toString .tag))) -}}
+{{- $digest := ternary "" (printf "@%s" .digest) (empty .digest) -}}
+{{- printf "%s%s%s" .repository $tag $digest -}}
+{{- end -}}
+
+{{/*
 Ingress ApiVersion according k8s version
 */}}
 {{- define "fluent-bit.ingress.apiVersion" -}}
@@ -103,4 +112,16 @@ policy/v1
 {{- else -}}
 policy/v1beta1
 {{- end }}
+{{- end -}}
+
+{{/*
+HPA ApiVersion according k8s version
+Check legacy first so helm template / kustomize will default to latest version
+*/}}
+{{- define "fluent-bit.hpa.apiVersion" -}}
+{{- if and (.Capabilities.APIVersions.Has "autoscaling/v2beta2") (semverCompare "<1.23-0" .Capabilities.KubeVersion.GitVersion) -}}
+autoscaling/v2beta2
+{{- else -}}
+autoscaling/v2
+{{- end -}}
 {{- end -}}

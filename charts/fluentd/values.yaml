@@ -24,8 +24,9 @@ serviceAccount:
 rbac:
   create: true
 
-# Configure podsecuritypolicy
-# Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+# from Kubernetes 1.25, PSP is deprecated
+# See: https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/#pod-security-changes
+# We automatically disable PSP if Kubernetes version is 1.25 or higher
 podSecurityPolicy:
   enabled: true
   annotations: {}
