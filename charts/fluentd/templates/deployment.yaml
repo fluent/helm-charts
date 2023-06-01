@@ -29,7 +29,7 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/fluentd-configurations-cm.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
-          {{- toYaml . | nindent 8 }}
+          {{- tpl (ternary . (toYaml .) (kindIs "string" .)) $ | trim | nindent 8 }}
         {{- end }}
       labels:
         {{- include "fluentd.selectorLabels" . | nindent 8 }}
