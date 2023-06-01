@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ include "fluent-bit.fullname" . }}-test-connection"
+  namespace: {{ default .Release.Namespace .Values.testFramework.namespace }}
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
   annotations:

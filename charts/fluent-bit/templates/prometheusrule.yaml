@@ -3,9 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: {{ include "fluent-bit.fullname" . }}
-  {{- with .Values.prometheusRule.namespace }}
-  namespace: {{ . }}
-  {{- end }}
+  namespace: {{ default $.Release.Namespace .Values.prometheusRule.namespace }}
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
   {{- if .Values.prometheusRule.additionalLabels }}
