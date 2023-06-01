@@ -10,7 +10,7 @@ kind: "DaemonSet"
 image:
   repository: "fluent/fluentd-kubernetes-daemonset"
   pullPolicy: "IfNotPresent"
-  tag: "" # Set to "-" to not use the default value
+  tag: ""  # Set to "-" to not use the default value
   digest: ""
 
 testFramework:
