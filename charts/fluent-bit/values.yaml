@@ -9,7 +9,7 @@ replicaCount: 1
 image:
   repository: cr.fluentbit.io/fluent/fluent-bit
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}
-  tag: ""  # Set to "-" to not use the default value
+  tag: "" # Set to "-" to not use the default value
   digest: ""
   pullPolicy: Always
 
@@ -44,13 +44,15 @@ podSecurityPolicy:
   create: false
   annotations: {}
 
-openShift:
+openshift:
   # Sets Openshift support
   enabled: false
   # Creates SCC for Fluent-bit when Openshift support is enabled
   securityContextConstraints:
-    create: true
+    create: false
     annotations: {}
+    # Allows user to use any existing SCC in cluster
+    name: "privileged"
 
 podSecurityContext: {}
 #   fsGroup: 2000
@@ -98,31 +100,31 @@ service:
 
 serviceMonitor:
   enabled: false
-#   namespace: monitoring
-#   interval: 10s
-#   scrapeTimeout: 10s
-#   jobLabel: fluentbit
-#   selector:
-#    prometheus: my-prometheus
-#  ## metric relabel configs to apply to samples before ingestion.
-#  ##
-#  metricRelabelings:
-#    - sourceLabels: [__meta_kubernetes_service_label_cluster]
-#      targetLabel: cluster
-#      regex: (.*)
-#      replacement: ${1}
-#      action: replace
-#  ## relabel configs to apply to samples after ingestion.
-#  ##
-#  relabelings:
-#    - sourceLabels: [__meta_kubernetes_pod_node_name]
-#      separator: ;
-#      regex: ^(.*)$
-#      targetLabel: nodename
-#      replacement: $1
-#      action: replace
-#  scheme: ""
-#  tlsConfig: {}
+  #   namespace: monitoring
+  #   interval: 10s
+  #   scrapeTimeout: 10s
+  #   jobLabel: fluentbit
+  #   selector:
+  #    prometheus: my-prometheus
+  #  ## metric relabel configs to apply to samples before ingestion.
+  #  ##
+  #  metricRelabelings:
+  #    - sourceLabels: [__meta_kubernetes_service_label_cluster]
+  #      targetLabel: cluster
+  #      regex: (.*)
+  #      replacement: ${1}
+  #      action: replace
+  #  ## relabel configs to apply to samples after ingestion.
+  #  ##
+  #  relabelings:
+  #    - sourceLabels: [__meta_kubernetes_pod_node_name]
+  #      separator: ;
+  #      regex: ^(.*)$
+  #      targetLabel: nodename
+  #      replacement: $1
+  #      action: replace
+  #  scheme: ""
+  #  tlsConfig: {}
 
   ## Beare in mind if youn want to collec metrics from a different port
   ## you will need to configure the new ports on the extraPorts property.
@@ -175,9 +177,9 @@ dashboards:
   namespace: ""
 
 lifecycle: {}
-  # preStop:
-  #   exec:
-  #     command: ["/bin/sh", "-c", "sleep 20"]
+# preStop:
+#   exec:
+#     command: ["/bin/sh", "-c", "sleep 20"]
 
 livenessProbe:
   httpGet:
@@ -202,13 +204,13 @@ ingress:
   enabled: false
   className: ""
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
   hosts: []
   # - host: fluent-bit.example.tld
   extraHosts: []
   # - host: fluent-bit-extra.example.tld
-      ## specify extraPort number
+  ## specify extraPort number
   #   port: 5170
   tls: []
   #  - secretName: fluent-bit-example-tld
@@ -243,17 +245,17 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 75
-#  targetMemoryUtilizationPercentage: 75
-   ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
+  #  targetMemoryUtilizationPercentage: 75
+  ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
   customRules: []
-#     - type: Pods
-#       pods:
-#         metric:
-#           name: packets-per-second
-#         target:
-#           type: AverageValue
-#           averageValue: 1k
-    ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
+  #     - type: Pods
+  #       pods:
+  #         metric:
+  #           name: packets-per-second
+  #         target:
+  #           type: AverageValue
+  #           averageValue: 1k
+  ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
   behavior: {}
 #      scaleDown:
 #        policies:
@@ -433,34 +435,34 @@ config:
 
 # The config volume is mounted by default, either to the existingConfigMap value, or the default of "fluent-bit.fullname"
 volumeMounts:
-  - name: config
-    mountPath: /fluent-bit/etc/fluent-bit.conf
-    subPath: fluent-bit.conf
-  - name: config
-    mountPath: /fluent-bit/etc/custom_parsers.conf
-    subPath: custom_parsers.conf
+- name: config
+  mountPath: /fluent-bit/etc/fluent-bit.conf
+  subPath: fluent-bit.conf
+- name: config
+  mountPath: /fluent-bit/etc/custom_parsers.conf
+  subPath: custom_parsers.conf
 
 daemonSetVolumes:
-  - name: varlog
-    hostPath:
-      path: /var/log
-  - name: varlibdockercontainers
-    hostPath:
-      path: /var/lib/docker/containers
-  - name: etcmachineid
-    hostPath:
-      path: /etc/machine-id
-      type: File
+- name: varlog
+  hostPath:
+    path: /var/log
+- name: varlibdockercontainers
+  hostPath:
+    path: /var/lib/docker/containers
+- name: etcmachineid
+  hostPath:
+    path: /etc/machine-id
+    type: File
 
 daemonSetVolumeMounts:
-  - name: varlog
-    mountPath: /var/log
-  - name: varlibdockercontainers
-    mountPath: /var/lib/docker/containers
-    readOnly: true
-  - name: etcmachineid
-    mountPath: /etc/machine-id
-    readOnly: true
+- name: varlog
+  mountPath: /var/log
+- name: varlibdockercontainers
+  mountPath: /var/lib/docker/containers
+  readOnly: true
+- name: etcmachineid
+  mountPath: /etc/machine-id
+  readOnly: true
 
 args: []
 

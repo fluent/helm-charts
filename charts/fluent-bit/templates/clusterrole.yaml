@@ -29,13 +29,17 @@ rules:
     verbs:
       - use
   {{- end }}
-  {{- if and .Values.openShift.enabled .Values.openShift.securityContextConstraints.create }}
+  {{- if .Values.openshift.enabled }}
   - apiGroups:
       - security.openshift.io
     resources:
       - securitycontextconstraints
     resourceNames:
+      {{- if .Values.openshift.securityContextConstraints.create }}
       - {{ include "fluent-bit.fullname" . }}
+      {{- else }}
+      - {{ .Values.openshift.securityContextConstraints.name }}
+      {{- end }}
     verbs:
       - use
   {{- end }}
