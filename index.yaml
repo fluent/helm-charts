@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: "Use Helm release specific Grafana dashboard filenames."
+    apiVersion: v1
+    appVersion: 2.1.4
+    created: "2023-06-08T14:08:48.541757091Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: c0d114d21f84826cb363a5b2b8ab408ff7d8d4a2554d6514f3bd4dc1afc09527
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.30.4/fluent-bit-0.30.4.tgz
+    version: 0.30.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: "Use .Release.Namespace to render namespace for the fluent-bit resources."
     apiVersion: v1
     appVersion: 2.1.4
@@ -4311,4 +4342,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2023-05-31T18:34:53.209930779Z"
+generated: "2023-06-08T14:08:48.543494815Z"
