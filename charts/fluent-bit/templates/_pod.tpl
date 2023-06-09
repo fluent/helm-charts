@@ -92,7 +92,7 @@ containers:
         mountPath: /fluent-bit/etc/{{ $key }}
         subPath: {{ $key }}
     {{- end }}
-    {{- range $key, $value := .Values.luaScripts }}
+    {{- range $key, $value := merge .Values.luaScripts .Values.luaScriptsWithTpl }}
       - name: luascripts
         mountPath: /fluent-bit/scripts/{{ $key }}
         subPath: {{ $key }}
@@ -110,7 +110,7 @@ volumes:
   - name: config
     configMap:
       name: {{ if .Values.existingConfigMap }}{{ .Values.existingConfigMap }}{{- else }}{{ include "fluent-bit.fullname" . }}{{- end }}
-{{- if gt (len .Values.luaScripts) 0 }}
+{{- if or (gt (len .Values.luaScripts) 0) (gt (len .Values.luaScriptsWithTpl) 0) }}
   - name: luascripts
     configMap:
       name: {{ include "fluent-bit.fullname" . }}-luascripts

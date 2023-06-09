@@ -344,6 +344,8 @@ networkPolicy:
 
 luaScripts: {}
 
+luaScriptsWithTpl: {}
+
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
 config:
   service: |
