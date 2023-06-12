@@ -16,8 +16,16 @@ operator:
     tag: "20.10"
   container:
     repository: "kubesphere/fluent-operator"
-    tag: "v2.2.0"
-    # FluentBit operator resources. Usually user needn't to adjust these.
+    tag: "v2.3.0"
+  # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/user-guide/node-selection/
+  nodeSelector: {}
+  # Node tolerations applied to Fluent Operator. Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+  tolerations: []
+  # Priority class applied to Fluent Operator. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#priorityclass
+  priorityClassName: ""
+  # Pod security context for Fluent Operator. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  podSecurityContext: {}
+  # Fluent Operator resources. Usually user needn't to adjust these.
   resources:
     limits:
       cpu: 100m
@@ -53,7 +61,7 @@ fluentbit:
   enable: true
   image:
     repository: "kubesphere/fluent-bit"
-    tag: "v2.0.11"
+    tag: "v2.1.4"
   # fluentbit resources. If you do want to specify resources, adjust them as necessary
   # You can adjust it based on the log volume.
   resources:
@@ -83,6 +91,26 @@ fluentbit:
   additionalVolumes: []
   # Pod volumes to mount into the container's filesystem.
   additionalVolumesMounts: []
+  # affinity configuration for Fluent Bit pods. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/edge
+                operator: DoesNotExist
+  # nodeSelector configuration for Fluent Bit pods. Ref: https://kubernetes.io/docs/user-guide/node-selection/
+  nodeSelector: {}
+  # Node tolerations applied to Fluent Bit pods. Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+  tolerations:
+  - operator: Exists
+  # Priority Class applied to Fluent Bit pods. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/#priorityclass
+  priorityClassName: ""
+  # Environment variables that can be passed to fluentbit pods
+  envVars: []
+  #  - name: FOO
+  #    value: "bar"
+  schedulerName: ""
 
   # Remove the above empty volumes and volumesMounts, and then set additionalVolumes and additionalVolumesMounts as below if you want to collect node exporter metrics
   # additionalVolumes:
@@ -102,6 +130,8 @@ fluentbit:
   #     name: hostProc
   #     readOnly: true
 
+  namespaceFluentBitCfgSelector: {}
+
   # Set a limit of memory that Tail plugin can use when appending data to the Engine.
   # You can find more details here: https://docs.fluentbit.io/manual/pipeline/inputs/tail#config
   # If the limit is reach, it will be paused; when the data is flushed it resumes.
@@ -115,6 +145,7 @@ fluentbit:
       memBufLimit: 5MB
       path: "/var/log/containers/*.log"
       skipLongLines: true
+      readFromHead: false
     systemd:
       enable: true
       path: "/var/log/journal"
@@ -131,7 +162,7 @@ fluentbit:
   # Configure the output plugin parameter in FluentBit.
   # You can set enable to true to output logs to the specified location.
   output:
-    #  You can find more supported output plugins here: https://github.com/fluent/fluent-operator/tree/master/docs/plugins/fluentbit/clusteroutput
+    #  You can find more supported output plugins here: https://github.com/fluent/fluent-operator/tree/master/docs/plugins/fluentbit/output
     es:
       enable: false
       host: "<Elasticsearch url like elasticsearch-logging-data.kubesphere-logging-system.svc>"
@@ -210,6 +241,8 @@ fluentd:
     requests:
       cpu: 100m
       memory: 128Mi
+  schedulerName: ""
+  logLevel: ""
   # Configure the output plugin parameter in Fluentd.
   # Fluentd is disabled by default, if you enable it make sure to also set up an output to use.
   output:
