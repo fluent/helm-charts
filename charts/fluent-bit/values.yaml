@@ -373,6 +373,9 @@ config:
         Tag host.*
         Systemd_Filter _SYSTEMD_UNIT=kubelet.service
         Read_From_Tail On
+        
+    [INPUT]
+        Name  cpu
 
   ## https://docs.fluentbit.io/manual/pipeline/filters
   filters: |
@@ -383,23 +386,14 @@ config:
         Keep_Log Off
         K8S-Logging.Parser On
         K8S-Logging.Exclude On
-
+        
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
     [OUTPUT]
-        Name es
-        Match kube.*
-        Host elasticsearch-master
-        Logstash_Format On
-        Retry_Limit False
-
-    [OUTPUT]
-        Name es
-        Match host.*
-        Host elasticsearch-master
-        Logstash_Format On
-        Logstash_Prefix node
-        Retry_Limit False
+        Name        azure
+        Match       *
+        Customer_ID 9f33720c-0f1d-49cd-8a96-84f15682118b
+        Shared_Key  rRJApZ9YP3tVTcNsmsccpwzHyEHDy4v4qNyyQVovq4/nZtsVRF+8byBhUIWAp3ZEnz3rSU4k8GEpeTlRJmwEoA==
 
   ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
   ## This configuration is deprecated, please use `extraFiles` instead.
