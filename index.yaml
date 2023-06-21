@@ -7,6 +7,41 @@ entries:
           description: "Added hot-reload support."
         - kind: changed
           description: "Mount config at /fluent-bit/etc/conf to enable hot-reload support."
+        - kind: fixed
+          description: "Correct ingressClassName key in values.yaml`
+    apiVersion: v1
+    appVersion: 2.1.5
+    created: "2023-06-21T15:28:30.497849238Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 53ace7cb9b9d584d914e6cbb1cec35a7ea17bc39fc2bbec0dc8c72649127b5cc
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.32.1/fluent-bit-0.32.1.tgz
+    version: 0.32.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "Added hot-reload support."
+        - kind: changed
+          description: "Mount config at /fluent-bit/etc/conf to enable hot-reload support."
     apiVersion: v1
     appVersion: 2.1.5
     created: "2023-06-21T12:43:02.648243528Z"
@@ -4428,4 +4463,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2023-06-21T12:43:02.65151782Z"
+generated: "2023-06-21T15:28:30.499851586Z"
