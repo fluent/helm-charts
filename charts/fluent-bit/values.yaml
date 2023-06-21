@@ -9,8 +9,9 @@ replicaCount: 1
 image:
   repository: cr.fluentbit.io/fluent/fluent-bit
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}
-  tag: ""  # Set to "-" to not use the default value
-  digest: ""
+  # Set to "-" to not use the default value
+  tag:
+  digest:
   pullPolicy: Always
 
 testFramework:
@@ -20,7 +21,7 @@ testFramework:
     repository: busybox
     pullPolicy: Always
     tag: latest
-    digest: ""
+    digest:
 
 imagePullSecrets: []
 nameOverride: ""
@@ -98,31 +99,31 @@ service:
 
 serviceMonitor:
   enabled: false
-#   namespace: monitoring
-#   interval: 10s
-#   scrapeTimeout: 10s
-#   jobLabel: fluentbit
-#   selector:
-#    prometheus: my-prometheus
-#  ## metric relabel configs to apply to samples before ingestion.
-#  ##
-#  metricRelabelings:
-#    - sourceLabels: [__meta_kubernetes_service_label_cluster]
-#      targetLabel: cluster
-#      regex: (.*)
-#      replacement: ${1}
-#      action: replace
-#  ## relabel configs to apply to samples after ingestion.
-#  ##
-#  relabelings:
-#    - sourceLabels: [__meta_kubernetes_pod_node_name]
-#      separator: ;
-#      regex: ^(.*)$
-#      targetLabel: nodename
-#      replacement: $1
-#      action: replace
-#  scheme: ""
-#  tlsConfig: {}
+  #   namespace: monitoring
+  #   interval: 10s
+  #   scrapeTimeout: 10s
+  #   jobLabel: fluentbit
+  #   selector:
+  #    prometheus: my-prometheus
+  #  ## metric relabel configs to apply to samples before ingestion.
+  #  ##
+  #  metricRelabelings:
+  #    - sourceLabels: [__meta_kubernetes_service_label_cluster]
+  #      targetLabel: cluster
+  #      regex: (.*)
+  #      replacement: ${1}
+  #      action: replace
+  #  ## relabel configs to apply to samples after ingestion.
+  #  ##
+  #  relabelings:
+  #    - sourceLabels: [__meta_kubernetes_pod_node_name]
+  #      separator: ;
+  #      regex: ^(.*)$
+  #      targetLabel: nodename
+  #      replacement: $1
+  #      action: replace
+  #  scheme: ""
+  #  tlsConfig: {}
 
   ## Beare in mind if youn want to collec metrics from a different port
   ## you will need to configure the new ports on the extraPorts property.
@@ -175,9 +176,9 @@ dashboards:
   namespace: ""
 
 lifecycle: {}
-  # preStop:
-  #   exec:
-  #     command: ["/bin/sh", "-c", "sleep 20"]
+#   preStop:
+#     exec:
+#       command: ["/bin/sh", "-c", "sleep 20"]
 
 livenessProbe:
   httpGet:
@@ -202,13 +203,13 @@ ingress:
   enabled: false
   className: ""
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  #  kubernetes.io/ingress.class: nginx
+  #  kubernetes.io/tls-acme: "true"
   hosts: []
   # - host: fluent-bit.example.tld
   extraHosts: []
   # - host: fluent-bit-extra.example.tld
-      ## specify extraPort number
+  ## specify extraPort number
   #   port: 5170
   tls: []
   #  - secretName: fluent-bit-example-tld
@@ -243,17 +244,17 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 75
-#  targetMemoryUtilizationPercentage: 75
-   ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
+  #  targetMemoryUtilizationPercentage: 75
+  ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
   customRules: []
-#     - type: Pods
-#       pods:
-#         metric:
-#           name: packets-per-second
-#         target:
-#           type: AverageValue
-#           averageValue: 1k
-    ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
+  #     - type: Pods
+  #       pods:
+  #         metric:
+  #           name: packets-per-second
+  #         target:
+  #           type: AverageValue
+  #           averageValue: 1k
+  ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
   behavior: {}
 #      scaleDown:
 #        policies:
@@ -351,8 +352,8 @@ config:
         Daemon Off
         Flush {{ .Values.flush }}
         Log_Level {{ .Values.logLevel }}
-        Parsers_File parsers.conf
-        Parsers_File custom_parsers.conf
+        Parsers_File /fluent-bit/etc/parsers.conf
+        Parsers_File /fluent-bit/etc/conf/custom_parsers.conf
         HTTP_Server On
         HTTP_Listen 0.0.0.0
         HTTP_Port {{ .Values.metricsPort }}
@@ -414,7 +415,7 @@ config:
         Time_Key time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
 
-  # This allows adding more files with arbitary filenames to /fluent-bit/etc by providing key/value pairs.
+  # This allows adding more files with arbitary filenames to /fluent-bit/etc/conf by providing key/value pairs.
   # The key becomes the filename, the value becomes the file content.
   extraFiles: {}
 #     upstream.conf: |
@@ -434,11 +435,7 @@ config:
 # The config volume is mounted by default, either to the existingConfigMap value, or the default of "fluent-bit.fullname"
 volumeMounts:
   - name: config
-    mountPath: /fluent-bit/etc/fluent-bit.conf
-    subPath: fluent-bit.conf
-  - name: config
-    mountPath: /fluent-bit/etc/custom_parsers.conf
-    subPath: custom_parsers.conf
+    mountPath: /fluent-bit/etc/conf
 
 daemonSetVolumes:
   - name: varlog
@@ -462,9 +459,11 @@ daemonSetVolumeMounts:
     mountPath: /etc/machine-id
     readOnly: true
 
-args: []
-
 command: []
+
+args:
+  - --workdir=/fluent-bit/etc
+  - --config=/fluent-bit/etc/conf/fluent-bit.conf
 
 # This supports either a structured array or a templatable string
 initContainers: []
@@ -482,3 +481,12 @@ initContainers: []
 #     command: ['kubectl', 'version']
 
 logLevel: info
+
+hotReload:
+  enabled: false
+  image:
+    repository: ghcr.io/jimmidyson/configmap-reload
+    tag: v0.11.1
+    digest:
+    pullPolicy: IfNotPresent
+  resources: {}
