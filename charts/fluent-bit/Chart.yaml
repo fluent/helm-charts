@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.32.0
+version: 0.32.1
 appVersion: 2.1.5
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -26,3 +26,5 @@ annotations:
       description: "Added hot-reload support."
     - kind: changed
       description: "Mount config at /fluent-bit/etc/conf to enable hot-reload support."
+    - kind: fixed
+      description: "Correct ingressClassName key in values.yaml`
