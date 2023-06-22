@@ -1,5 +1,5 @@
 {{- if and .Values.openShift.enabled .Values.openShift.securityContextConstraints.create }}
-apiVersion: security.openShift.io/v1
+apiVersion: security.openshift.io/v1
 kind: SecurityContextConstraints
 metadata:
   name: {{ include "fluent-bit.openShift.securityContextConstraints.name" . }}
@@ -20,10 +20,10 @@ allowHostPorts: false
 allowHostPID: false
 allowedCapabilities: []
 forbiddenSysctls:
-- "*"
+  - "*"
 readOnlyRootFilesystem: false
 requiredDropCapabilities:
-- MKNOD
+  - MKNOD
 runAsUser:
   type: RunAsAny
 seLinuxContext:
