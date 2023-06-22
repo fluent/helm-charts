@@ -129,10 +129,10 @@ autoscaling/v2
 {{/*
 Create the name of OpenShift SecurityContextConstraints to use
 */}}
-{{- define "fluent-bit.openShift.securityContextConstraints.name" -}}
-{{- if .Values.openShift.securityContextConstraints.create -}}
-  {{ default (include "fluent-bit.fullname" .) .Values.openShift.securityContextConstraints.name }}
-{{- else if .Values.openShift.securityContextConstraints.existingName -}}
-  {{- printf "%s" .Values.openShift.securityContextConstraints.existingName -}}
+{{- define "fluent-bit.openShiftSccName" -}}
+{{- if not .Values.openShift.securityContextConstraints.create -}}
+{{- printf "%s" .Values.openShift.securityContextConstraints.existingName -}}
+{{- else -}}
+{{- printf "%s" default (include "fluent-bit.fullname" .) .Values.openShift.securityContextConstraints.name -}}
 {{- end -}}
 {{- end -}}

@@ -35,7 +35,7 @@ rules:
     resources:
       - securitycontextconstraints
     resourceNames:
-      - {{ include "fluent-bit.openShift.securityContextConstraints.name" . }}
+      - {{ include "fluent-bit.openShiftSccName" . }}
     verbs:
       - use
   {{- end }}

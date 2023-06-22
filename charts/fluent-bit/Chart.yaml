@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: "Add ability to use existing SecurityContextConstraints in OpenShift, for the fluent-bit chart."
+      description: "Added support for using an existing SecurityContextConstraints for OpenShift."
