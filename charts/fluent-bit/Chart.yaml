@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.32.2
-appVersion: 2.1.5
+version: 0.33.0
+appVersion: 2.1.6
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
 sources:
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: "Fixed hot-reload for Lua scripts.`
+    - kind: changed
+      description: "Updated Fluent Bit image version to v2.1.6."
