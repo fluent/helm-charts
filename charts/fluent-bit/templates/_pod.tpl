@@ -91,10 +91,9 @@ containers:
     volumeMounts:
       - name: config
         mountPath: /fluent-bit/etc/conf
-    {{- range $key, $value := .Values.luaScripts }}
+    {{- if or .Values.luaScripts .Values.hotReload.enabled }}
       - name: luascripts
-        mountPath: /fluent-bit/scripts/{{ $key }}
-        subPath: {{ $key }}
+        mountPath: /fluent-bit/scripts
     {{- end }}
     {{- if eq .Values.kind "DaemonSet" }}
       {{- toYaml .Values.daemonSetVolumeMounts | nindent 6 }}
