@@ -10,9 +10,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
-  {{- if .Values.serviceMonitor.jobLabel }}
-  jobLabel: {{ .Values.serviceMonitor.jobLabel }}
-  {{- end }}
+  jobLabel: app.kubernetes.io/instance
   endpoints:
     - port: http
       path: /api/v1/metrics/prometheus
