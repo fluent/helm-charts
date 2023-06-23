@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: "Fixed hot-reload for Lua scripts.`
+    apiVersion: v1
+    appVersion: 2.1.5
+    created: "2023-06-23T12:02:55.655648945Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 1e9766b170a1104f02f8f84d910eaf4983d5beec70a684099b43b4029425db4d
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.32.2/fluent-bit-0.32.2.tgz
+    version: 0.32.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: "Added hot-reload support."
         - kind: changed
@@ -4463,4 +4494,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2023-06-21T15:28:30.499851586Z"
+generated: "2023-06-23T12:02:55.658263463Z"
