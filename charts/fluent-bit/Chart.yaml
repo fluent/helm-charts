@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.34.0
+version: 0.34.1
 appVersion: 2.1.6
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -22,9 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Updated Grafana dashboard to be scoped to release and general Grafana component improvements."
-    - kind: changed
-      description: "Changed the ServiceMonitor job name to the release name for consistency."
-    - kind: removed
-      description: "Removed serviceMonitor.jobLabel value as it was being incorrectly used and this should be a static value."
+    - kind: fixed
+      description: "Removed duplicated volumeMounts key in reloader container."
