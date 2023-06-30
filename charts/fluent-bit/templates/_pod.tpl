@@ -111,7 +111,6 @@ containers:
     volumeMounts:
       - name: config
         mountPath: /watch/config
-    volumeMounts:
       - name: luascripts
         mountPath: /watch/scripts
     {{- with .Values.hotReload.resources }}
