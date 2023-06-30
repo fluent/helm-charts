@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: "Removed duplicated volumeMounts key in reloader container."
+    apiVersion: v1
+    appVersion: 2.1.6
+    created: "2023-06-30T14:22:30.072332798Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: b0a7d83b267e56cb45d55ef43403eb36ed399b60db6ddba5e7ac67e455f8d49e
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.34.1/fluent-bit-0.34.1.tgz
+    version: 0.34.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: "Updated Grafana dashboard to be scoped to release and general Grafana component improvements."
         - kind: changed
@@ -4560,4 +4591,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2023-06-23T15:37:14.960750739Z"
+generated: "2023-06-30T14:22:30.073889416Z"
