@@ -3,7 +3,8 @@ fullnameOverride: ""
 
 # DaemonSet, Deployment or StatefulSet
 kind: "DaemonSet"
-
+# elasticsearch7 elasticsearch8 kinesis cloudwatch azureblob kafka kafka2 gcs graylog 
+outputType: elasticsearch7
 # # Only applicable for Deployment or StatefulSet
 # replicaCount: 1
 
@@ -36,23 +37,23 @@ podSecurityPolicy:
 ## notes on enabling and using sysctls
 ##
 podSecurityContext: {}
-  # seLinuxOptions:
-  #   type: "spc_t"
+# seLinuxOptions:
+#   type: "spc_t"
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+# capabilities:
+#   drop:
+#   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
 
 # Configure the livecycle
 # Ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
 lifecycle: {}
-  # preStop:
-  #   exec:
-  #     command: ["/bin/sh", "-c", "sleep 20"]
+# preStop:
+#   exec:
+#     command: ["/bin/sh", "-c", "sleep 20"]
 
 # Configure the livenessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
@@ -60,11 +61,11 @@ livenessProbe:
   httpGet:
     path: /metrics
     port: metrics
-  # initialDelaySeconds: 0
-  # periodSeconds: 10
-  # timeoutSeconds: 1
-  # successThreshold: 1
-  # failureThreshold: 3
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
 
 # Configure the readinessProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
@@ -72,18 +73,18 @@ readinessProbe:
   httpGet:
     path: /metrics
     port: metrics
-  # initialDelaySeconds: 0
-  # periodSeconds: 10
-  # timeoutSeconds: 1
-  # successThreshold: 1
-  # failureThreshold: 3
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
 
 resources: {}
-  # requests:
-  #   cpu: 10m
-  #   memory: 128Mi
-  # limits:
-  #   memory: 128Mi
+# requests:
+#   cpu: 10m
+#   memory: 128Mi
+# limits:
+#   memory: 128Mi
 
 ## only available if kind is Deployment
 autoscaling:
@@ -94,13 +95,13 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
   ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics
   customRules: []
-    # - type: Pods
-    #   pods:
-    #     metric:
-    #       name: packets-per-second
-    #     target:
-    #       type: AverageValue
-    #       averageValue: 1k
+  # - type: Pods
+  #   pods:
+  #     metric:
+  #       name: packets-per-second
+  #     target:
+  #       type: AverageValue
+  #       averageValue: 1k
   ## see https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior
   # behavior:
   #   scaleDown:
@@ -162,12 +163,12 @@ updateStrategy: {}
 
 ## Additional environment variables to set for fluentd pods
 env: []
-  # - name: "FLUENTD_CONF"
-  #   value: "../../../etc/fluent/fluent.conf"
-  # - name: FLUENT_ELASTICSEARCH_HOST
-  #   value: "elasticsearch-master"
-  # - name: FLUENT_ELASTICSEARCH_PORT
-  #   value: "9200"
+# - name: "FLUENTD_CONF"
+#   value: "../../../etc/fluent/fluent.conf"
+# - name: FLUENT_ELASTICSEARCH_HOST
+#   value: "elasticsearch-master"
+# - name: FLUENT_ELASTICSEARCH_PORT
+#   value: "9200"
 
 envFrom: []
 
