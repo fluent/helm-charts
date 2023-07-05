@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.34.1
+version: 0.34.2
 appVersion: 2.1.6
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: "Removed duplicated volumeMounts key in reloader container."
+    - kind: added
+      description: "Added support for using an existing SecurityContextConstraints for OpenShift."

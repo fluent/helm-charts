@@ -45,13 +45,16 @@ podSecurityPolicy:
   create: false
   annotations: {}
 
+# OpenShift-specific configuration
 openShift:
-  # Sets Openshift support
   enabled: false
-  # Creates SCC for Fluent-bit when Openshift support is enabled
   securityContextConstraints:
+    # Create SCC for Fluent-bit and allow use it
     create: true
+    name: ""
     annotations: {}
+    # Use existing SCC in cluster, rather then create new one
+    existingName: ""
 
 podSecurityContext: {}
 #   fsGroup: 2000
