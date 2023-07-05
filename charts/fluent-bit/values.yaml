@@ -50,7 +50,7 @@ openShift:
   enabled: false
   securityContextConstraints:
     # Create SCC for Fluent-bit and allow use it
-    create: false
+    create: true
     name: ""
     annotations: {}
     # Use existing SCC in cluster, rather then create new one
