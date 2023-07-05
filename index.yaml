@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "Added support for using an existing SecurityContextConstraints for OpenShift."
+    apiVersion: v1
+    appVersion: 2.1.6
+    created: "2023-07-05T09:13:48.857900753Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: b713f0f3c3ad3fb9405ab977cd000438b0fb649daa2e1f8628d2e50508fd6577
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.34.2/fluent-bit-0.34.2.tgz
+    version: 0.34.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: "Removed duplicated volumeMounts key in reloader container."
     apiVersion: v1
@@ -4591,4 +4622,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2023-06-30T14:22:30.073889416Z"
+generated: "2023-07-05T09:13:48.860820588Z"
