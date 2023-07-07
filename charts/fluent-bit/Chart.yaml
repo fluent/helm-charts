@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.34.2
+version: 0.35.0
 appVersion: 2.1.6
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: added
-      description: "Added support for using an existing SecurityContextConstraints for OpenShift."
+      description: "Added support for deploying fluent-bit as a StatefulSet"

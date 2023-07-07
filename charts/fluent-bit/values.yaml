@@ -1,9 +1,9 @@
 # Default values for fluent-bit.
 
-# kind -- DaemonSet or Deployment
+# kind -- DaemonSet, Deployment, or StatefulSet
 kind: DaemonSet
 
-# replicaCount -- Only applicable if kind=Deployment
+# replicaCount -- Only applicable if kind=Deployment or StatefulSet
 replicaCount: 1
 
 image:
@@ -461,6 +461,17 @@ daemonSetVolumeMounts:
     mountPath: /etc/machine-id
     readOnly: true
 
+statefulSetVolumeClaimTemplates: []
+# - apiVersion: v1
+#   kind: PersistentVolumeClaim
+#   metadata:
+#     name: volume-name
+#   spec:
+#     accessModes:
+#     - ReadWriteOnce
+#     resources:
+#       requests:
+#         storage: 16Gi
 command: []
 
 args:
