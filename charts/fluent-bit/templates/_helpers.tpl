@@ -133,6 +133,6 @@ Create the name of OpenShift SecurityContextConstraints to use
 {{- if not .Values.openShift.securityContextConstraints.create -}}
 {{- printf "%s" .Values.openShift.securityContextConstraints.existingName -}}
 {{- else -}}
-{{- printf "%s" default (include "fluent-bit.fullname" .) .Values.openShift.securityContextConstraints.name -}}
+{{- printf "%s" (default (include "fluent-bit.fullname" .) .Values.openShift.securityContextConstraints.name) -}}
 {{- end -}}
 {{- end -}}
