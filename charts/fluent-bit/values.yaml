@@ -461,7 +461,8 @@ daemonSetVolumeMounts:
     mountPath: /etc/machine-id
     readOnly: true
 
-command: []
+command:
+  - /fluent-bit/bin/fluent-bit
 
 args:
   - --workdir=/fluent-bit/etc
