@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.35.0
+version: 0.35.1
 appVersion: 2.1.7
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -24,3 +24,8 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: "Updated Fluent Bit image to v2.1.7."
+    - kind: fixed
+      description: "Fluent Bit SCC name template"
+      links:
+        - name: GitHub Issue
+          url: https://github.com/fluent/helm-charts/issues/399
