@@ -23,16 +23,16 @@ containers:
       {{- toYaml .Values.securityContext | nindent 6 }}
     image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $defaultTag }}"
     imagePullPolicy: {{ .Values.image.pullPolicy }}
-  {{- if .Values.plugins }}
     command:
+    - "tini"
+    - "--"
     - "/bin/sh"
     - "-c"
     - |
       {{- range $plugin := .Values.plugins }}
         {{- print "fluent-gem install " $plugin | nindent 6 }}
       {{- end }}
-      exec /fluentd/entrypoint.sh
-  {{- end }}
+      exec {{ .Values.podEntrypoint }}
     env:
     - name: FLUENTD_CONF
       value: "../../../etc/fluent/fluent.conf"

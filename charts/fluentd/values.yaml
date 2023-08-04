@@ -145,6 +145,10 @@ podAnnotations: {}
 ##
 podLabels: {}
 
+## Entrypoint to call for fluentd pods
+##
+podEntrypoint: /fluentd/entrypoint.sh
+
 ## How long (in seconds) a pods needs to be stable before progressing the deployment
 ##
 minReadySeconds:
