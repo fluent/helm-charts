@@ -272,11 +272,17 @@ dashboards:
   namespace: ""
   labels:
     grafana_dashboard: '"1"'
+  annotations: {}
 
 ## Fluentd list of plugins to install
 ##
 plugins: []
 # - fluent-plugin-out-http
+
+## Settings for configMapConfigs and fileConfigs
+##
+configs:
+  annotations: {}
 
 ## Add fluentd config files from K8s configMaps
 ##

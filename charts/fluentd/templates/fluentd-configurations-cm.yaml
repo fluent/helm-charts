@@ -6,6 +6,10 @@ metadata:
   name: fluentd-config-{{ include "fluentd.shortReleaseName" . }}
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
+  {{- with .Values.configs.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 -}}
+  {{- end }}
 data:
 {{- range $key, $value := .Values.fileConfigs }}
   {{$key }}: |-
@@ -21,6 +25,10 @@ metadata:
   name: fluentd-main-{{ include "fluentd.shortReleaseName" . }}
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
+  {{- with .Values.configs.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 -}}
+  {{- end }}
 data:
   fluent.conf: |-
     # do not collect fluentd logs to avoid infinite loops.
