@@ -21,7 +21,7 @@ containers:
   - name: {{ .Chart.Name }}
     securityContext:
       {{- toYaml .Values.securityContext | nindent 6 }}
-    image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $defaultTag }}"
+    image: {{ include "fluentd.image" (merge .Values.image (dict "tag" (default $defaultTag .Values.image.tag))) }}
     imagePullPolicy: {{ .Values.image.pullPolicy }}
   {{- if .Values.plugins }}
     command:

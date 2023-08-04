@@ -10,7 +10,16 @@ kind: "DaemonSet"
 image:
   repository: "fluent/fluentd-kubernetes-daemonset"
   pullPolicy: "IfNotPresent"
-  tag: ""
+  tag: ""  # Set to "-" to not use the default value
+  digest: ""
+
+testFramework:
+  enabled: true
+  image:
+    repository: busybox
+    pullPolicy: Always
+    tag: latest
+    digest: ""
 
 ## Optional array of imagePullSecrets containing private registry credentials
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
