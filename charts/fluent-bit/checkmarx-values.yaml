@@ -77,12 +77,18 @@ env:
   value: ""
 
 # [6]
+# cluster feald is used to identify the cluster in kibana
 - name: ENVIRONMENT
   value: "cx-EKS_CLUSTER_NAME"
 
 # [7]
 - name: INDEX_NAME
   value: "cx-fluentbit-EKS_CLUSTER_NAME-logs"
+
+# [8]
+# CI_CORRELATION_ID
+- name: CI_CORRELATION_ID
+  value: "35E4E6DA-F182-457D-8D74-57B5754F1361"
 
 envFrom: []
 
@@ -188,6 +194,12 @@ config:
         Name      record_modifier
         match     *
         record    cluster ${ENVIRONMENT}
+
+    [FILTER]
+        Name      record_modifier
+        match     *
+        record    ci-correlation-id ${CI_CORRELATION_ID}
+
 
     # [FILTER]
     #     Name lua
