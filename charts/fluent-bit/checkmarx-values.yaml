@@ -195,10 +195,10 @@ config:
         match     *
         record    cluster ${ENVIRONMENT}
 
-    # [FILTER]
-    #     Name      record_modifier
-    #     match     *
-    #     record    ci-correlation-id ${CI_CORRELATION_ID}
+    [FILTER]
+        Name      record_modifier
+        match     *
+        record    ci_correlation_id ${CI_CORRELATION_ID}
 
 
     # [FILTER]
