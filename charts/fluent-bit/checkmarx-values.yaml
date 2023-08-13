@@ -84,10 +84,6 @@ env:
 - name: INDEX_NAME
   value: "cx-fluentbit-EKS_CLUSTER_NAME-logs"
 
-# [8]
-- name: INDEX_NAME_PREFIX
-  value: "cx"
-
 envFrom: []
 
 extraPorts: []
