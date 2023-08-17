@@ -35,6 +35,7 @@ serviceAccount:
 rbac:
   create: true
   nodeAccess: false
+  eventsAccess: false
 
 # Configure podsecuritypolicy
 # Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/

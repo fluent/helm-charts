@@ -15,6 +15,9 @@ rules:
       - nodes
       - nodes/proxy
       {{- end }}
+      {{- if .Values.rbac.eventsAccess }}
+      - events
+      {{- end }}
     verbs:
       - get
       - list
