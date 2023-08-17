@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Add events permission to ClusteRole"
+    - kind: added
+      description: "Added events permission to ClusteRole"
