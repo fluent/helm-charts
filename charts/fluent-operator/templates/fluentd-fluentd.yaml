@@ -24,5 +24,6 @@ spec:
   {{- if .Values.fluentd.logLevel }}
   logLevel: {{ .Values.fluentd.logLevel }}
   {{- end }}
+  priorityClassName: {{ .Values.fluentd.priorityClassName }}
 {{- end }}
 {{- end }}
