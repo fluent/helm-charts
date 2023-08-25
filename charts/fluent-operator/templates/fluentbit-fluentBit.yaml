@@ -71,7 +71,7 @@ spec:
   {{- end }}
   {{- if .Values.fluentbit.serviceAccountAnnotations }}
   serviceAccountAnnotations:
-{{ toYaml .Values.fluentbit.labels | indent 4 }}
+{{ toYaml .Values.fluentbit.serviceAccountAnnotations | indent 4 }}
   {{- end }}
 {{- end }}
 {{- end }}
