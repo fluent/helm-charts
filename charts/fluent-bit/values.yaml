@@ -35,6 +35,7 @@ serviceAccount:
 rbac:
   create: true
   nodeAccess: false
+  eventsAccess: false
 
 # Configure podsecuritypolicy
 # Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
@@ -45,13 +46,16 @@ podSecurityPolicy:
   create: false
   annotations: {}
 
+# OpenShift-specific configuration
 openShift:
-  # Sets Openshift support
   enabled: false
-  # Creates SCC for Fluent-bit when Openshift support is enabled
   securityContextConstraints:
+    # Create SCC for Fluent-bit and allow use it
     create: true
+    name: ""
     annotations: {}
+    # Use existing SCC in cluster, rather then create new one
+    existingName: ""
 
 podSecurityContext: {}
 #   fsGroup: 2000
@@ -458,7 +462,8 @@ daemonSetVolumeMounts:
     mountPath: /etc/machine-id
     readOnly: true
 
-command: []
+command:
+  - /fluent-bit/bin/fluent-bit
 
 args:
   - --workdir=/fluent-bit/etc

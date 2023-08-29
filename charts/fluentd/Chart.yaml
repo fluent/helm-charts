@@ -7,10 +7,10 @@ appVersion: v1.16.2
 icon: https://www.fluentd.org/images/miscellany/fluentd-logo_2x.png
 home: https://www.fluentd.org/
 sources:
-- https://github.com/fluent/fluentd/
-- https://github.com/fluent/fluentd-kubernetes-daemonset
+  - https://github.com/fluent/fluentd/
+  - https://github.com/fluent/fluentd-kubernetes-daemonset
 maintainers:
-- name: edsiper
-  email: eduardo@treasure-data.com
-- name: dioguerra
-  email: diogo.filipe.tomas.guerra@cern.ch
+  - name: edsiper
+    email: eduardo@treasure-data.com
+  - name: dioguerra
+    email: diogo.filipe.tomas.guerra@cern.ch
