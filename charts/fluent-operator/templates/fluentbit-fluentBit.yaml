@@ -7,6 +7,9 @@ metadata:
   labels:
     app.kubernetes.io/name: fluent-bit
 spec:
+{{- if .Values.fluentbit.hostNetwork }}
+  hostNetwork: {{ .Values.fluentbit.hostNetwork }}
+{{- end }}
   image: {{ .Values.fluentbit.image.repository }}:{{ .Values.fluentbit.image.tag }}
   {{- if .Values.fluentbit.imagePullSecrets }}
   imagePullSecrets:
@@ -25,6 +28,10 @@ spec:
 {{- if .Values.fluentbit.envVars }}
   envVars:
 {{ toYaml .Values.fluentbit.envVars | indent 4 }}
+{{- end }}
+{{- if .Values.fluentbit.securityContext }}
+  containerSecurityContext:
+  {{ toYaml .Values.fluentbit.securityContext | nindent 4 }}
 {{- end }}
 {{- with .Values.fluentbit.tolerations }}
   tolerations:
@@ -68,6 +75,10 @@ spec:
   {{- if .Values.fluentbit.labels }}
   labels:
 {{ toYaml .Values.fluentbit.labels | indent 4 }}
+  {{- end }}
+  {{- if .Values.fluentbit.podSecurityContext }}
+  securityContext:
+{{ toYaml .Values.fluentbit.podSecurityContext | nindent 4 }}
   {{- end }}
 {{- end }}
 {{- end }}

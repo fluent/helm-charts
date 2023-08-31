@@ -1,17 +1,31 @@
 apiVersion: v2
 name: fluent-operator
-description: Fluent Operator provides great flexibility in building a logging layer based on Fluent Bit and Fluentd.
-keywords:
-  - logging
-  - fluent-bit
-  - fluentd
-  - operator
-version: 2.3.0
-appVersion: 2.3.0
-icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
-home: https://www.fluentd.org/
-sources:
-  - https://github.com/fluent/fluent-operator
-maintainers:
-  - name: wenchajun
-    email: dehaocheng@kubesphere.io
+description: A Helm chart for Kubernetes
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+# type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 2.4.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+appVersion: 2.4.0
+
+dependencies:
+  - name: fluent-bit-crds
+    repository: fluent-bit-crds
+    condition: fluentbit.crdsEnable
+  - name: fluentd-crds
+    repository: fluentd-crds
+    condition: fluentd.crdsEnable
