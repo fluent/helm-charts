@@ -40,6 +40,8 @@ spec:
         - '-c'
         - set -ex;
           echo CONTAINER_ROOT_DIR=$(docker info -f '{{`{{.DockerRootDir}}`}}' 2> /dev/null) > /fluent-operator/fluent-bit.env
+        resources:
+          {{- toYaml .Values.operator.initcontainer.resources | nindent 10 }}
         volumeMounts:
         - name: env
           mountPath: /fluent-operator
@@ -58,6 +60,8 @@ spec:
         - '-c'
         - set -ex;
           echo CONTAINER_ROOT_DIR={{ .Values.operator.logPath.containerd }} > /fluent-operator/fluent-bit.env
+        resources:
+          {{- toYaml .Values.operator.initcontainer.resources | nindent 10 }}
         volumeMounts:
         - name: env
           mountPath: /fluent-operator
@@ -73,6 +77,8 @@ spec:
         - '-c'
         - set -ex;
           echo CONTAINER_ROOT_DIR={{ .Values.operator.logPath.crio }} > /fluent-operator/fluent-bit.env
+        resources:
+          {{- toYaml .Values.operator.initcontainer.resources | nindent 10 }}
         volumeMounts:
         - name: env
           mountPath: /fluent-operator
@@ -80,6 +86,10 @@ spec:
       containers:
       - name: fluent-operator
         image: {{ .Values.operator.container.repository }}:{{ .Values.operator.container.tag }}
+        {{- if .Values.operator.securityContext }}
+        securityContext:
+          {{ toYaml .Values.operator.securityContext | nindent 10 }}
+        {{- end }}
         resources:
           {{- toYaml .Values.operator.resources | nindent 10 }}
         env:
@@ -111,6 +121,6 @@ spec:
         {{ toYaml .Values.operator.nodeSelector | nindent 8 }}
       {{- end }}
       {{- if .Values.operator.podSecurityContext }}
-      podSecurityContext:
+      securityContext:
         {{ toYaml .Values.operator.podSecurityContext | nindent 8 }}
       {{- end }}
