@@ -1,5 +1,5 @@
 .vscode
-.DS_Store
+**/.DS_Store
 # Helm chart automated files
 /charts/*/charts
 /charts/*/requirements.lock
