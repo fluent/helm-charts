@@ -248,7 +248,7 @@ fluentbit:
 #        port: 2020
 #        addLabels:
 #          app: "fluentbit"
-    
+
     # Loki fluentbit ClusterOutput, to be encapsulated in fluentbit config
     # See https://github.com/fluent/fluent-operator/blob/master/docs/plugins/fluentbit/output/loki.md
     # See https://docs.fluentbit.io/manual/pipeline/outputs/loki
@@ -262,34 +262,34 @@ fluentbit:
       httpPassword: mypass
       tenantID: ''
       # Or give {http{User,Password},tenantID} as reference to secrets that you have manually installed into your kubernetes cluster
-      #httpUser:
+      # httpUser:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: husersecret
       #      optional: true
-      #httpPassword:
+      # httpPassword:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: hpasssecret
       #      optional: true
-      #tenantID:
+      # tenantID:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: tenantsecret
       #      optional: true
       #
-      #labels: []      # String list of <name>=<value>
-      #labelKeys: []   # String list of <key>
-      #removeKeys: []  # String list of <key> 
-      #labelMapPath: '' # String, path to file, ex /here/it/is
-      #dropSingleKey: off
-      #lineFormat: '' # String
-      #autoKubernetesLabels: on
-      #tenantIDKey:   # String
-      #tls: {}        # *plugins.TLS fluentbit docs
+      # labels: []      # String list of <name>=<value>
+      # labelKeys: []   # String list of <key>
+      # removeKeys: []  # String list of <key> 
+      # labelMapPath: '' # String, path to file, ex /here/it/is
+      # dropSingleKey: off
+      # lineFormat: '' # String
+      # autoKubernetesLabels: on
+      # tenantIDKey:   # String
+      # tls: {}        # *plugins.TLS fluentbit docs
 
   service:
     storage: {}
