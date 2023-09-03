@@ -255,7 +255,7 @@ fluentbit:
     loki:
       # Switch for generation of fluentbit loki ClusterOutput (and loki basic auth http user and pass secrets if required)
       enable: false   # Bool
-      host: 127.0.0.1 # String
+      host: 127.0.0.1   # String
       port: 3100      # Int
       # Either, give http{User,Password},tenantID string values specifying them directly
       httpUser: myuser
@@ -283,7 +283,7 @@ fluentbit:
       #
       # labels: []      # String list of <name>=<value>
       # labelKeys: []   # String list of <key>
-      # removeKeys: []  # String list of <key> 
+      # removeKeys: []  # String list of <key>
       # labelMapPath: '' # String, path to file, ex /here/it/is
       # dropSingleKey: off
       # lineFormat: '' # String
