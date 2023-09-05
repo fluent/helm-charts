@@ -3,7 +3,8 @@ fullnameOverride: ""
 
 # DaemonSet, Deployment or StatefulSet
 kind: "DaemonSet"
-
+# azureblob, cloudwatch, elasticsearch7, elasticsearch8, gcs, graylog , kafka, kafka2, kinesis, opensearch
+variant: elasticsearch7
 # # Only applicable for Deployment or StatefulSet
 # replicaCount: 1
 
