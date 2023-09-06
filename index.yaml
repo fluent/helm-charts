@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: - kind: changed
+          description: "Updated Fluent Bit OCI image to v2.1.9."
+    apiVersion: v1
+    appVersion: 2.1.9
+    created: "2023-09-06T09:41:18.465021755Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 30ad06bc8c97d519cc008361e7b065959d0ad1b6ac3c62f912cd910287135403
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.38.0/fluent-bit-0.38.0.tgz
+    version: 0.38.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: "Added events permission to ClusteRole"
     apiVersion: v1
@@ -4823,4 +4854,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-06T09:04:11.559241583Z"
+generated: "2023-09-06T09:41:18.465510663Z"
