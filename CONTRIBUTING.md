@@ -32,7 +32,7 @@ See `git help commit`:
 ***NOTES***: 
 
 * In order to make testing and merging of PRs easier, please submit changes to multiple charts in separate PRs.
-* In order to make changes to the fluent-operator Helm chart, please submit changes to the [fluent/fluent-operator Helm chart](https://github.com/fluent/fluent-operator/tree/master/charts/fluent-operator). The chart in this repository will be synced synced to the release chart in fluent/fluent-operator whenever there is a new release for fluent-operator.
+* In order to make changes to the fluent-operator Helm chart, please submit changes to the [fluent/fluent-operator Helm chart](https://github.com/fluent/fluent-operator/tree/master/charts/fluent-operator). The chart in this repository will be synced to the release chart in fluent/fluent-operator whenever there is a new release for fluent-operator.
 
 ### Technical Requirements
 
