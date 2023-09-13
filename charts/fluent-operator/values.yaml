@@ -71,7 +71,7 @@ fluentbit:
   enable: true
   image:
     repository: "kubesphere/fluent-bit"
-    tag: "v2.1.8"
+    tag: "v2.1.9"
   # fluentbit resources. If you do want to specify resources, adjust them as necessary
   # You can adjust it based on the log volume.
   resources:
@@ -90,6 +90,9 @@ fluentbit:
     # prometheus.io/scrape: "true"
   # Specify additional custom labels for fluentbit-pods
   labels: {}
+
+  # Specify additional custom annotations for fluentbit-serviceaccount
+  serviceAccountAnnotations: {}
 
   ## Reference to one or more secrets to be used when pulling images
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -254,9 +257,9 @@ fluentbit:
     # See https://docs.fluentbit.io/manual/pipeline/outputs/loki
     loki:
       # Switch for generation of fluentbit loki ClusterOutput (and loki basic auth http user and pass secrets if required)
-      enable: false   # Bool
+      enable: false     # Bool
       host: 127.0.0.1   # String
-      port: 3100      # Int
+      port: 3100        # Int
       # Either, give http{User,Password},tenantID string values specifying them directly
       httpUser: myuser
       httpPassword: mypass
@@ -360,6 +363,7 @@ fluentd:
   imagePullSecrets: []
   # - name: "image-pull-secret"
   logLevel: ""
+  priorityClassName: ""
   extras: {}
   # Configure the output plugin parameter in Fluentd.
   # Fluentd is disabled by default, if you enable it make sure to also set up an output to use.
