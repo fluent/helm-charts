@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.38.0
-appVersion: 2.1.9
+version: 0.39.0
+appVersion: 2.1.10
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
 sources:
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: - kind: changed
-      description: "Updated Fluent Bit OCI image to v2.1.9."
+    - kind: changed
+      description: "Updated Fluent Bit OCI image to v2.1.10."
