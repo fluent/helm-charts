@@ -200,7 +200,6 @@ persistence:
 ## Fluentd service
 ##
 service:
-  enabled: true
   type: "ClusterIP"
   annotations: {}
   # loadBalancerIP:
