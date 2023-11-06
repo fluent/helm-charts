@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "$DS_PROMETHEUS"
         },
         "enable": true,
         "hide": true,
@@ -28,7 +28,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "$DS_PROMETHEUS"
       },
       "gridPos": {
         "h": 1,
@@ -42,7 +42,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "$DS_PROMETHEUS"
           },
           "refId": "A"
         }
@@ -144,7 +144,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "$DS_PROMETHEUS"
       },
       "gridPos": {
         "h": 1,
@@ -158,7 +158,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "$DS_PROMETHEUS"
           },
           "refId": "A"
         }
@@ -1171,7 +1171,7 @@
       "collapsed": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "$DS_PROMETHEUS"
       },
       "gridPos": {
         "h": 1,
@@ -1185,7 +1185,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "$DS_PROMETHEUS"
           },
           "refId": "A"
         }
@@ -1321,7 +1321,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "$DS_PROMETHEUS"
       },
       "fieldConfig": {
         "defaults": {
@@ -1420,7 +1420,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
           "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{namespace=\"$namespace\",pod=~\"$pod\",container=\"fluent-bit\"}) by (pod)",
@@ -1432,7 +1432,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "$DS_PROMETHEUS"
           },
           "editorMode": "code",
           "expr": "avg(kube_pod_container_resource_requests{job=\"kube-state-metrics\",namespace=\"$namespace\",pod=~\"$pod\",container=\"fluent-bit\",resource=\"cpu\"})",
