@@ -384,11 +384,10 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: []
     # - host: fluentd.example.tld
-    #   port: 9880
+    - port: 9880
 
   tls: []
-  #  - secretName: fluentd-tls
-  #    hosts:
-  #      - fluentd.example.tld
+  # - secretName: fluentd-tls
+  #   hosts:
+  #     - fluentd.example.tld
