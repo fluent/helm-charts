@@ -375,6 +375,8 @@ fileConfigs:
         path ""
         user elastic
         password changeme
+        # Don't wait for elastic to start up.
+        verify_es_version_at_startup false
       </match>
     </label>
 
