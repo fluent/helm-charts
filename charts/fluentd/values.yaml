@@ -377,3 +377,17 @@ fileConfigs:
         password changeme
       </match>
     </label>
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    # - host: fluentd.example.tld
+    - port: 9880
+
+  tls: []
+  # - secretName: fluentd-tls
+  #   hosts:
+  #     - fluentd.example.tld
