@@ -17,7 +17,13 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "fluentd.fullname" . }}:24231/metrics']
+      command:
+        - sh
+        - -c
+        - |
+          set -e
+          # Give fluentd some time to start up
+          while :; do nc -vz {{ include "fluentd.fullname" . }}:24231 && break; sleep 1; done
+          wget '{{ include "fluentd.fullname" . }}:24231/metrics'
   restartPolicy: Never
 {{ end }}
