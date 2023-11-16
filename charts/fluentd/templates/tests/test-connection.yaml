@@ -1,3 +1,10 @@
+{{/*
+Target the very simple case where
+fluentd is deployed with the default values
+If the fluentd config is overriden and the metrics server removed
+this will fail.
+*/}}
+{{ if empty .Values.service.ports }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -11,5 +18,6 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "fluentd.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "fluentd.fullname" . }}:24231/metrics']
   restartPolicy: Never
+{{ end }}
