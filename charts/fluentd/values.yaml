@@ -391,3 +391,10 @@ ingress:
   # - secretName: fluentd-tls
   #   hosts:
   #     - fluentd.example.tld
+
+
+## only available if kind is Deployment or StatefulSet
+podDisruptionBudget:
+  enabled: false
+  annotations: {}
+  maxUnavailable: "30%"
