@@ -13,6 +13,14 @@ data:
       port 24231
       metrics_path "/metrics"
     </source>
+    
+    <source>
+      @type prometheus
+      @id in_prometheus6
+      bind "::"
+      port 24231
+      metrics_path "/metrics"
+    </source>
 
     <source>
       @type prometheus_monitor
