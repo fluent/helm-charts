@@ -13,7 +13,7 @@ spec:
   jobLabel: app.kubernetes.io/instance
   endpoints:
     - port: http
-      path: {{ default "/api/v1/metrics/prometheus" .Values.serviceMonitor.path }}
+      path: {{ default "/api/v2/metrics/prometheus" .Values.serviceMonitor.path }}
       {{- with .Values.serviceMonitor.interval }}
       interval: {{ . }}
       {{- end }}
