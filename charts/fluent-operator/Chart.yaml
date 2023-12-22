@@ -17,8 +17,10 @@ maintainers:
     email: dehaocheng@kubesphere.io
 dependencies:
   - name: fluent-bit-crds
-    repository: fluent-bit-crds
+    repository: "file://charts/fluent-bit-crds"
+    version: 2.7.0
     condition: fluentbit.crdsEnable
   - name: fluentd-crds
-    repository: fluentd-crds
+    repository: "file://charts/fluentd-crds"
+    version: 2.7.0
     condition: fluentd.crdsEnable
