@@ -486,6 +486,11 @@ initContainers: []
 
 logLevel: info
 
+topologySpreadConstraints: {}
+  # - maxSkew: 1
+  #   topologyKey: kubernetes.io/zone
+  #   whenUnsatisfiable: ScheduleAnyway
+
 hotReload:
   enabled: false
   image:

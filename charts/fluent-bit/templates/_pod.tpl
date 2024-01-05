@@ -148,4 +148,13 @@ affinity:
 tolerations:
   {{- toYaml . | nindent 2 }}
 {{- end }}
+{{- with .Values.topologySpreadConstraints }}
+topologySpreadConstraints:
+  {{- range . }}
+  - {{ . | toYaml | indent 4 | trim}}
+    labelSelector:
+      matchLabels:
+        {{- include "fluent-bit.selectorLabels" $ | nindent 8 }}
+  {{- end }}
+{{- end }}
 {{- end -}}
