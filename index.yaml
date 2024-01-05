@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Updated _Fluent Bit_ OCI image to [v2.2.1](https://github.com/fluent/fluent-bit/releases/tag/v2.2.1)."
+    apiVersion: v1
+    appVersion: 2.2.1
+    created: "2024-01-05T12:51:11.683108797Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 9b090e058ec5698e3c800343a30df471fa881240ea07db27a328eba0f520a44d
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.42.0/fluent-bit-0.42.0.tgz
+    version: 0.42.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Updated the ServiceMonitor path to use the v2 metrics"
     apiVersion: v1
     appVersion: 2.2.0
@@ -5038,4 +5069,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-01-05T12:25:27.920631927Z"
+generated: "2024-01-05T12:51:11.683535152Z"
