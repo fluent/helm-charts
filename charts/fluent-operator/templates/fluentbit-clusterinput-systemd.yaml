@@ -14,11 +14,21 @@ spec:
     path: {{ .Values.fluentbit.input.systemd.path }}
     db: /fluent-bit/tail/systemd.db
     dbSync: Normal
+    stripUnderscores: {{ .Values.fluentbit.input.systemd.stripUnderscores | quote }}
     systemdFilter:
+{{- if .Values.fluentbit.input.systemd.systemdFilter.enable }}
       - _SYSTEMD_UNIT={{ .Values.containerRuntime }}.service
       {{- if .Values.fluentbit.input.systemd.includeKubelet }}
       - _SYSTEMD_UNIT=kubelet.service
       {{- end }}
+      {{- if .Values.fluentbit.input.systemd.systemdFilter.filters }}
+{{- toYaml .Values.fluentbit.input.systemd.systemdFilter.filters | nindent 6 }}
+      {{- end }}
+{{- end }}
+    storageType: {{ .Values.fluentbit.input.systemd.storageType }}
+   {{- if eq .Values.fluentbit.input.systemd.storageType "filesystem" }}
+    pauseOnChunksOverlimit: {{ .Values.fluentbit.input.systemd.pauseOnChunksOverlimit | quote }}
+   {{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

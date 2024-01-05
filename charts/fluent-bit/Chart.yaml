@@ -5,9 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-
-version: 0.31.0
-appVersion: 2.1.4
+version: 0.41.0
+appVersion: 2.2.0
 
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -24,5 +23,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: "Use .Release.Namespace to render namespace for the fluent-bit resources."
+    - kind: changed
+      description: "Updated Fluent Bit OCI image to v2.2.0."
