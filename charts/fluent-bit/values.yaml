@@ -499,4 +499,3 @@ hotReload:
     digest:
     pullPolicy: IfNotPresent
   resources: {}
-
