@@ -7,7 +7,6 @@ keywords:
   - fluentd
 version: 0.41.0
 appVersion: 2.2.0
-
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
 sources:
