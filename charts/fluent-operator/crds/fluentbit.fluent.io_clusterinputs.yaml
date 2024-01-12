@@ -599,7 +599,7 @@ spec:
                       placed on lines read. E.g. kube.<namespace_name>.<pod_name>.<container_name>
                     type: string
                   tagRegex:
-                    description: Set a regex to exctract fields from the file
+                    description: Set a regex to extract fields from the file
                     type: string
                 type: object
             type: object
