@@ -266,6 +266,27 @@ spec:
                     minimum: 1
                     type: integer
                 type: object
+              nginx:
+                description: Nginx defines the Nginx input plugin configuration
+                properties:
+                  host:
+                    description: 'Name of the target host or IP address to check,
+                      default: localhost'
+                    type: string
+                  nginxPlus:
+                    description: 'Turn on NGINX plus mode,default: true'
+                    type: boolean
+                  port:
+                    description: 'Port of the target nginx service to connect to,
+                      default: 80'
+                    format: int32
+                    maximum: 65535
+                    minimum: 1
+                    type: integer
+                  statusURL:
+                    description: 'The URL of the Stub Status Handler,default: /status'
+                    type: string
+                type: object
               nodeExporterMetrics:
                 description: NodeExporterMetrics defines Node Exporter Metrics Input
                   configuration.
@@ -353,6 +374,85 @@ spec:
                     description: Tag name associated to all records comming from this
                       plugin
                     type: string
+                type: object
+              statsd:
+                description: StatsD defines the StatsD input plugin configuration
+                properties:
+                  listen:
+                    description: 'Listener network interface, default: 0.0.0.0'
+                    type: string
+                  port:
+                    description: 'UDP port where listening for connections, default:
+                      8125'
+                    format: int32
+                    maximum: 65535
+                    minimum: 1
+                    type: integer
+                type: object
+              syslog:
+                description: Syslog defines the Syslog input plugin configuration
+                properties:
+                  bufferChunkSize:
+                    description: By default the buffer to store the incoming Syslog
+                      messages, do not allocate the maximum memory allowed, instead
+                      it allocate memory when is required. The rounds of allocations
+                      are set by Buffer_Chunk_Size. If not set, Buffer_Chunk_Size
+                      is equal to 32000 bytes (32KB).
+                    pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
+                    type: string
+                  bufferMaxSize:
+                    description: Specify the maximum buffer size to receive a Syslog
+                      message. If not set, the default size will be the value of Buffer_Chunk_Size.
+                    pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
+                    type: string
+                  listen:
+                    description: 'If Mode is set to tcp or udp, specify the network
+                      interface to bind, default: 0.0.0.0'
+                    type: string
+                  mode:
+                    description: 'Defines transport protocol mode: unix_udp (UDP over
+                      Unix socket), unix_tcp (TCP over Unix socket), tcp or udp'
+                    enum:
+                    - unix_udp
+                    - unix_tcp
+                    - tcp
+                    - udp
+                    type: string
+                  parser:
+                    description: Specify an alternative parser for the message. If
+                      Mode is set to tcp or udp then the default parser is syslog-rfc5424
+                      otherwise syslog-rfc3164-local is used. If your syslog messages
+                      have fractional seconds set this Parser value to syslog-rfc5424
+                      instead.
+                    type: string
+                  path:
+                    description: If Mode is set to unix_tcp or unix_udp, set the absolute
+                      path to the Unix socket file.
+                    type: string
+                  port:
+                    description: If Mode is set to tcp or udp, specify the TCP port
+                      to listen for incoming connections.
+                    format: int32
+                    maximum: 65535
+                    minimum: 1
+                    type: integer
+                  receiveBufferSize:
+                    description: Specify the maximum socket receive buffer size. If
+                      not set, the default value is OS-dependant, but generally too
+                      low to accept thousands of syslog messages per second without
+                      loss on udp or unix_udp sockets. Note that on Linux the value
+                      is capped by sysctl net.core.rmem_max.
+                    pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
+                    type: string
+                  sourceAddressKey:
+                    description: Specify the key where the source address will be
+                      injected.
+                    type: string
+                  unixPerm:
+                    description: 'If Mode is set to unix_tcp or unix_udp, set the
+                      permission of the Unix socket file, default: 0644'
+                    format: int32
+                    type: integer
                 type: object
               systemd:
                 description: Systemd defines Systemd Input configuration.
@@ -600,6 +700,45 @@ spec:
                     type: string
                   tagRegex:
                     description: Set a regex to exctract fields from the file
+                    type: string
+                type: object
+              tcp:
+                description: TCP defines the TCP input plugin configuration
+                properties:
+                  bufferSize:
+                    description: Specify the maximum buffer size in KB to receive
+                      a JSON message. If not set, the default size will be the value
+                      of Chunk_Size.
+                    pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
+                    type: string
+                  chunkSize:
+                    description: By default the buffer to store the incoming JSON
+                      messages, do not allocate the maximum memory allowed, instead
+                      it allocate memory when is required. The rounds of allocations
+                      are set by Chunk_Size in KB. If not set, Chunk_Size is equal
+                      to 32 (32KB).
+                    pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
+                    type: string
+                  format:
+                    description: Specify the expected payload format. It support the
+                      options json and none. When using json, it expects JSON maps,
+                      when is set to none, it will split every record using the defined
+                      Separator (option below).
+                    type: string
+                  listen:
+                    description: Listener network interface,default 0.0.0.0
+                    type: string
+                  port:
+                    description: TCP port where listening for connections,default
+                      5170
+                    format: int32
+                    maximum: 65535
+                    minimum: 1
+                    type: integer
+                  separator:
+                    description: When the expected Format is set to none, Fluent Bit
+                      needs a separator string to split the records. By default it
+                      uses the breakline character (LF or 0x10).
                     type: string
                 type: object
             type: object
