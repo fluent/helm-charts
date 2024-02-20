@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.43.0
+version: 0.44.0
 appVersion: 2.2.2
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: "Updated _Fluent Bit_ OCI image to [v2.2.2](https://github.com/fluent/fluent-bit/releases/tag/v2.2.2)."
+      description: "Added local internalTrafficPolicy for daemonsets"
