@@ -5,22 +5,22 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: filters.fluentbit.fluent.io
+  name: clusterfilters.fluentbit.fluent.io
 spec:
   group: fluentbit.fluent.io
   names:
-    kind: Filter
-    listKind: FilterList
-    plural: filters
+    kind: ClusterFilter
+    listKind: ClusterFilterList
+    plural: clusterfilters
     shortNames:
-    - fbf
-    singular: filter
-  scope: Namespaced
+    - cfbf
+    singular: clusterfilter
+  scope: Cluster
   versions:
   - name: v1alpha2
     schema:
       openAPIV3Schema:
-        description: Filter is the Schema for namespace level filter API
+        description: ClusterFilter defines a cluster-level Filter configuration.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -35,7 +35,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: FilterSpec defines the desired state of ClusterFilter
+            description: Specification of desired Filter configuration.
             properties:
               filters:
                 description: A set of filter plugins in order.
@@ -703,6 +703,15 @@ spec:
                       type: object
                   type: object
                 type: array
+              logLevel:
+                enum:
+                - "off"
+                - error
+                - warning
+                - info
+                - debug
+                - trace
+                type: string
               match:
                 description: A pattern to match against the tags of incoming records.
                   It's case-sensitive and support the star (*) character as a wildcard.

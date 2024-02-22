@@ -2,11 +2,13 @@
 apiVersion: security.openshift.io/v1
 kind: SecurityContextConstraints
 metadata:
-  name: {{ include "fluent-bit.fullname" . }}
-{{- if .Values.openShift.securityContextConstraints.annotations }}
+  name: {{ include "fluent-bit.openShiftSccName" . }}
+  labels:
+    {{- include "fluent-bit.labels" . | nindent 4 }}
+  {{- with .Values.openShift.securityContextConstraints.annotations }}
   annotations:
-    {{- toYaml .Values.openShift.securityContextConstraints.annotations | nindent 4 }}
-{{- end }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 allowPrivilegedContainer: true
 allowPrivilegeEscalation: true
 allowHostDirVolumePlugin: true
@@ -18,10 +20,10 @@ allowHostPorts: false
 allowHostPID: false
 allowedCapabilities: []
 forbiddenSysctls:
-- "*"
+  - "*"
 readOnlyRootFilesystem: false
 requiredDropCapabilities:
-- MKNOD
+  - MKNOD
 runAsUser:
   type: RunAsAny
 seLinuxContext:
@@ -30,8 +32,10 @@ supplementalGroups:
   type: RunAsAny
 volumes:
   - configMap
+  - downwardAPI
   - emptyDir
   - hostPath
   - persistentVolumeClaim
+  - projected
   - secret
 {{- end }}
