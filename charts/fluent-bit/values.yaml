@@ -396,6 +396,7 @@ config:
         Host elasticsearch-master
         Logstash_Format On
         Retry_Limit False
+        Suppress_Type_Name On
 
     [OUTPUT]
         Name es
@@ -404,6 +405,7 @@ config:
         Logstash_Format On
         Logstash_Prefix node
         Retry_Limit False
+        Suppress_Type_Name On
 
   ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
   ## This configuration is deprecated, please use `extraFiles` instead.
