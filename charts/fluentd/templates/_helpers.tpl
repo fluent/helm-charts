@@ -90,3 +90,15 @@ Name of the configMap used for additional configuration files; allows users to o
     {{ printf "%s-%s" "fluentd-config" ( include "fluentd.shortReleaseName" . ) }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+HPA ApiVersion according k8s version
+Check legacy first so helm template / kustomize will default to latest version
+*/}}
+{{- define "fluentd.hpa.apiVersion" -}}
+{{- if and (.Capabilities.APIVersions.Has "autoscaling/v2beta2") (semverCompare "<1.23-0" .Capabilities.KubeVersion.GitVersion) -}}
+autoscaling/v2beta2
+{{- else -}}
+autoscaling/v2
+{{- end -}}
+{{- end -}}
