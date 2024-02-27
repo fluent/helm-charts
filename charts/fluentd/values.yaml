@@ -318,6 +318,14 @@ fileConfigs:
       emit_unmatched_lines true
     </source>
 
+    # expose metrics in prometheus format
+    <source>
+      @type prometheus
+      bind 0.0.0.0
+      port 24231
+      metrics_path /metrics
+    </source>
+
   02_filters.conf: |-
     <label @KUBERNETES>
       <match kubernetes.var.log.containers.fluentd**>
@@ -375,6 +383,8 @@ fileConfigs:
         path ""
         user elastic
         password changeme
+        # Don't wait for elastic to start up.
+        verify_es_version_at_startup false
       </match>
     </label>
 
