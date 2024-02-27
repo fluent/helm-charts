@@ -1,0 +1,14 @@
+apiVersion: v2
+name: fluentd-crds
+description: A Helm chart delivering fluentd controller CRDS
+keywords:
+  - logging
+  - fluentd
+  - operator
+version: 2.7.0
+appVersion: "2.7.0"
+sources:
+  - https://github.com/fluent/fluent-operator
+maintainers:
+  - name: wenchajun
+    email: dehaocheng@kubesphere.io

@@ -13,10 +13,31 @@ spec:
         port: {{ .Values.fluentd.port }}
   replicas: {{ .Values.fluentd.replicas }}
   image: {{ .Values.fluentd.image.repository }}:{{ .Values.fluentd.image.tag }}
+  {{- if .Values.fluentd.imagePullSecrets }}
+  imagePullSecrets:
+  {{ toYaml .Values.fluentd.imagePullSecrets | indent 4 }}
+  {{- end }}
+  mode: {{ .Values.fluentd.mode }}
   resources:
   {{- toYaml .Values.fluentd.resources | nindent 4  }}
   fluentdCfgSelector:
     matchLabels:
       config.fluentd.fluent.io/enabled: "true"
+  {{- if .Values.fluentd.envVars }}
+  envVars:
+  {{- toYaml .Values.fluentd.envVars | nindent 4 }}
+  {{- end }}
+  {{- if .Values.fluentd.schedulerName }}
+  schedulerName: {{ .Values.fluentd.schedulerName }}
+  {{- end }}
+  {{- if .Values.fluentd.logLevel }}
+  logLevel: {{ .Values.fluentd.logLevel }}
+  {{- end }}
+  {{- with .Values.fluentd.priorityClassName }}
+  priorityClassName: {{ . }}
+  {{- end }}
+  {{- if .Values.fluentd.extras }}
+  {{ .Values.fluentd.extras | toYaml | nindent 2 }}
+  {{- end }}
 {{- end }}
 {{- end }}

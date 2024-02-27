@@ -54,14 +54,17 @@ containers:
     envFrom:
       {{- toYaml .Values.envFrom | nindent 6 }}
   {{- end }}
-  {{- if .Values.args }}
-    args:
-    {{- toYaml .Values.args | nindent 6 }}
-  {{- end}}
-  {{- if .Values.command }}
+  {{- with .Values.command }}
     command:
-    {{- toYaml .Values.command | nindent 6 }}
+      {{- toYaml . | nindent 6 }}
   {{- end }}
+  {{- if or .Values.args .Values.hotReload.enabled }}
+    args:
+      {{- toYaml .Values.args | nindent 6 }}
+    {{- if .Values.hotReload.enabled }}
+      - --enable-hot-reload
+    {{- end }}
+  {{- end}}
     ports:
       - name: http
         containerPort: {{ .Values.metricsPort }}
@@ -86,16 +89,11 @@ containers:
       {{- toYaml . | nindent 6 }}
   {{- end }}
     volumeMounts:
-      {{- toYaml .Values.volumeMounts | nindent 6 }}
-    {{- range $key, $val := .Values.config.extraFiles }}
       - name: config
-        mountPath: /fluent-bit/etc/{{ $key }}
-        subPath: {{ $key }}
-    {{- end }}
-    {{- range $key, $value := .Values.luaScripts }}
+        mountPath: /fluent-bit/etc/conf
+    {{- if or .Values.luaScripts .Values.hotReload.enabled }}
       - name: luascripts
-        mountPath: /fluent-bit/scripts/{{ $key }}
-        subPath: {{ $key }}
+        mountPath: /fluent-bit/scripts
     {{- end }}
     {{- if eq .Values.kind "DaemonSet" }}
       {{- toYaml .Values.daemonSetVolumeMounts | nindent 6 }}
@@ -103,14 +101,31 @@ containers:
     {{- if .Values.extraVolumeMounts }}
       {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
     {{- end }}
-  {{- if .Values.extraContainers }}
-    {{- toYaml .Values.extraContainers | nindent 2 }}
-  {{- end }}
+{{- if .Values.hotReload.enabled }}
+  - name: reloader
+    image: {{ include "fluent-bit.image" .Values.hotReload.image }}
+    args:
+      - {{ printf "-webhook-url=http://localhost:%s/api/v2/reload" (toString .Values.metricsPort) }}
+      - -volume-dir=/watch/config
+      - -volume-dir=/watch/scripts
+    volumeMounts:
+      - name: config
+        mountPath: /watch/config
+      - name: luascripts
+        mountPath: /watch/scripts
+    {{- with .Values.hotReload.resources }}
+    resources:
+      {{- toYaml . | nindent 12 }}
+    {{- end }}
+{{- end }}
+{{- if .Values.extraContainers }}
+  {{- toYaml .Values.extraContainers | nindent 2 }}
+{{- end }}
 volumes:
   - name: config
     configMap:
-      name: {{ if .Values.existingConfigMap }}{{ .Values.existingConfigMap }}{{- else }}{{ include "fluent-bit.fullname" . }}{{- end }}
-{{- if gt (len .Values.luaScripts) 0 }}
+      name: {{ default (include "fluent-bit.fullname" .) .Values.existingConfigMap }}
+{{- if or .Values.luaScripts .Values.hotReload.enabled }}
   - name: luascripts
     configMap:
       name: {{ include "fluent-bit.fullname" . }}-luascripts
