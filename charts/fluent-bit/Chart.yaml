@@ -5,7 +5,7 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.43.1
+version: 0.44.0
 appVersion: 2.2.2
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: "Fixed helm tests."
+    - kind: changed
+      description: "Added local internalTrafficPolicy for daemonsets"
