@@ -12,8 +12,12 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- include "fluent-bit.tplvalues.render" (dict "value" .Values.ingress.annotations "context" .) | nindent 4 }}
+    {{- range $key, $value := . }}
+      {{- printf "%s: %s" $key ((tpl $value $) | quote) | nindent 4 }}
+    {{- end }}
+  {{- end }}
 spec:
   {{- if and $ingressSupportsIngressClassName .Values.ingress.ingressClassName }}
   ingressClassName: {{ .Values.ingress.ingressClassName }}
