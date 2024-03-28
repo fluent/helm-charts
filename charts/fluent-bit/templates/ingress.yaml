@@ -14,7 +14,9 @@ metadata:
     {{- include "fluent-bit.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+  {{- range $key, $value := . }}
+    {{ printf "%s: %s" $key ((tpl $value $) | quote) }}
+  {{- end }}
   {{- end }}
 spec:
   {{- if and $ingressSupportsIngressClassName .Values.ingress.ingressClassName }}
