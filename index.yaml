@@ -3,6 +3,39 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "Added support for ingress.annotations tpl rendering"
+        - kind: changed
+          description: "Changed default image pull policy to IfNotPresent in values.yaml"
+    apiVersion: v1
+    appVersion: 2.2.2
+    created: "2024-04-02T15:50:10.730229702Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 411877d1948b7f541a9ab0ada5ac8695026061f561e947cee7680296132aca40
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.45.0/fluent-bit-0.45.0.tgz
+    version: 0.45.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: "Added local internalTrafficPolicy for daemonsets"
     apiVersion: v1
@@ -5231,4 +5264,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-13T01:46:20.109010422Z"
+generated: "2024-04-02T15:50:10.730691985Z"
