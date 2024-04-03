@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: "Updated _Fluent Bit_ OCI image to [v3.0.0](https://github.com/fluent/fluent-bit/releases/tag/v3.0.0)."
+    apiVersion: v1
+    appVersion: 3.0.0
+    created: "2024-04-03T12:15:32.886324435Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: e79b39c43d03c9de26499cba8f611255a6020381031dfc96efcf8b3fa1ab8eca
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.46.0/fluent-bit-0.46.0.tgz
+    version: 0.46.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: "Added support for ingress.annotations tpl rendering"
         - kind: changed
@@ -5264,4 +5295,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-04-02T15:50:10.730691985Z"
+generated: "2024-04-03T12:15:32.88681752Z"
