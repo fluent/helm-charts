@@ -314,10 +314,20 @@ envWithTpl: []
 
 envFrom: []
 
+# This supports either a structured array or a templatable string
 extraContainers: []
+
+# Array mode
+# extraContainers:
 #   - name: do-something
 #     image: busybox
 #     command: ['do', 'something']
+
+# String mode
+# extraContainers: |-
+#   - name: do-something
+#     image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}
+#     command: ['kubectl', 'version']
 
 flush: 1
 
