@@ -1,0 +1,14 @@
+apiVersion: v2
+name: fluent-bit-crds
+description: A Helm chart delivering fluent-bit controller CRDS
+keywords:
+  - logging
+  - fluent-bit
+  - operator
+version: 2.7.0
+appVersion: "2.7.0"
+sources:
+  - https://github.com/fluent/fluent-operator
+maintainers:
+  - name: wenchajun
+    email: dehaocheng@kubesphere.io

@@ -17,6 +17,11 @@ spec:
   {{- if and (eq .Values.service.type "ClusterIP") (.Values.service.clusterIP) }}
   clusterIP: {{ .Values.service.clusterIP }}
   {{- end }}
+  {{- if (eq .Values.kind "DaemonSet") }}
+  {{- with .Values.service.internalTrafficPolicy }}
+  internalTrafficPolicy: {{ . }}
+  {{- end }}
+  {{- end }}
   {{- if (eq .Values.service.type "LoadBalancer")}}
   {{- with .Values.service.loadBalancerClass}}
   loadBalancerClass: {{ . }}

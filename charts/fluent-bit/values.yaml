@@ -12,7 +12,7 @@ image:
   # Set to "-" to not use the default value
   tag:
   digest:
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 testFramework:
   enabled: true
@@ -91,6 +91,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 2020
+  internalTrafficPolicy:
   loadBalancerClass:
   loadBalancerSourceRanges: []
   labels: {}
@@ -128,7 +129,7 @@ serviceMonitor:
   #  scheme: ""
   #  tlsConfig: {}
 
-  ## Beare in mind if youn want to collec metrics from a different port
+  ## Bear in mind if you want to collect metrics from a different port
   ## you will need to configure the new ports on the extraPorts property.
   additionalEndpoints: []
   # - port: metrics
@@ -418,7 +419,7 @@ config:
         Time_Key time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
 
-  # This allows adding more files with arbitary filenames to /fluent-bit/etc/conf by providing key/value pairs.
+  # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
   # The key becomes the filename, the value becomes the file content.
   extraFiles: {}
 #     upstream.conf: |
