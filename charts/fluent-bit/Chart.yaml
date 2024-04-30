@@ -24,5 +24,3 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: "Support setting extraContainers to a string value to enable full templating."
-    - kind: removed
-      description: "Don't template extraContainers when set to an array."
