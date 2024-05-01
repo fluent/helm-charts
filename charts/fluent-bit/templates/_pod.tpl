@@ -119,7 +119,11 @@ containers:
     {{- end }}
 {{- end }}
 {{- if .Values.extraContainers }}
-  {{- toYaml .Values.extraContainers | nindent 2 }}
+  {{- if kindIs "string" .Values.extraContainers }}
+    {{- tpl .Values.extraContainers $ | nindent 2 }}
+  {{- else }}
+    {{-  toYaml .Values.extraContainers | nindent 2 }}
+  {{- end -}}
 {{- end }}
 volumes:
   - name: config
