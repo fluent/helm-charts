@@ -101,6 +101,10 @@ service:
 #   prometheus.io/path: "/api/v1/metrics/prometheus"
 #   prometheus.io/port: "2020"
 #   prometheus.io/scrape: "true"
+  externalIPs: []
+  # externalIPs:
+  #  - 2.2.2.2
+
 
 serviceMonitor:
   enabled: false
