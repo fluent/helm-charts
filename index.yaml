@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: "Support setting Service's externalIPs."
+    apiVersion: v1
+    appVersion: 3.0.3
+    created: "2024-05-07T17:12:58.496714033Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 82716c325e97e9bcbcbc776d30f70d4f6d95b61b330727472b4add90b030c6fd
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.46.5/fluent-bit-0.46.5.tgz
+    version: 0.46.5
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: "Support setting extraContainers to a string value to enable full templating."
     apiVersion: v1
     appVersion: 3.0.3
@@ -5419,4 +5450,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-01T08:26:26.972949021Z"
+generated: "2024-05-07T17:12:58.497350574Z"
