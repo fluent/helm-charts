@@ -166,9 +166,9 @@ env:
 - name: ELASTICSEARCH_USERNAME
   value: fluentbit
 - name: ELASTICSEARCH_PASSWORD
-  value: ""
+  value: Cx!DevESWriter0
 - name: ELASTICSEARCH_HOST
-  value: ""
+  value: bd311f7d4c9140899da07d99f07b0011.vpce.eu-west-1.aws.elastic-cloud.com
 - name: ELASTICSEARCH_PORT
   value: "9243"
 - name: ELASTIC_CLOUD_ID
@@ -176,9 +176,9 @@ env:
 - name: ELASTIC_CLOUD_AUTH
   value: ""
 - name: ENVIRONMENT
-  value: cx-components-ci
+  value: cx-components-ci-1
 - name: INDEX_NAME
-  value: cx-components-ci-sca
+  value: cx-components-ci-1-sca
 - name: INDEX_NAME_PREFIX
   value: cx
 envFrom: []
