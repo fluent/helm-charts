@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: "Create unqiue uid for grafana fluent-bit dashboard."
+    apiVersion: v1
+    appVersion: 3.0.3
+    created: "2024-05-16T12:47:19.509500593Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: ff9f67ca5d30f39e9d7f9e4696271a828ede941ed1982da0dd501cbb91fe40e8
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.46.6/fluent-bit-0.46.6.tgz
+    version: 0.46.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: "Support setting Service's externalIPs."
     apiVersion: v1
     appVersion: 3.0.3
@@ -5450,4 +5481,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-05-07T17:12:58.497350574Z"
+generated: "2024-05-16T12:47:19.509996782Z"
