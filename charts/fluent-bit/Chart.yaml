@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: added
-      description: "Create unqiue uid for grafana fluent-bit dashboard."
+    - kind: changed
+      description: "Update _Fluent Bit_ OCI image to [v3.0.4](https://github.com/fluent/fluent-bit/releases/tag/v3.0.4) to patch CVE-2024-4323."
