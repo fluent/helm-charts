@@ -24,7 +24,7 @@ operator:
         memory: 64Mi
   container:
     repository: "kubesphere/fluent-operator"
-    tag: "v2.7.0"
+    tag: "v2.8.0"
   # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/user-guide/node-selection/
   nodeSelector: {}
   # Node tolerations applied to Fluent Operator. Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
@@ -64,14 +64,18 @@ operator:
   # setting fluentbit.crdsEnable or fluentd.crdsEnable values to false.
   # By default all CRDs are deployed.
   disableComponentControllers: ""
+  # Extra arguments given to the controller flags
+  extraArgs: []
+    # - --watch-namespaces=logging
 
 fluentbit:
   # Installs a sub chart carrying the CRDs for the fluent-bit controller. The sub chart is enabled by default.
   crdsEnable: true
   enable: true
+  serviceMonitor: false
   image:
     repository: "kubesphere/fluent-bit"
-    tag: "v2.2.0"
+    tag: "v2.2.2"
   # fluentbit resources. If you do want to specify resources, adjust them as necessary
   # You can adjust it based on the log volume.
   resources:
@@ -99,6 +103,7 @@ fluentbit:
   ##
   imagePullSecrets: []
   # - name: "image-pull-secret"
+  logLevel: ""
   secrets: []
   # fluent-bit daemonset use host network
   hostNetwork: false
@@ -171,12 +176,15 @@ fluentbit:
       enable: true
       refreshIntervalSeconds: 10
       memBufLimit: 100MB
+      bufferMaxSize: ""
       path: "/var/log/containers/*.log"
       skipLongLines: true
       readFromHead: false
       # Use storageType as "filesystem" if you want to use filesystem as the buffering mechanism for tail input.
       storageType: memory
       pauseOnChunksOverlimit: "off"
+      # multiline.parser 
+      # multilineParser: "docker, cri"
     systemd:
       enable: true
       systemdFilter:
@@ -214,6 +222,7 @@ fluentbit:
       logstashPrefix: ks-logstash-log
       bufferSize: 20MB
       traceError: true
+    #      logstashPrefixKey: ks-logstash-log
     #      suppressTypeName: "On"
     #      path: ""
     #      bufferSize: "4KB"
@@ -223,6 +232,7 @@ fluentbit:
     #      logstashFormat: true
     #      replaceDots: false
     #      enableTLS: false
+    #      writeOperation: upsert
     #      tls:
     #        verify: On
     #        debug: 1
@@ -257,42 +267,44 @@ fluentbit:
     # See https://docs.fluentbit.io/manual/pipeline/outputs/loki
     loki:
       # Switch for generation of fluentbit loki ClusterOutput (and loki basic auth http user and pass secrets if required)
-      enable: false     # Bool
-      host: 127.0.0.1   # String
-      port: 3100        # Int
+      enable: false   # Bool
+      host: 127.0.0.1 # String
+      port: 3100      # Int
       # Either, give http{User,Password},tenantID string values specifying them directly
       httpUser: myuser
       httpPassword: mypass
       tenantID: ''
       # Or give {http{User,Password},tenantID} as reference to secrets that you have manually installed into your kubernetes cluster
-      # httpUser:
+      #httpUser:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: husersecret
       #      optional: true
-      # httpPassword:
+      #httpPassword:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: hpasssecret
       #      optional: true
-      # tenantID:
+      #tenantID:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: tenantsecret
       #      optional: true
       #
-      # labels: []      # String list of <name>=<value>
-      # labelKeys: []   # String list of <key>
-      # removeKeys: []  # String list of <key>
-      # labelMapPath: '' # String, path to file, ex /here/it/is
-      # dropSingleKey: off
-      # lineFormat: '' # String
-      # autoKubernetesLabels: on
-      # tenantIDKey:   # String
-      # tls: {}        # *plugins.TLS fluentbit docs
+      #labels: []      # String list of <name>=<value>
+      #labelKeys: []   # String list of <key>
+      #removeKeys: []  # String list of <key>
+      #labelMapPath: '' # String, path to file, ex /here/it/is
+      #dropSingleKey: off
+      #lineFormat: '' # String
+      #autoKubernetesLabels: on
+      #tenantIDKey:   # String
+      #tls: {}        # *plugins.TLS fluentbit docs
+    stackdriver: {}
+    # You can configure the stackdriver configuration here
 
   service:
     storage: {}
@@ -309,6 +321,17 @@ fluentbit:
   # Configure the default filters in FluentBit.
   # The `filter` will filter and parse the collected log information and output the logs into a uniform format. You can choose whether to turn this on or not.
   filter:
+    multiline:
+      enable: false
+      keyContent: log
+      # emitterMemBufLimit 120 (MB)
+      emitterMemBufLimit: 120 
+      parsers:
+        - go
+        - python
+        - java
+        #  use custom multiline parser need set .Values.parsers.javaMultiline.enable = true
+        # - java-multiline
     kubernetes:
       enable: true
       labels: false
@@ -328,6 +351,14 @@ fluentbit:
       host: "<cloud-prometheus-service-host>"
       # Change the port to the port of a cloud-side Prometheus-compatible server that can receive Prometheus remote write data
       port: "<cloud-prometheus-service-port>"
+
+  # removes the hostPath mounts for varlibcontainers, varlogs and systemd.
+  disableLogVolumes: false
+
+  parsers:
+    javaMultiline:
+    # use in filter for parser generic springboot multiline log format
+      enable: false
 
 fluentd:
   # Installs a sub chart carrying the CRDs for the fluentd controller. The sub chart is enabled by default.

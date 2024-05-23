@@ -12,6 +12,8 @@ spec:
 {{- end }}
 {{- if .Values.fluentbit.dnsPolicy }}
   dnsPolicy: {{ .Values.fluentbit.dnsPolicy }}
+{{- else if .Values.fluentbit.hostNetwork }}
+  dnsPolicy: ClusterFirstWithHostNet
 {{- end }}
   image: {{ .Values.fluentbit.image.repository }}:{{ .Values.fluentbit.image.tag }}
   {{- if .Values.fluentbit.imagePullSecrets }}
@@ -87,5 +89,8 @@ spec:
   serviceAccountAnnotations:
 {{ toYaml .Values.fluentbit.serviceAccountAnnotations | indent 4 }}
   {{- end }}
+{{- if .Values.fluentbit.disableLogVolumes }}
+  disableLogVolumes: {{ .Values.fluentbit.disableLogVolumes }}
+{{- end }}
 {{- end }}
 {{- end }}
