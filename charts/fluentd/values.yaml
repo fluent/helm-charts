@@ -70,7 +70,7 @@ livenessProbe:
 # Configure the startupProbe
 # Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 startupProbe:
-    httpGet:
+  httpGet:
     path: /metrics
     port: metrics
   # initialDelaySeconds: 0
