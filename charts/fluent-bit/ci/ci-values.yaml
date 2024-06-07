@@ -1,3 +1,6 @@
+testFramework:
+  enabled: true
+
 logLevel: debug
 
 dashboards:
