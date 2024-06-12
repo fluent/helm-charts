@@ -183,7 +183,7 @@ fluentbit:
       # Use storageType as "filesystem" if you want to use filesystem as the buffering mechanism for tail input.
       storageType: memory
       pauseOnChunksOverlimit: "off"
-      # multiline.parser 
+      # multiline.parser
       # multilineParser: "docker, cri"
     systemd:
       enable: true
@@ -267,42 +267,42 @@ fluentbit:
     # See https://docs.fluentbit.io/manual/pipeline/outputs/loki
     loki:
       # Switch for generation of fluentbit loki ClusterOutput (and loki basic auth http user and pass secrets if required)
-      enable: false   # Bool
-      host: 127.0.0.1 # String
-      port: 3100      # Int
+      enable: false     # Bool
+      host: 127.0.0.1   # String
+      port: 3100        # Int
       # Either, give http{User,Password},tenantID string values specifying them directly
       httpUser: myuser
       httpPassword: mypass
       tenantID: ''
       # Or give {http{User,Password},tenantID} as reference to secrets that you have manually installed into your kubernetes cluster
-      #httpUser:
+      # httpUser:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: husersecret
       #      optional: true
-      #httpPassword:
+      # httpPassword:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: hpasssecret
       #      optional: true
-      #tenantID:
+      # tenantID:
       #  valueFrom:
       #    secretKeyRef:
       #      key: value
       #      name: tenantsecret
       #      optional: true
       #
-      #labels: []      # String list of <name>=<value>
-      #labelKeys: []   # String list of <key>
-      #removeKeys: []  # String list of <key>
-      #labelMapPath: '' # String, path to file, ex /here/it/is
-      #dropSingleKey: off
-      #lineFormat: '' # String
-      #autoKubernetesLabels: on
-      #tenantIDKey:   # String
-      #tls: {}        # *plugins.TLS fluentbit docs
+      # labels: []      # String list of <name>=<value>
+      # labelKeys: []   # String list of <key>
+      # removeKeys: []  # String list of <key>
+      # labelMapPath: '' # String, path to file, ex /here/it/is
+      # dropSingleKey: off
+      # lineFormat: '' # String
+      # autoKubernetesLabels: on
+      # tenantIDKey:   # String
+      # tls: {}        # *plugins.TLS fluentbit docs
     stackdriver: {}
     # You can configure the stackdriver configuration here
 
@@ -325,7 +325,7 @@ fluentbit:
       enable: false
       keyContent: log
       # emitterMemBufLimit 120 (MB)
-      emitterMemBufLimit: 120 
+      emitterMemBufLimit: 120
       parsers:
         - go
         - python
