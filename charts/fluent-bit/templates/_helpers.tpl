@@ -136,9 +136,3 @@ Create the name of OpenShift SecurityContextConstraints to use
 {{- printf "%s" (default (include "fluent-bit.fullname" .) .Values.openShift.securityContextConstraints.name) -}}
 {{- end -}}
 {{- end -}}
-{{/*
-Create the uid for grafana fluent-bit dashboard
-*/}}
-{{- define "fluent-bit.dashboard.uid" -}}
-{{- sha256sum (printf "%s/%s" .Release.Namespace .Release.Name) }}
-{{- end -}}
