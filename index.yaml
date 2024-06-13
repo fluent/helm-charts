@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Dashboard: remove dashboard.uid function and set the uid to null"
+    apiVersion: v1
+    appVersion: 3.0.6
+    created: "2024-06-13T08:34:58.059954559Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 96d8b9af08084630ebb3fc2128b6307b4ce6d05f625a604cd62b9d73d1ddcbfe
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.46.10/fluent-bit-0.46.10.tgz
+    version: 0.46.10
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Update _Fluent Bit_ OCI image to [v3.0.6](https://github.com/fluent/fluent-bit/releases/tag/v3.0.6)"
     apiVersion: v1
     appVersion: 3.0.6
@@ -5574,4 +5605,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-06-10T09:06:58.715566817Z"
+generated: "2024-06-13T08:34:58.060578519Z"
