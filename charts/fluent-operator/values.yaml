@@ -24,7 +24,7 @@ operator:
         memory: 64Mi
   container:
     repository: "kubesphere/fluent-operator"
-    tag: "v2.8.0"
+    tag: "v2.9.0"
   # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/user-guide/node-selection/
   nodeSelector: {}
   # Node tolerations applied to Fluent Operator. Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
@@ -75,7 +75,7 @@ fluentbit:
   serviceMonitor: false
   image:
     repository: "kubesphere/fluent-bit"
-    tag: "v2.2.2"
+    tag: "v3.0.7"
   # fluentbit resources. If you do want to specify resources, adjust them as necessary
   # You can adjust it based on the log volume.
   resources:
@@ -372,7 +372,7 @@ fluentd:
   port: 24224
   image:
     repository: "kubesphere/fluentd"
-    tag: "v1.15.3"
+    tag: "v1.17.0"
   # Numbers of the Fluentd instance
   # Applicable when the mode is "collector", and will be ignored when the mode is "agent"
   replicas: 1
