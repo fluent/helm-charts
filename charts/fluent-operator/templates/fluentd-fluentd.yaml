@@ -4,6 +4,7 @@ apiVersion: fluentd.fluent.io/v1alpha1
 kind: Fluentd
 metadata:
   name: {{ .Values.fluentd.name }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     app.kubernetes.io/name: fluentd
 spec:
@@ -26,6 +27,14 @@ spec:
   {{- if .Values.fluentd.envVars }}
   envVars:
   {{- toYaml .Values.fluentd.envVars | nindent 4 }}
+  {{- end }}
+  {{- if .Values.fluentd.securityContext }}
+  containerSecurityContext:
+  {{ toYaml .Values.fluentd.securityContext | nindent 4 }}
+  {{- end }}
+  {{- if .Values.fluentd.podSecurityContext }}
+  securityContext:
+  {{ toYaml .Values.fluentd.podSecurityContext | nindent 4 }}
   {{- end }}
   {{- if .Values.fluentd.schedulerName }}
   schedulerName: {{ .Values.fluentd.schedulerName }}

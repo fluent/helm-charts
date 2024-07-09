@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - operator
-version: 2.9.0
-appVersion: "2.9.0"
+version: 3.0.0
+appVersion: "3.0.0"
 sources:
   - https://github.com/fluent/fluent-operator
 maintainers:
