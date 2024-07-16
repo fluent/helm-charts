@@ -1559,7 +1559,7 @@
   },
   "timezone": "",
   "title": "{{ include "fluent-bit.fullname" . }}",
-  "uid": null,
+  "uid": {{ include "fluent-bit.dashboard.uid" . }},
   "version": 7,
   "weekStart": ""
 }
