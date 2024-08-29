@@ -5,3 +5,4 @@ logLevel: debug
 
 dashboards:
   enabled: true
+  deterministicUid: true
