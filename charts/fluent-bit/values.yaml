@@ -182,6 +182,7 @@ dashboards:
   labelValue: 1
   annotations: {}
   namespace: ""
+  deterministicUid: false
 
 lifecycle: {}
 #   preStop:
