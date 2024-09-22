@@ -1,5 +1,6 @@
 {{- define "fluentd.pod" -}}
-{{- $defaultTag := printf "%s-debian-%s-1.0" (.Chart.AppVersion) (.Values.variant) -}}
+{{- $defaultTag := printf "%s-%s" (.Chart.AppVersion) (.Values.variant) -}}
+{{- $l1xGHInit := or .Values.l1x.github.config.enabled .Values.l1x.github.symbols.enabled -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
@@ -13,9 +14,42 @@ securityContext:
 {{- with .Values.terminationGracePeriodSeconds }}
 terminationGracePeriodSeconds: {{ . }}
 {{- end }}
+{{- if and .Values.l1x.enabled $l1xGHInit }}
+initContainers:
+  - name: l1x-git-config
+    image: ghcr.io/log-10x/github-config-fetcher:0.1.0
+    args:
+      {{- if .Values.l1x.github.config.enabled }}
+      - "--config-repo"
+      - "https://{{ .Values.l1x.github.config.token }}@github.com/{{ .Values.l1x.github.config.repo }}.git"
+      {{- if .Values.l1x.github.config.branch }}
+      - "--config-branch"
+      - "{{ .Values.l1x.github.config.branch }}"
+      {{- end }}
+      {{- end }}
+      {{- if .Values.l1x.github.symbols.enabled }}
+      - "--symbols-repo"
+      - "https://{{ .Values.l1x.github.symbols.token }}@github.com/{{ .Values.l1x.github.symbols.repo }}.git"
+      {{- if .Values.l1x.github.symbols.branch }}
+      - "--symbols-branch"
+      - "{{ .Values.l1x.github.symbols.branch }}"
+      {{- end }}
+      {{- if .Values.l1x.github.symbols.path }}
+      - "--symbols-path"
+      - "{{ .Values.l1x.github.symbols.path }}"
+      {{- end }}
+      {{- end }}
+    volumeMounts:
+      - name: shared-git-volume
+        mountPath: /data
+{{- with .Values.initContainers }}
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- else }}
 {{- with .Values.initContainers }}
 initContainers:
   {{- toYaml . | nindent 2 }}
+{{- end }}
 {{- end }}
 containers:
   - name: {{ .Chart.Name }}
@@ -36,6 +70,17 @@ containers:
     env:
     - name: FLUENTD_CONF
       value: "../../../etc/fluent/fluent.conf"
+    {{- if .Values.l1x.enabled }}
+    - name: L1X_LICENSE
+      value: "{{ .Values.l1x.license }}"
+    {{- if .Values.l1x.github.config.enabled }}
+    - name: L1X_PATH
+      value: "/etc/l1x/git/config"
+    {{- else if .Values.l1x.github.symbols.enabled }}
+    - name: L1X_DATA
+      value: "/etc/l1x/git/config/data"
+    {{- end }}
+    {{- end }}
     {{- if .Values.env }}
     {{- toYaml .Values.env | nindent 4 }}
     {{- end }}
@@ -67,6 +112,10 @@ containers:
       mountPath: /etc/fluent
     - name: etcfluentd-config
       mountPath: /etc/fluent/config.d/
+    {{- if and .Values.l1x.enabled $l1xGHInit }}
+    - name: shared-git-volume
+      mountPath: /etc/l1x/git
+    {{- end }}
     {{- if .Values.mountVarLogDirectory }}
     - name: varlog
       mountPath: /var/log
@@ -96,6 +145,10 @@ volumes:
   configMap:
     name: {{ include "fluentd.extraFilesConfigMapName" . }}
     defaultMode: 0777
+{{- if and .Values.l1x.enabled $l1xGHInit }}
+- name: shared-git-volume
+  emptyDir: {}
+{{- end }}
 {{- if .Values.mountVarLogDirectory }}
 - name: varlog
   hostPath:
