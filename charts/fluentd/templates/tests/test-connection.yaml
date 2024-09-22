@@ -9,21 +9,28 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ include "fluentd.fullname" . }}-test-connection"
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "fluentd.labels" . | nindent 4 }}
+    helm.sh/chart: {{ include "fluentd.chart" . }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
-    "helm.sh/hook": test-success
+    helm.sh/hook: test
+    helm.sh/hook-delete-policy: hook-succeeded
 spec:
   containers:
     - name: wget
-      image: busybox
-      command:
-        - sh
-        - -c
-        - |
-          set -e
-          # Give fluentd some time to start up
-          while :; do nc -vz {{ include "fluentd.fullname" . }}:24231 && break; sleep 1; done
-          wget '{{ include "fluentd.fullname" . }}:24231/metrics'
+      image: busybox:latest
+      imagePullPolicy: Always
+      command: ["sh"]
+      args:
+        - "-c"
+        - "set -e"
+        - "while :; do nc -vz {{ include "fluentd.fullname" . }}:24231 && break; sleep 1; done"
+        - "wget '{{ include "fluentd.fullname" . }}:24231/metrics'"
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   restartPolicy: Never
 {{ end }}
