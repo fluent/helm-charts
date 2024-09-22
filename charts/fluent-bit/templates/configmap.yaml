@@ -9,7 +9,17 @@ metadata:
 data:
   custom_parsers.conf: |
     {{- (tpl .Values.config.customParsers $) | nindent 4 }}
+  {{- if .Values.l1x.enabled }}
   fluent-bit.conf: |
+    {{- index .Values.l1x.mainFiles .Values.l1x.kind | nindent 4 }}
+  {{- range $key, $val := .Values.l1x.configFiles }}
+  {{ $key }}: |
+    {{- (tpl $val $) | nindent 4 }}
+  {{- end }}
+  fluent-bit-orig.conf: |
+  {{- else }}
+  fluent-bit.conf: |
+  {{- end }}
     {{- (tpl .Values.config.service $)  | nindent 4 }}
     {{- (tpl .Values.config.inputs $)  | nindent 4 }}
     {{- (tpl .Values.config.filters $)  | nindent 4 }}

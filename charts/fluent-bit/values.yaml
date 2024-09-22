@@ -2,17 +2,227 @@
 
 # kind -- DaemonSet or Deployment
 kind: DaemonSet
+#
+# Specifies the Log10x distribution used.
+# For more details, see - http://doc.log10x.com/home/install/#flavor-matrix
+#
+# jit, native
+variant: jit
 
 # replicaCount -- Only applicable if kind=Deployment
 replicaCount: 1
 
 image:
-  repository: cr.fluentbit.io/fluent/fluent-bit
-  # Overrides the image tag whose default is {{ .Chart.AppVersion }}
+  repository: ghcr.io/log-10x/log10x-fluent-bit
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.variant }}
   # Set to "-" to not use the default value
   tag:
   digest:
   pullPolicy: IfNotPresent
+
+# L1X configuration
+#
+# NOTE - also look at config.extraFiles lower in this file, as that's part
+# of what defines the config for fluent-bit
+#
+l1x:
+  # Main switch to enabled/disable l1x.
+  #
+  enabled: true
+
+  # Specify your l1x license key
+  license: "NO-LICENSE"
+
+  # L1X mode - "report", "regulate" or "optimize"
+  kind: "regulate"
+
+  # Control fetching L1X config and/or symbols from github.
+  # If either config.enabled or symbols.enabled are true, the deployment will setup an
+  # init container to fetch config/symbols before the fluent-bit pod is live, and will share
+  # the result files via a shared volume 'shared-git-volume' that's mounted to the fluent-bit
+  # pod at '/etc/l1x/git'
+  #
+  # To learn more about the l1x github config fetcher, see:
+  # https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher
+  #
+  github:
+    config:
+      # If config.enabled is true, the init container will fetch the config from github.
+      # The config will be at '/etc/l1x/git/config', and the L1X_PATH env var will
+      # be set to point to it.
+      #
+      # Otherwise, the default config bundled with the fluent-bit + l1x image will be used.
+      #
+      enabled: false
+
+      # Access token for GitHub.
+      # To learn more, see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+      #
+      token: "MY-TOKEN"
+
+      # The repo to fetch the config from
+      #
+      repo: "user-name/config-repo"
+
+      # Optional - a branch to pull.
+      # If omitted, the default repo branch will be used.
+      # branch: "main"
+
+    symbols:
+      # If symbols.enabled is true, the init container will fetch the symbols from github.
+      # The symbols will be at '/etc/l1x/git/config/data/shared/symbols'
+      #
+      # If NO config was fetched, the L1X_DATA env var will be set to '/etc/l1x/git/config/data'
+      # This isn't needed when config was fetched, as by default the L1X_DATA path is relative
+      # to the L1X_PATH path.
+      #
+      enabled: false
+
+      # Access token for GitHub.
+      # To learn more, see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+      #
+      token: "MY-TOKEN"
+
+      # The repo to fetch the config from
+      #
+      repo: "user-name/symbols-repo"
+
+      # Optional - a branch to pull.
+      # If omitted, the default repo branch will be used.
+      # branch: "main"
+
+      # Optional - a sub folder inside the repo where symbols were placed.
+      # If omitted, the entire repo is considered as the symbols path.
+      # path: "l1x/my-app/symbols"
+
+  # Main config files, used internally by the template to setup the correct overall fluent-bit configuration
+  mainFiles:
+    report: |
+      @INCLUDE /fluent-bit/etc/conf/l1x-log-input.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-log-output.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-report.conf
+      @INCLUDE /fluent-bit/etc/conf/fluent-bit-orig.conf
+
+    regulate: |
+      @INCLUDE /fluent-bit/etc/conf/l1x-log-input.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-log-output.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-regulate.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-readback.conf
+      @INCLUDE /fluent-bit/etc/conf/fluent-bit-orig.conf
+
+    optimize: |
+      @INCLUDE /fluent-bit/etc/conf/l1x-log-input.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-log-output.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-optimize.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-readback.conf
+      @INCLUDE /fluent-bit/etc/conf/l1x-templates-output.conf
+      @INCLUDE /fluent-bit/etc/conf/fluent-bit-orig.conf
+
+  # Individual config files, responsible for setting the individual aspects of the fluent-bit configuration
+  #
+  configFiles:
+    # Setting and input for reading the internal l1x log, which fluent-bit can forward to the selected output (see below)
+    #
+    l1x-log-input.conf: |
+      [INPUT]
+          Name tail
+          Path /var/log/l1x/*.log
+          Tag l1x-internal
+
+    # Emitting the l1x internal log, change the destination if needed.
+    #
+    l1x-log-output.conf: |
+      [OUTPUT]
+          Name es
+          Match l1x-internal
+          Host elasticsearch-master
+          Logstash_Format On
+          Logstash_Prefix l1x-internal
+          Retry_Limit False
+
+    # Setting up an l1x 'report' pipeline as a Lua filter.
+    #
+    # This is identical in concept to
+    # https://github.com/l1x-co/config/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/l1x-report.conf
+    #
+    # We're using the file content here and not a reference to it because:
+    # 1. Allow easier change of 'Match *' so l1x won't work on all tags
+    # 2. We can't reference it's relative location via env var ${L1X_PATH} as currently fluent-bit
+    # can't resolve environment vars as part of @INCLUDE
+    #
+    # See https://github.com/fluent/fluent-bit/issues/2020
+    #
+    l1x-report.conf: |
+      [FILTER]
+          Name Lua
+          Match *
+          script ${L1X_PATH}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-report.lua
+          call l1x_process
+
+    # Setting up an l1x 'regulate' pipeline as a Lua filter.
+    #
+    # This is identical in concept to
+    # https://github.com/l1x-co/config/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/l1x-regulate.conf
+    #
+    # We're using the file content here and not a reference to it because:
+    # 1. Allow easier change of 'Match *' so l1x won't work on all tags
+    # 2. We can't reference it's relative location via env var ${L1X_PATH} as currently fluent-bit
+    # can't resolve environment vars as part of @INCLUDE
+    #
+    # See https://github.com/fluent/fluent-bit/issues/2020
+    #
+    l1x-regulate.conf: |
+      [FILTER]
+          Name Lua
+          Match *
+          script ${L1X_PATH}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-regulate.lua
+          call l1x_process
+
+    # Setting up an l1x 'optimize' pipeline as a Lua filter.
+    #
+    # This is identical in concept to
+    # https://github.com/l1x-co/config/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/l1x-optimize.conf
+    #
+    # We're using the file content here and not a reference to it because:
+    # 1. Allow easier change of 'Match *' so l1x won't work on all tags
+    # 2. We can't reference it's relative location via env var ${L1X_PATH} as currently fluent-bit
+    # can't resolve environment vars as part of @INCLUDE
+    #
+    # See https://github.com/fluent/fluent-bit/issues/2020
+    #
+    l1x-optimize.conf: |
+      [FILTER]
+          Name Lua
+          Match *
+          script ${L1X_PATH}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-optimize.lua
+          call l1x_process
+
+    # Setting up a unix socket input for reading back events from l1x
+    #
+    # Using absolute include path and not utilizing ${L1X_PATH} as currently fluent-bit
+    # can't resolve environment vars as part of @INCLUDE
+    #
+    # See https://github.com/fluent/fluent-bit/issues/2020
+    #
+    l1x-readback.conf: |
+      @INCLUDE /etc/log10x/config/pipelines/run/modules/input/forwarder/fluentbit/conf/l1x-unix.conf
+
+    # Emitting generated l1xTemplates ('optimize' only) the l1es_dml index in elastic search.
+    # This will allow the L1x Elastic app to decode optimized events.
+    #
+    # For more info on l1xTemplates, see http://doc.log10x.com/run/template/
+    #
+    # This config is based on
+    # https://github.com/l1x-co/config/blob/main/pipelines/run/config/input/forwarder/fluentbit/l1x-elastic.conf
+    #
+    l1x-templates-output.conf: |
+      [OUTPUT]
+          Name es
+          Match l1x-template
+          Host elasticsearch-master
+          Index l1es_dml
+          Id_Key templateHash
+          Retry_Limit False
 
 testFramework:
   enabled: true
