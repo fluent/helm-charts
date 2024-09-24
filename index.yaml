@@ -5122,6 +5122,37 @@ entries:
     version: 0.1.0
   fluent-operator:
   - apiVersion: v2
+    appVersion: 3.2.0
+    created: "2024-09-24T10:49:17.834209156Z"
+    dependencies:
+    - condition: fluentbit.crdsEnable
+      name: fluent-bit-crds
+      repository: file://charts/fluent-bit-crds
+      version: 3.2.0
+    - condition: fluentd.crdsEnable
+      name: fluentd-crds
+      repository: file://charts/fluentd-crds
+      version: 3.2.0
+    description: Fluent Operator provides great flexibility in building a logging
+      layer based on Fluent Bit and Fluentd.
+    digest: e955922dedf3f8fbe57cf1e53245326760521a725401271d75199f520ba9fb73
+    home: https://www.fluentd.org/
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    - operator
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    name: fluent-operator
+    sources:
+    - https://github.com/fluent/fluent-operator
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-3.2.0/fluent-operator-3.2.0.tgz
+    version: 3.2.0
+  - apiVersion: v2
     appVersion: 3.1.0
     created: "2024-08-28T06:39:17.000943303Z"
     dependencies:
@@ -6070,4 +6101,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-03T12:17:37.43535141Z"
+generated: "2024-09-24T10:49:17.834605538Z"
