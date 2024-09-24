@@ -31,6 +31,14 @@ spec:
   namespaceFluentBitCfgSelector:
 {{ toYaml .Values.fluentbit.namespaceFluentBitCfgSelector | indent 4  }}
   {{- end }}
+{{- with .Values.fluentbit.command }}
+  command:
+{{ toYaml . | indent 4 }}
+{{- end }}
+{{- with .Values.fluentbit.args }}
+  args:
+{{ toYaml . | indent 4 }}
+{{- end }}
 {{- if .Values.fluentbit.envVars }}
   envVars:
 {{ toYaml .Values.fluentbit.envVars | indent 4 }}
@@ -102,6 +110,10 @@ spec:
   {{- end }}
 {{- if .Values.fluentbit.disableLogVolumes }}
   disableLogVolumes: {{ .Values.fluentbit.disableLogVolumes }}
+{{- end }}
+{{- if .Values.fluentbit.initContainers }}
+  initContainers:
+  {{ toYaml .Values.fluentbit.initContainers | indent 4 }}
 {{- end }}
 {{- end }}
 {{- end }}
