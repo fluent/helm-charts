@@ -64,6 +64,11 @@ containers:
     {{- if .Values.hotReload.enabled }}
       - --enable-hot-reload
     {{- end }}
+    {{- if .Values.useYamlConfig }}
+      - --config=/fluent-bit/etc/conf/fluent-bit.yaml
+    {{- else }}
+      - --config=/fluent-bit/etc/conf/fluent-bit.conf
+    {{- end }}
   {{- end}}
     ports:
       - name: http

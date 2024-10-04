@@ -7,13 +7,28 @@ metadata:
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
 data:
+  {{ if .Values.useYamlConfig -}}
+  fluent-bit.yaml: |
+    service:
+      {{- tpl (toYaml .Values.yamlConfig.service) . | nindent 6 }}
+    pipeline:
+      inputs:
+        {{- tpl (toYaml .Values.yamlConfig.pipeline.inputs) . | nindent 8 }}
+      filters:
+        {{- tpl (toYaml .Values.yamlConfig.pipeline.filters) . | nindent 8 }}
+      outputs:
+        {{- tpl (toYaml .Values.yamlConfig.pipeline.outputs) . | nindent 8 }}
+    parsers:
+      {{- tpl (toYaml .Values.yamlConfig.parsers) . | nindent 6 }}
+  {{ else -}}
   custom_parsers.conf: |
-    {{- (tpl .Values.config.customParsers $) | nindent 4 }}
+    {{- (tpl .Values.config.customParsers .) | nindent 4 }}
   fluent-bit.conf: |
-    {{- (tpl .Values.config.service $)  | nindent 4 }}
-    {{- (tpl .Values.config.inputs $)  | nindent 4 }}
-    {{- (tpl .Values.config.filters $)  | nindent 4 }}
-    {{- (tpl .Values.config.outputs $)  | nindent 4 }}
+    {{- (tpl .Values.config.service .)  | nindent 4 }}
+    {{- (tpl .Values.config.inputs .)  | nindent 4 }}
+    {{- (tpl .Values.config.filters .)  | nindent 4 }}
+    {{- (tpl .Values.config.outputs .)  | nindent 4 }}    
+  {{ end -}}
   {{- range $key, $val := .Values.config.upstream }}
   {{ $key }}: |
     {{- (tpl $val $) | nindent 4 }}

@@ -364,6 +364,56 @@ networkPolicy:
 
 luaScripts: {}
 
+useYamlConfig: false
+
+yamlConfig:
+  service:
+    daemon: "Off"
+    flush: '{{ .Values.flush }}'
+    log_level: '{{ .Values.logLevel }}'
+    parsers_file: "/fluent-bit/etc/parsers.conf"
+    http_server: "On"
+    http_listen: "0.0.0.0"
+    http_port: '{{ .Values.metricsPort }}'
+    Health_Check: "On"
+  pipeline:
+    inputs:
+      - name: tail
+        path: "/var/log/containers/*.log"
+        multiline.parser: "docker, cri"
+        Tag: "kube.*"
+        Mem_Buf_Limit: "5MB"
+        Skip_Long_Lines: "On"
+      - name: systemd
+        Tag: host.*
+        Systemd_Filter: "_SYSTEMD_UNIT=kubelet.service"
+        Read_From_Tail: "On"
+    filters:
+      - name: kubernetes
+        match: kube.*
+        Merge_Log: "On"
+        Keep_Log: "Off"
+        K8S-Logging.Parser: "On"
+        K8S-Logging.Exclude: "On"
+    outputs:
+      - name: es
+        match: kube.*
+        Host: elasticsearch-master
+        Logstash_Format: "On"
+        Retry_Limit: "False"
+      - name: es
+        match: host.*
+        Host: elasticsearch-master
+        Logstash_Format: "On"
+        Logstash_Prefix: "node"
+        Retry_Limit: "False"
+  parsers:
+    name: docker_no_time
+    format: json
+    time_keep: "false"
+    time_key: time
+    time_format: "%Y-%m-%dT%H:%M:%S.%L"
+
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
 config:
   service: |
@@ -483,7 +533,6 @@ command:
 
 args:
   - --workdir=/fluent-bit/etc
-  - --config=/fluent-bit/etc/conf/fluent-bit.conf
 
 # This supports either a structured array or a templatable string
 initContainers: []
