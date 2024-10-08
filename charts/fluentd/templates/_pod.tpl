@@ -74,7 +74,7 @@ containers:
     - name: L1X_LICENSE
       value: "{{ .Values.l1x.license }}"
     {{- if .Values.l1x.github.config.enabled }}
-    - name: L1X_PATH
+    - name: L1X_CONFIG_PATH
       value: "/etc/l1x/git/config"
     {{- else if .Values.l1x.github.symbols.enabled }}
     - name: L1X_DATA

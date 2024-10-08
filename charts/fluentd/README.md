@@ -10,7 +10,7 @@ This chart is intended to set up a Fluentd daemonset with an L1X [Edge applicati
 
 The chart is derived from the base [Fluentd chart](https://github.com/fluent/helm-charts/tree/main/charts/fluentd), with some key differences which enable Fluentd to work with L1X:
 
-1. Container image is derived from [Fluentd k8s daemonset](https://github.com/fluent/fluentd-kubernetes-daemonset) image has L1X installed on it. For more details, see [Dockerfile](https://github.com/l1x-co/docker-images-tmp/blob/main/fwd/fluentd/daemonset/Dockerfile)
+1. Container image is derived from [Fluentd k8s daemonset](https://github.com/fluent/fluentd-kubernetes-daemonset) image has L1X installed on it. For more details, see [Dockerfile](https://github.com/l1x-co/docker-images/blob/main/fwd/fluentd/daemonset/Dockerfile)
 2. Fluentd configuration is adapted to include emitting/receiving events to/from L1X. For more details on how Fluentd communicates with L1X, see [here](http://doc.log10x.com/run/input/forwarder/fluentd/)
 3. Added easy fetching of L1X application configuration and [symbols](http://doc.log10x.com/run/symbol/) from Github using an init container which pulls and mounts the needed files onto the main pod. For more details, see [Dockerfile](https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher/Dockerfile) 
 
@@ -31,7 +31,7 @@ helm install fluentd-l1x fluent-l1x/fluentd
 
 ## Examples
 
-Sample values.yaml which sets up Fluentd with an L1X [Edge application](http://doc.log10x.com/run/apps/edge/) can be found [here](https://github.com/l1x-co/fluent-helm-charts-tmp/tree/main/samples), for an L1X [Reporter](https://github.com/l1x-co/fluent-helm-charts-tmp/blob/main/samples/fluentd-report.yaml), [Regulator](https://github.com/l1x-co/fluent-helm-charts-tmp/blob/main/samples/fluentd-regulate.yaml) and [Optimizer](https://github.com/l1x-co/fluent-helm-charts-tmp/blob/main/samples/fluentd-optimize.yaml)
+Sample values.yaml which sets up Fluentd with an L1X [Edge application](http://doc.log10x.com/run/apps/edge/) can be found [here](https://github.com/l1x-co/fluent-helm-charts/tree/main/samples), for an L1X [Reporter](https://github.com/l1x-co/fluent-helm-charts/blob/main/samples/fluentd-report.yaml), [Regulator](https://github.com/l1x-co/fluent-helm-charts/blob/main/samples/fluentd-regulate.yaml) and [Optimizer](https://github.com/l1x-co/fluent-helm-charts/blob/main/samples/fluentd-optimize.yaml)
 
 Full details on the base Fluentd chart can be found at the [original repo](https://github.com/fluent/helm-charts/tree/main/charts/fluentd)
 
