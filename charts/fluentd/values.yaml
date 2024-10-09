@@ -34,6 +34,10 @@ l1x:
   # Specify your l1x license key
   license: "NO-LICENSE"
 
+  # Specify name for the l1x runtime
+  # If empty, will use default from l1x configuration
+  runtimeName:
+
   # L1X mode - "report", "regulate" or "optimize"
   kind: "regulate"
 
@@ -234,7 +238,7 @@ l1x:
     # For more info on l1xTemplates, see http://doc.log10x.com/run/template/
     #
     # This config is based on
-    # https://github.com/l1x-co/config/blob/main/pipelines/run/config/input/forwarder/fluentd/l1x-elastic.conf
+    # https://github.com/l1x-co/config/blob/main/pipelines/run/input/forwarder/fluentd/l1x-elastic.conf
     #
     07_l1x_templates.conf: |-
       <label @L1X-TEMPLATE>
