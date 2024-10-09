@@ -91,6 +91,10 @@ containers:
     {{- else if eq $.Values.l1x.kind "report" }}
         value: "/fluent-bit/etc/conf/l1x-main-report.conf"
     {{- end }}
+    {{- if .Values.l1x.reportedName }}
+	  - name: L1X_RUNTIME_NAME
+	    value: "{{ .Values.l1x.reportedName }}"
+    {{- end }}
     {{- if .Values.l1x.github.config.enabled }}
       - name: L1X_CONFIG_PATH
         value: "/etc/l1x/git/config"

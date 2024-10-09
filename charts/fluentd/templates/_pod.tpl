@@ -73,6 +73,10 @@ containers:
     {{- if .Values.l1x.enabled }}
     - name: L1X_LICENSE
       value: "{{ .Values.l1x.license }}"
+    {{- if .Values.l1x.reportedName }}
+    - name: L1X_RUNTIME_NAME
+      value: "{{ .Values.l1x.reportedName }}"
+    {{- end }}
     {{- if .Values.l1x.github.config.enabled }}
     - name: L1X_CONFIG_PATH
       value: "/etc/l1x/git/config"

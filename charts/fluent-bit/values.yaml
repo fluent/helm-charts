@@ -33,6 +33,10 @@ l1x:
   # Specify your l1x license key
   license: "NO-LICENSE"
 
+  # Specify name for the l1x runtime
+  # If empty, will use default from l1x configuration
+  runtimeName:
+
   # L1X mode - "report", "regulate" or "optimize"
   kind: "regulate"
 
