@@ -510,3 +510,5 @@ hotReload:
     digest:
     pullPolicy: IfNotPresent
   resources: {}
+  volumeDirs: []
+  extraVolumeMounts: []

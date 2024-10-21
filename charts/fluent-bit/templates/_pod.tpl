@@ -108,11 +108,17 @@ containers:
       - {{ printf "-webhook-url=http://localhost:%s/api/v2/reload" (toString .Values.metricsPort) }}
       - -volume-dir=/watch/config
       - -volume-dir=/watch/scripts
+      {{- range .Values.hotReload.volumeDirs }}
+      - -volume-dir={{ . }}
+      {{- end }}
     volumeMounts:
       - name: config
         mountPath: /watch/config
       - name: luascripts
         mountPath: /watch/scripts
+      {{- with .Values.hotReload.extraVolumeMounts }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
     {{- with .Values.hotReload.resources }}
     resources:
       {{- toYaml . | nindent 12 }}
