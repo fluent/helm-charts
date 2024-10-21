@@ -24,9 +24,9 @@ operator:
         memory: 64Mi
   container:
     repository: "kubesphere/fluent-operator"
-    tag: "v3.2.0"
+    tag: "latest"
   # If set to false, this will disable the creation of ClusterRole, ClusterRoleBinding,
-  # Deployment, and ServiceAccount resources to avoid conflicts when deploying multiple instances.
+  # Deployment, and ServiceAccount resources to avoid conflicts when deploying multiple instances. 
   enable: true
   # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/user-guide/node-selection/
   nodeSelector: {}
@@ -86,7 +86,7 @@ fluentbit:
     metricRelabelings: []
   image:
     repository: "ghcr.io/fluent/fluent-operator/fluent-bit"
-    tag: "3.1.7"
+    tag: "3.1.8"
   # fluentbit resources. If you do want to specify resources, adjust them as necessary
   # You can adjust it based on the log volume.
   resources:
@@ -125,7 +125,7 @@ fluentbit:
   # List of volumes that can be mounted by containers belonging to the pod.
   additionalVolumes: []
   # Additional rbac rules which will be applied to the fluent-bit clusterrole. Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding
-  # NOTE: As fluent-bit is managed by the fluent-operator, fluent-bit can only be granted permissions the operator also has
+  # NOTE: As fluent-bit is managed by the fluent-operator, fluent-bit can only be granted permissions the operator also has 
   rbacRules: {}
   # Pod volumes to mount into the container's filesystem.
   additionalVolumesMounts: []
@@ -203,7 +203,7 @@ fluentbit:
       # Use storageType as "filesystem" if you want to use filesystem as the buffering mechanism for tail input.
       storageType: memory
       pauseOnChunksOverlimit: "off"
-      # multiline.parser
+      # multiline.parser 
       # multilineParser: "docker, cri"
     systemd:
       enable: true
@@ -287,51 +287,51 @@ fluentbit:
     # See https://docs.fluentbit.io/manual/pipeline/outputs/loki
     loki:
       # Switch for generation of fluentbit loki ClusterOutput (and loki basic auth http user and pass secrets if required)
-      enable: false  # Bool
-      host: 127.0.0.1  # String
+      enable: false # Bool
+      host: 127.0.0.1 # String
       port: 3100      # Int
       # Either, give http{User,Password},tenantID string values specifying them directly
       httpUser: myuser
       httpPassword: mypass
       tenantID: ''
       # Or give {http{User,Password},tenantID} as reference to secrets that you have manually installed into your kubernetes cluster
-      # httpUser:
-      #   valueFrom:
-      #     secretKeyRef:
-      #       key: value
-      #       name: husersecret
-      #       optional: true
-      # httpPassword:
-      #   valueFrom:
-      #     secretKeyRef:
-      #       key: value
-      #       name: hpasssecret
-      #       optional: true
-      # tenantID:
-      #   valueFrom:
-      #     secretKeyRef:
-      #       key: value
-      #       name: tenantsecret
-      #       optional: true
+      #httpUser:
+      #  valueFrom:
+      #    secretKeyRef:
+      #      key: value
+      #      name: husersecret
+      #      optional: true
+      #httpPassword:
+      #  valueFrom:
+      #    secretKeyRef:
+      #      key: value
+      #      name: hpasssecret
+      #      optional: true
+      #tenantID:
+      #  valueFrom:
+      #    secretKeyRef:
+      #      key: value
+      #      name: tenantsecret
+      #      optional: true
       #
-      #  To use bearer token auth instead of http basic auth
-      # bearerToken: ey....
-      #  or with existing secret
-      # bearerToken:
-      #   valueFrom:
-      #     secretKeyRef:
-      #       key: value
-      #       name: bearerTokenSecret
-      #       optional: true
-      # labels: []      # String list of <name>=<value>
-      # labelKeys: []   # String list of <key>
-      # removeKeys: []  # String list of <key>
-      # labelMapPath: '' # String, path to file, ex /here/it/is
-      # dropSingleKey: off
-      # lineFormat: '' # String
-      # autoKubernetesLabels: on
-      # tenantIDKey:   # String
-      # tls: {}        # *plugins.TLS fluentbit docs
+      # To use bearer token auth instead of http basic auth
+      #bearerToken: ey....
+      # or with existing secret
+      #bearerToken:
+      #  valueFrom:
+      #    secretKeyRef:
+      #      key: value
+      #      name: bearerTokenSecret
+      #      optional: true
+      #labels: []      # String list of <name>=<value>
+      #labelKeys: []   # String list of <key>
+      #removeKeys: []  # String list of <key>
+      #labelMapPath: '' # String, path to file, ex /here/it/is
+      #dropSingleKey: off
+      #lineFormat: '' # String
+      #autoKubernetesLabels: on
+      #tenantIDKey:   # String
+      #tls: {}        # *plugins.TLS fluentbit docs
     stackdriver: {}
     # You can configure the stackdriver configuration here
 
@@ -354,7 +354,7 @@ fluentbit:
       enable: false
       keyContent: log
       # emitterMemBufLimit 120 (MB)
-      emitterMemBufLimit: 120
+      emitterMemBufLimit: 120 
       parsers:
         - go
         - python
@@ -401,7 +401,7 @@ fluentd:
   port: 24224
   image:
     repository: "ghcr.io/fluent/fluent-operator/fluentd"
-    tag: "v1.17.0"
+    tag: "v1.17.0-4"
   # Numbers of the Fluentd instance
   # Applicable when the mode is "collector", and will be ignored when the mode is "agent"
   replicas: 1
