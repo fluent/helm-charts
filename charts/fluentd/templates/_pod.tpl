@@ -17,7 +17,7 @@ terminationGracePeriodSeconds: {{ . }}
 {{- if and .Values.l1x.enabled $l1xGHInit }}
 initContainers:
   - name: l1x-git-config
-    image: ghcr.io/log-10x/github-config-fetcher:0.1.0
+    image: ghcr.io/log-10x/github-config-fetcher:0.2.0
     args:
       {{- if .Values.l1x.github.config.enabled }}
       - "--config-repo"
