@@ -1,0 +1,256 @@
+# Checkmarx customized values.yaml for fluent-bit
+
+resources:
+  limits:
+    # cpu: 500m
+    memory: 1536Mi
+  requests:
+    cpu: 100m
+    memory: 512Mi
+
+nodeSelector: {}
+
+tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - key: "node.kubernetes.io/minio-gateway"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+  - key: "node.kubernetes.io/sast-engine"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+  - key: "node.kubernetes.io/sast-engine-large"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+  - key: "node.kubernetes.io/kics-engine"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+  - key: "node.kubernetes.io/sast-engine-extra-large"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: eks.amazonaws.com/compute-type
+          operator: NotIn
+          values:
+          - fargate
+
+podAnnotations:
+  fluentbit.io/exclude: "true"
+
+podLabels: {}
+
+priorityClassName: ""
+# Link to documentation: https://checkmarx.atlassian.net/wiki/spaces/AID/pages/2845443215/Observability+architecture
+env:
+# [0]
+- name: ELASTICSEARCH_USERNAME
+  value: ""
+
+# [1]
+- name: ELASTICSEARCH_PASSWORD
+  value: ""
+
+# [2]
+- name: ELASTICSEARCH_HOST
+  value: ""
+
+# [3]
+- name: ELASTICSEARCH_PORT
+  value: "9243"
+
+# [4]
+- name: ELASTIC_CLOUD_ID
+  value: ""
+
+# [5] ELASTIC_CLOUD_AUTH = ${ELASTICSEARCH_USERNAME}:${ELASTICSEARCH_PASSWORD}
+- name: ELASTIC_CLOUD_AUTH
+  value: ""
+
+# [6]
+# cluster feald is used to identify the cluster in kibana
+- name: ENVIRONMENT
+  value: "cx-EKS_CLUSTER_NAME"
+
+# [7]
+- name: INDEX_NAME
+  value: "cx-fluentbit-EKS_CLUSTER_NAME-logs"
+
+# [8]
+# CI_CORRELATION_ID
+- name: CI_CORRELATION_ID
+  value: "35E4E6DA-F182-457D-8D74-57B5754F1361"
+
+envFrom: []
+
+extraPorts: []
+#   - port: 5170
+#     containerPort: 5170
+#     protocol: TCP
+#     name: tcp
+
+extraVolumes: []
+
+extraVolumeMounts: []
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+
+# Make use of a pre-defined configmap instead of the one templated here
+existingConfigMap: ""
+
+networkPolicy:
+  enabled: false
+  # ingress:
+  #   from: []
+
+# luaScripts: {}
+
+## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
+config:
+  service: |
+    [SERVICE]
+        Flush 60
+        Log_Level {{ .Values.logLevel }}
+        Daemon        off
+        Parsers_File parsers.conf
+        Parsers_File custom_parsers.conf
+        HTTP_Server on
+        HTTP_Listen 0.0.0.0
+        HTTP_Port {{ .Values.service.port }}
+        Health_Check On
+
+  ## https://docs.fluentbit.io/manual/pipeline/inputs
+  inputs: |
+    [INPUT]
+        Name    tail
+        Tag     kube.*
+        Path    /var/log/containers/*.log
+        Exclude_Path /var/log/containers/*-sca-*.log,/var/log/containers/*_sca-*.log,/var/log/containers/fluent-bit*.log,/var/log/containers/metricbeat*.log,/var/log/containers/aws-ecr-credential*.log,/var/log/containers/*platform-minio*.log
+        # Exclude_Path /var/log/containers/fluent-bit*.log,/var/log/containers/metricbeat*.log,/var/log/containers/*platform-minio*.log
+        Read_from_head true
+        Parser  custom_cri
+        Skip_Long_Lines   On
+        Skip_Empty_Lines On
+        Refresh_Interval  10
+        Buffer_Chunk_Size 1MB
+        Buffer_Max_Size   1MB
+        # Mem_Buf_Limit     1536MB
+        Mem_Buf_Limit     512MB
+
+    [INPUT]
+        Name    tail
+        Tag     dataplane.*
+        Path    /var/log/messages
+        Read_from_head true
+        Parser  json
+        Mem_Buf_Limit     100MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
+  ## https://docs.fluentbit.io/manual/pipeline/filters
+  filters: |
+    [FILTER]
+        Name             kubernetes
+        Match            kube.*
+        Kube_URL         https://kubernetes.default.svc:443
+        Kube_CA_File     /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        Kube_Token_File  /var/run/secrets/kubernetes.io/serviceaccount/token
+        Kube_Tag_Prefix  kube.var.log.containers.
+        Merge_Log        On
+        Merge_Log_Key    log_processed
+        Merge_Log_Trim   On
+        K8S-Logging.Exclude On
+        Labels           Off
+        Annotations      Off
+        Buffer_Size      5MB
+        K8S-Logging.Parser  On
+
+    [FILTER]
+        Name      record_modifier
+        match     *
+        record    cluster ${ENVIRONMENT}
+
+    [FILTER]
+        Name      record_modifier
+        match     *
+        record    ci_correlation_id ${CI_CORRELATION_ID}
+
+
+    # [FILTER]
+    #     Name lua
+    #     Match kube.*
+    #     script /fluent-bit/scripts/lua_functions.lua
+    #     call replace_string
+
+
+
+  ## https://docs.fluentbit.io/manual/pipeline/outputs
+  outputs: |
+    # Logs 
+    [OUTPUT]
+        Name es
+        Match kube.*
+        Host ${ELASTICSEARCH_HOST}
+        Port ${ELASTICSEARCH_PORT}
+        HTTP_User ${ELASTICSEARCH_USERNAME}
+        HTTP_Passwd ${ELASTICSEARCH_PASSWORD}
+        Index ${INDEX_NAME}-logs
+        TLS on
+        Include_Tag_Key true
+        Replace_Dots On
+        Trace_Error Off
+        Trace_Output Off
+        # Generate_ID On
+        # Buffer_Size 768MB
+        Buffer_Size 100MB
+        retry_Limit False
+        net.connect_timeout 30
+        net.keepalive on
+        net.keepalive_idle_timeout 10
+        workers         5
+        Suppress_Type_Name  On
+
+    [OUTPUT]
+        Name es
+        Match dataplane.*
+        Host ${ELASTICSEARCH_HOST}
+        Port ${ELASTICSEARCH_PORT}
+        HTTP_User ${ELASTICSEARCH_USERNAME}
+        HTTP_Passwd ${ELASTICSEARCH_PASSWORD}
+        Index ${INDEX_NAME}-messages
+        TLS on
+        Include_Tag_Key true
+        Replace_Dots Off
+        Trace_Error Off
+        # Generate_ID On
+        Suppress_Type_Name  On
+        # Buffer_Size 100MB
+        Buffer_Size 5MB
+
+  customParsers: |
+    [PARSER]
+        Name         docker_test
+        Format       json
+        Time_Key     time
+        Time_Format  %Y-%m-%dT%H:%M:%S.%L
+        Time_Keep    Off
+        Types        createdAt:string
+
+    [PARSER]
+        Name         custom_cri
+        Format       regex
+        Regex ^(?<timestamp>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
+        Time_Key    timestamp
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
