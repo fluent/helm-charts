@@ -207,7 +207,6 @@ config:
         HTTP_User ${ELASTICSEARCH_USERNAME}
         HTTP_Passwd ${ELASTICSEARCH_PASSWORD}
         Index ${INDEX_NAME}-logs
-        HTTP_Scheme http
         TLS off
         Include_Tag_Key true
         Replace_Dots On
@@ -231,7 +230,6 @@ config:
         HTTP_User ${ELASTICSEARCH_USERNAME}
         HTTP_Passwd ${ELASTICSEARCH_PASSWORD}
         Index ${INDEX_NAME}-messages
-        HTTP_Scheme http
         TLS off
         Include_Tag_Key true
         Replace_Dots Off
