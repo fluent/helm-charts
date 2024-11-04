@@ -230,7 +230,7 @@ config:
         HTTP_User ${ELASTICSEARCH_USERNAME}
         HTTP_Passwd ${ELASTICSEARCH_PASSWORD}
         Index ${INDEX_NAME}-messages
-        TLS on
+        TLS off
         Include_Tag_Key true
         Replace_Dots Off
         Trace_Error Off
