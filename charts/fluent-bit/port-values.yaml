@@ -207,7 +207,7 @@ config:
         HTTP_User ${ELASTICSEARCH_USERNAME}
         HTTP_Passwd ${ELASTICSEARCH_PASSWORD}
         Index ${INDEX_NAME}-logs
-        TLS on
+        TLS off
         Include_Tag_Key true
         Replace_Dots On
         Trace_Error Off
