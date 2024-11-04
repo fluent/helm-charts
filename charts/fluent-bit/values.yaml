@@ -12,7 +12,7 @@ image:
   # Set to "-" to not use the default value
   tag:
   digest:
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 testFramework:
   enabled: true
