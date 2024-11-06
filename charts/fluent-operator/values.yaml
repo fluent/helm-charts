@@ -28,7 +28,7 @@ operator:
   # If set to false, this will disable the creation of ClusterRole, ClusterRoleBinding,
   # Deployment, and ServiceAccount resources to avoid conflicts when deploying multiple instances. 
   enable: true
-  # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/user-guide/node-selection/
+  # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
   nodeSelector: {}
   # Node tolerations applied to Fluent Operator. Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
   tolerations: []
