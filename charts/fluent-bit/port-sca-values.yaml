@@ -80,42 +80,84 @@ config:
     [STREAM_TASK]
         Name find_oks
         Exec CREATE STREAM oksource AS SELECT * from TAG:'*scan-logs*' WHERE @record.contains(Level);
-  filters: "[FILTER]\n    Name parser\n    Match scan-logs.*\n    # Match scan-logs*\n
-    \   Key_Name log\n    Parser json\n    # Parser custom_cri\n    Reserve_Data True\n\n[FILTER]\n
-    \   Name             kubernetes\n    # Match            kube.*\n    Match            scan-logs.*\n
-    \   Kube_Tag_Prefix  scan-logs.var.log.containers.\n    Kube_URL         https://kubernetes.default.svc:443\n
-    \   Kube_CA_File     /var/run/secrets/kubernetes.io/serviceaccount/ca.crt\n    Kube_Token_File
-    \ /var/run/secrets/kubernetes.io/serviceaccount/token\n    # Merge_Log        On\n
-    \   # Merge_Log_Key    log_processed\n    # Merge_Log_Trim   On\n    Labels           Off\n
-    \   Annotations      Off\n    Buffer_Size      50MB\n    K8S-Logging.Parser  Off\n
-    \   K8S-Logging.Exclude On\n\n[FILTER]\n    Name aws\n    Match scan-logs.*\n
-    \   imds_version v2\n    az true\n    ec2_instance_id true\n    ec2_instance_type
-    true\n    private_ip true\n    ami_id true\n    account_id true\n    hostname
-    true\n    vpc_id true\n\n# Added by Vladimir in order to \n[FILTER]\n    Name
-    modify\n    Match scan-logs.*\n    # Add Service1 SOMEVALUE\n    # Add Comment
-    \"Manual_level_Change\"\n    # Rename Mem.free MEMFREE\n    Rename level Level\n
-    \   Rename msg Message\n\n\n[FILTER]\n    Name      record_modifier\n    match
-    \    *\n    record    cluster ${ENVIRONMENT}\n\n# [FILTER]\n#     Name parser\n#
-    \    Match *\n#     Key_Name log\n#     Parser json\n#     # Parser custom_cri\n#
-    \    Reserve_Data True\n\n[FILTER]\n    Name lua\n    Match nojson\n    script
-    /fluent-bit/scripts/lua_functions.lua\n    call append_date\n\n[FILTER]\n    Name
-    record_modifier\n    Match nojson\n    Record Level info\n\n# commented with Tal
-    Roth\n# [FILTER]\n#     Name record_modifier\n#     Match metrics\n#     Record
-    service_name ${SERVICENAME}\n#     Record environment ${ENVIRONMENT}\n#     Record
-    enable_bucket ${ENABLE_METRICS_BUCKET}\n\n[FILTER]\n    Name parser\n    Match
-    okfixed\n    Key_Name log\n    Parser grepallline\n    Reserve_Data True\n\n#
-    commented with Tal Roth\n# [FILTER]\n#     Name record_modifier\n#     Match ok*\n#
-    \    Record environment ${ENVIRONMENT}\n#     Record serviceName ${SERVICENAME}\n\n[FILTER]\n
-    \   Name lua\n    Match ok*\n    script /fluent-bit/scripts/lua_functions.lua\n
-    \   call append_event_dataset\n\n[FILTER]\n    Name          rewrite_tag\n    Match
-    \        metrics*\n    Rule          $enable_bucket ^(true|True)$  metrics-${ENVIRONMENT}
-    true\n    Emitter_Name  re_emitted\n    \n# rename container fields to kibana
-    conventions \n[FILTER]\n    Name modify\n    Match *\n    Rename container_id
-    container.id\n    Rename container_name container.name\n\n[FILTER]\n    Name modify\n
-    \   Match metrics*\n    Remove enable_bucket\n\n# rewrite tag for metrics with
-    enrichment\n[FILTER]\n    Name          rewrite_tag\n    Match         metrics*\n
-    \   Rule          $dimensions['trace_id'] ^.*$  metrics-pipeline false\n    Emitter_Name
-    \ trace_emmiter\n"
+  filters: |
+    [FILTER]
+        Name             parser
+        Match            scan-logs.*
+        Key_Name         log
+        Parser           json
+        Reserve_Data     True
+    
+    [FILTER]
+        Name             kubernetes
+        Match            scan-logs.*
+        Kube_Tag_Prefix  scan-logs.var.log.containers.
+        Kube_URL         https://kubernetes.default.svc:443
+        Kube_CA_File     /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        Kube_Token_File  /var/run/secrets/kubernetes.io/serviceaccount/token
+        Labels           Off
+        Annotations      Off
+        Buffer_Size      50MB
+        K8S-Logging.Parser  Off
+        K8S-Logging.Exclude On
+    
+    [FILTER]
+        Name             modify
+        Match            scan-logs.*
+        Rename           level Level
+        Rename           msg Message
+    
+    [FILTER]
+        Name             record_modifier
+        Match            *
+        Record           cluster ${ENVIRONMENT}
+    
+    [FILTER]
+        Name             lua
+        Match            nojson
+        script           /fluent-bit/scripts/lua_functions.lua
+        call             append_date
+    
+    [FILTER]
+        Name             record_modifier
+        Match            nojson
+        Record           Level info
+    
+    [FILTER]
+        Name             parser
+        Match            okfixed
+        Key_Name         log
+        Parser           grepallline
+        Reserve_Data     True
+    
+    [FILTER]
+        Name             lua
+        Match            ok*
+        script           /fluent-bit/scripts/lua_functions.lua
+        call             append_event_dataset
+    
+    [FILTER]
+        Name             rewrite_tag
+        Match            metrics*
+        Rule             $enable_bucket ^(true|True)$  metrics-${ENVIRONMENT} true
+        Emitter_Name     re_emitted
+    
+    [FILTER]
+        Name             modify
+        Match            *
+        Rename           container_id container.id
+        Rename           container_name container.name
+    
+    [FILTER]
+        Name             modify
+        Match            metrics*
+        Remove           enable_bucket
+    
+    [FILTER]
+        Name             rewrite_tag
+        Match            metrics*
+        Rule             $dimensions['trace_id'] ^.*$  metrics-pipeline false
+        Emitter_Name     trace_emmiter
   inputs: |
     [INPUT]
         Name    tail
@@ -132,17 +174,41 @@ config:
         # Mem_Buf_Limit     1536MB
         # resolving OOMKilled of fluent-bit-sca pods periodic issue for Mem_Buf_Limit 256M
         Mem_Buf_Limit     512MB
-  outputs: "# Logs \n[OUTPUT]\n    Name es\n    # Match scan-logs.*\n    Match ok*\n
-    \   Host ${ELASTICSEARCH_HOST}\n    Port ${ELASTICSEARCH_PORT}\n    HTTP_User
-    ${ELASTICSEARCH_USERNAME}\n    HTTP_Passwd ${ELASTICSEARCH_PASSWORD}\n    Index
-    ${INDEX_NAME}-logs\n    TLS On\n    tls.verify Off\n    Include_Tag_Key true\n    Replace_Dots On\n
-    \   Trace_Error Off\n    Trace_Output Off\n    # Generate_ID On\n    Buffer_Size
-    100MB\n    net.connect_timeout 30\n    net.keepalive on\n    net.keepalive_idle_timeout
-    10\n    workers         5\n    Suppress_Type_Name  On\n\n[OUTPUT]\n    Name es\n
-    \   Match metrics\n    Host            ${ELASTICSEARCH_HOST}\n    Port            ${ELASTICSEARCH_PORT}\n
-    \   Index           ${INDEX_NAME}-metrics\n    HTTP_User       ${ELASTICSEARCH_USERNAME}\n
-    \   HTTP_Passwd     ${ELASTICSEARCH_PASSWORD}\n    TLS On\n    tls.verify Off\n    Include_Tag_Key
-    true\n    Time_Key es_time\n    Suppress_Type_Name  On\n"
+  outputs: |
+    [OUTPUT]
+        Name               es
+        Match              ok*
+        Host               ${ELASTICSEARCH_HOST}
+        Port               ${ELASTICSEARCH_PORT}
+        HTTP_User          ${ELASTICSEARCH_USERNAME}
+        HTTP_Passwd        ${ELASTICSEARCH_PASSWORD}
+        Index              ${INDEX_NAME}-logs
+        TLS                On
+        tls.verify         Off
+        Include_Tag_Key    true
+        Replace_Dots       On
+        Trace_Error        Off
+        Trace_Output       Off
+        Buffer_Size        100MB
+        net.connect_timeout 30
+        net.keepalive      on
+        net.keepalive_idle_timeout 10
+        workers            5
+        Suppress_Type_Name On
+    
+    [OUTPUT]
+        Name               es
+        Match              metrics
+        Host               ${ELASTICSEARCH_HOST}
+        Port               ${ELASTICSEARCH_PORT}
+        Index              ${INDEX_NAME}-metrics
+        HTTP_User          ${ELASTICSEARCH_USERNAME}
+        HTTP_Passwd        ${ELASTICSEARCH_PASSWORD}
+        TLS                On
+        tls.verify         Off
+        Include_Tag_Key    true
+        Time_Key           es_time
+        Suppress_Type_Name On
   service: |
     [SERVICE]
         Flush 60
