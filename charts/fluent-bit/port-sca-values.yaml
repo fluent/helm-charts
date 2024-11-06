@@ -236,10 +236,11 @@ readinessProbe:
     port: http
 resources:
   limits:
-    memory: 512Mi
+    # cpu: 500m
+    memory: 1536Mi
   requests:
     cpu: 100m
-    memory: 256Mi
+    memory: 512Mi
 securityContext: {}
 service:
   annotations: {}
