@@ -135,13 +135,13 @@ config:
   outputs: "# Logs \n[OUTPUT]\n    Name es\n    # Match scan-logs.*\n    Match ok*\n
     \   Host ${ELASTICSEARCH_HOST}\n    Port ${ELASTICSEARCH_PORT}\n    HTTP_User
     ${ELASTICSEARCH_USERNAME}\n    HTTP_Passwd ${ELASTICSEARCH_PASSWORD}\n    Index
-    ${INDEX_NAME}-logs\n    TLS off\n    tls.verify off\n    Include_Tag_Key true\n    Replace_Dots On\n
+    ${INDEX_NAME}-logs\n    TLS On\n    tls.verify Off\n    Include_Tag_Key true\n    Replace_Dots On\n
     \   Trace_Error Off\n    Trace_Output Off\n    # Generate_ID On\n    Buffer_Size
     100MB\n    net.connect_timeout 30\n    net.keepalive on\n    net.keepalive_idle_timeout
     10\n    workers         5\n    Suppress_Type_Name  On\n\n[OUTPUT]\n    Name es\n
     \   Match metrics\n    Host            ${ELASTICSEARCH_HOST}\n    Port            ${ELASTICSEARCH_PORT}\n
     \   Index           ${INDEX_NAME}-metrics\n    HTTP_User       ${ELASTICSEARCH_USERNAME}\n
-    \   HTTP_Passwd     ${ELASTICSEARCH_PASSWORD}\n    TLS off\n    tls.verify off\n    Include_Tag_Key
+    \   HTTP_Passwd     ${ELASTICSEARCH_PASSWORD}\n    TLS On\n    tls.verify Off\n    Include_Tag_Key
     true\n    Time_Key es_time\n    Suppress_Type_Name  On\n"
   service: |
     [SERVICE]
