@@ -196,19 +196,19 @@ config:
         workers            5
         Suppress_Type_Name On
     
- #   [OUTPUT]
- #       Name               es
- #       Match              metrics
- #       Host               ${ELASTICSEARCH_HOST}
- #       Port               ${ELASTICSEARCH_PORT}
- #       Index              ${INDEX_NAME}-metrics
- #       HTTP_User          ${ELASTICSEARCH_USERNAME}
- #       HTTP_Passwd        ${ELASTICSEARCH_PASSWORD}
- #       TLS                On
- #       tls.verify         Off
- #       Include_Tag_Key    true
- #       Time_Key           es_time
- #       Suppress_Type_Name On
+    [OUTPUT]
+        Name               es
+        Match              metrics
+        Host               ${ELASTICSEARCH_HOST}
+        Port               ${ELASTICSEARCH_PORT}
+        Index              ${INDEX_NAME}-metrics
+        HTTP_User          ${ELASTICSEARCH_USERNAME}
+        HTTP_Passwd        ${ELASTICSEARCH_PASSWORD}
+        TLS                On
+        tls.verify         Off
+        Include_Tag_Key    true
+        Time_Key           es_time
+        Suppress_Type_Name On
   service: |
     [SERVICE]
         Flush 60
