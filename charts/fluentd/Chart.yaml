@@ -7,8 +7,8 @@ keywords:
   - fluent-bit
   - fluentd
 # type: application
-version: 0.2.7
-appVersion: 0.10.7
+version: 0.2.8
+appVersion: 0.10.9
 icon: https://www.fluentd.org/images/miscellany/fluentd-logo_2x.png
 home: https://www.fluentd.org/
 sources:
