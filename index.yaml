@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Updated configmap-reload image to v0.14.0"
+    apiVersion: v1
+    appVersion: 3.2.1
+    created: "2024-11-22T12:39:39.985623992Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 0f7bf592f86ce79d971bd4a065406b0df6d6086d0ba0ea807ef59a6c51bfb9f5
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.48.1/fluent-bit-0.48.1.tgz
+    version: 0.48.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Updated Fluent Bit OCI image to v3.2.1."
     apiVersion: v1
     appVersion: 3.2.1
@@ -6163,4 +6194,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-21T16:29:05.252845764Z"
+generated: "2024-11-22T12:39:39.986327578Z"
