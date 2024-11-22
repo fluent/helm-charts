@@ -6,3 +6,12 @@ logLevel: debug
 dashboards:
   enabled: true
   deterministicUid: true
+
+config:
+  outputs: |
+    [OUTPUT]
+        name   stdout
+        match  *
+
+hotReload:
+  enabled: true
