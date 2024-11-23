@@ -45,6 +45,11 @@ rbac:
 podSecurityPolicy:
   create: false
   annotations: {}
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    # This policy assumes the nodes are using AppArmor rather than SELinux.
+    rule: RunAsAny
 
 # OpenShift-specific configuration
 openShift:
@@ -54,6 +59,10 @@ openShift:
     create: true
     name: ""
     annotations: {}
+    runAsUser:
+      type: RunAsAny
+    seLinuxContext:
+      type: MustRunAs
     # Use existing SCC in cluster, rather then create new one
     existingName: ""
 
