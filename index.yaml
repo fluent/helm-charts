@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Add option to configure seLinux and runAs policies"
+    apiVersion: v1
+    appVersion: 3.2.1
+    created: "2024-11-25T13:01:22.979735502Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: db981a8d2de643038e84d80d1537a21c1223602ef2be14c2f14f1e6bb50a216c
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.48.2/fluent-bit-0.48.2.tgz
+    version: 0.48.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Updated configmap-reload image to v0.14.0"
     apiVersion: v1
     appVersion: 3.2.1
@@ -6194,4 +6225,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-22T12:39:39.986327578Z"
+generated: "2024-11-25T13:01:22.980231113Z"
