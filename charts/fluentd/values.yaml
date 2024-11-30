@@ -270,7 +270,7 @@ metrics:
 ## Grafana Monitoring Dashboard
 ##
 dashboards:
-  enabled: "true"
+  enabled: true
   namespace: ""
   labels:
     grafana_dashboard: '"1"'
