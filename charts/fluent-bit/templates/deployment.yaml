@@ -30,7 +30,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "fluent-bit.selectorLabels" . | nindent 8 }}
+        {{- include "fluent-bit.podLabels" . | nindent 8 }}
       {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
