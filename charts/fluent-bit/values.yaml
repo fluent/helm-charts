@@ -302,6 +302,10 @@ podAnnotations: {}
 
 podLabels: {}
 
+# adds app.kubernetes.io/version label to pods for istio required labels
+verbosePodLabels:
+  enabled: false
+
 ## How long (in seconds) a pods needs to be stable before progressing the deployment
 ##
 minReadySeconds:

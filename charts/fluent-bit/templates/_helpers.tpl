@@ -52,9 +52,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
-Pod labels
+Verbose Pod labels
 */}}
-{{- define "fluent-bit.podLabels" -}}
+{{- define "fluent-bit.verbosePodLabels" -}}
 {{ include "fluent-bit.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
