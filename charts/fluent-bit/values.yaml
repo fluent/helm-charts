@@ -512,6 +512,7 @@ logLevel: info
 
 hotReload:
   enabled: false
+  additionalWatchPaths: []
   image:
     repository: ghcr.io/jimmidyson/configmap-reload
     tag: v0.14.0
