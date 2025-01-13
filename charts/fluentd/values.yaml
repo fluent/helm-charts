@@ -53,7 +53,7 @@ l1x:
   github:
     config:
       # If config.enabled is true, the init container will fetch the config from github.
-      # The config will be at '/etc/l1x/git/config', and the L1X_CONFIG_PATH env var will
+      # The config will be at '/etc/l1x/git/config', and the L1X_CONFIG env var will
       # be set to point to it.
       #
       # Otherwise, the default config bundled with the fluent-bit + l1x image will be used.
@@ -75,11 +75,8 @@ l1x:
 
     symbols:
       # If symbols.enabled is true, the init container will fetch the symbols from github.
-      # The symbols will be at '/etc/l1x/git/config/data/shared/symbols'
-      #
-      # If NO config was fetched, the L1X_DATA env var will be set to '/etc/l1x/git/config/data'
-      # This isn't needed when config was fetched, as by default the L1X_DATA path is relative
-      # to the L1X_CONFIG_PATH path.
+      # The symbols will be at '/etc/l1x/git/config/data/shared/symbols', and the environment
+      # variable L1X_SYMBOLS_PATH will be set to match
       #
       enabled: false
 
@@ -109,7 +106,7 @@ l1x:
       # Fluentd config for handling passing events into the pipeline in 'reporter' mode
       #
       00_l1x.conf: |-
-        @include "#{ENV['L1X_MODULES_PATH']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-report.conf"
+        @include "#{ENV['L1X_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-report.conf"
 
       # Controls which events are emitted into the l1x 'reporter'
       # Works by creating a copy, one to send into l1x via the @L1X label, and one to the actual
@@ -136,7 +133,7 @@ l1x:
       # Fluentd config for handling passing events into the pipeline in 'regulator' mode
       #
       00_l1x.conf: |-
-        @include "#{ENV['L1X_MODULES_PATH']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-regulate-unix.conf"
+        @include "#{ENV['L1X_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-regulate-unix.conf"
 
       # Controls which events are emitted into the l1x 'regulator'
       # Works by applying the @L1X label.
@@ -167,7 +164,7 @@ l1x:
       # Fluentd config for handling passing events into the pipeline in 'optimizer' mode
       #
       00_l1x.conf: |-
-        @include "#{ENV['L1X_MODULES_PATH']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-optimize-unix.conf"
+        @include "#{ENV['L1X_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-optimize-unix.conf"
 
       # Controls which events are emitted into the l1x 'optimizer'
       # Works by applying the @L1X label.

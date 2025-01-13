@@ -78,11 +78,12 @@ containers:
       value: "{{ .Values.l1x.runtimeName }}"
     {{- end }}
     {{- if .Values.l1x.github.config.enabled }}
-    - name: L1X_CONFIG_PATH
+    - name: L1X_CONFIG
       value: "/etc/l1x/git/config"
-    {{- else if .Values.l1x.github.symbols.enabled }}
-    - name: L1X_DATA
-      value: "/etc/l1x/git/config/data"
+    {{- end }}
+    {{- if .Values.l1x.github.symbols.enabled }}
+    - name: L1X_SYMBOLS_PATH
+      value: "/etc/l1x/git/config/data/shared/symbols"
     {{- end }}
     {{- end }}
     {{- if .Values.env }}
