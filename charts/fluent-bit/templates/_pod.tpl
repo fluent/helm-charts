@@ -108,8 +108,8 @@ containers:
       - {{ printf "-webhook-url=http://localhost:%s/api/v2/reload" (toString .Values.metricsPort) }}
       - -volume-dir=/watch/config
       - -volume-dir=/watch/scripts
-      {{- range $i, $v := .Values.hotReload.extraWatchVolumes }}
-      - -volume-dir=/watch/extra-{{ $i }}
+      {{- range $i, _ := .Values.hotReload.extraWatchVolumes }}
+      - {{ printf "-volume-dir=/watch/extra-%s" (int $i) }}
       {{- end }}
     volumeMounts:
       - name: config
@@ -118,7 +118,7 @@ containers:
         mountPath: /watch/scripts
       {{- range $i, $v := .Values.hotReload.extraWatchVolumes }}
       - name: {{ $v }}
-        mountPath: /watch/extra-{{ $i }}
+        mountPath: {{ printf "/watch/extra-%s" (int $i) }}
       {{- end }}
     {{- with .Values.hotReload.resources }}
     resources:
