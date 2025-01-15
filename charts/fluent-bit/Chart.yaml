@@ -24,4 +24,3 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: "Adding additional watch paths for hot reload"
-      
