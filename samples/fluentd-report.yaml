@@ -1,0 +1,81 @@
+# Sample values.yaml for deploying an L1x edge reporter with fluentd
+#
+# Make sure to add your L1x license, as well as setup your backend info
+# in the outputConfigs section.
+#
+# For more info on deploying, see -
+# http://doc.log10x.com/deploy/apps/edge/reporter/#fluentd
+#
+l1x:
+  license: "<YOUR-L1X-LICENSE-HERE>"
+
+  kind: "report"
+
+  fileConfigs:
+    report:
+      # Edit this section to change which events to pass to L1x for reporting.
+      #
+      # Defaults to passing all events to L1X.
+      #
+      04_outputs.conf: |-
+        <label @OUTPUT>
+          <match **>
+            @type copy
+            <store>
+              @type relabel
+              @label @FINAL-OUTPUT
+            </store>
+            <store>
+              @type relabel
+              @label @L1X
+            </store>
+          </match>
+        </label>
+      #
+      # Example of only passing some events:
+      #
+      # 04_outputs.conf: |-
+      #   <label @OUTPUT>
+      #     <match Some.Tag.To.Report>
+      #       @type copy
+      #       <store>
+      #         @type relabel
+      #         @label @FINAL-OUTPUT
+      #       </store>
+      #       <store>
+      #         @type relabel
+      #         @label @L1X
+      #       </store>
+      #     </match>
+      #     <match **>
+      #       @type relabel
+      #       @label @FINAL-OUTPUT
+      #     </match>
+      #   </label>
+
+  outputConfigs:
+    06_final_output.conf: |-
+      <label @FINAL-OUTPUT>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+        </match>
+      </label>
+
+    08_l1x_internal.conf: |-
+      <label @L1X-INTERNAL>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+
+          index_name l1x-internal
+        </match>
+      </label>

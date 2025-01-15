@@ -1,0 +1,59 @@
+# Sample values.yaml for deploying an L1x edge regulator with fluent-bit
+#
+# Make sure to add your L1x license, as well as setup your backend info
+# in the config.output, l1x-log-output.conf and l1x-templates-output.conf sections.
+#
+# For more info on deploying, see -
+# http://doc.log10x.com/deploy/apps/edge/regulator/#fluent-bit
+#
+l1x:
+  license: "<YOUR-L1X-LICENSE-HERE>"
+
+  kind: "optimize"
+
+  configFiles:
+    # Edit this section to change which events to pass to L1x to optimize.
+    #
+    # Defaults to passing all events to L1X.
+    #
+    l1x-optimize.conf: |
+      [FILTER]
+          Name Lua
+          Match *
+          script ${L1X_MODULES_PATH}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-optimize.lua
+          call l1x_process
+
+    l1x-templates-output.conf: |
+      [OUTPUT]
+          Name es
+          Match l1x-template
+          Host elasticsearch-master
+          Index l1es_dml
+          Id_Key templateHash
+          Retry_Limit False
+
+    l1x-log-output.conf: |
+      [OUTPUT]
+          Name es
+          Match l1x-internal
+          Host elasticsearch-master
+          Logstash_Format On
+          Logstash_Prefix l1x-internal
+          Retry_Limit False
+
+config:
+  outputs: |
+    [OUTPUT]
+        Name es
+        Match kube.*
+        Host elasticsearch-master
+        Logstash_Format On
+        Retry_Limit False
+
+    [OUTPUT]
+        Name es
+        Match host.*
+        Host elasticsearch-master
+        Logstash_Format On
+        Logstash_Prefix node
+        Retry_Limit False
