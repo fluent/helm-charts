@@ -1,0 +1,86 @@
+# Sample values.yaml for deploying an L1x edge optimizer with fluentd
+#
+# Make sure to add your L1x license, as well as setup your backend info
+# in the outputConfigs section.
+#
+# For more info on deploying, see -
+# http://doc.log10x.com/deploy/apps/edge/optimizer/#fluentd
+#
+l1x:
+  license: "<YOUR-L1X-LICENSE-HERE>"
+
+  kind: "optimize"
+
+  fileConfigs:
+    optimize:
+      # Edit this section to change which events to pass to L1x to optimize.
+      #
+      # Defaults to passing all events to L1X.
+      #
+      04_outputs.conf: |-
+        <label @OUTPUT>
+          <match **>
+            @type relabel
+            @label @L1X
+          </match>
+        </label>
+      #
+      # Example of only passing some events:
+      #
+      # 04_outputs.conf: |-
+      #   <label @OUTPUT>
+      #     <match Some.Tag.To.Optimize>
+      #       @type relabel
+      #       @label @L1X
+      #     </match>
+      #     <match **>
+      #       @type relabel
+      #       @label @FINAL-OUTPUT
+      #     </match>
+      #   </label>
+
+  outputConfigs:
+    06_final_output.conf: |-
+      <label @FINAL-OUTPUT>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+        </match>
+      </label>
+
+    07_l1x_templates.conf: |-
+      <label @L1X-TEMPLATE>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+
+          index_name l1es_dml
+          id_key templateHash
+
+          <buffer>
+            flush_interval 10s
+          </buffer>
+        </match>
+      </label>
+
+    08_l1x_internal.conf: |-
+      <label @L1X-INTERNAL>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+
+          index_name l1x-internal
+        </match>
+      </label>
