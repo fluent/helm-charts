@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Adding additional watch paths for hot reload"
+    apiVersion: v1
+    appVersion: 3.2.4
+    created: "2025-01-16T13:03:31.525691455Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: faa65d44a71239b63b343279299744fe309a1403a28510f39a1b4e788535c424
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.48.5/fluent-bit-0.48.5.tgz
+    version: 0.48.5
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Updated Fluent Bit OCI image to v3.2.4."
     apiVersion: v1
     appVersion: 3.2.4
@@ -6287,4 +6318,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2025-01-02T15:13:18.608858277Z"
+generated: "2025-01-16T13:03:31.526227355Z"
