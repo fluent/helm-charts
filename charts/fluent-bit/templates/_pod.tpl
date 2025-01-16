@@ -108,7 +108,7 @@ containers:
       - {{ printf "-webhook-url=http://localhost:%s/api/v2/reload" (toString .Values.metricsPort) }}
       - -volume-dir=/watch/config
       - -volume-dir=/watch/scripts
-      {{- range $idx, $val := .Values.hotReload.extraWatchVolumes -}}
+      {{- range $idx, $val := .Values.hotReload.extraWatchVolumes }}
       - {{ printf "-volume-dir=/watch/extra-%d" (int $idx) }}
       {{- end }}
     volumeMounts:
@@ -117,7 +117,7 @@ containers:
       - name: luascripts
         mountPath: /watch/scripts
       {{- range $idx, $val := .Values.hotReload.extraWatchVolumes }}
-      - name: {{ printf "extra-%d" (int $idx) }}
+      - name: {{ $val }}
         mountPath: {{ printf "/watch/extra-%d" (int $idx) }}
       {{- end }}
     {{- with .Values.hotReload.resources }}
@@ -136,24 +136,10 @@ volumes:
   - name: config
     configMap:
       name: {{ default (include "fluent-bit.fullname" .) .Values.existingConfigMap }}
-{{- if .Values.hotReload.enabled }}
-    {{- range $idx, $val := .Values.hotReload.extraWatchVolumes }}
-      {{- if eq ($val.kind | lower) "configmap" }}
-  - name: {{ printf "extra-%d" (int $idx) }}
-    configMap:
-      name: {{ $val.name }}
-      {{- end }}
-      {{- if eq ($val.kind | lower) "secret" }}
-  - name: {{ printf "extra-%d" (int $idx) }}
-    secret:
-      secretName: {{ $val.name }}
-      {{- end }}
-    {{- end }}
-{{- if .Values.luaScripts  }}
+{{- if or .Values.luaScripts .Values.hotReload.enabled }}
   - name: luascripts
     configMap:
       name: {{ include "fluent-bit.fullname" . }}-luascripts 
-{{- end }}
 {{- end }}
 {{- if eq .Values.kind "DaemonSet" }}
   {{- toYaml .Values.daemonSetVolumes | nindent 2 }}

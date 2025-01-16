@@ -353,9 +353,9 @@ extraPorts: []
 #     name: tcp
 #     nodePort: 30517
 
-extraVolumes: []
-
 extraVolumeMounts: []
+
+extraVolumes: []
 
 updateStrategy: {}
 #   type: RollingUpdate
@@ -513,10 +513,6 @@ logLevel: info
 hotReload:
   enabled: false
   extraWatchVolumes: []
-    # - name: "extra-watch-configmap"
-    #   kind: "ConfigMap"
-    # - name: "extra-watch-secret"
-    #   kind: "Secret"
   image:
     repository: ghcr.io/jimmidyson/configmap-reload
     tag: v0.14.0
