@@ -353,9 +353,9 @@ extraPorts: []
 #     name: tcp
 #     nodePort: 30517
 
-extraVolumeMounts: []
-
 extraVolumes: []
+
+extraVolumeMounts: []
 
 updateStrategy: {}
 #   type: RollingUpdate
@@ -512,10 +512,10 @@ logLevel: info
 
 hotReload:
   enabled: false
-  extraWatchVolumes: []
   image:
     repository: ghcr.io/jimmidyson/configmap-reload
     tag: v0.14.0
     digest:
     pullPolicy: IfNotPresent
   resources: {}
+  extraWatchVolumes: []
