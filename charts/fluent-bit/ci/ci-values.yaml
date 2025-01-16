@@ -15,3 +15,8 @@ config:
 
 hotReload:
   enabled: true
+  extraWatchVolumes:
+    - name: extra-watch-volume
+      kind: ConfigMap
+    - name: another-extra-watch-volume
+      kind: Secret
