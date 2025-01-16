@@ -3,6 +3,18 @@ testFramework:
 
 logLevel: debug
 
+extraVolumeMounts:
+  - name: extra-volume
+    mountPath: /extra-volume-path
+  - name: another-extra-volume
+    mountPath: /another-extra-volume-path
+
+extraVolumes:
+  - name: extra-volume
+    emptyDir: {}
+  - name: another-extra-volume
+    emptyDir: {}
+
 dashboards:
   enabled: true
   deterministicUid: true
@@ -15,3 +27,6 @@ config:
 
 hotReload:
   enabled: true
+  extraWatchVolumes:
+    - extra-volume
+    - another-extra-volume

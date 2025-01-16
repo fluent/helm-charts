@@ -518,3 +518,4 @@ hotReload:
     digest:
     pullPolicy: IfNotPresent
   resources: {}
+  extraWatchVolumes: []
