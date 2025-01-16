@@ -11,11 +11,9 @@ extraVolumeMounts:
 
 extraVolumes:
   - name: extra-volume
-    configMap:
-      name: extra-volume-configmap
+    emptyDir: {}
   - name: another-extra-volume
-    secret:
-      secretName: another-extra-volume-secret  
+    emptyDir: {}
 
 dashboards:
   enabled: true
