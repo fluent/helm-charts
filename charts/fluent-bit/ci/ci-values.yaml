@@ -4,10 +4,10 @@ testFramework:
 logLevel: debug
 
 extraVolumeMounts:
-  - name: extra-volume-mount
-    mountPath: /extra-volume-mount
-  - name: another-extra-volume-mount
-    mountPath: /another-extra-volume-mount
+  - name: extra-volume
+    mountPath: /extra-volume-path
+  - name: another-extra-volume
+    mountPath: /another-extra-volume-path
 
 extraVolumes:
   - name: extra-volume
@@ -28,5 +28,5 @@ config:
 hotReload:
   enabled: true
   extraWatchVolumes:
-    - extra-watch-volume
-    - another-extra-watch-volume
+    - extra-volume
+    - another-extra-volume
