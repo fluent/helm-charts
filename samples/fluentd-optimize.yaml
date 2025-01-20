@@ -11,6 +11,8 @@ l1x:
 
   kind: "optimize"
 
+  runtimeName: "my-fluentd-optimizer"
+
   fileConfigs:
     optimize:
       # Edit this section to change which events to pass to L1x to optimize.

@@ -11,6 +11,8 @@ l1x:
 
   kind: "report"
 
+  runtimeName: "my-fluentd-reporter"
+
   fileConfigs:
     report:
       # Edit this section to change which events to pass to L1x for reporting.

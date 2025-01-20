@@ -11,6 +11,8 @@ l1x:
 
   kind: "regulate"
 
+  runtimeName: "my-fluent-bit-regulator"
+
   configFiles:
     # Edit this section to change which events to pass to L1x to regulate.
     #
