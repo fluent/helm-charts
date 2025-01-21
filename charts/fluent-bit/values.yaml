@@ -99,7 +99,7 @@ l1x:
   # Main config files, used internally by the template to setup the correct overall fluent-bit configuration
   # All the inputs/filters/outputs defined here will appear AFTER the fluent-bit inputs/filters/outputs which
   # are defined in the original 'config' (later in the file)
-  # 
+  #
   mainFiles:
     report:
       inputs:
