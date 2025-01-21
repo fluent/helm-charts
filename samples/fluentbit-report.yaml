@@ -22,7 +22,7 @@ l1x:
       [FILTER]
           Name Lua
           Match *
-          script ${L1X_MODULES_PATH}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-report.lua
+          script ${L1X_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-report.lua
           call l1x_process
 
     l1x-log-output.conf: |
