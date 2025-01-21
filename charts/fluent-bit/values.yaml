@@ -97,27 +97,36 @@ l1x:
       # path: "l1x/my-app/symbols"
 
   # Main config files, used internally by the template to setup the correct overall fluent-bit configuration
+  # All the inputs/filters/outputs defined here will appear AFTER the fluent-bit inputs/filters/outputs which
+  # are defined in the original 'config' (later in the file)
+  # 
   mainFiles:
-    report: |
-      @INCLUDE /fluent-bit/etc/conf/l1x-log-input.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-log-output.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-report.conf
-      @INCLUDE /fluent-bit/etc/conf/fluent-bit-orig.conf
+    report:
+      inputs:
+        - l1x-log-input.conf
+      filters:
+        - l1x-report.conf
+      outputs:
+        - l1x-log-output.conf
 
-    regulate: |
-      @INCLUDE /fluent-bit/etc/conf/l1x-log-input.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-log-output.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-regulate.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-readback.conf
-      @INCLUDE /fluent-bit/etc/conf/fluent-bit-orig.conf
+    regulate:
+      inputs:
+        - l1x-readback.conf
+        - l1x-log-input.conf
+      filters:
+        - l1x-regulate.conf
+      outputs:
+        - l1x-log-output.conf
 
-    optimize: |
-      @INCLUDE /fluent-bit/etc/conf/l1x-log-input.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-log-output.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-optimize.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-readback.conf
-      @INCLUDE /fluent-bit/etc/conf/l1x-templates-output.conf
-      @INCLUDE /fluent-bit/etc/conf/fluent-bit-orig.conf
+    optimize:
+      inputs:
+        - l1x-readback.conf
+        - l1x-log-input.conf
+      filters:
+        - l1x-optimize.conf
+      outputs:
+        - l1x-log-output.conf
+        - l1x-templates-output.conf
 
   # Individual config files, responsible for setting the individual aspects of the fluent-bit configuration
   #
