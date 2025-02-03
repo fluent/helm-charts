@@ -9,7 +9,7 @@ metadata:
     fluentbit.fluent.io/enabled: "true"
     fluentbit.fluent.io/component: logging
 spec:
-  matchRegex: (?:kube|service)\.(.*)
+  matchRegex: {{ .Values.fluentbit.output.opensearch.match }}
   opensearch:
 {{ toYaml .Values.fluentbit.output.opensearch | indent 4}}
 {{- end }}
