@@ -14,6 +14,11 @@ securityContext:
 terminationGracePeriodSeconds: {{ . }}
 {{- end }}
 {{- with .Values.initContainers }}
+dnsPolicy: {{ .Values.dnsPolicy }}
+{{- with .Values.dnsConfig }}
+dnsConfig:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
 initContainers:
   {{- toYaml . | nindent 2 }}
 {{- end }}
