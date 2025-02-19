@@ -44,7 +44,7 @@ spec:
     {{- end }}
   namespaceSelector:
     matchNames:
-      - {{ .Release.Namespace }}
+      - {{ include "fluent-bit.namespace" . }}
   selector:
     matchLabels:
       {{- include "fluent-bit.selectorLabels" . | nindent 6 }}
