@@ -25,6 +25,19 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{/*
+Allow the release namespace to be overridden for multi-namespace deployments in combined charts.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If no override is provided, the namespace will be fetched from .Release.Namespace (Helm's default)
+*/}}
+{{- define "fluent-bit.namespace" -}}
+  {{- if .Values.namespaceOverride -}}
+    {{- .Values.namespaceOverride | trunc 63 | trimSuffix "-" -}}
+  {{- else -}}
+    {{- .Release.Namespace -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "fluent-bit.chart" -}}
