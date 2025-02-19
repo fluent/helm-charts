@@ -1559,10 +1559,7 @@
   },
   "timezone": "",
   "title": "{{ include "fluent-bit.fullname" . }}",
-  "uid": {
-    { ternary (printf "\"%s\"" (sha1sum (printf "%s-%s" (include "fluent-bit.namespace" .) (include "fluent-bit.fullname" .)))) "null" .Values.dashboards.deterministicUid
-    }
-  },
+  "uid": {{ ternary (printf "\"%s\"" (sha1sum (printf "%s-%s" (include "fluent-bit.namespace" .) (include "fluent-bit.fullname" .)))) "null" .Values.dashboards.deterministicUid }},
   "version": 7,
   "weekStart": ""
 }
