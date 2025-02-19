@@ -1506,7 +1506,7 @@
         "hide": 2,
         "label": "Namespace",
         "name": "namespace",
-        "query": "{{ .Release.Namespace }}",
+        "query": "{{ include "fluent-bit.namespace" .}}",
         "skipUrlSync": false,
         "type": "constant"
       },
@@ -1559,7 +1559,10 @@
   },
   "timezone": "",
   "title": "{{ include "fluent-bit.fullname" . }}",
-  "uid": {{ ternary (printf "\"%s\"" (sha1sum (printf "%s-%s" .Release.Namespace (include "fluent-bit.fullname" .)))) "null" .Values.dashboards.deterministicUid }},
+  "uid": {
+    { ternary (printf "\"%s\"" (sha1sum (printf "%s-%s" (include "fluent-bit.namespace" .) (include "fluent-bit.fullname" .)))) "null" .Values.dashboards.deterministicUid
+    }
+  },
   "version": 7,
   "weekStart": ""
 }
