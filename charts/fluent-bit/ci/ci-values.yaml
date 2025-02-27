@@ -19,6 +19,17 @@ dashboards:
   enabled: true
   deterministicUid: true
 
+luaScripts:
+  filter_example.lua: |
+    function filter_name(tag, timestamp, record)
+        -- put your lua code here.
+    end
+  filter_with_templating_example.lua: |
+    local log_level = {{ .Values.logLevel | quote }}
+    function filter_with_templating_name(tag, timestamp, record)
+        -- put your lua code here.
+    end
+
 config:
   outputs: |
     [OUTPUT]

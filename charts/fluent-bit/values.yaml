@@ -370,6 +370,7 @@ networkPolicy:
 #   ingress:
 #     from: []
 
+# See Lua script configuration example in README.md
 luaScripts: {}
 
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
