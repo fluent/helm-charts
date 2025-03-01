@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Updated Fluent Bit OCI image to v3.2.7."
+    apiVersion: v1
+    appVersion: 3.2.7
+    created: "2025-03-01T12:04:23.117925752Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 0a76c5dbff1f706c26dcfa9d5118a508f60c3cf16f6dd43fffe82030cf745f54
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.48.8/fluent-bit-0.48.8.tgz
+    version: 0.48.8
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Added Lua scripts templating."
     apiVersion: v1
     appVersion: 3.2.6
@@ -6380,4 +6411,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-28T17:20:35.435994847Z"
+generated: "2025-03-01T12:04:23.11881217Z"
