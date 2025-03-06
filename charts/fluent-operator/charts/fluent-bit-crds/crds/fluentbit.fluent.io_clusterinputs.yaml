@@ -761,6 +761,11 @@ spec:
                       This will help to reassembly multiline messages originally split by Docker or CRI
                       Specify one or Multiline Parser definition to apply to the content.
                     type: string
+                  offsetKey:
+                    description: |-
+                      If enabled, Fluent Bit appends the offset of the current monitored file as part of the record.
+                      The value assigned becomes the key in the map
+                    type: string
                   parser:
                     description: Specify the name of a parser to interpret the entry
                       as a structured message.
@@ -834,6 +839,10 @@ spec:
                     type: string
                   tagRegex:
                     description: Set a regex to exctract fields from the file
+                    type: string
+                  threaded:
+                    description: Threaded mechanism allows input plugin to run in
+                      a separate thread which helps to desaturate the main pipeline.
                     type: string
                 type: object
               tcp:
