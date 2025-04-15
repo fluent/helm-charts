@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.48.9
-appVersion: 3.2.8
+version: 0.48.10
+appVersion: 3.2.10
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
 sources:
@@ -22,5 +22,7 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
+    - kind: added
+      description: "Added loadBalancerIP."
     - kind: changed
-      description: "Updated Fluent Bit OCI image to v3.2.8."
+      description: "Updated Fluent Bit OCI image to v3.2.10."
