@@ -1,9 +1,9 @@
 # Default values for fluent-bit.
 
-# kind -- DaemonSet or Deployment
+# DaemonSet, Deployment or StatefulSet
 kind: DaemonSet
 
-# replicaCount -- Only applicable if kind=Deployment
+# Only applicable for Deployment or StatefulSet
 replicaCount: 1
 
 image:
@@ -294,6 +294,30 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+#  podAntiAffinity:
+#    preferredDuringSchedulingIgnoredDuringExecution:
+#      - weight: 100
+#        podAffinityTerm:
+#          labelSelector:
+#            matchExpressions:
+#              - key: app.kubernetes.io/name
+#                operator: In
+#                values:
+#                  - '{{ include "fluent-bit.name" . }}'
+#              - key: app.kubernetes.io/instance
+#                operator: In
+#                values:
+#                  - "{{ .Release.Name }}"
+#          topologyKey: kubernetes.io/hostname
+
+topologySpreadConstraints: []
+#  - maxSkew: 1
+#    topologyKey: topology.kubernetes.io/zone
+#    whenUnsatisfiable: DoNotSchedule
+#    labelSelector:
+#      matchLabels:
+#        app.kubernetes.io/name: '{{ include "fluent-bit.name" . }}'
+#        app.kubernetes.io/instance: "{{ .Release.Name }}"
 
 labels: {}
 
@@ -383,6 +407,7 @@ config:
         Log_Level {{ .Values.logLevel }}
         Parsers_File /fluent-bit/etc/parsers.conf
         Parsers_File /fluent-bit/etc/conf/custom_parsers.conf
+        Storage.path /var/log/flb-storage/
         HTTP_Server On
         HTTP_Listen 0.0.0.0
         HTTP_Port {{ .Values.metricsPort }}
@@ -487,6 +512,15 @@ daemonSetVolumeMounts:
   - name: etcmachineid
     mountPath: /etc/machine-id
     readOnly: true
+
+## Only available if kind is StatefulSet
+## Fluent-bit persistence to /var/log/flb-storage/
+##
+persistence:
+  enabled: false
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 10Gi
 
 command:
   - /fluent-bit/bin/fluent-bit

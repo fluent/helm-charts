@@ -101,6 +101,10 @@ containers:
     {{- if .Values.extraVolumeMounts }}
       {{- toYaml .Values.extraVolumeMounts | nindent 6 }}
     {{- end }}
+    {{- if .Values.persistence.enabled }}
+      - name: {{ include "fluent-bit.fullname" . }}-buffer
+        mountPath: /var/log/flb-storage/
+    {{- end }}
 {{- if .Values.hotReload.enabled }}
   - name: reloader
     image: {{ include "fluent-bit.image" .Values.hotReload.image }}
@@ -153,10 +157,14 @@ nodeSelector:
 {{- end }}
 {{- with .Values.affinity }}
 affinity:
-  {{- toYaml . | nindent 2 }}
+  {{- tpl (toYaml .) $ | nindent 2 }}
 {{- end }}
 {{- with .Values.tolerations }}
 tolerations:
   {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- with .Values.topologySpreadConstraints }}
+topologySpreadConstraints:
+  {{- tpl (toYaml .) $ | nindent 2 }}
 {{- end }}
 {{- end -}}
