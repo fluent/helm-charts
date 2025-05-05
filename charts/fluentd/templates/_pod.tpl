@@ -1,5 +1,5 @@
 {{- define "fluentd.pod" -}}
-{{- $defaultTag := printf "%s-debian-%s-1.0" (.Chart.AppVersion) (.Values.variant) -}}
+{{- $defaultTag := printf "%s-debian-%s-1.2" (.Chart.AppVersion) (.Values.variant) -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
