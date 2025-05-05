@@ -43,4 +43,7 @@ rules:
     verbs:
       - use
   {{- end }}
+  {{- with .Values.rbac.additionalRules }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
 {{- end -}}

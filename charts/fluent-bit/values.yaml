@@ -1,9 +1,9 @@
 # Default values for fluent-bit.
 
-# kind -- DaemonSet or Deployment
+# kind -- DaemonSet, Deployment or StatefulSet
 kind: DaemonSet
 
-# replicaCount -- Only applicable if kind=Deployment
+# Only applicable for Deployment or StatefulSet
 replicaCount: 1
 
 image:
@@ -29,13 +29,17 @@ fullnameOverride: ""
 
 serviceAccount:
   create: true
+  labels: {}
   annotations: {}
   name:
+  automountToken: false
 
 rbac:
   create: true
   nodeAccess: false
   eventsAccess: false
+  # -- Additional rules to add to the `ClusterRole`.
+  additionalRules: []
 
 # Configure podsecuritypolicy
 # Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
@@ -216,23 +220,21 @@ resources: {}
 #     cpu: 100m
 #     memory: 128Mi
 
-## only available if kind is Deployment
-ingress:
-  enabled: false
-  ingressClassName: ""
-  annotations: {}
-  #  kubernetes.io/ingress.class: nginx
-  #  kubernetes.io/tls-acme: "true"
-  hosts: []
-  # - host: fluent-bit.example.tld
-  extraHosts: []
-  # - host: fluent-bit-extra.example.tld
-  ## specify extraPort number
-  #   port: 5170
-  tls: []
-  #  - secretName: fluent-bit-example-tld
-  #    hosts:
-  #      - fluent-bit.example.tld
+## only available if kind is Deployment or StatefulSet.
+# -- (list) Ingresses, each input plugin will need it's own.
+ingresses: []
+#  - servicePort: 24224
+#    ingressClassName: my-ingress-class
+#    annotations: {}
+#    hosts:
+#      - host: chart-example.local
+#        paths:
+#          - path: /
+#            pathType: Prefix
+#    tls:
+#      - hosts:
+#          - chart-example.local
+#        secretName: chart-example-tls
 
 ## only available if kind is Deployment
 autoscaling:
@@ -283,17 +285,52 @@ autoscaling:
 #            value: 10
 #            periodSeconds: 60
 
+# -- Ordinals configuration for the `StatefulSet`.
+ordinals: {}
+
+# -- Pod management policy for the `StatefulSet`.
+podManagementPolicy:
+
 ## only available if kind is Deployment
 podDisruptionBudget:
   enabled: false
   annotations: {}
+  # -- (string) Minimum number of available pods, either a number or a percentage.
+  minAvailable: "70%"
+  # -- (string) Maximum number of unavailable pods, either a number or a percentage.
   maxUnavailable: "30%"
+  # -- (string) Unhealthy pod eviction policy for the PDB.
+  unhealthyPodEvictionPolicy: IfHealthyBudget
 
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+#  podAntiAffinity:
+#    preferredDuringSchedulingIgnoredDuringExecution:
+#      - weight: 100
+#        podAffinityTerm:
+#          labelSelector:
+#            matchExpressions:
+#              - key: app.kubernetes.io/name
+#                operator: In
+#                values:
+#                  - '{{ include "fluent-bit.name" . }}'
+#              - key: app.kubernetes.io/instance
+#                operator: In
+#                values:
+#                  - "{{ .Release.Name }}"
+#          topologyKey: kubernetes.io/hostname
+
+topologySpreadConstraints: []
+#  - maxSkew: 1
+#    topologyKey: topology.kubernetes.io/zone
+#    whenUnsatisfiable: DoNotSchedule
+#    labelSelector:
+#      matchLabels:
+#        app.kubernetes.io/name: '{{ include "fluent-bit.name" . }}'
+#        app.kubernetes.io/instance: "{{ .Release.Name }}"
 
 labels: {}
 
@@ -354,6 +391,22 @@ extraPorts: []
 #     name: tcp
 #     nodePort: 30517
 
+persistence:
+  # -- If `true` , persistence should be enabled for the `StatefulSet`.
+  enabled: false
+  # -- Annotations for the `PersistentVolumeClaim`.
+  annotations: {}
+  # -- Access mode for the `PersistentVolumeClaim`.
+  accessMode: ReadWriteOnce
+  # -- Storage class for the `PersistentVolumeClaim`, if not set the default will be used.
+  storageClass:
+  # -- Size of the `PersistentVolumeClaim`.
+  size: 8Gi
+  # -- If `true`, keep `PersistentVolumeClaims` when the `StatefulSet` is deleted.
+  retainDeleted: true
+  # -- If `true`, keep `PersistentVolumeClaim` when the `StatefulSet` is scaled down.
+  retainScaled: true
+
 extraVolumes: []
 
 extraVolumeMounts: []
@@ -387,6 +440,9 @@ config:
         HTTP_Listen 0.0.0.0
         HTTP_Port {{ .Values.metricsPort }}
         Health_Check On
+        {{- if .Values.persistence.enabled }}
+        Storage.path ${STORAGE_PATH}
+        {{- end }}
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs
   inputs: |
@@ -403,6 +459,9 @@ config:
         Tag host.*
         Systemd_Filter _SYSTEMD_UNIT=kubelet.service
         Read_From_Tail On
+
+  # Storage section should be add to input when persistence enabled & kind StatefulsSet
+  # Storage.type      filesystem
 
   ## https://docs.fluentbit.io/manual/pipeline/filters
   filters: |

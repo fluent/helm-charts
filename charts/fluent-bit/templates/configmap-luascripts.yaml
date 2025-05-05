@@ -7,7 +7,8 @@ metadata:
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
 data:
-  {{ range $key, $value := .Values.luaScripts }}
-  {{ $key }}: {{ (tpl $value $) | quote }}
-  {{ end }}
+  {{- range $key, $value := .Values.luaScripts }}
+  {{ $key }}: |-
+    {{- (tpl $value $) | nindent 4 }}
+  {{- end }}
 {{- end -}}

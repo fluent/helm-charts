@@ -1,4 +1,4 @@
-{{- if and  ( eq  .Values.kind "Deployment" )  .Values.podDisruptionBudget.enabled  }}
+{{- if and  (or ( eq  .Values.kind "Deployment" ) ( eq  .Values.kind "StatefulSet" )) .Values.podDisruptionBudget.enabled  }}
 apiVersion: {{ include "fluent-bit.pdb.apiVersion" . }}
 kind: PodDisruptionBudget
 metadata:
@@ -11,7 +11,11 @@ metadata:
     {{- toYaml . | nindent 4 }}
 {{- end }}
 spec:
+  {{- if .Values.podDisruptionBudget.maxUnavailable }}
   maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+  {{- else }}
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "fluent-bit.selectorLabels" . | nindent 6 }}

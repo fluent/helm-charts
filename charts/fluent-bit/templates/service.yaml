@@ -37,6 +37,11 @@ spec:
   loadBalancerIP: {{ . }}
   {{- end }}
   {{- end }}
+  {{- if (semverCompare ">= 1.31-0" .Capabilities.KubeVersion.Version) }}
+  {{- with .Values.service.trafficDistribution }}
+    trafficDistribution: {{ . }}
+  {{- end }}
+  {{- end }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: http

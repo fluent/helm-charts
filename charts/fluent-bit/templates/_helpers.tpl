@@ -63,6 +63,13 @@ Create the name of the service account to use
 {{- end -}}
 
 {{/*
+Define the headless service name
+*/}}
+{{- define "fluent-bit.headlessServiceName" -}}
+{{- (printf "%s-headless" (include "fluent-bit.fullname" .)) | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
 Fluent-bit image with tag/digest
 */}}
 {{- define "fluent-bit.image" -}}

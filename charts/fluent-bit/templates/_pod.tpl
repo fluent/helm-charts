@@ -40,8 +40,26 @@ containers:
   {{- end }}
     image: {{ include "fluent-bit.image" (merge .Values.image (dict "tag" (default .Chart.AppVersion .Values.image.tag))) | quote }}
     imagePullPolicy: {{ .Values.image.pullPolicy }}
-  {{- if or .Values.env .Values.envWithTpl }}
     env:
+      - name: POD_INDEX
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+      {{- range $p := .Values.extraPorts }}
+      - name: {{ printf "ADDITIONAL_PORT_%s" (upper $p.name | replace "-" "_") }}
+        value: {{ quote $p.containerPort }}
+      {{- end }}
+      - name: CONFIG_PATH
+        value: /fluent-bit/etc/conf
+      {{- if .Values.persistence.enabled }}
+      - name: STORAGE_PATH
+        value: /fluent-bit/data
+      {{- end }}
+      {{- if .Values.config.luaScripts }}
+      - name: SCRIPTS_PATH
+        value: /fluent-bit/scripts
+      {{- end }}
+  {{- if or .Values.env .Values.envWithTpl }}
     {{- with .Values.env }}
       {{- toYaml . | nindent 6 }}
     {{- end }}
@@ -94,6 +112,10 @@ containers:
     {{- if or .Values.luaScripts .Values.hotReload.enabled }}
       - name: luascripts
         mountPath: /fluent-bit/scripts
+    {{- end }}
+    {{- if .Values.persistence.enabled }}
+      - name: data
+        mountPath: /fluent-bit/data
     {{- end }}
     {{- if eq .Values.kind "DaemonSet" }}
       {{- toYaml .Values.daemonSetVolumeMounts | nindent 6 }}
@@ -149,14 +171,18 @@ volumes:
 {{- end }}
 {{- with .Values.nodeSelector }}
 nodeSelector:
-  {{- toYaml . | nindent 2 }}
+  {{- tpl (toYaml .) $ | nindent 2 }}
 {{- end }}
 {{- with .Values.affinity }}
 affinity:
-  {{- toYaml . | nindent 2 }}
+  {{- tpl (toYaml .) $ | nindent 2 }}
 {{- end }}
 {{- with .Values.tolerations }}
 tolerations:
-  {{- toYaml . | nindent 2 }}
+  {{- tpl (toYaml .) $ | nindent 2 }}
+{{- end }}
+{{- with .Values.topologySpreadConstraints }}
+topologySpreadConstraints:
+  {{- tpl (toYaml .) $ | nindent 2 }}
 {{- end }}
 {{- end -}}
