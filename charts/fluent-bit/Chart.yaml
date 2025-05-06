@@ -24,7 +24,3 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: "Updated Fluent Bit OCI image to v4.0.1."
-    - kind: added
-      description: "Added loadBalancerIP."
-    - kind: changed
-      description: "Updated Fluent Bit OCI image to v3.2.10."
