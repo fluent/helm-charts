@@ -22,6 +22,8 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
+    - kind: changed
+      description: "Updated Fluent Bit OCI image to v4.0.1."
     - kind: added
       description: "Added loadBalancerIP."
     - kind: changed
