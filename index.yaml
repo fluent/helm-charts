@@ -3,6 +3,37 @@ entries:
   fluent-bit:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: "Updated Fluent Bit OCI image to v4.0.1."
+    apiVersion: v1
+    appVersion: 4.0.1
+    created: "2025-05-06T20:31:21.636869141Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: c71ec35207aed6bb20c5abb8a5856993f2a853538fd6399059c1e48dd174acc7
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.49.0/fluent-bit-0.49.0.tgz
+    version: 0.49.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: "Added loadBalancerIP."
         - kind: changed
@@ -6525,4 +6556,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2025-05-05T14:40:10.142265991Z"
+generated: "2025-05-06T20:31:21.638079951Z"
