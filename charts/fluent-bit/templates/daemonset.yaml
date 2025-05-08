@@ -39,8 +39,8 @@ spec:
         checksum/luascripts: {{ include (print $.Template.BasePath "/configmap-luascripts.yaml") . | sha256sum }}
       {{- end }}
       {{- end }}
-      {{- with .Values.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
+      {{- range $key,$value := .Values.podAnnotations }}
+        {{ tpl $key $ }}: {{ tpl $value $ }}
       {{- end }}
     {{- end }}
     spec:
