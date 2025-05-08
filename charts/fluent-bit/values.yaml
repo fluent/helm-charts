@@ -2,19 +2,13 @@
 
 # kind -- DaemonSet or Deployment
 kind: DaemonSet
-#
-# Specifies the Log10x distribution used.
-# For more details, see - http://doc.log10x.com/home/install/#flavor-matrix
-#
-# jit, native
-variant: jit
 
 # replicaCount -- Only applicable if kind=Deployment
 replicaCount: 1
 
 image:
   repository: ghcr.io/log-10x/log10x-fluent-bit
-  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.variant }}
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.l1x.variant }}
   # Set to "-" to not use the default value
   tag:
   digest:
@@ -29,6 +23,12 @@ l1x:
   # Main switch to enabled/disable l1x.
   #
   enabled: true
+
+  # Specifies the Log10x distribution and affects which image will be used.
+  # For more details, see - http://doc.log10x.com/architecture/flavors
+  #
+  # jit, native
+  variant: jit
 
   # Specify your l1x license key
   license: "NO-LICENSE"
