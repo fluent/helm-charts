@@ -3,22 +3,14 @@ fullnameOverride: ""
 
 # DaemonSet, Deployment or StatefulSet
 kind: "DaemonSet"
-#
-# Specifies the Log10x distribution used.
-# For more details, see - http://doc.log10x.com/home/install/#flavor-matrix
-#
-# The Fluentd image variant used is always Elasticsearch
-# For more info on how the image was built, see - https://github.com/log-10x/docker-images/blob/main/fwd/fluentd/Dockerfile
-#
-# jit, native
-variant: jit
+
 # # Only applicable for Deployment or StatefulSet
 # replicaCount: 1
 
 image:
   repository: "ghcr.io/log-10x/log10x-fluentd"
   pullPolicy: "IfNotPresent"
-  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.variant }}
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.l1x.variant }}
   tag: ""
 
 # L1X configuration
@@ -30,6 +22,12 @@ l1x:
   # Main switch to enabled/disable l1x.
   #
   enabled: true
+
+  # Specifies the Log10x distribution and affects which image will be used.
+  # For more details, see - http://doc.log10x.com/architecture/flavors
+  #
+  # jit, native
+  variant: jit
 
   # Specify your l1x license key
   license: "NO-LICENSE"
@@ -548,7 +546,7 @@ dashboards:
 plugins: []
 # - fluent-plugin-out-http
 
-## Add fluentd config files from K8s configMaps
+## Add fluentd config files from k8s configMaps
 ##
 configMapConfigs: []
 #  - fluentd-prometheus-conf

@@ -1,5 +1,5 @@
 {{- define "fluentd.pod" -}}
-{{- $defaultTag := printf "%s-%s" (.Chart.AppVersion) (.Values.variant) -}}
+{{- $defaultTag := printf "%s-%s" (.Chart.AppVersion) (.Values.l1x.variant) -}}
 {{- $l1xGHInit := or .Values.l1x.github.config.enabled .Values.l1x.github.symbols.enabled -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
