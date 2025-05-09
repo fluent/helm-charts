@@ -1,4 +1,4 @@
-{{- if .Values.fluentbit.kubeedge.enable -}}
+{{- if .Values.fluentbit.kubeedge.enable }}
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: FluentBit
 metadata:
@@ -7,12 +7,12 @@ metadata:
   labels:
     app.kubernetes.io/name: fluent-bit
 spec:
-  image: {{ .Values.fluentbit.image.repository }}:{{ .Values.fluentbit.image.tag }}
+  image: {{ template "fluent-operator.image" (tuple .Values.fluentbit.image "") }}
   positionDB:
     hostPath:
       path: /var/lib/fluent-bit/
   resources:
-{{- toYaml .Values.fluentbit.resources | nindent 4  }}
+    {{- toYaml .Values.fluentbit.resources | nindent 4 }}
   fluentBitConfigName: fluent-bit-config-edge
   tolerations:
     - operator: Exists

@@ -1,6 +1,6 @@
-{{- if .Values.Kubernetes -}}
-{{- if .Values.fluentbit.enable -}}
-{{- if .Values.fluentbit.filter.multiline.enable -}}
+{{- if .Values.Kubernetes }}
+{{- if .Values.fluentbit.enable }}
+{{- if .Values.fluentbit.filter.multiline.enable }}
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: ClusterFilter
 metadata:
@@ -13,8 +13,17 @@ spec:
   filters:
   - multiline:
       keyContent: {{ .Values.fluentbit.filter.multiline.keyContent | quote }}
+      buffer: {{ .Values.fluentbit.filter.multiline.buffer }}
       emitterMemBufLimit: {{ .Values.fluentbit.filter.multiline.emitterMemBufLimit }}
+      emitterType: {{ .Values.fluentbit.filter.multiline.emitterType }}
+      flushMs: {{ .Values.fluentbit.filter.multiline.flushMs }}
       parser: "{{- join "," .Values.fluentbit.filter.multiline.parsers -}}"
+      {{- if .Values.fluentbit.filter.multiline.mode }}
+      mode: {{ .Values.fluentbit.filter.multiline.mode }}
+      {{- end }}
+      {{- if .Values.fluentbit.filter.multiline.emitterName }}
+      emitterName: {{ .Values.fluentbit.filter.multiline.emitterName }}
+      {{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
