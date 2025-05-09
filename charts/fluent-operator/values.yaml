@@ -77,15 +77,36 @@ fluentbit:
   # Installs a sub chart carrying the CRDs for the fluent-bit controller. The sub chart is enabled by default.
   crdsEnable: true
   enable: true
+
   serviceMonitor:
     enable: false
-    interval: 30s
+    ## ServiceMonitor selector labels
+    # selector:
+    #   release: prometheus-stack
+    ## additional service selector labels
+    # labels: {}
     path: /api/v2/metrics/prometheus
-    scrapeTimeout: 10s
+    ## applies "scheme: https" and tlsConfig if true
     secure: false
-    tlsConfig: {}
-    relabelings: []
-    metricRelabelings: []
+    # tlsConfig: {}
+    interval: 30s
+    scrapeTimeout: 10s
+    ## relabel configs to apply to samples after ingestion
+    # relabelings:
+    #   - sourceLabels: [__meta_kubernetes_pod_node_name]
+    #     separator: ;
+    #     regex: ^(.*)$
+    #     targetLabel: nodename
+    #     replacement: $1
+    #     action: replace
+    ## metric relabel configs to apply to samples before ingestion
+    # metricRelabelings:
+    #   - sourceLabels: [__meta_kubernetes_service_label_cluster]
+    #     targetLabel: cluster
+    #     regex: (.*)
+    #     replacement: ${1}
+    #     action: replace
+
   livenessProbe:
     enabled: true
     initialDelaySeconds: 10
