@@ -5,19 +5,24 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: fluent-bit
+  namespace: {{ template "fluent-operator.namespace" . }}
   labels:
     app.kubernetes.io/name: fluent-bit
-  namespace: {{ template "fluent-operator.namespace" . }}
+    {{- with .Values.fluentbit.serviceMonitor.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   endpoints:
     - port: metrics
-      path: {{ .Values.fluentbit.serviceMonitor.path }} 
-      interval: {{ .Values.fluentbit.serviceMonitor.interval }}
+      path: {{ .Values.fluentbit.serviceMonitor.path }}
       {{- if .Values.fluentbit.serviceMonitor.secure }}
       scheme: https
+      {{- if .Values.fluentbit.serviceMonitor.tlsConfig }}
       tlsConfig:
         {{- toYaml .Values.fluentbit.serviceMonitor.tlsConfig }}
       {{- end }}
+      {{- end }}
+      interval: {{ .Values.fluentbit.serviceMonitor.interval }}
       scrapeTimeout: {{ .Values.fluentbit.serviceMonitor.scrapeTimeout }}
       {{- with .Values.fluentbit.serviceMonitor.relabelings }}
       relabelings:
@@ -35,7 +40,7 @@ spec:
       {{- end }}
   namespaceSelector:
     matchNames:
-    - {{ template "fluent-operator.namespace" . }} 
+    - {{ template "fluent-operator.namespace" . }}
 {{- end }}
 {{- end }}
 {{- end }}
