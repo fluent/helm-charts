@@ -8,7 +8,7 @@ metadata:
   namespace: {{ template "fluent-operator.namespace" . }}
   labels:
     app.kubernetes.io/name: fluent-bit
-    {{- with .Values.fluentbit.serviceMonitor.selector }}
+    {{- with .Values.fluentbit.serviceMonitor.labels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:

@@ -79,18 +79,16 @@ fluentbit:
 
   serviceMonitor:
     enable: false
-    ## ServiceMonitor selector labels
-    # selector:
+    ## Labels that the Prometheus Operator looks for to act on this ServiceMonitor
+    # labels:
     #   release: prometheus-stack
-    ## additional service selector labels
-    # labels: {}
     path: /api/v2/metrics/prometheus
-    ## applies "scheme: https" and tlsConfig if true
+    ## Applies "scheme: https" and tlsConfig if true
     secure: false
     # tlsConfig: {}
     interval: 30s
     scrapeTimeout: 10s
-    ## relabel configs to apply to samples after ingestion
+    ## Relabel configs to apply to samples after ingestion
     # relabelings:
     #   - sourceLabels: [__meta_kubernetes_pod_node_name]
     #     separator: ;
@@ -98,7 +96,7 @@ fluentbit:
     #     targetLabel: nodename
     #     replacement: $1
     #     action: replace
-    ## metric relabel configs to apply to samples before ingestion
+    ## Metric relabel configs to apply to samples before ingestion
     # metricRelabelings:
     #   - sourceLabels: [__meta_kubernetes_service_label_cluster]
     #     targetLabel: cluster
