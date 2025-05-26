@@ -1,0 +1,50 @@
+{{- if .Values.Kubernetes -}}
+{{- if .Values.fluentbit.enable -}}
+{{- if .Values.fluentbit.output.syslog.enable -}}
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterOutput
+metadata:
+  name: syslog
+  labels:
+    fluentbit.fluent.io/enabled: "true"
+    fluentbit.fluent.io/component: logging
+spec:
+  matchRegex: (?:kube|service)\.(.*)
+  syslog:
+    match: {{ .Values.fluentbit.output.syslog.match | default "*" | quote }}
+    host: {{ .Values.fluentbit.output.syslog.host }}
+    port: {{ .Values.fluentbit.output.syslog.port }}
+    {{- if .Values.fluentbit.output.syslog.mode }}
+    mode: {{ .Values.fluentbit.output.syslog.mode | default "udp" | quote }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.syslog_format }}
+    syslog_format: {{ .Values.fluentbit.output.syslog.syslog_format }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.syslog_maxsize }}
+    syslog_maxsize: {{ .Values.fluentbit.output.syslog.syslog_maxsize }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.syslog_hostname_key }}
+    syslog_hostname_key: {{ .Values.fluentbit.output.syslog.syslog_hostname_key }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.syslog_appname_key }}
+    syslog_appname_key: {{ .Values.fluentbit.output.syslog.syslog_appname_key }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.syslog_procid_key }}
+    syslog_procid_key: {{ .Values.fluentbit.output.syslog.syslog_procid_key }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.syslog_msgid_key }}
+    syslog_msgid_key: {{ .Values.fluentbit.output.syslog.syslog_msgid_key }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.syslog_sd_key }}
+    syslog_sd_key: {{ .Values.fluentbit.output.syslog.syslog_sd_key }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.syslog_message_key }}
+    syslog_message_key: {{ .Values.fluentbit.output.syslog.syslog_message_key }}
+    {{- end }}
+    {{- if .Values.fluentbit.output.syslog.enableTLS }}
+    tls:
+      {{ toYaml .Values.fluentbit.output.syslog.tls | indent 6 }}
+    {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
