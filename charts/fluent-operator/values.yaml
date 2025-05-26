@@ -364,7 +364,33 @@ fluentbit:
       #tls: {}        # *plugins.TLS fluentbit docs
     stackdriver: {}
     # You can configure the stackdriver configuration here
-
+    # syslog fluentbit ClusterOutput
+    syslog:
+      enable: false
+      match: "*"
+      host: syslog.example.com
+      port: 514
+      mode: udp
+      syslog_format: rfc5424
+      syslog_maxsize: 4096
+      syslog_severity_key: severity
+      syslog_facility_key: facility
+      syslog_hostname_key: hostname
+      syslog_appname_key: appname
+      syslog_procid_key: procid
+      syslog_msgid_key: msgid
+      syslog_sd_key: sd
+      syslog_message_key: message
+    #      enableTLS: false
+    #      tls:
+    #        verify: On
+    #        debug: 1
+    #        caFile: "<Absolute path to CA certificate file>"
+    #        caPath: "<Absolute path to scan for certificate files>"
+    #        crtFile: "<Absolute path to private Key file>"
+    #        keyFile: "<Absolute path to private Key file>"
+    #        keyPassword:
+    #        vhost: "<Hostname to be used for TLS SNI extension>"
   service:
     storage: {}
   # Remove the above storage section and uncomment below section if you want to configure file-system as storage for buffer
