@@ -7,9 +7,9 @@ metadata:
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
 data:
-  custom_parsers.conf: |
+  custom_parsers.yaml: |
     {{- (tpl .Values.config.customParsers $) | nindent 4 }}
-  fluent-bit.conf: |
+  fluent-bit.yaml: |
     {{- (tpl .Values.config.service $)  | nindent 4 }}
     {{- (tpl .Values.config.inputs $)  | nindent 4 }}
     {{- (tpl .Values.config.filters $)  | nindent 4 }}
