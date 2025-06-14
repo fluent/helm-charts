@@ -10,14 +10,7 @@ data:
   custom_parsers.yaml: |
     {{- (tpl .Values.config.customParsers $) | nindent 4 }}
   fluent-bit.yaml: |
-    {{- (tpl .Values.config.service $)  | nindent 4 }}
-    {{- (tpl .Values.config.inputs $)  | nindent 4 }}
-    {{- (tpl .Values.config.filters $)  | nindent 4 }}
-    {{- (tpl .Values.config.outputs $)  | nindent 4 }}
-  {{- range $key, $val := .Values.config.upstream }}
-  {{ $key }}: |
-    {{- (tpl $val $) | nindent 4 }}
-  {{- end }}
+    {{- (tpl .Values.config.config $)  | nindent 4 }}
   {{- range $key, $val := .Values.config.extraFiles }}
   {{ $key }}: |
     {{- (tpl $val $) | nindent 4 }}
