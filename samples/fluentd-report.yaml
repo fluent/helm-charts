@@ -1,13 +1,13 @@
-# Sample values.yaml for deploying an L1x edge reporter with fluentd
+# Sample values.yaml for deploying an 10x edge reporter with fluentd
 #
-# Make sure to add your L1x license, as well as setup your backend info
+# Make sure to add your 10x license, as well as setup your backend info
 # in the outputConfigs section.
 #
 # For more info on deploying, see -
 # http://doc.log10x.com/deploy/apps/edge/reporter/#fluentd
 #
-l1x:
-  license: "<YOUR-L1X-LICENSE-HERE>"
+tenx:
+  license: "<YOUR-10X-LICENSE-HERE>"
 
   kind: "report"
 
@@ -15,9 +15,9 @@ l1x:
 
   fileConfigs:
     report:
-      # Edit this section to change which events to pass to L1x for reporting.
+      # Edit this section to change which events to pass to 10x for reporting.
       #
-      # Defaults to passing all events to L1X.
+      # Defaults to passing all events to 10x.
       #
       04_outputs.conf: |-
         <label @OUTPUT>
@@ -29,7 +29,7 @@ l1x:
             </store>
             <store>
               @type relabel
-              @label @L1X
+              @label @TENX
             </store>
           </match>
         </label>
@@ -46,7 +46,7 @@ l1x:
       #       </store>
       #       <store>
       #         @type relabel
-      #         @label @L1X
+      #         @label @TENX
       #       </store>
       #     </match>
       #     <match **>
@@ -68,8 +68,8 @@ l1x:
         </match>
       </label>
 
-    08_l1x_internal.conf: |-
-      <label @L1X-INTERNAL>
+    08_tenx_internal.conf: |-
+      <label @TENX-INTERNAL>
         <match **>
           @type elasticsearch
           host "elasticsearch-master"
@@ -78,6 +78,6 @@ l1x:
           user elastic
           password changeme
 
-          index_name l1x-internal
+          index_name tenx-internal
         </match>
       </label>

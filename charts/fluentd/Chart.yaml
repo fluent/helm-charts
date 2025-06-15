@@ -16,7 +16,7 @@ sources:
   - https://github.com/fluent/fluentd-kubernetes-daemonset
 maintainers:
   - name: dor-levi
-    email: dor.levi@l1x.co
+    email: dor.levi@log10x.com
 annotations:
   artifacthub.io/changes: |
     - kind: changed

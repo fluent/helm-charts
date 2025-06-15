@@ -7,7 +7,7 @@ Helm charts for deploying Fluentd / Fluent-Bit with an [Log10x Edge app](http://
 
 The Fluentd and Fluent-Bit charts are built on top of the official [fluent helm charts](https://github.com/fluent/helm-charts), and work by replacing the base image with one which has [Log10x installed](http://doc.log10x.com/home/install/package/) on it, as well as setting all the necessary [Log10x configuration](http://doc.log10x.com/run/input/forwarder/)
 
-For more details on how the images are created, see - https://github.com/l1x-co/docker-images
+For more details on how the images are created, see - https://github.com/log-10x/docker-images
 
 The supported [Log10x distributions](http://doc.log10x.com/home/install/#flavor-matrix) are JIT Edge and Native Edge. Check out each individual chart values.yaml for full configuration options.
 

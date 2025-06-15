@@ -8,19 +8,19 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/log-10x/log10x-fluent-bit
-  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.l1x.variant }}
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.tenx.variant }}
   # Set to "-" to not use the default value
   tag:
   digest:
   pullPolicy: IfNotPresent
 
-# L1X configuration
+# 10x configuration
 #
 # NOTE - also look at config.extraFiles lower in this file, as that's part
 # of what defines the config for fluent-bit
 #
-l1x:
-  # Main switch to enabled/disable l1x.
+tenx:
+  # Main switch to enabled/disable 10x.
   #
   enabled: true
 
@@ -30,32 +30,32 @@ l1x:
   # jit, native
   variant: jit
 
-  # Specify your l1x license key
+  # Specify your 10x license key
   license: "NO-LICENSE"
 
-  # L1X mode - "report", "regulate" or "optimize"
+  # 10x mode - "report", "regulate" or "optimize"
   kind: "regulate"
 
-  # Specify name for the l1x runtime
-  # If empty, will use default from l1x configuration
+  # Specify name for the 10x runtime
+  # If empty, will use default from 10x configuration
   runtimeName:
 
-  # Control fetching L1X config and/or symbols from github.
+  # Control fetching 10x config and/or symbols from github.
   # If either config.enabled or symbols.enabled are true, the deployment will setup an
   # init container to fetch config/symbols before the fluent-bit pod is live, and will share
   # the result files via a shared volume 'shared-git-volume' that's mounted to the fluent-bit
-  # pod at '/etc/l1x/git'
+  # pod at '/etc/tenx/git'
   #
-  # To learn more about the l1x github config fetcher, see:
+  # To learn more about the 10x github config fetcher, see:
   # https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher
   #
   github:
     config:
       # If config.enabled is true, the init container will fetch the config from github.
-      # The config will be at '/etc/l1x/git/config', and the L1X_CONFIG env var will
+      # The config will be at '/etc/tenx/git/config', and the TENX_CONFIG env var will
       # be set to point to it.
       #
-      # Otherwise, the default config bundled with the fluent-bit + l1x image will be used.
+      # Otherwise, the default config bundled with the fluent-bit + 10x image will be used.
       #
       enabled: false
 
@@ -74,8 +74,8 @@ l1x:
 
     symbols:
       # If symbols.enabled is true, the init container will fetch the symbols from github.
-      # The symbols will be at '/etc/l1x/git/config/data/shared/symbols', and the environment
-      # variable L1X_SYMBOLS_PATH will be set to match
+      # The symbols will be at '/etc/tenx/git/config/data/shared/symbols', and the environment
+      # variable TENX_SYMBOLS_PATH will be set to match
       #
       enabled: false
 
@@ -94,7 +94,7 @@ l1x:
 
       # Optional - a sub folder inside the repo where symbols were placed.
       # If omitted, the entire repo is considered as the symbols path.
-      # path: "l1x/my-app/symbols"
+      # path: "tenx/my-app/symbols"
 
   # Main config files, used internally by the template to setup the correct overall fluent-bit configuration
   # All the inputs/filters/outputs defined here will appear AFTER the fluent-bit inputs/filters/outputs which
@@ -103,111 +103,111 @@ l1x:
   mainFiles:
     report:
       inputs:
-        - l1x-log-input.conf
+        - tenx-log-input.conf
       filters:
-        - l1x-report.conf
+        - tenx-report.conf
       outputs:
-        - l1x-log-output.conf
+        - tenx-log-output.conf
 
     regulate:
       inputs:
-        - l1x-readback.conf
-        - l1x-log-input.conf
+        - tenx-readback.conf
+        - tenx-log-input.conf
       filters:
-        - l1x-regulate.conf
+        - tenx-regulate.conf
       outputs:
-        - l1x-log-output.conf
+        - tenx-log-output.conf
 
     optimize:
       inputs:
-        - l1x-readback.conf
-        - l1x-log-input.conf
+        - tenx-readback.conf
+        - tenx-log-input.conf
       filters:
-        - l1x-optimize.conf
+        - tenx-optimize.conf
       outputs:
-        - l1x-log-output.conf
-        - l1x-templates-output.conf
+        - tenx-log-output.conf
+        - tenx-templates-output.conf
 
   # Individual config files, responsible for setting the individual aspects of the fluent-bit configuration
   #
   configFiles:
-    # Setting and input for reading the internal l1x log, which fluent-bit can forward to the selected output (see below)
+    # Setting and input for reading the internal 10x log, which fluent-bit can forward to the selected output (see below)
     #
-    l1x-log-input.conf: |
+    tenx-log-input.conf: |
       [INPUT]
           Name tail
-          Path /var/log/l1x/*.log
-          Tag l1x-internal
+          Path /var/log/tenx/*.log
+          Tag tenx-internal
 
-    # Emitting the l1x internal log, change the destination if needed.
+    # Emitting the 10x internal log, change the destination if needed.
     #
-    l1x-log-output.conf: |
+    tenx-log-output.conf: |
       [OUTPUT]
           Name es
-          Match l1x-internal
+          Match tenx-internal
           Host elasticsearch-master
           Logstash_Format On
-          Logstash_Prefix l1x-internal
+          Logstash_Prefix tenx-internal
           Retry_Limit False
 
-    # Setting up an l1x 'report' pipeline as a Lua filter.
+    # Setting up an 10x 'report' pipeline as a Lua filter.
     #
     # This is identical in concept to
-    # https://github.com/log-10x/modules/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/l1x-report.conf
+    # https://github.com/log-10x/modules/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/tenx-report.conf
     #
-    l1x-report.conf: |
+    tenx-report.conf: |
       [FILTER]
           Name Lua
           Match *
-          script ${L1X_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-report.lua
-          call l1x_process
+          script ${TENX_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/tenx-report.lua
+          call tenx_process
 
-    # Setting up an l1x 'regulate' pipeline as a Lua filter.
+    # Setting up an 10x 'regulate' pipeline as a Lua filter.
     #
     # This is identical in concept to
-    # https://github.com/log-10x/modules/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/l1x-regulate.conf
+    # https://github.com/log-10x/modules/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/tenx-regulate.conf
     #
-    l1x-regulate.conf: |
+    tenx-regulate.conf: |
       [FILTER]
           Name Lua
           Match *
-          script ${L1X_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-regulate.lua
-          call l1x_process
+          script ${TENX_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/tenx-regulate.lua
+          call tenx_process
 
-    # Setting up an l1x 'optimize' pipeline as a Lua filter.
+    # Setting up an 10x 'optimize' pipeline as a Lua filter.
     #
     # This is identical in concept to
-    # https://github.com/log-10x/modules/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/l1x-optimize.conf
+    # https://github.com/log-10x/modules/blob/main/pipelines/run/modules/input/forwarder/fluentbit/conf/tenx-optimize.conf
     #
-    l1x-optimize.conf: |
+    tenx-optimize.conf: |
       [FILTER]
           Name Lua
           Match *
-          script ${L1X_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-optimize.lua
-          call l1x_process
+          script ${TENX_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/tenx-optimize.lua
+          call tenx_process
 
-    # Setting up a unix socket input for reading back events from l1x
+    # Setting up a unix socket input for reading back events from 10x
     #
-    # Using absolute include path and not utilizing ${L1X_MODULES} because currently fluent-bit
+    # Using absolute include path and not utilizing ${TENX_MODULES} because currently fluent-bit
     # can't resolve environment vars as part of @INCLUDE
     #
     # See https://github.com/fluent/fluent-bit/issues/2020
     #
-    l1x-readback.conf: |
-      @INCLUDE /opt/log10x-edge/lib/app/modules/pipelines/run/modules/input/forwarder/fluentbit/conf/l1x-unix.conf
+    tenx-readback.conf: |
+      @INCLUDE /opt/log10x-edge/lib/app/modules/pipelines/run/modules/input/forwarder/fluentbit/conf/tenx-unix.conf
 
-    # Emitting generated l1xTemplates ('optimize' only) the l1es_dml index in elastic search.
-    # This will allow the L1x Elastic app to decode optimized events.
+    # Emitting generated tenxTemplates ('optimize' only) the l1es_dml index in elastic search.
+    # This will allow the 10x Elastic app to decode optimized events.
     #
-    # For more info on l1xTemplates, see http://doc.log10x.com/run/template/
+    # For more info on tenxTemplates, see http://doc.log10x.com/run/template/
     #
     # This config is based on
-    # https://github.com/log-10x/config/blob/main/pipelines/run/input/forwarder/fluentbit/l1x-elastic.conf
+    # https://github.com/log-10x/config/blob/main/pipelines/run/input/forwarder/fluentbit/tenx-elastic.conf
     #
-    l1x-templates-output.conf: |
+    tenx-templates-output.conf: |
       [OUTPUT]
           Name es
-          Match l1x-template
+          Match tenx_template
           Host elasticsearch-master
           Index l1es_dml
           Id_Key templateHash

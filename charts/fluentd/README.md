@@ -1,37 +1,37 @@
-# Fluentd + L1X Helm Chart
+# Fluentd + 10x Helm Chart
 
 [Fluentd](https://www.fluentd.org/) is an open source data collector for unified logging layer. Fluentd allows you to unify data collection and consumption for a better use and understanding of data.
 
-[L1X](http://doc.log10x.com/overview/overview/) an observability runtime that executes in edge/cloud environments to optimize and reduce the cost of analyzing and storing log/trace data.
+[10x](http://doc.log10x.com/overview/overview/) an observability runtime that executes in edge/cloud environments to optimize and reduce the cost of analyzing and storing log/trace data.
 
 ## Overview
 
-This chart is intended to set up a Fluentd daemonset with an L1X [Edge application](http://doc.log10x.com/run/apps/edge/)
+This chart is intended to set up a Fluentd daemonset with an 10x [Edge application](http://doc.log10x.com/run/apps/edge/)
 
-The chart is derived from the base [Fluentd chart](https://github.com/fluent/helm-charts/tree/main/charts/fluentd), with some key differences which enable Fluentd to work with L1X:
+The chart is derived from the base [Fluentd chart](https://github.com/fluent/helm-charts/tree/main/charts/fluentd), with some key differences which enable Fluentd to work with 10x:
 
-1. Container image is derived from [Fluentd k8s daemonset](https://github.com/fluent/fluentd-kubernetes-daemonset) image has L1X installed on it. For more details, see [Dockerfile](https://github.com/l1x-co/docker-images/blob/main/fwd/fluentd/daemonset/Dockerfile)
-2. Fluentd configuration is adapted to include emitting/receiving events to/from L1X. For more details on how Fluentd communicates with L1X, see [here](http://doc.log10x.com/run/input/forwarder/fluentd/)
-3. Added easy fetching of L1X application configuration and [symbols](http://doc.log10x.com/run/symbol/) from Github using an init container which pulls and mounts the needed files onto the main pod. For more details, see [Dockerfile](https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher/Dockerfile) 
+1. Container image is derived from [Fluentd k8s daemonset](https://github.com/fluent/fluentd-kubernetes-daemonset), with the 10x engine on it. For more details, see [Dockerfile](https://github.com/log-10x/docker-images/blob/main/fwd/fluentd/daemonset/Dockerfile)
+2. Fluentd configuration is adapted to include emitting/receiving events to/from 10x. For more details on how Fluentd communicates with 10x, see [here](http://doc.log10x.com/run/input/forwarder/fluentd/)
+3. Added easy fetching of 10x application configuration and [symbols](http://doc.log10x.com/run/symbol/) from Github using an init container which pulls and mounts the needed files onto the main pod. For more details, see [Dockerfile](https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher/Dockerfile) 
 
 ## Installation
 
-To add the `fluent-l1x` helm repo, run:
+To add the `fluent-helm-charts` helm repo, run:
 
 ```sh
-helm repo add fluent https://fluent.github.io/helm-charts
+helm repo add log10x-fluent https://log-10x.github.io/fluent-helm-charts
 helm repo update
 ```
 
-To install a release named `fluentd-l1x`, run:
+To install a release named `log10x-fluent`, run:
 
 ```sh
-helm install fluentd-l1x fluent-l1x/fluentd
+helm install log10x-fluent log10x-fluent/log10x-fluentd
 ```
 
 ## Examples
 
-Sample values.yaml which sets up Fluentd with an L1X [Edge application](http://doc.log10x.com/run/apps/edge/) can be found [here](https://github.com/l1x-co/fluent-helm-charts/tree/main/samples), for an L1X [Reporter](https://github.com/l1x-co/fluent-helm-charts/blob/main/samples/fluentd-report.yaml), [Regulator](https://github.com/l1x-co/fluent-helm-charts/blob/main/samples/fluentd-regulate.yaml) and [Optimizer](https://github.com/l1x-co/fluent-helm-charts/blob/main/samples/fluentd-optimize.yaml)
+Sample values.yaml which sets up Fluentd with a 10x [Edge application](http://doc.log10x.com/run/apps/edge/) can be found [here](https://github.com/log-10x/fluent-helm-charts/tree/main/samples), for a 10x [Reporter](https://github.com/log-10x/fluent-helm-charts/blob/main/samples/fluentd-report.yaml), [Regulator](https://github.com/log-10x/fluent-helm-charts/blob/main/samples/fluentd-regulate.yaml) and [Optimizer](https://github.com/log-10x/fluent-helm-charts/blob/main/samples/fluentd-optimize.yaml)
 
 Full details on the base Fluentd chart can be found at the [original repo](https://github.com/fluent/helm-charts/tree/main/charts/fluentd)
 

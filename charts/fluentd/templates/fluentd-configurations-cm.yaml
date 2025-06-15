@@ -11,18 +11,18 @@ data:
   {{$key }}: |-
     {{- $value | nindent 4 }}
 {{- end }}
-{{- if .Values.l1x.enabled }}
-{{- range $key, $value := index .Values.l1x.fileConfigs .Values.l1x.kind }}
+{{- if .Values.tenx.enabled }}
+{{- range $key, $value := index .Values.tenx.fileConfigs .Values.tenx.kind }}
   {{$key }}: |-
     {{- $value | nindent 4 }}
 {{- end }}
-{{- range $key, $value := .Values.l1x.outputConfigs }}
-{{- if or (eq $.Values.l1x.kind "optimize") (not (contains "templates" $key)) }}
+{{- range $key, $value := .Values.tenx.outputConfigs }}
+{{- if or (eq $.Values.tenx.kind "optimize") (not (contains "templates" $key)) }}
   {{$key }}: |-
     {{- $value | nindent 4 }}
 {{- end }}
 {{- end }}
-{{- range $key, $value := .Values.l1x.fileConfigs.l1xLogs }}
+{{- range $key, $value := .Values.tenx.fileConfigs.TenXLogs }}
   {{$key }}: |-
     {{- $value | nindent 4 }}
 {{- end }}

@@ -9,20 +9,20 @@ metadata:
 data:
   custom_parsers.conf: |
     {{- (tpl .Values.config.customParsers $) | nindent 4 }}
-  {{- if .Values.l1x.enabled }}
+  {{- if .Values.tenx.enabled }}
   fluent-bit.conf: |
     {{- (tpl .Values.config.service $)  | nindent 4 }}
     {{- (tpl .Values.config.inputs $)  | nindent 4 }}
-  {{- range $key, $val := index (index .Values.l1x.mainFiles .Values.l1x.kind) "inputs" }}
-    {{- (tpl (index $.Values.l1x.configFiles $val) $) | nindent 4 }}
+  {{- range $key, $val := index (index .Values.tenx.mainFiles .Values.tenx.kind) "inputs" }}
+    {{- (tpl (index $.Values.tenx.configFiles $val) $) | nindent 4 }}
   {{- end }}
     {{- (tpl .Values.config.filters $)  | nindent 4 }}
-  {{- range $key, $val := index (index .Values.l1x.mainFiles .Values.l1x.kind) "filters" }}
-    {{- (tpl (index $.Values.l1x.configFiles $val) $) | nindent 4 }}
+  {{- range $key, $val := index (index .Values.tenx.mainFiles .Values.tenx.kind) "filters" }}
+    {{- (tpl (index $.Values.tenx.configFiles $val) $) | nindent 4 }}
   {{- end }}
     {{- (tpl .Values.config.outputs $)  | nindent 4 }}
-  {{- range $key, $val := index (index .Values.l1x.mainFiles .Values.l1x.kind) "outputs" }}
-    {{- (tpl (index $.Values.l1x.configFiles $val) $) | nindent 4 }}
+  {{- range $key, $val := index (index .Values.tenx.mainFiles .Values.tenx.kind) "outputs" }}
+    {{- (tpl (index $.Values.tenx.configFiles $val) $) | nindent 4 }}
   {{- end }}
   {{- else }}
   fluent-bit.conf: |

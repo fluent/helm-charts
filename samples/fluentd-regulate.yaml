@@ -1,13 +1,13 @@
-# Sample values.yaml for deploying an L1x edge regulator with fluentd
+# Sample values.yaml for deploying an 10x edge regulator with fluentd
 #
-# Make sure to add your L1x license, as well as setup your backend info
+# Make sure to add your 10x license, as well as setup your backend info
 # in the outputConfigs section.
 #
 # For more info on deploying, see -
 # http://doc.log10x.com/deploy/apps/edge/regulator/#fluentd
 #
-l1x:
-  license: "<YOUR-L1X-LICENSE-HERE>"
+tenx:
+  license: "<YOUR-10X-LICENSE-HERE>"
 
   kind: "regulate"
 
@@ -15,15 +15,15 @@ l1x:
 
   fileConfigs:
     regulate:
-      # Edit this section to change which events to pass to L1x to regulate.
+      # Edit this section to change which events to pass to 10x to regulate.
       #
-      # Defaults to passing all events to L1X.
+      # Defaults to passing all events to 10x.
       #
       04_outputs.conf: |-
         <label @OUTPUT>
           <match **>
             @type relabel
-            @label @L1X
+            @label @TENX
           </match>
         </label>
       #
@@ -33,7 +33,7 @@ l1x:
       #   <label @OUTPUT>
       #     <match Some.Tag.To.Regulate>
       #       @type relabel
-      #       @label @L1X
+      #       @label @TENX
       #     </match>
       #     <match **>
       #       @type relabel
@@ -54,8 +54,8 @@ l1x:
         </match>
       </label>
 
-    08_l1x_internal.conf: |-
-      <label @L1X-INTERNAL>
+    08_tenx_internal.conf: |-
+      <label @TENX-INTERNAL>
         <match **>
           @type elasticsearch
           host "elasticsearch-master"
@@ -64,6 +64,6 @@ l1x:
           user elastic
           password changeme
 
-          index_name l1x-internal
+          index_name tenx-internal
         </match>
       </label>
