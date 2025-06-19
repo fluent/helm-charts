@@ -9,7 +9,7 @@ keywords:
   - fluentd
 # type: application
 version: 0.2.32
-appVersion: 0.20.1
+appVersion: 0.21.0
 icon: https://www.fluentd.org/images/miscellany/fluentd-logo_2x.png
 home: https://www.fluentd.org/
 sources:
