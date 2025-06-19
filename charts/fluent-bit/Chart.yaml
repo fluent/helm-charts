@@ -1,7 +1,8 @@
 apiVersion: v1
-name: log10x-fluent-bit
-description: A Helm chart for Kubernetes for Log10x + Fluent-bit forwarders
+name: fluent-bit-10x
+description: A Helm chart for Kubernetes for Fluent-bit forwarders + 10x Observability engine
 keywords:
+  - 10x
   - log10x
   - logging
   - fluent-bit
@@ -18,4 +19,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: "Added Log10x integration to fluent-bit"
+      description: "Added 10x Observability engine integration to fluent-bit"

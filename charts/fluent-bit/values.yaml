@@ -7,7 +7,7 @@ kind: DaemonSet
 replicaCount: 1
 
 image:
-  repository: ghcr.io/log-10x/log10x-fluent-bit
+  repository: ghcr.io/log-10x/fluent-bit-10x
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.tenx.variant }}
   # Set to "-" to not use the default value
   tag:
@@ -24,7 +24,7 @@ tenx:
   #
   enabled: true
 
-  # Specifies the Log10x distribution and affects which image will be used.
+  # Specifies the 10x distribution and affects which image will be used.
   # For more details, see - http://doc.log10x.com/architecture/flavors
   #
   # jit, native
@@ -194,7 +194,7 @@ tenx:
     # See https://github.com/fluent/fluent-bit/issues/2020
     #
     tenx-readback.conf: |
-      @INCLUDE /opt/log10x-edge/lib/app/modules/pipelines/run/modules/input/forwarder/fluentbit/conf/tenx-unix.conf
+      @INCLUDE /opt/tenx-edge/lib/app/modules/pipelines/run/modules/input/forwarder/fluentbit/conf/tenx-unix.conf
 
     # Emitting generated tenxTemplates ('optimize' only) the l1es_dml index in elastic search.
     # This will allow the 10x Elastic app to decode optimized events.

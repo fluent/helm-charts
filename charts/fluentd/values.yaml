@@ -8,7 +8,7 @@ kind: "DaemonSet"
 # replicaCount: 1
 
 image:
-  repository: "ghcr.io/log-10x/log10x-fluentd"
+  repository: "ghcr.io/log-10x/fluentd-10x"
   pullPolicy: "IfNotPresent"
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.tenx.variant }}
   tag: ""
@@ -23,7 +23,7 @@ tenx:
   #
   enabled: true
 
-  # Specifies the Log10x distribution and affects which image will be used.
+  # Specifies the 10x distribution and affects which image will be used.
   # For more details, see - http://doc.log10x.com/architecture/flavors
   #
   # jit, native

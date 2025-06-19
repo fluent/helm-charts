@@ -19,14 +19,14 @@ The chart is derived from the base [Fluentd chart](https://github.com/fluent/hel
 To add the `fluent-helm-charts` helm repo, run:
 
 ```sh
-helm repo add log10x-fluent https://log-10x.github.io/fluent-helm-charts
+helm repo add fluent-10x https://log-10x.github.io/fluent-helm-charts
 helm repo update
 ```
 
-To install a release named `log10x-fluent`, run:
+To install a release named `fluentd-10x`, run:
 
 ```sh
-helm install log10x-fluent log10x-fluent/log10x-fluentd
+helm install fluentd-10x fluent-10x/fluentd-10x
 ```
 
 ## Examples
