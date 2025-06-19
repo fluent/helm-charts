@@ -1,6 +1,6 @@
 {{- define "fluentd.pod" -}}
-{{- $defaultTag := printf "%s-%s" (.Chart.AppVersion) (.Values.l1x.variant) -}}
-{{- $l1xGHInit := or .Values.l1x.github.config.enabled .Values.l1x.github.symbols.enabled -}}
+{{- $defaultTag := printf "%s-%s" (.Chart.AppVersion) (.Values.tenx.variant) -}}
+{{- $tenxGHInit := or .Values.tenx.github.config.enabled .Values.tenx.github.symbols.enabled -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
@@ -14,29 +14,29 @@ securityContext:
 {{- with .Values.terminationGracePeriodSeconds }}
 terminationGracePeriodSeconds: {{ . }}
 {{- end }}
-{{- if and .Values.l1x.enabled $l1xGHInit }}
+{{- if and .Values.tenx.enabled $tenxGHInit }}
 initContainers:
-  - name: l1x-git-config
-    image: ghcr.io/log-10x/github-config-fetcher:0.2.0
+  - name: tenx-git-config
+    image: ghcr.io/log-10x/github-config-fetcher:0.3.0
     args:
-      {{- if .Values.l1x.github.config.enabled }}
+      {{- if .Values.tenx.github.config.enabled }}
       - "--config-repo"
-      - "https://{{ .Values.l1x.github.config.token }}@github.com/{{ .Values.l1x.github.config.repo }}.git"
-      {{- if .Values.l1x.github.config.branch }}
+      - "https://{{ .Values.tenx.github.config.token }}@github.com/{{ .Values.tenx.github.config.repo }}.git"
+      {{- if .Values.tenx.github.config.branch }}
       - "--config-branch"
-      - "{{ .Values.l1x.github.config.branch }}"
+      - "{{ .Values.tenx.github.config.branch }}"
       {{- end }}
       {{- end }}
-      {{- if .Values.l1x.github.symbols.enabled }}
+      {{- if .Values.tenx.github.symbols.enabled }}
       - "--symbols-repo"
-      - "https://{{ .Values.l1x.github.symbols.token }}@github.com/{{ .Values.l1x.github.symbols.repo }}.git"
-      {{- if .Values.l1x.github.symbols.branch }}
+      - "https://{{ .Values.tenx.github.symbols.token }}@github.com/{{ .Values.tenx.github.symbols.repo }}.git"
+      {{- if .Values.tenx.github.symbols.branch }}
       - "--symbols-branch"
-      - "{{ .Values.l1x.github.symbols.branch }}"
+      - "{{ .Values.tenx.github.symbols.branch }}"
       {{- end }}
-      {{- if .Values.l1x.github.symbols.path }}
+      {{- if .Values.tenx.github.symbols.path }}
       - "--symbols-path"
-      - "{{ .Values.l1x.github.symbols.path }}"
+      - "{{ .Values.tenx.github.symbols.path }}"
       {{- end }}
       {{- end }}
     volumeMounts:
@@ -70,20 +70,20 @@ containers:
     env:
     - name: FLUENTD_CONF
       value: "../../../etc/fluent/fluent.conf"
-    {{- if .Values.l1x.enabled }}
-    - name: L1X_LICENSE
-      value: "{{ .Values.l1x.license }}"
-    {{- if .Values.l1x.runtimeName }}
-    - name: L1X_RUNTIME_NAME
-      value: "{{ .Values.l1x.runtimeName }}"
+    {{- if .Values.tenx.enabled }}
+    - name: TENX_LICENSE
+      value: "{{ .Values.tenx.license }}"
+    {{- if .Values.tenx.runtimeName }}
+    - name: TENX_RUNTIME_NAME
+      value: "{{ .Values.tenx.runtimeName }}"
     {{- end }}
-    {{- if .Values.l1x.github.config.enabled }}
-    - name: L1X_CONFIG
-      value: "/etc/l1x/git/config"
+    {{- if .Values.tenx.github.config.enabled }}
+    - name: TENX_CONFIG
+      value: "/etc/tenx/git/config"
     {{- end }}
-    {{- if .Values.l1x.github.symbols.enabled }}
-    - name: L1X_SYMBOLS_PATH
-      value: "/etc/l1x/git/config/data/shared/symbols"
+    {{- if .Values.tenx.github.symbols.enabled }}
+    - name: TENX_SYMBOLS_PATH
+      value: "/etc/tenx/git/config/data/shared/symbols"
     {{- end }}
     {{- end }}
     {{- if .Values.env }}
@@ -117,9 +117,9 @@ containers:
       mountPath: /etc/fluent
     - name: etcfluentd-config
       mountPath: /etc/fluent/config.d/
-    {{- if and .Values.l1x.enabled $l1xGHInit }}
+    {{- if and .Values.tenx.enabled $tenxGHInit }}
     - name: shared-git-volume
-      mountPath: /etc/l1x/git
+      mountPath: /etc/tenx/git
     {{- end }}
     {{- if .Values.mountVarLogDirectory }}
     - name: varlog
@@ -150,7 +150,7 @@ volumes:
   configMap:
     name: {{ include "fluentd.extraFilesConfigMapName" . }}
     defaultMode: 0777
-{{- if and .Values.l1x.enabled $l1xGHInit }}
+{{- if and .Values.tenx.enabled $tenxGHInit }}
 - name: shared-git-volume
   emptyDir: {}
 {{- end }}

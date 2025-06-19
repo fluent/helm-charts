@@ -8,53 +8,53 @@ kind: "DaemonSet"
 # replicaCount: 1
 
 image:
-  repository: "ghcr.io/log-10x/log10x-fluentd"
+  repository: "ghcr.io/log-10x/fluentd-10x"
   pullPolicy: "IfNotPresent"
-  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.l1x.variant }}
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.tenx.variant }}
   tag: ""
 
-# L1X configuration
+# 10X configuration
 #
 # NOTE - also look at originalFluentOutput which is placed lower in this file,
 # as it's needed along the base fileConfigs of this chart
 #
-l1x:
-  # Main switch to enabled/disable l1x.
+tenx:
+  # Main switch to enabled/disable 10x.
   #
   enabled: true
 
-  # Specifies the Log10x distribution and affects which image will be used.
+  # Specifies the 10x distribution and affects which image will be used.
   # For more details, see - http://doc.log10x.com/architecture/flavors
   #
   # jit, native
   variant: jit
 
-  # Specify your l1x license key
+  # Specify your 10x license key
   license: "NO-LICENSE"
 
-  # L1X mode - "report", "regulate" or "optimize"
+  # 10x mode - "report", "regulate" or "optimize"
   kind: "regulate"
 
-  # Specify name for the l1x runtime
-  # If empty, will use default from l1x configuration
+  # Specify name for the 10x runtime
+  # If empty, will use default from 10x configuration
   runtimeName:
 
-  # Control fetching L1X config and/or symbols from github.
+  # Control fetching 10x config and/or symbols from github.
   # If either config.enabled or symbols.enabled are true, the deployment will setup an
   # init container to fetch config/symbols before the fluent-bit pod is live, and will share
   # the result files via a shared volume 'shared-git-volume' that's mounted to the fluent-bit
-  # pod at '/etc/l1x/git'
+  # pod at '/etc/tenx/git'
   #
-  # To learn more about the l1x github config fetcher, see:
+  # To learn more about the 10 github config fetcher, see:
   # https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher
   #
   github:
     config:
       # If config.enabled is true, the init container will fetch the config from github.
-      # The config will be at '/etc/l1x/git/config', and the L1X_CONFIG env var will
+      # The config will be at '/etc/tenx/git/config', and the TENX_CONFIG env var will
       # be set to point to it.
       #
-      # Otherwise, the default config bundled with the fluent-bit + l1x image will be used.
+      # Otherwise, the default config bundled with the fluent-bit + 10x image will be used.
       #
       enabled: false
 
@@ -73,8 +73,8 @@ l1x:
 
     symbols:
       # If symbols.enabled is true, the init container will fetch the symbols from github.
-      # The symbols will be at '/etc/l1x/git/config/data/shared/symbols', and the environment
-      # variable L1X_SYMBOLS_PATH will be set to match
+      # The symbols will be at '/etc/tenx/git/config/data/shared/symbols', and the environment
+      # variable TENX_SYMBOLS_PATH will be set to match
       #
       enabled: false
 
@@ -93,7 +93,7 @@ l1x:
 
       # Optional - a sub folder inside the repo where symbols were placed.
       # If omitted, the entire repo is considered as the symbols path.
-      # path: "l1x/my-app/symbols"
+      # path: "tenx/my-app/symbols"
 
   # Main config files, used internally by the template to setup the correct overall fluentd configuration
   #
@@ -103,14 +103,14 @@ l1x:
     report:
       # Fluentd config for handling passing events into the pipeline in 'reporter' mode
       #
-      00_l1x.conf: |-
-        @include "#{ENV['L1X_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-report.conf"
+      00_tenx.conf: |-
+        @include "#{ENV['TENX_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/tenx-report.conf"
 
-      # Controls which events are emitted into the l1x 'reporter'
-      # Works by creating a copy, one to send into l1x via the @L1X label, and one to the actual
+      # Controls which events are emitted into the 10x 'reporter'
+      # Works by creating a copy, one to send into 10x via the @TENX label, and one to the actual
       # output Fluentd will emit the events to.
       #
-      # Default behavior is to emit all events to L1X, edit this section to change.
+      # Default behavior is to emit all events to 10x, edit this section to change.
       #
       04_outputs.conf: |-
         <label @OUTPUT>
@@ -122,7 +122,7 @@ l1x:
             </store>
             <store>
               @type relabel
-              @label @L1X
+              @label @TENX
             </store>
           </match>
         </label>
@@ -130,28 +130,28 @@ l1x:
     regulate:
       # Fluentd config for handling passing events into the pipeline in 'regulator' mode
       #
-      00_l1x.conf: |-
-        @include "#{ENV['L1X_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-regulate-unix.conf"
+      00_tenx.conf: |-
+        @include "#{ENV['TENX_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/tenx-regulate-unix.conf"
 
-      # Controls which events are emitted into the l1x 'regulator'
-      # Works by applying the @L1X label.
+      # Controls which events are emitted into the 10x 'regulator'
+      # Works by applying the @TENX label.
       #
       # Events which aren't meant to be regulated, should have the @FINAL-OUTPUT label applied instead.
       #
-      # Default behavior is to emit all events to L1X for regulating, edit this section to change.
+      # Default behavior is to emit all events to 10x for regulating, edit this section to change.
       #
       04_outputs.conf: |-
         <label @OUTPUT>
           <match **>
             @type relabel
-            @label @L1X
+            @label @TENX
           </match>
         </label>
 
-      # Routes all events coming back from L1X after being regulated to the final Fluentd output.
+      # Routes all events coming back from 10x after being regulated to the final Fluentd output.
       #
-      05_l1x_processed.conf: |-
-        <label @L1X-PROCESSED>
+      05_tenx_processed.conf: |-
+        <label @TENX-PROCESSED>
           <match **>
             @type relabel
             @label @FINAL-OUTPUT
@@ -161,54 +161,54 @@ l1x:
     optimize:
       # Fluentd config for handling passing events into the pipeline in 'optimizer' mode
       #
-      00_l1x.conf: |-
-        @include "#{ENV['L1X_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/l1x-optimize-unix.conf"
+      00_tenx.conf: |-
+        @include "#{ENV['TENX_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/tenx-optimize-unix.conf"
 
-      # Controls which events are emitted into the l1x 'optimizer'
-      # Works by applying the @L1X label.
+      # Controls which events are emitted into the 10x 'optimizer'
+      # Works by applying the @TENX label.
       #
       # Events which aren't meant to be optimized, should have the @FINAL-OUTPUT label applied instead.
       #
-      # Default behavior is to emit all events to L1X for optimizing, edit this section to change.
+      # Default behavior is to emit all events to 10x for optimizing, edit this section to change.
       #
       04_outputs.conf: |-
         <label @OUTPUT>
           <match **>
             @type relabel
-            @label @L1X
+            @label @TENX
           </match>
         </label>
 
-      # Routes all events coming back from L1X after being optimized to the final Fluentd output.
+      # Routes all events coming back from 10x after being optimized to the final Fluentd output.
       #
-      05_l1x_processed.conf: |-
-        <label @L1X-PROCESSED>
+      05_tenx_processed.conf: |-
+        <label @TENX-PROCESSED>
           <match **>
             @type relabel
             @label @FINAL-OUTPUT
           </match>
         </label>
 
-    l1xLogs:
-      # A Fluentd source for reading the internal l1x log.
+    TenXLogs:
+      # A Fluentd source for reading the internal 10x log.
       #
       # This is so the log can also be forwarded by Fluentd to an output destination for debug purposes.
       #
-      01_l1x_sources.conf: |-
+      01_tenx_sources.conf: |-
         <source>
           @type tail
-          @id in_tail_l1x_internal_logs
-          @label @L1X-INTERNAL
-          path /var/log/l1x/*.log
-          pos_file /var/log/l1x-internal.log.pos
-          tag l1x-internal.*
+          @id in_tail_tenx_internal_logs
+          @label @TENX-INTERNAL
+          path /var/log/tenx/*.log
+          pos_file /var/log/tenx-internal.log.pos
+          tag tenx-internal.*
           <parse>
             @type none
           </parse>
         </source>
 
-  # The below config controls the outputs when l1x.enabled is set to 'true'.
-  # When l1x.enabled is set to 'false', output is controlled by 'originalFluentOutput'
+  # The below config controls the outputs when tenx.enabled is set to 'true'.
+  # When tenx.enabled is set to 'false', output is controlled by 'originalFluentOutput'
   #
   outputConfigs:
     # Sets the output destination for events
@@ -227,16 +227,16 @@ l1x:
         </match>
       </label>
 
-    # Emitting generated l1xTemplates ('optimize' only) the l1es_dml index in elastic search.
-    # This will allow the L1x Elastic app to decode optimized events.
+    # Emitting generated tenxTemplates ('optimize' only) the l1es_dml index in elastic search.
+    # This will allow the 10x Elastic app to decode optimized events.
     #
-    # For more info on l1xTemplates, see http://doc.log10x.com/run/template/
+    # For more info on tenxTemplates, see http://doc.log10x.com/run/template/
     #
     # This config is based on
-    # https://github.com/l1x-co/config/blob/main/pipelines/run/input/forwarder/fluentd/l1x-elastic.conf
+    # https://github.com/log-10x/config-tmp/blob/main/pipelines/run/input/forwarder/fluentd/tenx-elastic.conf
     #
-    07_l1x_templates.conf: |-
-      <label @L1X-TEMPLATE>
+    07_tenx_templates.conf: |-
+      <label @TENX-TEMPLATE>
         <match **>
           @type elasticsearch
           host "elasticsearch-master"
@@ -257,10 +257,10 @@ l1x:
         </match>
       </label>
 
-    # Emitting the l1x internal log, change the destination if needed.
+    # Emitting the tenx internal log, change the destination if needed.
     #
-    08_l1x_internal.conf: |-
-      <label @L1X-INTERNAL>
+    08_tenx_internal.conf: |-
+      <label @TENX-INTERNAL>
         <match **>
           @type elasticsearch
           host "elasticsearch-master"
@@ -269,7 +269,7 @@ l1x:
           user elastic
           password changeme
 
-          index_name l1x-internal
+          index_name tenx-internal
 
           # Don't wait for elastic to start up.
           verify_es_version_at_startup false
@@ -642,7 +642,7 @@ fileConfigs:
 
 # Fluentd output configurations
 #
-# This config is only used when l1x.enabled is set to 'false', so that all events
+# This config is only used when tenx.enabled is set to 'false', so that all events
 # will be emitted directly to your output of choice.
 #
 originalFluentOutput:

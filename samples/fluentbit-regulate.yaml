@@ -1,37 +1,37 @@
-# Sample values.yaml for deploying an L1x edge regulator with fluent-bit
+# Sample values.yaml for deploying an 10x edge regulator with fluent-bit
 #
-# Make sure to add your L1x license, as well as setup your backend info
-# in the config.output and l1x-log-output.conf sections.
+# Make sure to add your 10x license, as well as setup your backend info
+# in the config.output and tenx-log-output.conf sections.
 #
 # For more info on deploying, see -
 # http://doc.log10x.com/deploy/apps/edge/regulator/#fluent-bit
 #
-l1x:
-  license: "<YOUR-L1X-LICENSE-HERE>"
+tenx:
+  license: "<YOUR-10X-LICENSE-HERE>"
 
   kind: "regulate"
 
   runtimeName: "my-fluent-bit-regulator"
 
   configFiles:
-    # Edit this section to change which events to pass to L1x to regulate.
+    # Edit this section to change which events to pass to 10x to regulate.
     #
-    # Defaults to passing all events to L1X.
+    # Defaults to passing all events to 10x.
     #
-    l1x-regulate.conf: |
+    tenx-regulate.conf: |
       [FILTER]
           Name Lua
           Match *
-          script ${L1X_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/l1x-regulate.lua
-          call l1x_process
+          script ${TENX_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/tenx-regulate.lua
+          call tenx_process
 
-    l1x-log-output.conf: |
+    tenx-log-output.conf: |
       [OUTPUT]
           Name es
-          Match l1x-internal
+          Match tenx-internal
           Host elasticsearch-master
           Logstash_Format On
-          Logstash_Prefix l1x-internal
+          Logstash_Prefix tenx-internal
           Retry_Limit False
 
 config:
