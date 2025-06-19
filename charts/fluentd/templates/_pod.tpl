@@ -17,7 +17,7 @@ terminationGracePeriodSeconds: {{ . }}
 {{- if and .Values.tenx.enabled $tenxGHInit }}
 initContainers:
   - name: tenx-git-config
-    image: ghcr.io/log-10x/github-config-fetcher:0.2.0
+    image: ghcr.io/log-10x/github-config-fetcher:0.3.0
     args:
       {{- if .Values.tenx.github.config.enabled }}
       - "--config-repo"
