@@ -22,5 +22,5 @@ maintainers:
     email: steve.hipwell@gmail.com
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: "Updated Fluent Bit OCI image to v4.0.3."
+    - kind: added
+      description: "Add VPA controlledValues option"
