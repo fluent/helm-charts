@@ -245,7 +245,7 @@ autoscaling:
     controlledResources: []
 
     # Values that the vertical pod autoscaler can control. Allowed values are RequestsAndLimits and RequestsOnly. Default is RequestsAndLimits.
-    controlledValues: ""
+    controlledValues:
 
     # Define the max allowed resources for the pod
     maxAllowed: {}
