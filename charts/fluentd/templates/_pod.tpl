@@ -87,6 +87,13 @@ containers:
     - mountPath: /var/log/fluent
       name: {{ include "fluentd.fullname" . }}-buffer
     {{- end }}
+{{- if .Values.extraContainers }}
+  {{- if kindIs "string" .Values.extraContainers }}
+    {{- tpl .Values.extraContainers $ | nindent 2 }}
+  {{- else }}
+    {{-  toYaml .Values.extraContainers | nindent 2 }}
+  {{- end -}}
+{{- end }}
 volumes:
 - name: etcfluentd-main
   configMap:
