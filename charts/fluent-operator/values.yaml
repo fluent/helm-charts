@@ -31,7 +31,7 @@ operator:
   # If set to false, this will disable the creation of ClusterRole, ClusterRoleBinding,
   # Deployment, and ServiceAccount resources to avoid conflicts when deploying multiple instances.
   enable: true
-  # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/user-guide/node-selection/
+  # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
   nodeSelector: {}
   # affinity configuration for Fluent Operator. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
   affinity: {}
@@ -95,6 +95,9 @@ fluentbit:
     metricRelabelings: []
   livenessProbe:
     enabled: true
+    httpGet:
+      port: 2020
+      path: /
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 15
@@ -228,6 +231,7 @@ fluentbit:
       bufferChunkSize: ""
       path: "/var/log/containers/*.log"
       skipLongLines: true
+      skipEmptyLines: true
       readFromHead: false
       # Use storageType as "filesystem" if you want to use filesystem as the buffering mechanism for tail input.
       storageType: memory
@@ -280,9 +284,9 @@ fluentbit:
     #      httpPassword:
     #      logstashFormat: true
     #      replaceDots: false
-    #      enableTLS: false
     #      writeOperation: upsert
     #      tls:
+    #        enable: false
     #        verify: On
     #        debug: 1
     #        caFile: "<Absolute path to CA certificate file>"
@@ -293,6 +297,7 @@ fluentbit:
     #        vhost: "<Hostname to be used for TLS SNI extension>"
     kafka:
       enable: false
+      logLevel: info
       brokers: "<kafka broker list like xxx.xxx.xxx.xxx:9092,yyy.yyy.yyy.yyy:9092>"
       topics: ks-log
     opentelemetry: {}
@@ -318,6 +323,7 @@ fluentbit:
       # Switch for generation of fluentbit loki ClusterOutput (and loki basic auth http user and pass secrets if required)
       enable: false # Bool
       retryLimit: "no_limits"
+      logLevel: "info"
       host: 127.0.0.1 # String
       port: 3100 # Int
       # Either, give http{User,Password},tenantID string values specifying them directly
