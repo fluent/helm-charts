@@ -31,7 +31,7 @@ operator:
   # If set to false, this will disable the creation of ClusterRole, ClusterRoleBinding,
   # Deployment, and ServiceAccount resources to avoid conflicts when deploying multiple instances.
   enable: true
-  # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/user-guide/node-selection/
+  # nodeSelector configuration for Fluent Operator. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
   nodeSelector: {}
   # affinity configuration for Fluent Operator. Ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
   affinity: {}
@@ -95,6 +95,9 @@ fluentbit:
     metricRelabelings: []
   livenessProbe:
     enabled: true
+    httpGet:
+      port: 2020
+      path: /
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 15
@@ -228,6 +231,7 @@ fluentbit:
       bufferChunkSize: ""
       path: "/var/log/containers/*.log"
       skipLongLines: true
+      skipEmptyLines: true
       readFromHead: false
       # Use storageType as "filesystem" if you want to use filesystem as the buffering mechanism for tail input.
       storageType: memory
@@ -280,9 +284,9 @@ fluentbit:
     #      httpPassword:
     #      logstashFormat: true
     #      replaceDots: false
-    #      enableTLS: false
     #      writeOperation: upsert
     #      tls:
+    #        enable: false
     #        verify: On
     #        debug: 1
     #        caFile: "<Absolute path to CA certificate file>"
@@ -293,6 +297,7 @@ fluentbit:
     #        vhost: "<Hostname to be used for TLS SNI extension>"
     kafka:
       enable: false
+      logLevel: info
       brokers: "<kafka broker list like xxx.xxx.xxx.xxx:9092,yyy.yyy.yyy.yyy:9092>"
       topics: ks-log
     opentelemetry: {}
@@ -316,52 +321,53 @@ fluentbit:
     # See https://docs.fluentbit.io/manual/pipeline/outputs/loki
     loki:
       # Switch for generation of fluentbit loki ClusterOutput (and loki basic auth http user and pass secrets if required)
-      enable: false # Bool
+      enable: false  # Bool
       retryLimit: "no_limits"
-      host: 127.0.0.1 # String
-      port: 3100 # Int
+      logLevel: "info"
+      host: 127.0.0.1  # String
+      port: 3100  # Int
       # Either, give http{User,Password},tenantID string values specifying them directly
       httpUser: myuser
       httpPassword: mypass
       tenantID: ""
       # Or give {http{User,Password},tenantID} as reference to secrets that you have manually installed into your kubernetes cluster
-      #httpUser:
-      #  valueFrom:
-      #    secretKeyRef:
-      #      key: value
-      #      name: husersecret
-      #      optional: true
-      #httpPassword:
-      #  valueFrom:
-      #    secretKeyRef:
-      #      key: value
-      #      name: hpasssecret
-      #      optional: true
-      #tenantID:
-      #  valueFrom:
-      #    secretKeyRef:
-      #      key: value
-      #      name: tenantsecret
-      #      optional: true
+      # httpUser:
+      #   valueFrom:
+      #     secretKeyRef:
+      #       key: value
+      #       name: husersecret
+      #       optional: true
+      # httpPassword:
+      #   valueFrom:
+      #     secretKeyRef:
+      #       key: value
+      #       name: hpasssecret
+      #       optional: true
+      # tenantID:
+      #   valueFrom:
+      #     secretKeyRef:
+      #       key: value
+      #       name: tenantsecret
+      #       optional: true
       #
       # To use bearer token auth instead of http basic auth
-      #bearerToken: ey....
+      # bearerToken: ey....
       # or with existing secret
-      #bearerToken:
-      #  valueFrom:
-      #    secretKeyRef:
-      #      key: value
-      #      name: bearerTokenSecret
-      #      optional: true
-      #labels: []      # String list of <name>=<value>
-      #labelKeys: []   # String list of <key>
-      #removeKeys: []  # String list of <key>
-      #labelMapPath: '' # String, path to file, ex /here/it/is
-      #dropSingleKey: off
-      #lineFormat: '' # String
-      #autoKubernetesLabels: on
-      #tenantIDKey:   # String
-      #tls: {}        # *plugins.TLS fluentbit docs
+      # bearerToken:
+      #   valueFrom:
+      #     secretKeyRef:
+      #       key: value
+      #       name: bearerTokenSecret
+      #       optional: true
+      # labels: []      # String list of <name>=<value>
+      # labelKeys: []   # String list of <key>
+      # removeKeys: []  # String list of <key>
+      # labelMapPath: '' # String, path to file, ex /here/it/is
+      # dropSingleKey: off
+      # lineFormat: '' # String
+      # autoKubernetesLabels: on
+      # tenantIDKey:   # String
+      # tls: {}        # *plugins.TLS fluentbit docs
     stackdriver: {}
     # You can configure the stackdriver configuration here
 
@@ -425,12 +431,13 @@ fluentbit:
     javaMultiline:
       # use in filter for parser generic springboot multiline log format
       enable: false
-  #Using namespaceClusterFbCfg, deploy fluent-bit configmap and secret in this namespace.
-  #If it is not defined, it is in the namespace of the fluent-operator.
+  # Using namespaceClusterFbCfg, deploy fluent-bit configmap and secret in this namespace.
+  # If it is not defined, it is in the namespace of the fluent-operator.
   namespaceClusterFbCfg: ""
 
 fluentd:
   # Installs a sub chart carrying the CRDs for the fluentd controller. The sub chart is enabled by default.
+  # Valid modes include "collector" and "agent".
   crdsEnable: true
   enable: false
   name: fluentd
