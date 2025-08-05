@@ -48,7 +48,7 @@ spec:
   {{- if .Values.extraPorts }}
     {{- range .Values.extraPorts }}
     - name: {{ .name }}
-      targetPort: {{ .name }}
+      targetPort: {{ .containerPort }}
       protocol: {{ .protocol }}
       port: {{ .port }}
       {{- if and (eq $.Values.service.type "NodePort") (.nodePort) }}
