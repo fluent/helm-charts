@@ -39,7 +39,7 @@ spec:
   {{- end }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.metricsPort }}
       protocol: TCP
       name: http
       {{- if and (eq .Values.service.type "NodePort") (.Values.service.nodePort) }}
