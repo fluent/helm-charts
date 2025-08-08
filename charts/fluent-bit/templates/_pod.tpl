@@ -1,5 +1,7 @@
 {{- define "fluent-bit.pod" -}}
-automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+{{- with .Values.serviceAccount.automountServiceAccountToken }}
+automountServiceAccountToken: {{ . }}
+{{- end }}
 serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
