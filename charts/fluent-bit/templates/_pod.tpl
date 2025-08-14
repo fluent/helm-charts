@@ -1,4 +1,7 @@
 {{- define "fluent-bit.pod" -}}
+{{- if ne .Values.serviceAccount.automountServiceAccountToken nil }}
+automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+{{- end }}
 serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
@@ -139,7 +142,7 @@ volumes:
 {{- if or .Values.luaScripts .Values.hotReload.enabled }}
   - name: luascripts
     configMap:
-      name: {{ include "fluent-bit.fullname" . }}-luascripts 
+      name: {{ include "fluent-bit.fullname" . }}-luascripts
 {{- end }}
 {{- if eq .Values.kind "DaemonSet" }}
   {{- toYaml .Values.daemonSetVolumes | nindent 2 }}
