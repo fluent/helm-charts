@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Add optional automountServiceAccountToken to pod spec and service account"
+    apiVersion: v1
+    appVersion: 4.0.7
+    created: "2025-08-14T10:52:24.177816152Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: 199e47c81b0ad355feb1db65d9d18508015841a738b1607d406ba43f11dba66f
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.52.0/fluent-bit-0.52.0.tgz
+    version: 0.52.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Update Fluent Bit OCI image to 4.0.7."
         - kind: changed
           description: "Update ConfigMap Reloader OCI image to 0.15.0."
@@ -6713,4 +6744,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-07T09:53:25.29679635Z"
+generated: "2025-08-14T10:52:24.17904309Z"
