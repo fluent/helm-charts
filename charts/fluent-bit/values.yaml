@@ -525,3 +525,5 @@ hotReload:
     pullPolicy: IfNotPresent
   resources: {}
   extraWatchVolumes: []
+
+extraObjects: []
