@@ -7,6 +7,9 @@ metadata:
   labels:
     app.kubernetes.io/component: operator
     app.kubernetes.io/name: fluent-operator
+    {{- with .Values.operator.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
   annotations:
     {{- toYaml .Values.operator.annotations | nindent 4 }}
 spec:
