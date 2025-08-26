@@ -31,7 +31,20 @@ serviceAccount:
   create: true
   annotations: {}
   name:
+  # Automatically mount the ServiceAccount
+  # API access Token on any pod(s) linked
+  # to this ServiceAccount (i.e. controls
+  # things at *ServiceAccount* level)?
+  # Separate/independent of automountServiceAccountToken
   automountServiceAccountToken:
+
+
+# Automatically mount the ServiceAccount
+# API access Token on the Fluent Bit pod(s)
+# (i.e. controls things at *pod* level)?
+# Separate/independent of
+# serviceAccount.automountServiceAccountToken
+automountServiceAccountToken:
 
 rbac:
   create: true

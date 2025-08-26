@@ -1,5 +1,7 @@
 {{- define "fluent-bit.pod" -}}
-{{- if ne .Values.serviceAccount.automountServiceAccountToken nil }}
+{{- if ne .Values.automountServiceAccountToken nil }}
+automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
+{{- else if ne .Values.serviceAccount.automountServiceAccountToken nil }}
 automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
 {{- end }}
 serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
