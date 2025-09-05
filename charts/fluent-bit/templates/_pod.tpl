@@ -106,6 +106,10 @@ containers:
     {{- end }}
 {{- if .Values.hotReload.enabled }}
   - name: reloader
+  {{- with .Values.hotReload.securityContext }}
+    securityContext:
+      {{- toYaml . | nindent 6 }}
+  {{- end }}
     image: {{ include "fluent-bit.image" .Values.hotReload.image }}
     args:
       - {{ printf "-webhook-url=http://localhost:%s/api/v2/reload" (toString .Values.metricsPort) }}
