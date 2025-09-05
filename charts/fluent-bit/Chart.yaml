@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: "Make securityContext of reload pod configurable in fluent-bit chart"
+      description: "Make securityContext of hot reload container configurable in fluent-bit chart"
