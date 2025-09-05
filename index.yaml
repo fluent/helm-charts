@@ -4,6 +4,37 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "Make securityContext of hot reload container configurable in fluent-bit chart"
+    apiVersion: v1
+    appVersion: 4.0.7
+    created: "2025-09-05T15:43:02.78889638Z"
+    description: Fast and lightweight log processor and forwarder or Linux, OSX and
+      BSD family operating systems.
+    digest: af71567d406dec438f6df422754a8a5249d697f3d2a5bce4a5a804f386be8457
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    maintainers:
+    - email: eduardo@calyptia.com
+      name: edsiper
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: towmeykaw@gmail.com
+      name: Towmeykaw
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluent-bit
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-0.53.0/fluent-bit-0.53.0.tgz
+    version: 0.53.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "Add optional automountServiceAccountToken to pod spec and service account"
     apiVersion: v1
     appVersion: 4.0.7
@@ -6744,4 +6775,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-14T10:52:24.17904309Z"
+generated: "2025-09-05T15:43:02.789922811Z"
