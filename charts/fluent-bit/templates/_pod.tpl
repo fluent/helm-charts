@@ -106,7 +106,7 @@ containers:
     {{- end }}
 {{- if .Values.hotReload.enabled }}
   - name: reloader
-  {{- with .Values.securityContext }}
+  {{- with .Values.hotReload.securityContext }}
     securityContext:
       {{- toYaml . | nindent 6 }}
   {{- end }}

@@ -525,3 +525,4 @@ hotReload:
     pullPolicy: IfNotPresent
   resources: {}
   extraWatchVolumes: []
+  securityContext: {}
