@@ -1,6 +1,6 @@
 name: Release Charts
 
-on: push
+on: push 
 
 jobs:
   release:
