@@ -32,6 +32,7 @@ serviceAccount:
   annotations: {}
   name:
   automountServiceAccountToken:
+  createTokenSecret: false
 
 rbac:
   create: true
