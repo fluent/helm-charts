@@ -1,0 +1,51 @@
+{{- if .Values.vmServiceScrape.enabled }}
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: {{ template "fluent-bit.fullname" . }}
+  namespace: {{ default .Release.Namespace .Values.vmServiceScrape.namespace }}
+  labels:
+    {{- include "fluent-bit.labels" . | nindent 4 }}
+    {{- with .Values.vmServiceScrape.selector }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  jobLabel: app.kubernetes.io/instance
+  endpoints:
+    - port: http
+      path: {{ default "/api/v2/metrics/prometheus" .Values.vmServiceScrape.path }}
+      {{- with .Values.vmServiceScrape.interval }}
+      interval: {{ . }}
+      {{- end }}
+      {{- with .Values.vmServiceScrape.scrapeTimeout }}
+      scrapeTimeout: {{ . }}
+      {{- end }}
+      {{- with .Values.vmServiceScrape.metricRelabelings }}
+      metricRelabelings:
+      {{- if kindIs "string" . }}
+        {{- tpl . $ | nindent 8 }}
+      {{- else }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      {{- with .Values.vmServiceScrape.relabelConfigs }}
+      relabelConfigs:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.vmServiceScrape.scheme }}
+      scheme: {{ .Values.vmServiceScrape.scheme }}
+      {{- end }}
+      {{- if .Values.vmServiceScrape.tlsConfig }}
+      tlsConfig:
+        {{- toYaml .Values.vmServiceScrape.tlsConfig | nindent 8 }}
+      {{- end }}
+    {{- with .Values.vmServiceScrape.additionalEndpoints }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "fluent-bit.selectorLabels" . | nindent 6 }}
+{{- end }}
