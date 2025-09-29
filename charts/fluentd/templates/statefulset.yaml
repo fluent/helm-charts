@@ -25,6 +25,10 @@ spec:
   {{- with .Values.minReadySeconds }}
   minReadySeconds: {{ . }}
   {{- end }}
+  {{- with .Values.persistentVolumeClaimRetentionPolicy }}
+  persistentVolumeClaimRetentionPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   template:
     metadata:
       annotations:

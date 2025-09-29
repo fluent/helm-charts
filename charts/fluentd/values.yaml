@@ -161,6 +161,15 @@ updateStrategy: {}
 #   rollingUpdate:
 #     maxUnavailable: 1
 
+persistentVolumeClaimRetentionPolicy: {}
+#  whenDeleted: Delete
+#  whenScaled: Delete
+
+podDisruptionBudget:
+  enabled: false
+#  minAvailable: 1
+#  maxUnavailable: 1
+
 ## Additional environment variables to set for fluentd pods
 env: []
   # - name: "FLUENTD_CONF"
