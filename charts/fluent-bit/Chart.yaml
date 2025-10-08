@@ -24,7 +24,7 @@ annotations:
   artifacthub.io/changes: |
     - kind: deprecated
       description: "Deprecated serviceAccount.automountServiceAccountToken (use serviceAccount.automountToken instead)"
-    - kind: changed
+    - kind: added
       description: "Added support for serviceAccount.automountToken to service account and pod spec"
     - kind: added
       description: "Added support for automountServiceAccountToken (pod-level override) to pod spec"
