@@ -5,8 +5,8 @@ keywords:
   - logging
   - fluent-bit
   - fluentd
-version: 0.53.0
-appVersion: 4.0.7
+version: 0.54.0
+appVersion: 4.1.0
 icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
 home: https://fluentbit.io/
 sources:
@@ -23,4 +23,4 @@ maintainers:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: "Make securityContext of hot reload container configurable in fluent-bit chart"
+      description: "Update Fluent Bit OCI image to 4.1.0."
