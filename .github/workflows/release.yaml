@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - main
+    paths:
+      - charts/**
 
 jobs:
   release:
+    permissions:
+      contents: write # for helm/chart-releaser-action to push chart release and create a release
+      packages: write # for pushing chart to the GHCR registry
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,3 +35,22 @@ jobs:
           charts_dir: charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_SKIP_EXISTING: true
+          
+      - if: ${{ steps.cr.outputs.changed_charts }}
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ steps.cr.outputs.changed_charts }}
+        name: Push Charts to GHCR
+        run: |
+          for pkg in .cr-release-packages/*; do
+            if [ -z "${pkg:-}" ]; then
+              break
+            fi
+            helm push "${pkg}" oci://ghcr.io/${{ github.repository }}
+          done
