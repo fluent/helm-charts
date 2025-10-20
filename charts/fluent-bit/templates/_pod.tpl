@@ -3,7 +3,7 @@
 automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
 {{- else if ne .Values.serviceAccount.automountServiceAccountToken nil }}
 automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
-{{- end }}
+{{- end -}}
 serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
