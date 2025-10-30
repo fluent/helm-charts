@@ -7,7 +7,7 @@
 To install or upgrade Fluent Operator using Helm:
 
 ```shell
-export FLUENT_OPERATOR_CONTAINER_RUNTIME="containerd" # or "cri-o", "docker" depending on the container runtime being used (see `values.yaml`)
+export FLUENT_OPERATOR_CONTAINER_RUNTIME="containerd" # or "crio", "docker" depending on the container runtime being used (see `values.yaml`)
 
 helm repo add fluent https://fluent.github.io/helm-charts
 helm upgrade --install fluent-operator fluent/fluent-operator \
