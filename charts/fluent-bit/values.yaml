@@ -99,8 +99,10 @@ securityContext: {}
 #   runAsUser: 1000
 
 service:
+  name: http
   type: ClusterIP
   port: 2020
+  appProtocol: http
   internalTrafficPolicy:
   loadBalancerClass:
   loadBalancerSourceRanges: []
