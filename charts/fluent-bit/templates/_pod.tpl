@@ -1,10 +1,10 @@
 {{- define "fluent-bit.pod" -}}
+serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
 {{- if ne .Values.automountServiceAccountToken nil }}
 automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
 {{- else if ne .Values.serviceAccount.automountServiceAccountToken nil }}
 automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
-{{- end -}}
-serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
+{{- end }}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
