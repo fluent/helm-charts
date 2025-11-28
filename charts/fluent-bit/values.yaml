@@ -257,6 +257,9 @@ autoscaling:
     # cpu: 200m
     # memory: 100Mi
 
+    # Name of the VPA recommender that will provide recommendations for vertical scaling.
+    recommender: default
+
     updatePolicy:
       # Specifies whether recommended updates are applied when a Pod is started and whether recommended updates
       # are applied during the life of a Pod. Possible values are "Off", "Initial", "Recreate", and "Auto".
