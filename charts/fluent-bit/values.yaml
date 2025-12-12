@@ -230,6 +230,8 @@ ingress:
   # - host: fluent-bit-extra.example.tld
   ## specify extraPort number
   #   port: 5170
+  ## specify path
+  #   path: /example
   tls: []
   #  - secretName: fluent-bit-example-tld
   #    hosts:

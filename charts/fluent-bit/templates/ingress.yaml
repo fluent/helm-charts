@@ -39,7 +39,7 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          - path: /
+          - path: {{ default "/" .path }}
             {{- if $ingressSupportsPathType }}
             pathType: Prefix
             {{- end }}
