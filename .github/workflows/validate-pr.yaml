@@ -1,0 +1,84 @@
+name: Validate PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: read-all
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    outputs:
+      changed: ${{ steps.changed.outputs.any_changed }}
+      k8s_versions: ${{ steps.setup.outputs.k8s_versions }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          fetch-depth: 2
+
+      - name: Chart changes
+        id: changed
+        uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47.0.0
+        with:
+          files: charts/**
+
+      - name: Setup
+        id: setup
+        run: |
+          set -euo pipefail
+
+          k8s_versions="$(curl -s https://endoflife.date/api/kubernetes.json | jq -r '[sort_by(.releaseDate) | reverse | .[0:4] | "\(.[].cycle).0"] | join(",")')"
+          echo "k8s_versions=${k8s_versions}" >> "${GITHUB_OUTPUT}"
+
+  validate:
+    name: Validate
+    uses: action-stars/helm-workflows/.github/workflows/validate.yaml@25591df5ba8d691b4e4d99a0dd6ba927d484eb15 # v0.8.11
+    needs: setup
+    if: needs.setup.outputs.changed == 'true'
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    with:
+      chart_dir: charts
+      target_branch: main
+      helm_docs: true
+      helm_docs_args: --skip-version-footer
+      changelog: true
+      ah_lint: true
+      kubeconform: true
+      kubeconform_k8s_versions: ${{ needs.setup.outputs.k8s_versions }}
+      helm_extra_args: "--timeout 600s"
+
+  check:
+    name: Check
+    needs: validate
+    if: always()
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check
+        env:
+          INPUT_RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          set -euo pipefail
+          read -a results <<< "${INPUT_RESULTS}"
+          for result in "${results[@]}"; do
+            if [[ "${result}" == "failure" ]] || [[ "${result}" == "cancelled" ]]; then
+              echo "::error::Workflow failed!"
+              exit 1
+            fi
+          done

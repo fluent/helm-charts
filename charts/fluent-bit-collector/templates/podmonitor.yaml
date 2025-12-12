@@ -1,0 +1,29 @@
+{{- if and .Values.serviceMonitor.enabled (not .Values.service.enabled) -}}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "fluent-bit-collector.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluent-bit-collector.labels" . | nindent 4 }}
+  {{- with .Values.serviceMonitor.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  jobLabel: app.kubernetes.io/instance
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "fluent-bit-collector.selectorLabels" . | nindent 6 }}
+  podMetricsEndpoints:
+    - port: http
+      path: /api/v1/metrics/prometheus
+    {{- with .Values.serviceMonitor.endpointConfig }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  {{- range .Values.serviceMonitor.additionalEndpoints }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
