@@ -45,6 +45,10 @@ spec:
     {{- if .Values.fluentbit.input.tail.disableInotifyWatcher }}
     disableInotifyWatcher: {{ .Values.fluentbit.input.tail.disableInotifyWatcher }}
     {{- end }}
+    {{- with .Values.fluentbit.input.tail.extraParams }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
