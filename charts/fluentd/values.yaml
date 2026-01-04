@@ -219,6 +219,16 @@ service:
   #   protocol: TCP
   #   containerPort: 24224
 
+## Headless service for StatefulSet
+##
+headlessService:
+  enabled: false
+  annotations: {}
+  ports: []
+  # - name: "forwarder"
+  #   protocol: TCP
+  #   containerPort: 24224
+
 ## Prometheus Monitoring
 ##
 metrics:

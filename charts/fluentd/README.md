@@ -174,6 +174,24 @@ The `fileConfigs` section is organized by sources -> filters -> destinations. Fl
   </label>
 ```
 
+## Headless Service
+
+The chart supports deploying a headless service, which is useful for StatefulSet deployments where you need direct pod DNS resolution (e.g., `pod-0.fluentd-headless.namespace.svc.cluster.local`).
+
+To enable the headless service, configure the following values:
+
+```yaml
+headlessService:
+  enabled: true
+  annotations: {}
+  ports:
+    - name: "forwarder"
+      protocol: TCP
+      containerPort: 24224
+```
+
+The headless service will be created with the name `<release-name>-fluentd-headless` and will expose the metrics port (24231) by default, plus any additional ports specified in `headlessService.ports`.
+
 ## Backwards Compatibility - v0.1.x
 
 The old fluentd chart used the ENV variables and the default fluentd container definitions to set-up automatically many aspects of fluentd. It is still possible to trigger this behaviour by removing this charts current `.Values.env` configuration and replace by:
