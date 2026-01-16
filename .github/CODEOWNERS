@@ -1,4 +1,6 @@
 # https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
 
-/charts/fluent-bit/ @edsiper @naseemkullah @stevehipwell
-/charts/fluent-operator/ @benjaminhuo @wanjunlei @wenchajun
+/charts/fluent-bit/              @edsiper @naseemkullah @stevehipwell
+/charts/fluent-bit-aggregator/   @stevehipwell @patrick-stephens
+/charts/fluent-bit-collector/    @stevehipwell @patrick-stephens
+/charts/fluent-operator/         @benjaminhuo @wanjunlei @wenchajun

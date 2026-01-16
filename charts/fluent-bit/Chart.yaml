@@ -20,7 +20,4 @@ maintainers:
     email: towmeykaw@gmail.com
   - name: stevehipwell
     email: steve.hipwell@gmail.com
-annotations:
-  artifacthub.io/changes: |
-    - kind: changed
-      description: "Update Fluent Bit OCI image to 4.1.1."
+annotations: {}

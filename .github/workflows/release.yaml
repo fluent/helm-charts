@@ -1,32 +1,34 @@
-name: Release Charts
+name: Release
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+      - release-*
+    paths:
+      - charts/**/Chart.yaml
+
+permissions: read-all
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          fetch-depth: 0
-
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Install Helm
-        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # v4.3.1
-        with:
-          version: latest
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f # v1.7.0
-        with:
-          charts_dir: charts
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  workflow:
+    name: Reusable Workflow
+    uses: action-stars/helm-workflows/.github/workflows/release.yaml@25591df5ba8d691b4e4d99a0dd6ba927d484eb15 # v0.8.11
+    permissions:
+      attestations: write
+      contents: write
+      id-token: write
+      packages: write
+    secrets:
+      oci_password: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      chart_dir: charts
+      release_as_latest: true
+      release_notes: true
+      publish_gh_pages: true
+      publish_oci: true
+      oci_registry: "ghcr.io"
+      oci_username: ${{ github.actor }}
+      oci_repository_prefix: ${{ github.repository }}
+      ah_lint: true
