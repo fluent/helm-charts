@@ -5775,6 +5775,37 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluent-bit-aggregator-1.0.0-beta.1/fluent-bit-aggregator-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
+  fluent-bit-collector:
+  - annotations:
+      artifacthub.io/alternativeName: fluent-bit
+      artifacthub.io/changes: |-
+        - kind: added
+          description: "Added initial release."
+    apiVersion: v2
+    appVersion: 4.2.2
+    created: "2026-01-16T17:02:38.324034194Z"
+    description: Helm chart for Fluent Bit running as a collector DaemonSet.
+    digest: 3479f0357ca8b2a2f2a63f00accfe64d4ce8b55d192b0e446f1eb3f74e13f53d
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluent-bit-collector/icon.png
+    keywords:
+    - fluent
+    - fluentd
+    - fluent bit
+    - logging
+    - collector
+    maintainers:
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+      url: https://github.com/stevehipwell
+    name: fluent-bit-collector
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    - https://github.com/fluent/helm-charts/
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-collector-1.0.0-beta.1/fluent-bit-collector-1.0.0-beta.1.tgz
+    version: 1.0.0-beta.1
   fluent-operator:
   - apiVersion: v2
     appVersion: 3.5.0
@@ -6899,4 +6930,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-16T17:02:03.023167042Z"
+generated: "2026-01-16T17:02:38.324549917Z"
