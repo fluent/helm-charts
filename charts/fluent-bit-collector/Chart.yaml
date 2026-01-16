@@ -1,0 +1,23 @@
+apiVersion: v2
+name: fluent-bit-collector
+description: Helm chart for Fluent Bit running as a collector DaemonSet.
+type: application
+version: 1.0.0-beta.1
+appVersion: 4.2.2
+keywords:
+  - fluent
+  - fluentd
+  - fluent bit
+  - logging
+  - collector
+home: https://fluentbit.io/
+icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluent-bit-collector/icon.png
+sources:
+  - https://github.com/fluent/fluent-bit/
+  - https://github.com/fluent/helm-charts/
+maintainers:
+  - name: stevehipwell
+    email: steve.hipwell@gmail.com
+    url: https://github.com/stevehipwell
+annotations:
+  artifacthub.io/alternativeName: fluent-bit
