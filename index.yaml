@@ -1910,7 +1910,7 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
-          description: "Fixed hot-reload for Lua scripts.`
+          description: "Fixed hot-reload for Lua scripts."
     apiVersion: v1
     appVersion: 2.1.5
     created: "2023-06-23T12:02:55.655648945Z"
@@ -1945,7 +1945,7 @@ entries:
         - kind: changed
           description: "Mount config at /fluent-bit/etc/conf to enable hot-reload support."
         - kind: fixed
-          description: "Correct ingressClassName key in values.yaml`
+          description: "Correct ingressClassName key in values.yaml"
     apiVersion: v1
     appVersion: 2.1.5
     created: "2023-06-21T15:28:30.497849238Z"
@@ -4095,17 +4095,17 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
-          description: Upgrade fluent-bit image to v1.8.2.
+          description: "Upgrade fluent-bit image to v1.8.2."
         - kind: changed
-          description: Use new health check endpoint for readiness.
+          description: "Use new health check endpoint for readiness."
         - kind: changed
-          description: Use liveness and rediness config from values, this means setting httpGet: {} if you want to use exec.
+          description: "Use liveness and rediness config from values, this means setting httpGet: {} if you want to use exec."
         - kind: added
-          description: Multiline docker and cri logs in the default tail input.
+          description: "Multiline docker and cri logs in the default tail input."
         - kind: added
-          description: Support for Use_Kubelet true in the Kubernetes filter config by enabling setting rbac.nodeAccess: true, hostNetwork: true and dnsPolicy: ClusterFirstWithHostNet.
+          description: "Support for Use_Kubelet true in the Kubernetes filter config by enabling setting rbac.nodeAccess: true, hostNetwork: true and dnsPolicy: ClusterFirstWithHostNet."
         - kind: added
-          description: Customisable log level via logLevel value.
+          description: "Customisable log level via logLevel value."
     apiVersion: v1
     appVersion: 1.8.2
     created: "2021-07-22T11:59:40.900630537Z"
