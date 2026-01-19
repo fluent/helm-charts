@@ -14,14 +14,21 @@
 
 ## [UNRELEASED]
 
-## [v1.0.0-beta.1] - 2025-12-12
+## [v1.0.0-beta.2] - 2026-01-16
+
+### Changed
+
+- Add Artifact Hub metadata file to verify charts. ([#671](https://github.com/fluent/helm-charts/pull/671)) _@stevehipwell_
+
+## [v1.0.0-beta.1] - 2026-01-16
 
 ### Added
 
-- Added initial release. _@stevehipwell_
+- Added initial release. ([#665](https://github.com/fluent/helm-charts/pull/665)) _@stevehipwell_
 
 <!--
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-bit-collector
+[v1.0.0-beta.2]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-collector-1.0.0-beta.2
 [v1.0.0-beta.1]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-collector-1.0.0-beta.1
