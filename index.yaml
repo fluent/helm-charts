@@ -5809,6 +5809,36 @@ entries:
   - annotations:
       artifacthub.io/alternativeName: fluent-bit
       artifacthub.io/changes: |-
+        - kind: changed
+          description: "Add Artifact Hub metadata file to verify charts."
+    apiVersion: v2
+    appVersion: 4.2.2
+    created: "2026-01-19T15:15:34.207147626Z"
+    description: Helm chart for Fluent Bit running as a collector DaemonSet.
+    digest: 8da2908fdea7309e8bceb87379ac53eb578d16794f5981126964311073270157
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluent-bit-collector/icon.png
+    keywords:
+    - fluent
+    - fluentd
+    - fluent bit
+    - logging
+    - collector
+    maintainers:
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+      url: https://github.com/stevehipwell
+    name: fluent-bit-collector
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    - https://github.com/fluent/helm-charts/
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-collector-1.0.0-beta.2/fluent-bit-collector-1.0.0-beta.2.tgz
+    version: 1.0.0-beta.2
+  - annotations:
+      artifacthub.io/alternativeName: fluent-bit
+      artifacthub.io/changes: |-
         - kind: added
           description: "Added initial release."
     apiVersion: v2
@@ -6960,4 +6990,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-19T15:14:59.005417211Z"
+generated: "2026-01-19T15:15:34.207499193Z"
