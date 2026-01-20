@@ -12,9 +12,9 @@
 ### Security - In case of vulnerabilities.
 -->
 
-## UNRELEASED
+## [UNRELEASED]
 
-## v4.0.0 - 2026-01-20
+## [v4.0.0 - 2026-01-20]
 
 ### Changed
 
