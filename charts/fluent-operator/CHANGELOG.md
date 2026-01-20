@@ -12,6 +12,10 @@
 ### Security - In case of vulnerabilities.
 -->
 
+## UNRELEASED
+
 ## v0.2.3 - 2026-01-20
 
-See [MIGRATION](./MIGRATION-v4.md) for information about this chart.
+### Changed
+
+* See [MIGRATION](./MIGRATION-v4.md) for information about this chart.
