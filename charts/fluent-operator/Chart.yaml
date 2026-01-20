@@ -6,9 +6,9 @@ keywords:
   - fluent-bit
   - fluentd
   - operator
-version: 3.5.0
+version: 4.0.0
 # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluent-operator
-appVersion: "3.5.0"
+appVersion: "3.6.0"
 icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
 home: https://www.fluentd.org/
 sources:
@@ -16,12 +16,16 @@ sources:
 maintainers:
   - name: wenchajun
     email: dehaocheng@kubesphere.io
+  - name: marcofranssen
+    email: marco.franssen@gmail.com
+    url: https://marcofranssen.nl
+  - name: joshuabaird
+    email: joshbaird@gmail.com
 dependencies:
   - name: fluent-bit-crds
-    repository: "file://charts/fluent-bit-crds"
-    version: 3.5.0
-    condition: fluentbit.crdsEnable
+    repository: https://fluent.github.io/helm-charts
+    version: 0.2.3
+    condition: fluentbit.enable && fluentbit.crdsEnable
   - name: fluentd-crds
-    repository: "file://charts/fluentd-crds"
-    version: 3.5.0
-    condition: fluentd.crdsEnable
+    version: 0.2.1
+    condition: fluentd.enable && fluentd.crdsEnable

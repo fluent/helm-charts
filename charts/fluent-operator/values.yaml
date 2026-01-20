@@ -2,28 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# Set this to containerd or crio if you want to collect CRI format logs
-containerRuntime: docker
+# Container runtime used by your Kubernetes cluster
+# Supported values: containerd, crio, docker
+containerRuntime: containerd
 #  If you want to deploy a default Fluent Bit pipeline (including Fluent Bit Input, Filter, and output) to collect Kubernetes logs, you'll need to set the Kubernetes parameter to true
 # see https://github.com/fluent/fluent-operator/tree/master/manifests/logging-stack
 Kubernetes: true
 
 operator:
-  # The init container is to get the actual storage path of the docker log files so that it can be mounted to collect the logs.
-  # see https://github.com/fluent/fluent-operator/blob/master/manifests/setup/fluent-operator-deployment.yaml#L26
-  initcontainer:
-    image:
-      registry: docker.io
-      repository: docker
-      tag: "20.10"
-
-    resources:
-      limits:
-        cpu: 100m
-        memory: 64Mi
-      requests:
-        cpu: 50m
-        memory: 64Mi
   image:
     registry: ghcr.io
     repository: fluent/fluent-operator/fluent-operator
@@ -44,6 +30,13 @@ operator:
   rbac:
     # -- Specifies whether to create the ClusterRole and ClusterRoleBinding.
     create: true
+    clusterRole:
+      name: fluent-operator
+    clusterRoleBinding:
+      name: fluent-operator
+    # Adds additional permissions to Fluent Operator, since operator cannot give permissions it does not have.
+    # Use case includes adding permission to a custom fluent-bit deployment to access kubelet.
+    additionalRules: []
   # Container security context for Fluent Operator container. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   securityContext: {}
   # Fluent Operator resources. Usually user needn't to adjust these.
@@ -63,10 +56,6 @@ operator:
   # Reference one more key-value pairs of labels that should be attached to fluent-operator
   labels: {}
   #  myExampleLabel: someValue
-  logPath:
-    # The operator currently assumes a Docker container runtime path for the logs as the default, for other container runtimes you can set the location explicitly below.
-    # crio: /var/log
-    containerd: /var/log
   # By default, the operator provisions both Fluent Bit and FluentD controllers.
   # A specific controller can be disabled by setting the disableComponentControllers value.
   # The disableComponentControllers value can be either "fluent-bit" or "fluentd".
@@ -98,6 +87,9 @@ operator:
     relabelings: []
     metricRelabelings: []
 
+  serviceAccount:
+    name: fluent-operator
+
 fluentbit:
   # Installs a sub chart carrying the CRDs for the fluent-bit controller. The sub chart is enabled by default.
   crdsEnable: true
@@ -126,7 +118,7 @@ fluentbit:
     registry: ghcr.io
     repository: fluent/fluent-operator/fluent-bit
     # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluent-bit
-    tag: "4.1.1"
+    tag: "4.2.2"
 
   # fluentbit resources. If you do want to specify resources, adjust them as necessary
   # You can adjust it based on the log volume.
@@ -165,6 +157,11 @@ fluentbit:
   secrets: []
   # fluent-bit daemonset use host network
   hostNetwork: false
+  # fluent-bit ports configuration
+  ports: []
+  # - containerPort: 514
+  #   name: syslog-tcp
+  #   protocol: TCP
   # Pod security context for Fluent Bit pods. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
   podSecurityContext: {}
   # Security context for Fluent Bit container. Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
@@ -293,26 +290,33 @@ fluentbit:
       logstashPrefix: ks-logstash-log
       bufferSize: 20MB
       traceError: true
-    #      logstashPrefixKey: ks-logstash-log
-    #      suppressTypeName: "On"
-    #      path: ""
-    #      bufferSize: "4KB"
-    #      index: "fluent-bit"
-    #      httpUser:
-    #      httpPassword:
-    #      logstashFormat: true
-    #      replaceDots: false
-    #      writeOperation: upsert
-    #      tls:
-    #        enable: false
-    #        verify: On
-    #        debug: 1
-    #        caFile: "<Absolute path to CA certificate file>"
-    #        caPath: "<Absolute path to scan for certificate files>"
-    #        crtFile: "<Absolute path to private Key file>"
-    #        keyFile: "<Absolute path to private Key file>"
-    #        keyPassword:
-    #        vhost: "<Hostname to be used for TLS SNI extension>"
+      # logstashPrefixKey: ks-logstash-log
+      # suppressTypeName: "On"
+      # path: ""
+      # index: "fluent-bit"
+      # httpUser:
+      #   valueFrom:
+      #     secretKeyRef:
+      #       key: value
+      #       name: husersecret
+      # httpPassword:
+      #   valueFrom:
+      #     secretKeyRef:
+      #       key: value
+      #       name: hpasssecret
+      # logstashFormat: true
+      # replaceDots: false
+      # writeOperation: upsert
+      # tls:
+      #   enable: false
+      #   verify: On
+      #   debug: 1
+      #   caFile: "<Absolute path to CA certificate file>"
+      #   caPath: "<Absolute path to scan for certificate files>"
+      #   crtFile: "<Absolute path to private Key file>"
+      #   keyFile: "<Absolute path to private Key file>"
+      #   keyPassword:
+      #   vhost: "<Hostname to be used for TLS SNI extension>"
     kafka:
       enable: false
       logLevel: info
@@ -339,11 +343,11 @@ fluentbit:
     # See https://docs.fluentbit.io/manual/pipeline/outputs/loki
     loki:
       # Switch for generation of fluentbit loki ClusterOutput (and loki basic auth http user and pass secrets if required)
-      enable: false  # Bool
+      enable: false  #  Bool
       retryLimit: "no_limits"
       logLevel: "info"
-      host: 127.0.0.1  # String
-      port: 3100  # Int
+      host: 127.0.0.1  #  String
+      port: 3100  #  Int
       # Either, give http{User,Password},tenantID string values specifying them directly
       httpUser: myuser
       httpPassword: mypass
@@ -390,6 +394,9 @@ fluentbit:
     # You can configure the stackdriver configuration here
 
   service:
+    # Scheduler configuration for retry wait times (supported in Fluent Bit >= 1.8.7)
+    # schedulerBase: 5    # Base of exponential backoff (seconds, default: 5)
+    # schedulerCap: 2000  # Maximum retry time (seconds, default: 2000)
     storage: {}
   # Remove the above storage section and uncomment below section if you want to configure file-system as storage for buffer
   #    storage:
@@ -468,7 +475,7 @@ fluentd:
     registry: ghcr.io
     repository: fluent/fluent-operator/fluentd
     # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluentd
-    tag: v1.19.0
+    tag: v1.19.1
 
   # Numbers of the Fluentd instance
   # Applicable when the mode is "collector", and will be ignored when the mode is "agent"
