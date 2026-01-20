@@ -12,12 +12,6 @@
 ### Security - In case of vulnerabilities.
 -->
 
-## [UNRELEASED]
+## v0.2.3 - 2026-01-20
 
-### [v3.5.0] - 2025-10-24
-
-<!--
-RELEASE LINKS
--->
-[UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-operator
-[v3.5.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-3.5.0
+See [MIGRATION](./MIGRATION-v4.md) for information about this chart.
