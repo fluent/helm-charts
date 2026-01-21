@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: fluent-operator
-  name: {{ .Values.operator.rbac.clusterRole.name }}
+  name: fluent-operator
 rules:
   - apiGroups:
       - apps
@@ -145,7 +145,4 @@ rules:
       - get
       - watch
       - patch
-  {{- with .Values.operator.rbac.additionalRules }}
-    {{- toYaml . | nindent 2 }}
-  {{- end }}
 {{- end }}
