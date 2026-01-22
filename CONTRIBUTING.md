@@ -22,8 +22,9 @@ A pull request should only be opened once there is an issue that has triaged by 
 The following steps need to be completed before submitting a PR for review.
 
 - Make sure any change to _values.yaml_ has an updated [helm-docs](https://github.com/norwoodj/helm-docs) comment
-- Run `helm-docs --skip-version-footer`
+- Run `helm-docs --template-files=./_templates.gotmpl --template-files=./_chart-readme.md.gotmpl` or if you have [Just](https://just.systems/man/en/) installed `just docs`
 - Add an entry (or multiple entries) to the _CHANGELOG.md_ file in the chart directory
+- Format the markdown using `rumdl fmt --fix` or if you have [Just](https://just.systems/man/en/) installed `just fmt`
 - Sign off your commits as described [below](#sign-off-your-work)
 - Make sure the PR closes the issue
 

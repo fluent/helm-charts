@@ -27,6 +27,21 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Set-up rumdl
+        uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
+        with:
+          github_token: ${{ github.token }}
+          owner: rvben
+          repository: rumdl
+          filename_format: "{name}-v{version}-{arch}-{os}.{ext}"
+          arch_amd64: x86_64
+          os_linux: unknown-linux-gnu
+          check_command: rumdl --version
+          version: latest
+
+      - name: Lint markdown files
+        run: rumdl check --output-format github .
+
       - name: Chart changes
         id: changed
         uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
@@ -54,7 +69,7 @@ jobs:
       chart_dir: charts
       target_branch: main
       helm_docs: true
-      helm_docs_args: --skip-version-footer
+      helm_docs_args: --template-files=./_templates.gotmpl --template-files=./_chart-readme.md.gotmpl
       changelog: true
       ah_lint: true
       kubeconform: true
