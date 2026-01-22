@@ -1,14 +1,21 @@
-name: 'Close stale issues and PR(s)'
+name: Close stale issues and PR(s)
 on:
   schedule:
     - cron: '30 1 * * *'
+
+permissions: read-all
 
 jobs:
   stale:
     name: Mark stale
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+      issues: write
+      pull-requests: write
     steps:
-      - uses: actions/stale@v10
+      - uses: actions/stale@997185467fa4f803885201cee163a9f38240193d # v10.1.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           stale-issue-message: 'This issue is stale because it has been open 90 days with no activity. Remove stale label or comment or this will be closed in 5 days. Maintainers can add the `exempt-stale` label.'
