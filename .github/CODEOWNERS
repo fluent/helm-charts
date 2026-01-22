@@ -5,6 +5,6 @@
 /charts/fluent-bit/              @stevehipwell @patrick-stephens @edsiper @naseemkullah
 /charts/fluent-bit-aggregator/   @stevehipwell @patrick-stephens
 /charts/fluent-bit-collector/    @stevehipwell @patrick-stephens
-/charts/fluent-operator/         @benjaminhuo @wanjunlei @wenchajun
+/charts/fluent-operator/         @benjaminhuo @wanjunlei @wenchajun @marcofranssen @joshuabaird
 
 /.github/workflows/              @patrick-stephens @stevehipwell
