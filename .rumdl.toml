@@ -1,0 +1,20 @@
+[global]
+disable = ["MD013"]
+exclude = [
+  "charts/fluent-bit/**/*",
+  "charts/fluent-operator/**/*",
+  "charts/fluentd/**/*"
+]
+
+[per-file-ignores]
+"charts/**/README.md" = ["MD004"]
+"charts/**/_*.md" = ["MD041"]
+
+[MD024]
+siblings-only = true
+
+[MD033]
+allowed-elements = ["br"]
+
+[MD052]
+shortcut-syntax = true
