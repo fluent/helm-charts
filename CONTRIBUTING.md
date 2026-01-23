@@ -72,8 +72,6 @@ See `git help commit`:
 
 Once changes have been merged, the release job will automatically run to package and release changed charts.
 
-
-
 ### Community Requirements
 
 This project is released with a [Contributor Covenant](https://www.contributor-covenant.org).
