@@ -388,7 +388,7 @@ config:
         Parsers_File /fluent-bit/etc/parsers.conf
         Parsers_File /fluent-bit/etc/conf/custom_parsers.conf
         HTTP_Server On
-        HTTP_Listen 0.0.0.0
+        HTTP_Listen ::
         HTTP_Port {{ .Values.metricsPort }}
         Health_Check On
 
