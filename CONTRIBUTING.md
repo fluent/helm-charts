@@ -68,7 +68,7 @@ See `git help commit`:
 - Must pass [DCO check](#sign-off-your-work)
 - Must follow [Charts best practices](https://helm.sh/docs/topics/chart_best_practices/)
 - Must pass CI jobs for linting and installing changed charts with the [chart-testing](https://github.com/helm/chart-testing) tool
-- Any change to a chart requires a version bump following [semver](https://semver.org/) principles. See [Immutability(#immutability) and [Versioning](#versioning) below
+- Any change to a chart requires a version bump following [semver](https://semver.org/) principles.
 
 Once changes have been merged, the release job will automatically run to package and release changed charts.
 
