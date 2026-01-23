@@ -1,4 +1,3 @@
 .vscode
 # Helm chart automated files
-/charts/*/charts
 /charts/*/requirements.lock

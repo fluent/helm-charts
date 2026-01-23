@@ -1,0 +1,15 @@
+{{- define "extra.description" -}}
+{{ $description := (.Files.Get "_description.md") }}
+{{- if gt (len $description) 0 }}
+{{ $description }}
+{{- else }}
+{{ template "chart.description" . }}
+{{- end }}
+{{- end -}}
+
+{{- define "extra.docs" -}}
+{{ $docs := (.Files.Get "_docs.md") }}
+{{- if gt (len $docs) 0 }}
+{{ $docs }}
+{{- end }}
+{{- end -}}
