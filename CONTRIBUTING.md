@@ -72,9 +72,6 @@ See `git help commit`:
 
 Once changes have been merged, the release job will automatically run to package and release changed charts.
 
-### Immutability
-
-Chart releases must be immutable. Any change to a chart warrants a chart version bump even if it is only changed to the documentation.
 
 ### Versioning
 
