@@ -1,0 +1,14 @@
+
+{{- if .Values.dashboards.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fluent-bit-collector.dashboardConfigMapName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluent-bit-collector.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  {{ printf "%s.json" (include "fluent-bit-collector.fullname" .) }}: |
+{{- tpl (.Files.Get "dashboards/fluent-bit-collector.json") . | nindent 4 }}
+{{- end -}}
