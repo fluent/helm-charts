@@ -1,0 +1,14 @@
+kind: Deployment
+replicaCount: 1
+
+extraObjects:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: fluent-bit-buffer
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi

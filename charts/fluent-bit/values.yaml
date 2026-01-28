@@ -535,3 +535,16 @@ hotReload:
     capabilities:
       drop:
         - ALL
+
+# extraObjects -- List of extra K8s manifests to deploy
+extraObjects: []
+#  - apiVersion: v1
+#    kind: PersistentVolumeClaim
+#    metadata:
+#      name: fluent-bit-buffer
+#    spec:
+#      accessModes:
+#        - ReadWriteOnce
+#      resources:
+#        requests:
+#          storage: 1Gi
