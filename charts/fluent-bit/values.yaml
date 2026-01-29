@@ -121,13 +121,9 @@ serviceMonitor:
   #   namespace: monitoring
   #   interval: 10s
   #   scrapeTimeout: 10s
-  #   ## additionalLabels: Additional labels to add to the ServiceMonitor metadata
-  #   ## This is the recommended way to add labels for Prometheus Operator selection
-  #   additionalLabels: {}
-  #   #  prometheus: my-prometheus
-  #   ## selector: (DEPRECATED) Use additionalLabels instead
-  #   ## This field is maintained for backward compatibility but additionalLabels is preferred
-  #   selector: {}
+  #   additionalLabels:
+  #     prometheus: kube-prometheus
+  #     release: prometheus
   #  ## metric relabel configs to apply to samples before ingestion.
   #  ##
   #  metricRelabelings:

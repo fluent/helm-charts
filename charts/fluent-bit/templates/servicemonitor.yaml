@@ -8,10 +8,6 @@ metadata:
     {{- include "fluent-bit.labels" . | nindent 4 }}
     {{- with .Values.serviceMonitor.additionalLabels }}
     {{- toYaml . | nindent 4 }}
-    {{- else }}
-    {{- with .Values.serviceMonitor.selector }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
     {{- end }}
 spec:
   jobLabel: app.kubernetes.io/instance
