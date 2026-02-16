@@ -36,7 +36,7 @@ spec:
   {{ else }}
   namespaceSelector:
     matchNames:
-      - {{ .Release.Namespace }}
+      - {{ include "fluentd.namespace" . }}
   {{- end }}
   selector:
     matchLabels:
