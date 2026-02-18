@@ -1,23 +1,24 @@
 apiVersion: v1
 name: fluent-bit
-description: Fast and lightweight log processor and forwarder for Linux, OSX and BSD family operating systems.
+description: A Helm chart for Kubernetes for Fluent Bit log processor + 10x Observability engine
 keywords:
+  - 10x
+  - log10x
   - logging
+  - fluent
   - fluent-bit
-  - fluentd
-version: 0.55.0
-appVersion: 4.2.2
-icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg
-home: https://fluentbit.io/
+version: 0.9.0
+appVersion: 0.9.0
+icon: https://raw.githubusercontent.com/log-10x/fluent-helm-charts/main/icon.png
+home: https://github.com/log-10x/fluent-helm-charts
 sources:
+  - https://github.com/log-10x/fluent-helm-charts
+  - https://github.com/log-10x/docker-images
   - https://github.com/fluent/fluent-bit/
 maintainers:
-  - name: edsiper
-    email: eduardo@calyptia.com
-  - name: naseemkullah
-    email: naseem@transit.app
-  - name: Towmeykaw
-    email: towmeykaw@gmail.com
-  - name: stevehipwell
-    email: steve.hipwell@gmail.com
-annotations: {}
+  - name: Log10x
+    email: engineering@log10x.com
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: "Added 10x Observability engine integration to fluent-bit"

@@ -1,0 +1,25 @@
+# CI test values - uses stdout output instead of Elasticsearch
+# This ensures the chart can be installed and tested without external dependencies
+
+tenx:
+  enabled: true
+  # Override output to use stdout instead of Elasticsearch
+  outputConfigs:
+    06_final_output.conf: |-
+      <label @FINAL-OUTPUT>
+        <match **>
+          @type stdout
+        </match>
+      </label>
+    07_tenx_templates.conf: |-
+      <label @TENX-TEMPLATE>
+        <match **>
+          @type stdout
+        </match>
+      </label>
+    08_tenx_internal.conf: |-
+      <label @TENX-INTERNAL>
+        <match **>
+          @type stdout
+        </match>
+      </label>

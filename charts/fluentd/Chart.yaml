@@ -1,16 +1,26 @@
 apiVersion: v2
 name: fluentd
-description: A Helm chart for Kubernetes
+description: A Helm chart for Kubernetes for Fluentd forwarders + 10x Observability engine
+keywords:
+  - 10x
+  - log10x
+  - logging
+  - fluent
+  - fluentd
 # type: application
-version: 0.5.3
-appVersion: v1.17.1
-icon: https://www.fluentd.org/images/miscellany/fluentd-logo_2x.png
-home: https://www.fluentd.org/
+version: 0.9.0
+appVersion: 0.9.0
+icon: https://raw.githubusercontent.com/log-10x/fluent-helm-charts/main/icon.png
+home: https://github.com/log-10x/fluent-helm-charts
 sources:
+  - https://github.com/log-10x/fluent-helm-charts
+  - https://github.com/log-10x/docker-images
   - https://github.com/fluent/fluentd/
   - https://github.com/fluent/fluentd-kubernetes-daemonset
 maintainers:
-  - name: edsiper
-    email: eduardo@treasure-data.com
-  - name: dioguerra
-    email: diogo.filipe.tomas.guerra@cern.ch
+  - name: Log10x
+    email: engineering@log10x.com
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: "Added 10x Observability engine integration to fluentd"

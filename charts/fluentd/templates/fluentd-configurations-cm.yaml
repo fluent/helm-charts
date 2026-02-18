@@ -11,6 +11,27 @@ data:
   {{$key }}: |-
     {{- $value | nindent 4 }}
 {{- end }}
+{{- if .Values.tenx.enabled }}
+{{- range $key, $value := index .Values.tenx.fileConfigs .Values.tenx.kind }}
+  {{$key }}: |-
+    {{- $value | nindent 4 }}
+{{- end }}
+{{- range $key, $value := .Values.tenx.outputConfigs }}
+{{- if or (eq $.Values.tenx.kind "optimize") (not (contains "templates" $key)) }}
+  {{$key }}: |-
+    {{- $value | nindent 4 }}
+{{- end }}
+{{- end }}
+{{- range $key, $value := .Values.tenx.fileConfigs.TenXLogs }}
+  {{$key }}: |-
+    {{- $value | nindent 4 }}
+{{- end }}
+{{- else }}
+{{- range $key, $value := .Values.originalFluentOutput }}
+  {{$key }}: |-
+    {{- $value | nindent 4 }}
+{{- end }}
+{{- end }}
 {{- end }}
 
 {{- if not .Values.mainConfigMapNameOverride }}

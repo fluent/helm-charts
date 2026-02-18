@@ -1,0 +1,52 @@
+# Sample values.yaml for deploying an 10x edge reporter with fluent-bit
+#
+# Make sure to add your 10x license, as well as setup your backend info
+# in the config.output and tenx-log-output.conf sections.
+#
+# For more info on deploying, see -
+# https://doc.log10x.com/apps/edge/reporter/deploy/#fluent-bit
+#
+tenx:
+  license: "<YOUR-10X-LICENSE-HERE>"
+
+  kind: "report"
+
+  runtimeName: "my-fluent-bit-reporter"
+
+  configFiles:
+    # Edit this section to change which events to pass to 10x for reporting.
+    #
+    # Defaults to passing all events to 10x.
+    #
+    tenx-report.conf: |
+      [FILTER]
+          Name Lua
+          Match *
+          script ${TENX_MODULES}/pipelines/run/modules/input/forwarder/fluentbit/conf/lua/tenx-report.lua
+          call tenx_process
+
+    tenx-log-output.conf: |
+      [OUTPUT]
+          Name es
+          Match tenx-internal
+          Host elasticsearch-master
+          Logstash_Format On
+          Logstash_Prefix tenx-internal
+          Retry_Limit False
+
+config:
+  outputs: |
+    [OUTPUT]
+        Name es
+        Match kube.*
+        Host elasticsearch-master
+        Logstash_Format On
+        Retry_Limit False
+
+    [OUTPUT]
+        Name es
+        Match host.*
+        Host elasticsearch-master
+        Logstash_Format On
+        Logstash_Prefix node
+        Retry_Limit False

@@ -1,4 +1,5 @@
 {{- define "fluent-bit.pod" -}}
+{{- $tenxGHInit := or .Values.tenx.github.config.enabled .Values.tenx.github.symbols.enabled -}}
 {{- if ne .Values.serviceAccount.automountServiceAccountToken nil }}
 automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
 {{- end }}
@@ -27,6 +28,35 @@ dnsConfig:
 hostAliases:
   {{- toYaml . | nindent 2 }}
 {{- end }}
+{{- if and .Values.tenx.enabled $tenxGHInit }}
+initContainers:
+  - name: tenx-git-config
+    image: "{{ $.Values.githubConfigFetcherImage.repository }}:{{ $.Values.githubConfigFetcherImage.tag }}"
+    imagePullPolicy: {{ $.Values.githubConfigFetcherImage.pullPolicy }}
+    args:
+      {{- if .Values.tenx.github.config.enabled }}
+      - "--config-repo"
+      - "https://{{ .Values.tenx.github.config.token }}@github.com/{{ .Values.tenx.github.config.repo }}.git"
+      {{- if .Values.tenx.github.config.branch }}
+      - "--config-branch"
+      - "{{ .Values.tenx.github.config.branch }}"
+      {{- end }}
+      {{- end }}
+      {{- if .Values.tenx.github.symbols.enabled }}
+      - "--symbols-repo"
+      - "https://{{ .Values.tenx.github.symbols.token }}@github.com/{{ .Values.tenx.github.symbols.repo }}.git"
+      {{- if .Values.tenx.github.symbols.branch }}
+      - "--symbols-branch"
+      - "{{ .Values.tenx.github.symbols.branch }}"
+      {{- end }}
+      {{- if .Values.tenx.github.symbols.path }}
+      - "--symbols-path"
+      - "{{ .Values.tenx.github.symbols.path }}"
+      {{- end }}
+      {{- end }}
+    volumeMounts:
+      - name: shared-git-volume
+        mountPath: /data
 {{- with .Values.initContainers }}
 initContainers:
 {{- if kindIs "string" . }}
@@ -35,16 +65,52 @@ initContainers:
   {{-  toYaml . | nindent 2 }}
 {{- end -}}
 {{- end }}
+{{- else }}
+{{- with .Values.initContainers }}
+initContainers:
+{{- if kindIs "string" . }}
+  {{- tpl . $ | nindent 2 }}
+{{- else }}
+  {{-  toYaml . | nindent 2 }}
+{{- end -}}
+{{- end }}
+{{- end }}
 containers:
   - name: {{ .Chart.Name }}
   {{- with .Values.securityContext }}
     securityContext:
       {{- toYaml . | nindent 6 }}
   {{- end }}
-    image: {{ include "fluent-bit.image" (merge .Values.image (dict "tag" (default .Chart.AppVersion .Values.image.tag))) | quote }}
+    image: {{ include "fluent-bit.image" (merge .Values.image (dict "tag" (default .Chart.AppVersion .Values.image.tag)) (dict "variant" (default "jit" .Values.tenx.variant))) | quote }}
     imagePullPolicy: {{ .Values.image.pullPolicy }}
-  {{- if or .Values.env .Values.envWithTpl }}
     env:
+    {{- if .Values.tenx.enabled }}
+      - name: TENX_API_KEY
+        value: "{{ .Values.tenx.apiKey }}"
+      - name: FLUENT_BIT_CONF_FILE
+    {{- if eq $.Values.tenx.kind "optimize" }}
+        value: "/fluent-bit/etc/conf/tenx-main-optimize.conf"
+    {{- else if eq $.Values.tenx.kind "regulate" }}
+        value: "/fluent-bit/etc/conf/tenx-main-regulate.conf"
+    {{- else if eq $.Values.tenx.kind "report" }}
+        value: "/fluent-bit/etc/conf/tenx-main-report.conf"
+    {{- end }}
+    {{- if .Values.tenx.runtimeName }}
+      - name: TENX_RUNTIME_NAME
+        value: "{{ .Values.tenx.runtimeName }}"
+    {{- end }}
+    {{- if .Values.tenx.github.config.enabled }}
+      - name: TENX_CONFIG
+        value: "/etc/tenx/git/config"
+    {{- end }}
+    {{- if .Values.tenx.github.symbols.enabled }}
+      - name: TENX_SYMBOLS_PATH
+        value: "/etc/tenx/git/config/data/shared/symbols"
+    {{- end }}
+    {{- else }}
+      - name: FLUENT_BIT_CONF_FILE
+        value: "/fluent-bit/etc/conf/fluent-bit.conf"
+    {{- end }}
     {{- with .Values.env }}
       {{- toYaml . | nindent 6 }}
     {{- end }}
@@ -52,7 +118,6 @@ containers:
       - name: {{ $item.name }}
         value: {{ tpl $item.value $ | quote }}
     {{- end }}
-  {{- end }}
   {{- if .Values.envFrom }}
     envFrom:
       {{- toYaml .Values.envFrom | nindent 6 }}
@@ -94,6 +159,10 @@ containers:
     volumeMounts:
       - name: config
         mountPath: /fluent-bit/etc/conf
+    {{- if and .Values.tenx.enabled $tenxGHInit }}
+      - name: shared-git-volume
+        mountPath: /etc/tenx/git
+    {{- end }}
     {{- if or .Values.luaScripts .Values.hotReload.enabled }}
       - name: luascripts
         mountPath: /fluent-bit/scripts
@@ -143,6 +212,10 @@ volumes:
   - name: config
     configMap:
       name: {{ default (include "fluent-bit.fullname" .) .Values.existingConfigMap }}
+{{- if and .Values.tenx.enabled $tenxGHInit }}
+  - name: shared-git-volume
+    emptyDir: {}
+{{- end }}
 {{- if or .Values.luaScripts .Values.hotReload.enabled }}
   - name: luascripts
     configMap:

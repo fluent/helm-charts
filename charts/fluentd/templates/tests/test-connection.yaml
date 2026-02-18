@@ -10,7 +10,12 @@ kind: Pod
 metadata:
   name: "{{ include "fluentd.fullname" . }}-test-connection"
   labels:
-    {{- include "fluentd.labels" . | nindent 4 }}
+    # Note: Using "-test" suffix on app name to avoid matching the DaemonSet
+    # selector, which would cause the controller to delete this pod as an orphan
+    helm.sh/chart: {{ include "fluentd.chart" . }}
+    app.kubernetes.io/name: {{ include "fluentd.name" . }}-test
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
     "helm.sh/hook": test-success
 spec:

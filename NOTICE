@@ -1,0 +1,14 @@
+Log10x Fluent Helm Charts
+Copyright 2025-2026 Log10x, Inc.
+
+This product includes software developed by the Fluent organization
+(https://www.fluentd.org/).
+
+This repository is a fork of fluent/helm-charts
+(https://github.com/fluent/helm-charts), originally created in 2020.
+
+Modifications by Log10x, Inc. include integration of Log10x sidecar
+support for log optimization with Fluentd and Fluent Bit.
+
+The original work is licensed under the Apache License, Version 2.0.
+Log10x modifications are also licensed under the Apache License, Version 2.0.

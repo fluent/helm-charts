@@ -1,3 +1,9 @@
+# CI test values - uses stdout output instead of Elasticsearch
+# This ensures the chart can be installed and tested without external dependencies
+
+tenx:
+  enabled: true
+
 testFramework:
   enabled: true
 

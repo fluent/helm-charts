@@ -3,15 +3,289 @@ fullnameOverride: ""
 
 # DaemonSet, Deployment or StatefulSet
 kind: "DaemonSet"
-# azureblob, cloudwatch, elasticsearch7, elasticsearch8, gcs, graylog , kafka, kafka2, kinesis, opensearch
-variant: elasticsearch7
+
 # # Only applicable for Deployment or StatefulSet
 # replicaCount: 1
 
 image:
-  repository: "fluent/fluentd-kubernetes-daemonset"
+  repository: "ghcr.io/log-10x/fluentd-10x"
   pullPolicy: "IfNotPresent"
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.tenx.variant }}
   tag: ""
+
+# 10X configuration
+#
+# NOTE - also look at originalFluentOutput which is placed lower in this file,
+# as it's needed along the base fileConfigs of this chart
+#
+tenx:
+  # Main switch to enabled/disable 10x.
+  #
+  enabled: true
+
+  # Specifies the 10x distribution and affects which image will be used.
+  # For more details, see - https://doc.log10x.com/architecture/flavors
+  #
+  # jit, native
+  variant: jit
+
+  # Specify your 10x api key
+  apiKey: "NO-API-KEY"
+
+  # 10x mode - "report", "regulate" or "optimize"
+  kind: "regulate"
+
+  # Specify name for the 10x runtime
+  # If empty, will use default from 10x configuration
+  runtimeName:
+
+  # Control fetching 10x config and/or symbols from github.
+  # If either config.enabled or symbols.enabled are true, the deployment will setup an
+  # init container to fetch config/symbols before the fluent-bit pod is live, and will share
+  # the result files via a shared volume 'shared-git-volume' that's mounted to the fluent-bit
+  # pod at '/etc/tenx/git'
+  #
+  # To learn more about the 10 github config fetcher, see:
+  # https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher
+  #
+  github:
+    config:
+      # If config.enabled is true, the init container will fetch the config from github.
+      # The config will be at '/etc/tenx/git/config', and the TENX_CONFIG env var will
+      # be set to point to it.
+      #
+      # Otherwise, the default config bundled with the fluent-bit + 10x image will be used.
+      #
+      enabled: false
+
+      # Access token for GitHub.
+      # To learn more, see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+      #
+      token: "MY-TOKEN"
+
+      # The repo to fetch the config from
+      #
+      repo: "user-name/config-repo"
+
+      # Optional - a branch to pull.
+      # If omitted, the default repo branch will be used.
+      # branch: "main"
+
+    symbols:
+      # If symbols.enabled is true, the init container will fetch the symbols from github.
+      # The symbols will be at '/etc/tenx/git/config/data/shared/symbols', and the environment
+      # variable TENX_SYMBOLS_PATH will be set to match
+      #
+      enabled: false
+
+      # Access token for GitHub.
+      # To learn more, see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+      #
+      token: "MY-TOKEN"
+
+      # The repo to fetch the config from
+      #
+      repo: "user-name/symbols-repo"
+
+      # Optional - a branch to pull.
+      # If omitted, the default repo branch will be used.
+      # branch: "main"
+
+      # Optional - a sub folder inside the repo where symbols were placed.
+      # If omitted, the entire repo is considered as the symbols path.
+      # path: "tenx/my-app/symbols"
+
+  # Main config files, used internally by the template to setup the correct overall fluentd configuration
+  #
+  fileConfigs:
+    # Config files for the 'reporter' app
+    #
+    report:
+      # Fluentd config for handling passing events into the pipeline in 'reporter' mode
+      #
+      00_tenx.conf: |-
+        @include "#{ENV['TENX_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/tenx-report.conf"
+
+      # Controls which events are emitted into the 10x 'reporter'
+      # Works by creating a copy, one to send into 10x via the @TENX label, and one to the actual
+      # output Fluentd will emit the events to.
+      #
+      # Default behavior is to emit all events to 10x, edit this section to change.
+      #
+      04_outputs.conf: |-
+        <label @OUTPUT>
+          <match **>
+            @type copy
+            <store>
+              @type relabel
+              @label @FINAL-OUTPUT
+            </store>
+            <store>
+              @type relabel
+              @label @TENX
+            </store>
+          </match>
+        </label>
+
+    regulate:
+      # Fluentd config for handling passing events into the pipeline in 'regulator' mode
+      #
+      00_tenx.conf: |-
+        @include "#{ENV['TENX_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/tenx-regulate-unix.conf"
+
+      # Controls which events are emitted into the 10x 'regulator'
+      # Works by applying the @TENX label.
+      #
+      # Events which aren't meant to be regulated, should have the @FINAL-OUTPUT label applied instead.
+      #
+      # Default behavior is to emit all events to 10x for regulating, edit this section to change.
+      #
+      04_outputs.conf: |-
+        <label @OUTPUT>
+          <match **>
+            @type relabel
+            @label @TENX
+          </match>
+        </label>
+
+      # Routes all events coming back from 10x after being regulated to the final Fluentd output.
+      #
+      05_tenx_processed.conf: |-
+        <label @TENX-PROCESSED>
+          <match **>
+            @type relabel
+            @label @FINAL-OUTPUT
+          </match>
+        </label>
+
+    optimize:
+      # Fluentd config for handling passing events into the pipeline in 'optimizer' mode
+      #
+      00_tenx.conf: |-
+        @include "#{ENV['TENX_MODULES']}/pipelines/run/modules/input/forwarder/fluentd/conf/tenx-optimize-unix.conf"
+
+      # Controls which events are emitted into the 10x 'optimizer'
+      # Works by applying the @TENX label.
+      #
+      # Events which aren't meant to be optimized, should have the @FINAL-OUTPUT label applied instead.
+      #
+      # Default behavior is to emit all events to 10x for optimizing, edit this section to change.
+      #
+      04_outputs.conf: |-
+        <label @OUTPUT>
+          <match **>
+            @type relabel
+            @label @TENX
+          </match>
+        </label>
+
+      # Routes all events coming back from 10x after being optimized to the final Fluentd output.
+      #
+      05_tenx_processed.conf: |-
+        <label @TENX-PROCESSED>
+          <match **>
+            @type relabel
+            @label @FINAL-OUTPUT
+          </match>
+        </label>
+
+    TenXLogs:
+      # A Fluentd source for reading the internal 10x log.
+      #
+      # This is so the log can also be forwarded by Fluentd to an output destination for debug purposes.
+      #
+      01_tenx_sources.conf: |-
+        <source>
+          @type tail
+          @id in_tail_tenx_internal_logs
+          @label @TENX-INTERNAL
+          path /var/log/tenx/*.log
+          pos_file /var/log/tenx-internal.log.pos
+          tag tenx-internal.*
+          <parse>
+            @type none
+          </parse>
+        </source>
+
+  # The below config controls the outputs when tenx.enabled is set to 'true'.
+  # When tenx.enabled is set to 'false', output is controlled by 'originalFluentOutput'
+  #
+  outputConfigs:
+    # Sets the output destination for events
+    #
+    06_final_output.conf: |-
+      <label @FINAL-OUTPUT>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+          # Don't wait for elastic to start up.
+          verify_es_version_at_startup false
+        </match>
+      </label>
+
+    # Emitting generated tenxTemplates ('optimize' only) the l1es_dml index in elastic search.
+    # This will allow the 10x Elastic app to decode optimized events.
+    #
+    # For more info on tenxTemplates, see https://doc.log10x.com/run/template/
+    #
+    # This config is based on
+    # https://github.com/log-10x/config/blob/main/pipelines/run/input/forwarder/fluentd/optimize/tenx-elastic.conf
+    #
+    07_tenx_templates.conf: |-
+      <label @TENX-TEMPLATE>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+
+          index_name l1es_dml
+          id_key templateHash
+
+          <buffer>
+            flush_interval 10s
+          </buffer>
+
+          # Don't wait for elastic to start up.
+          verify_es_version_at_startup false
+        </match>
+      </label>
+
+    # Emitting the tenx internal log, change the destination if needed.
+    #
+    08_tenx_internal.conf: |-
+      <label @TENX-INTERNAL>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+
+          index_name tenx-internal
+
+          # Don't wait for elastic to start up.
+          verify_es_version_at_startup false
+        </match>
+      </label>
+
+    # REMINDER NOTE - also look at 'originalFluentOutput' for complete configuration
+
+# GitHub config fetcher init container image
+# Used to clone config/symbols repositories when github integration is enabled
+# Most users will not need to modify these values
+#
+githubConfigFetcherImage:
+  repository: ghcr.io/log-10x/github-config-fetcher
+  tag: "0.9.0"
+  pullPolicy: Always
 
 ## Optional array of imagePullSecrets containing private registry credentials
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
@@ -374,6 +648,12 @@ fileConfigs:
       </match>
     </label>
 
+# Fluentd output configurations
+#
+# This config is only used when tenx.enabled is set to 'false', so that all events
+# will be emitted directly to your output of choice.
+#
+originalFluentOutput:
   04_outputs.conf: |-
     <label @OUTPUT>
       <match **>

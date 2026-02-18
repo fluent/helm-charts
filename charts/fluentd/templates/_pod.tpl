@@ -1,5 +1,6 @@
 {{- define "fluentd.pod" -}}
-{{- $defaultTag := printf "%s-debian-%s-1.2" (.Chart.AppVersion) (.Values.variant) -}}
+{{- $defaultTag := printf "%s-%s" (.Chart.AppVersion) (.Values.tenx.variant) -}}
+{{- $tenxGHInit := or .Values.tenx.github.config.enabled .Values.tenx.github.symbols.enabled -}}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
   {{- toYaml . | nindent 2 }}
@@ -13,9 +14,43 @@ securityContext:
 {{- with .Values.terminationGracePeriodSeconds }}
 terminationGracePeriodSeconds: {{ . }}
 {{- end }}
+{{- if and .Values.tenx.enabled $tenxGHInit }}
+initContainers:
+  - name: tenx-git-config
+    image: "{{ $.Values.githubConfigFetcherImage.repository }}:{{ $.Values.githubConfigFetcherImage.tag }}"
+    imagePullPolicy: {{ $.Values.githubConfigFetcherImage.pullPolicy }}
+    args:
+      {{- if .Values.tenx.github.config.enabled }}
+      - "--config-repo"
+      - "https://{{ .Values.tenx.github.config.token }}@github.com/{{ .Values.tenx.github.config.repo }}.git"
+      {{- if .Values.tenx.github.config.branch }}
+      - "--config-branch"
+      - "{{ .Values.tenx.github.config.branch }}"
+      {{- end }}
+      {{- end }}
+      {{- if .Values.tenx.github.symbols.enabled }}
+      - "--symbols-repo"
+      - "https://{{ .Values.tenx.github.symbols.token }}@github.com/{{ .Values.tenx.github.symbols.repo }}.git"
+      {{- if .Values.tenx.github.symbols.branch }}
+      - "--symbols-branch"
+      - "{{ .Values.tenx.github.symbols.branch }}"
+      {{- end }}
+      {{- if .Values.tenx.github.symbols.path }}
+      - "--symbols-path"
+      - "{{ .Values.tenx.github.symbols.path }}"
+      {{- end }}
+      {{- end }}
+    volumeMounts:
+      - name: shared-git-volume
+        mountPath: /data
+{{- with .Values.initContainers }}
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- else }}
 {{- with .Values.initContainers }}
 initContainers:
   {{- toYaml . | nindent 2 }}
+{{- end }}
 {{- end }}
 containers:
   - name: {{ .Chart.Name }}
@@ -36,6 +71,22 @@ containers:
     env:
     - name: FLUENTD_CONF
       value: "../../../etc/fluent/fluent.conf"
+    {{- if .Values.tenx.enabled }}
+    - name: TENX_API_KEY
+      value: "{{ .Values.tenx.apiKey }}"
+    {{- if .Values.tenx.runtimeName }}
+    - name: TENX_RUNTIME_NAME
+      value: "{{ .Values.tenx.runtimeName }}"
+    {{- end }}
+    {{- if .Values.tenx.github.config.enabled }}
+    - name: TENX_CONFIG
+      value: "/etc/tenx/git/config"
+    {{- end }}
+    {{- if .Values.tenx.github.symbols.enabled }}
+    - name: TENX_SYMBOLS_PATH
+      value: "/etc/tenx/git/config/data/shared/symbols"
+    {{- end }}
+    {{- end }}
     {{- if .Values.env }}
     {{- toYaml .Values.env | nindent 4 }}
     {{- end }}
@@ -67,6 +118,10 @@ containers:
       mountPath: /etc/fluent
     - name: etcfluentd-config
       mountPath: /etc/fluent/config.d/
+    {{- if and .Values.tenx.enabled $tenxGHInit }}
+    - name: shared-git-volume
+      mountPath: /etc/tenx/git
+    {{- end }}
     {{- if .Values.mountVarLogDirectory }}
     - name: varlog
       mountPath: /var/log
@@ -96,6 +151,10 @@ volumes:
   configMap:
     name: {{ include "fluentd.extraFilesConfigMapName" . }}
     defaultMode: 0777
+{{- if and .Values.tenx.enabled $tenxGHInit }}
+- name: shared-git-volume
+  emptyDir: {}
+{{- end }}
 {{- if .Values.mountVarLogDirectory }}
 - name: varlog
   hostPath:

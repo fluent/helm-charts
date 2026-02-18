@@ -1,0 +1,88 @@
+# Sample values.yaml for deploying an 10x edge optimizer with fluentd
+#
+# Make sure to add your 10x license, as well as setup your backend info
+# in the outputConfigs section.
+#
+# For more info on deploying, see -
+# https://doc.log10x.com/apps/edge/optimizer/deploy/#fluentd
+#
+tenx:
+  license: "<YOUR-10X-LICENSE-HERE>"
+
+  kind: "optimize"
+
+  runtimeName: "my-fluentd-optimizer"
+
+  fileConfigs:
+    optimize:
+      # Edit this section to change which events to pass to 10x to optimize.
+      #
+      # Defaults to passing all events to 10x.
+      #
+      04_outputs.conf: |-
+        <label @OUTPUT>
+          <match **>
+            @type relabel
+            @label @TENX
+          </match>
+        </label>
+      #
+      # Example of only passing some events:
+      #
+      # 04_outputs.conf: |-
+      #   <label @OUTPUT>
+      #     <match Some.Tag.To.Optimize>
+      #       @type relabel
+      #       @label @TENX
+      #     </match>
+      #     <match **>
+      #       @type relabel
+      #       @label @FINAL-OUTPUT
+      #     </match>
+      #   </label>
+
+  outputConfigs:
+    06_final_output.conf: |-
+      <label @FINAL-OUTPUT>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+        </match>
+      </label>
+
+    07_tenx_templates.conf: |-
+      <label @TENX-TEMPLATE>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+
+          index_name l1es_dml
+          id_key templateHash
+
+          <buffer>
+            flush_interval 10s
+          </buffer>
+        </match>
+      </label>
+
+    08_tenx_internal.conf: |-
+      <label @TENX-INTERNAL>
+        <match **>
+          @type elasticsearch
+          host "elasticsearch-master"
+          port 9200
+          path ""
+          user elastic
+          password changeme
+
+          index_name tenx-internal
+        </match>
+      </label>
