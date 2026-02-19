@@ -1,0 +1,20 @@
+name: Scorecard
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron:  '30 1 * * 6'
+
+permissions: read-all
+
+jobs:
+  workflow:
+    name: Reusable Workflow
+    uses: action-stars/generic-workflows/.github/workflows/scorecard.yaml@8888aa6d53a92233d4c6f60b726ec5bccde90ed3 # v0.7.4
+    permissions:
+      id-token: write
+      security-events: write
+    with:
+      retention_days: 7

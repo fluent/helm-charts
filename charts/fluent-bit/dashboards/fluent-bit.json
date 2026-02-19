@@ -1559,7 +1559,7 @@
   },
   "timezone": "",
   "title": "{{ include "fluent-bit.fullname" . }}",
-  "uid": "d557c8f6-cac1-445f-8ade-4c351a9076b1",
+  "uid": {{ ternary (printf "\"%s\"" (sha1sum (printf "%s-%s" .Release.Namespace (include "fluent-bit.fullname" .)))) "null" .Values.dashboards.deterministicUid }},
   "version": 7,
   "weekStart": ""
 }

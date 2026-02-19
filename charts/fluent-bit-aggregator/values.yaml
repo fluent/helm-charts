@@ -1,0 +1,331 @@
+# Default values for fluent-bit-aggregator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  # -- Image repository for the default container.
+  repository: ghcr.io/fluent/fluent-bit
+  # -- (string) Image tag for the default container, this will default to `.Chart.AppVersion` if not set and will be omitted if set to `-`.
+  tag:
+  # -- (string) Optional image digest for the default container.
+  digest:
+  # --  Image pull policy for the default container.
+  pullPolicy: IfNotPresent
+
+# -- Image pull secrets.
+imagePullSecrets: []
+
+# -- (string) Override the name of the chart.
+nameOverride:
+
+# -- (string) Override the full name of the chart.
+fullnameOverride:
+
+# -- Labels to add to all chart resources.
+commonLabels: {}
+
+serviceAccount:
+  # -- If `true`, create a new `ServiceAccount`.
+  create: true
+  # -- Labels to add to the service account.
+  labels: {}
+  # -- Annotations to add to the service account.
+  annotations: {}
+  # -- (string) If this is set and `serviceAccount.create` is `true` this will be used for the created `ServiceAccount` name, if set and `serviceAccount.create` is `false` then this will define an existing `ServiceAccount` to use.
+  name:
+  # -- If `true`, mount the `ServiceAccount` token.
+  automountToken: false
+
+rbac:
+  # -- If `true`, create a `ClusterRole` & `ClusterRoleBinding` with access to the Kubernetes API.
+  create: false
+  # -- Additional rules to add to the `ClusterRole`.
+  additionalRules: []
+
+service:
+  # -- Service type.
+  type: ClusterIP
+  # -- Service annotations.
+  annotations: {}
+  # -- Fluent Bit HTTP port used for status and metrics.
+  httpPort: 2020
+  # -- Additional ports to expose.
+  # @default -- See _values.yaml_
+  additionalPorts:
+    - name: http-forward
+      port: 24224
+      containerPort: 24224
+      protocol: TCP
+  # -- (string) Traffic distribution for the service.
+  trafficDistribution:
+
+# -- (list) Ingresses, each input plugin will need it's own.
+# @default -- See _values.yaml_
+ingresses: []
+#  - servicePort: 24224
+#    className: my-ingress-class
+#    annotations: {}
+#    hosts:
+#      - host: chart-example.local
+#        paths:
+#          - path: /
+#            pathType: Prefix
+#    tls:
+#      - hosts:
+#          - chart-example.local
+#        secretName: chart-example-tls
+
+# -- Number of replicas to create if `autoscaling.enabled` is `false`.
+replicas: 1
+
+autoscaling:
+  # -- If `true`, create a `HorizontalPodAutoscaler` to scale the `StatefulSet`.
+  enabled: false
+  # -- Minimum number of replicas for the `HorizontalPodAutoscaler`.
+  minReplicas: 1
+  # -- Maximum number of replicas for the `HorizontalPodAutoscaler`.
+  maxReplicas: 3
+  # -- Behaviour configuration for the `HorizontalPodAutoscaler`.
+  behavior: {}
+  # -- (list) Metrics configuration for the `HorizontalPodAutoscaler`.
+  # @default -- See _values.yaml_
+  metrics: []
+  #  - type: Resource
+  #    resource:
+  #      name: cpu
+  #      target:
+  #        type: Utilization
+  #        averageUtilization: 80
+
+# -- Update strategy for the `StatefulSet`.
+updateStrategy: {}
+
+# -- Ordinals configuration for the `StatefulSet`.
+ordinals: {}
+
+# -- Pod management policy for the `StatefulSet`.
+podManagementPolicy:
+
+# -- (int) Min ready seconds for the `StatefulSet`.
+minReadySeconds:
+
+podDisruptionBudget:
+  # -- If `true`, create a `PodDisruptionBudget` resource.
+  enabled: false
+  # -- (string) Minimum number of available pods, either a number or a percentage.
+  minAvailable:
+  # -- (string) Minimum number of unavailable pods, either a number or a percentage.
+  maxUnavailable:
+  # -- (string) Unhealthy pod eviction policy for the PDB.
+  unhealthyPodEvictionPolicy:
+
+# -- Labels to add to the pod.
+podLabels: {}
+
+# -- Annotations to add to the pod.
+podAnnotations: {}
+
+# -- (bool) If the service account token should be mounted to the pod, this overrides `serviceAccount.automountToken`.
+automountServiceAccountToken:
+
+# -- Security context for the pod.
+# @default -- See _values.yaml_
+podSecurityContext:
+  runAsNonRoot: true
+  fsGroup: 65534
+  seccompProfile:
+    type: RuntimeDefault
+
+# -- (string) Priority class name for the pod.
+priorityClassName:
+
+# -- (int) Termination grace period for the pod in seconds.
+terminationGracePeriodSeconds:
+
+# -- Security context for the default container.
+# @default -- See _values.yaml_
+securityContext:
+  privileged: false
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  capabilities:
+    drop:
+      - ALL
+
+# -- Environment variables for the default container.
+env: []
+
+# -- Command for the default container
+command:
+  - /fluent-bit/bin/fluent-bit
+
+# -- Extra args for the default container; `--workdir`, `--config` & `--enable-hot-reload` are managed by the chart.
+args: []
+
+# -- Liveness probe configuration for the default container.
+# @default -- See _values.yaml_
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 12
+
+# -- Readiness probe configuration for the default container.
+# @default -- See _values.yaml_
+readinessProbe:
+  httpGet:
+    path: /api/v1/health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 6
+
+persistence:
+  # -- If `true` & `storage.enabled` is `true`, persistence should be enabled for the `StatefulSet`.
+  enabled: false
+  # -- Annotations for the `PersistentVolumeClaim`.
+  annotations: {}
+  # -- Access mode for the `PersistentVolumeClaim`.
+  accessMode: ReadWriteOnce
+  # -- Storage class for the `PersistentVolumeClaim`, if not set the default will be used.
+  storageClass:
+  # -- Size of the `PersistentVolumeClaim`.
+  size: 8Gi
+  # -- If `true`, keep `PersistentVolumeClaims` when the `StatefulSet` is deleted.
+  retainDeleted: true
+  # -- If `true`, keep `PersistentVolumeClaim` when the `StatefulSet` is scaled down.
+  retainScaled: true
+
+# -- Extra volumes for the pod.
+extraVolumes: []
+
+# -- Extra volume mounts for the default container.
+extraVolumeMounts: []
+
+# -- Resources for the default container.
+resources: {}
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
+
+# -- Node labels to match for pod scheduling.
+nodeSelector: {}
+
+# -- Affinity settings for pod scheduling. If an explicit label selector is not provided for pod affinity or pod anti-affinity one will be created from the pod selector labels.
+affinity: {}
+
+# -- Topology spread constraints for pod scheduling. If an explicit label selector is not provided one will be created from the pod selector labels.
+topologySpreadConstraints: []
+
+# -- Node taints which will be tolerated for pod scheduling.
+tolerations: []
+
+serviceMonitor:
+  # -- If `true`, create a `ServiceMonitor` resource to support the _Prometheus Operator_.
+  enabled: false
+  # -- Additional labels for the `ServiceMonitor`.
+  additionalLabels: {}
+  # -- Additional endpoint configuration for the default `ServiceMonitor` endpoint.
+  endpointConfig: {}
+  # -- Additional `ServiceMonitor`endpoints, these are needed for metrics output plugins.
+  additionalEndpoints: []
+
+dashboards:
+  # -- If `true`, install the _Grafana_ dashboards provided by the chart.
+  enabled: false
+
+config:
+  # -- The [Env](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/environment-variables-section) section allows you to define environment variables directly within the configuration file. These variables can then be used to dynamically replace values throughout your configuration using the ${VARIABLE_NAME} syntax. These values support templating. The `STORAGE_PATH` & `ADDITIONAL_PORT_<INDEX>` values are available but can't be set as they are controlled by the chart.
+  env: {}
+
+  # -- The [Service](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/service-section) section defines global properties of the service. The `daemon`, `http_server`, `http_port` & `storage.path` keys can't be set as they are controlled by the chart.
+  service:
+    log_level: info
+    http_listen: 0.0.0.0
+
+  # -- The [Plugins](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/plugins-section) section adds support for loading external plugins at runtime.
+  plugins: []
+
+  # -- The [Parsers](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/parsers-section) section allows you to define custom parsers.
+  parsers: []
+
+  # -- The [Multiline Parsers](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/multiline-parsers-section) section allows you to define custom multiline parsers.
+  multilineParsers: []
+
+  pipeline:
+    # -- The pipeline inputs configure the plugins responsible for collecting or receiving data.
+    inputs:
+      - name: forward
+        alias: in
+        listen: 0.0.0.0
+        port: ${ADDITIONAL_PORT_0}
+        buffer_chunk_size: 1M
+        buffer_max_size: 6M
+        storage.type: filesystem
+
+    # -- The pipeline filters configure the plugins responsible for processing data.
+    filters: []
+
+    # -- The pipeline outputs configure the plugins responsible for storing or forwarding data.
+    outputs:
+      - name: stdout
+        alias: out
+        match: "*"
+
+  # -- The [Upstream Servers](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/upstream-servers-section) section defines a group of endpoints, referred to as nodes, which are used by output plugins to distribute data in a round-robin fashion.
+  upstreamServers: []
+
+  # -- The [Includes](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/includes-section) section allows you to specify additional YAML configuration files to be merged into the current configuration.
+  includes: []
+
+# -- Additional YAML configuration to mount as YAML files to /fluent-bit/etc/conf/.
+extraConfig: {}
+# upstream:
+#   upstream_servers:
+#     - name: test
+#       nodes:
+#         - name: node-1
+#           host: 127.0.0.1
+#           port: 43000
+
+# -- Lua scripts to configure, these will be created at /fluent-bit/scripts/ and need to be referenced by an absolute path.
+luaScripts: {}
+#  test.lua: |-
+#    function append_tag(tag, timestamp, record)
+#        new_record = record
+#        new_record["tag"] = tag
+#        return 1, timestamp, new_record
+#    end
+
+hotReload:
+  # -- If `true`, enable [hot-reload](https://docs.fluentbit.io/manual/administration/hot-reload) via a sidecar container.
+  enabled: false
+  image:
+    # -- Image repository for the hot-reload sidecar container.
+    repository: ghcr.io/jimmidyson/configmap-reload
+    # -- Image tag for the hot-reload sidecar container.
+    tag: v0.15.0
+    # -- (string) Optional image digest for the hot-reload sidecar container.
+    digest:
+    # --  Image pull policy for the hot-reload sidecar container.
+    pullPolicy: IfNotPresent
+  # -- Resources for the hot-reload sidecar container.
+  resources: {}
+  # -- Extra volumes for the hot-reload sidecar container to watch.
+  extraWatchVolumes: []

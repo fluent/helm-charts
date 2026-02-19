@@ -1,3 +1,4 @@
+{{- if and .Values.operator.enable .Values.operator.rbac.create }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -28,10 +29,16 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - events
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
       - secrets
       - configmaps
       - serviceaccounts
-      - configmaps
       - services
       - namespaces
     verbs:
@@ -57,11 +64,16 @@ rules:
       - clusteroutputs
       - clusteroutputs/finalizers
       - clusterparsers
+      - clusterparsers/finalizers
       - fluentbitconfigs
+      - fluentbitconfigs/finalizers
+      - multilineparsers
+      - multilineparsers/finalizers
+      - clustermultilineparsers
+      - clustermultilineparsers/finalizers
       - filters
       - outputs
       - parsers
-      - clusterparsers/finalizers
     verbs:
       - create
       - delete
@@ -113,3 +125,24 @@ rules:
       - get
       - watch
       - patch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - rolebindings
+    verbs:
+      - create
+      - list
+      - get
+      - watch
+      - patch
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - roles
+    verbs:
+      - create
+      - list
+      - get
+      - watch
+      - patch
+{{- end }}
