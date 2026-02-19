@@ -1,0 +1,34 @@
+# Fluent Bit Aggregator Helm Chart Changelog
+
+> [!NOTE]
+> All notable changes to this project will be documented in this file; the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+<!--
+### Added - For new features.
+### Changed - For changes in existing functionality.
+### Deprecated - For soon-to-be removed features.
+### Removed - For now removed features.
+### Fixed - For any bug fixes.
+### Security - In case of vulnerabilities.
+-->
+
+## [UNRELEASED]
+
+## [v1.0.0-beta.2] - 2026-01-16
+
+### Changed
+
+- Add Artifact Hub metadata file to verify charts. ([#671](https://github.com/fluent/helm-charts/pull/671)) _@stevehipwell_
+
+## [v1.0.0-beta.1] - 2026-01-16
+
+### Added
+
+- Added initial release. ([#665](https://github.com/fluent/helm-charts/pull/665)) _@stevehipwell_
+
+<!--
+RELEASE LINKS
+-->
+[UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-bit-aggregator
+[v1.0.0-beta.2]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-aggregator-1.0.0-beta.2
+[v1.0.0-beta.1]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-aggregator-1.0.0-beta.1

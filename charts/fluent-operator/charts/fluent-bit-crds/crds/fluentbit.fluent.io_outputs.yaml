@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.18.0
   name: outputs.fluentbit.fluent.io
 spec:
   group: fluentbit.fluent.io
@@ -23,14 +22,19 @@ spec:
         description: Output is the schema for namespace level output API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -38,8 +42,9 @@ spec:
             description: OutputSpec defines the desired state of ClusterOutput
             properties:
               alias:
-                description: A user friendly alias name for this output plugin. Used
-                  in metrics for distinction of each configured output.
+                description: |-
+                  A user friendly alias name for this output plugin.
+                  Used in metrics for distinction of each configured output.
                 type: string
               azureBlob:
                 description: AzureBlob defines AzureBlob Output Configuration
@@ -60,6 +65,18 @@ spec:
                     - appendblob
                     - blockblob
                     type: string
+                  bufferingEnabled:
+                    description: Enable buffering into disk before ingesting into
+                      Azure Blob.
+                    type: boolean
+                  compressBlob:
+                    description: 'Optional: Enables GZIP compression in the final
+                      blockblob file. This option isn''t compatible when blob_type
+                      = appendblob.'
+                    enum:
+                    - "on"
+                    - "off"
+                    type: string
                   containerName:
                     description: Name of the container that will contain the blobs
                     type: string
@@ -72,6 +89,64 @@ spec:
                   endpoint:
                     description: HTTP Service of the endpoint (if using EmulatorMode)
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   path:
                     description: Optional path to store the blobs.
                     type: string
@@ -90,9 +165,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -118,9 +197,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -148,10 +227,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -170,6 +252,18 @@ spec:
                         description: Hostname to be used for TLS SNI extension
                         type: string
                     type: object
+                  uploadFileSize:
+                    default: 200M
+                    description: Specifies the size of files to be uploaded in MB.
+                      Defaults to 200M.
+                    type: string
+                  uploadTimeout:
+                    default: 30m
+                    description: Optional. Specify a timeout for uploads. Fluent Bit
+                      will start ingesting buffer files which have been created more
+                      than x minutes ago and haven't reached upload_file_size limit
+                      yet. Defaults to 30m.
+                    type: string
                 required:
                 - accountName
                 - containerName
@@ -192,9 +286,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -208,6 +306,10 @@ spec:
                     type: object
                   logType:
                     description: Name of the event type.
+                    type: string
+                  logTypeKey:
+                    description: Set a record key that will populate 'logtype'. If
+                      the key is found, it will have precedence
                     type: string
                   sharedKey:
                     description: Specify the primary or the secondary client authentication
@@ -224,9 +326,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -317,10 +423,9 @@ spec:
                       and LogStreamName if set.
                     type: string
                   metricDimensions:
-                    description: Optional lists of lists for dimension keys to be
-                      added to all metrics. Use comma separated strings for one list
-                      of dimensions and semicolon separated strings for list of lists
-                      dimensions.
+                    description: |-
+                      Optional lists of lists for dimension keys to be added to all metrics. Use comma separated strings
+                      for one list of dimensions and semicolon separated strings for list of lists dimensions.
                     type: string
                   metricNamespace:
                     description: Optional string to represent the CloudWatch namespace.
@@ -341,17 +446,55 @@ spec:
                 description: CustomPlugin defines Custom Output configuration.
                 properties:
                   config:
+                    description: |-
+                      Config holds any unsupported plugins classic configurations,
+                      if ConfigFileFormat is set to yaml, this filed will be ignored
                     type: string
+                  yamlConfig:
+                    description: YamlConfig holds the unsupported plugins yaml configurations,
+                      it only works when the ConfigFileFormat is yaml
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                 type: object
               datadog:
                 description: DataDog defines DataDog Output configuration.
                 properties:
                   apikey:
                     description: Your Datadog API key.
-                    type: string
+                    properties:
+                      valueFrom:
+                        description: ValueSource defines how to find a value's key.
+                        properties:
+                          secretKeyRef:
+                            description: Selects a key of a secret in the pod's namespace
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        type: object
+                    type: object
                   compress:
-                    description: Compress  the payload in GZIP format. Datadog supports
-                      and recommends setting this to gzip.
+                    description: |-
+                      Compress  the payload in GZIP format.
+                      Datadog supports and recommends setting this to gzip.
                     type: string
                   dd_message_key:
                     description: By default, the plugin searches for the key 'log'
@@ -392,8 +535,9 @@ spec:
                       This property is ignored.
                     type: string
                   tls:
-                    description: TLS controls whether to use end-to-end security communications
-                      security protocol. Datadog recommends setting this to on.
+                    description: |-
+                      TLS controls whether to use end-to-end security communications security protocol.
+                      Datadog recommends setting this to on.
                     type: boolean
                 type: object
               es:
@@ -403,6 +547,39 @@ spec:
                     description: Enable AWS Sigv4 Authentication for Amazon ElasticSearch
                       Service.
                     type: string
+                  awsAuthSecret:
+                    description: AWSAuthSecret Enable AWS Sigv4 Authentication for
+                      Amazon ElasticSearch Service.
+                    properties:
+                      valueFrom:
+                        description: ValueSource defines how to find a value's key.
+                        properties:
+                          secretKeyRef:
+                            description: Selects a key of a secret in the pod's namespace
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        type: object
+                    type: object
                   awsExternalID:
                     description: External ID for the AWS IAM Role specified with aws_role_arn.
                     type: string
@@ -418,19 +595,52 @@ spec:
                       API for Amazon ElasticSearch Service.
                     type: string
                   bufferSize:
-                    description: Specify the buffer size used to read the response
-                      from the Elasticsearch HTTP service. This option is useful for
-                      debugging purposes where is required to read full responses,
-                      note that response size grows depending of the number of records
-                      inserted. To set an unlimited amount of memory set this value
-                      to False, otherwise the value must be according to the Unit
-                      Size specification.
+                    description: |-
+                      Specify the buffer size used to read the response from the Elasticsearch HTTP service.
+                      This option is useful for debugging purposes where is required to read full responses,
+                      note that response size grows depending of the number of records inserted.
+                      To set an unlimited amount of memory set this value to False,
+                      otherwise the value must be according to the Unit Size specification.
                     pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
                     type: string
                   cloudAuth:
                     description: Specify the credentials to use to connect to Elastic's
                       Elasticsearch Service running on Elastic Cloud.
                     type: string
+                  cloudAuthSecret:
+                    description: CloudAuthSecret Specify the credentials to use to
+                      connect to Elastic's Elasticsearch Service running on Elastic
+                      Cloud.
+                    properties:
+                      valueFrom:
+                        description: ValueSource defines how to find a value's key.
+                        properties:
+                          secretKeyRef:
+                            description: Selects a key of a secret in the pod's namespace
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        type: object
+                    type: object
                   cloudID:
                     description: If you are using Elastic's Elasticsearch Service
                       you can specify the cloud_id of the cluster running.
@@ -446,7 +656,8 @@ spec:
                       message record
                     type: boolean
                   generateID:
-                    description: When enabled, generate _id for outgoing records.
+                    description: |-
+                      When enabled, generate _id for outgoing records.
                       This prevents duplicate records when retrying ES.
                     type: boolean
                   host:
@@ -467,9 +678,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -495,9 +710,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -524,32 +743,90 @@ spec:
                       part of the Index name.
                     type: string
                   logstashFormat:
-                    description: 'Enable Logstash format compatibility. This option
-                      takes a boolean value: True/False, On/Off'
+                    description: |-
+                      Enable Logstash format compatibility.
+                      This option takes a boolean value: True/False, On/Off
                     type: boolean
                   logstashPrefix:
-                    description: 'When Logstash_Format is enabled, the Index name
-                      is composed using a prefix and the date, e.g: If Logstash_Prefix
-                      is equals to ''mydata'' your index will become ''mydata-YYYY.MM.DD''.
-                      The last string appended belongs to the date when the data is
-                      being generated.'
+                    description: |-
+                      When Logstash_Format is enabled, the Index name is composed using a prefix and the date,
+                      e.g: If Logstash_Prefix is equals to 'mydata' your index will become 'mydata-YYYY.MM.DD'.
+                      The last string appended belongs to the date when the data is being generated.
                     type: string
                   logstashPrefixKey:
                     description: Prefix keys with this string
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   path:
-                    description: Elasticsearch accepts new data on HTTP query path
-                      "/_bulk". But it is also possible to serve Elasticsearch behind
-                      a reverse proxy on a subpath. This option defines such path
-                      on the fluent-bit side. It simply adds a path prefix in the
-                      indexing HTTP POST URI.
+                    description: |-
+                      Elasticsearch accepts new data on HTTP query path "/_bulk".
+                      But it is also possible to serve Elasticsearch behind a reverse proxy on a subpath.
+                      This option defines such path on the fluent-bit side.
+                      It simply adds a path prefix in the indexing HTTP POST URI.
                     type: string
                   pipeline:
-                    description: Newer versions of Elasticsearch allows setting up
-                      filters called pipelines. This option allows defining which
-                      pipeline the database should use. For performance reasons is
-                      strongly suggested parsing and filtering on Fluent Bit side,
-                      avoid pipelines.
+                    description: |-
+                      Newer versions of Elasticsearch allows setting up filters called pipelines.
+                      This option allows defining which pipeline the database should use.
+                      For performance reasons is strongly suggested parsing
+                      and filtering on Fluent Bit side, avoid pipelines.
                     type: string
                   port:
                     description: TCP port of the target Elasticsearch instance
@@ -571,9 +848,9 @@ spec:
                       the key name for the tag.
                     type: string
                   timeKey:
-                    description: When Logstash_Format is enabled, each record will
-                      get a new timestamp field. The Time_Key property defines the
-                      name of that field.
+                    description: |-
+                      When Logstash_Format is enabled, each record will get a new timestamp field.
+                      The Time_Key property defines the name of that field.
                     type: string
                   timeKeyFormat:
                     description: When Logstash_Format is enabled, this property defines
@@ -598,9 +875,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -628,10 +905,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -650,6 +930,10 @@ spec:
                         description: Hostname to be used for TLS SNI extension
                         type: string
                     type: object
+                  totalLimitSize:
+                    description: Limit the maximum number of Chunks in the filesystem
+                      for the current output logical destination.
+                    type: string
                   traceError:
                     description: When enabled print the elasticsearch API calls to
                       stdout when elasticsearch returns an error
@@ -660,6 +944,9 @@ spec:
                     type: boolean
                   type:
                     description: Type name
+                    type: string
+                  writeOperation:
+                    description: Operation to use to write in bulk requests.
                     type: string
                 type: object
               file:
@@ -766,6 +1053,64 @@ spec:
                     description: Target host where Fluent-Bit or Fluentd are listening
                       for Forward messages.
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   password:
                     description: Specify the password corresponding to the username.
                     properties:
@@ -780,9 +1125,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -801,9 +1150,10 @@ spec:
                     minimum: 1
                     type: integer
                   requireAckResponse:
-                    description: Send "chunk"-option and wait for "ack" response from
-                      server. Enables at-least-once and receiving server can control
-                      rate of traffic. (Requires Fluentd v0.14.0+ server)
+                    description: |-
+                      Send "chunk"-option and wait for "ack" response from server.
+                      Enables at-least-once and receiving server can control rate of traffic.
+                      (Requires Fluentd v0.14.0+ server)
                     type: boolean
                   selfHostname:
                     description: Default value of the auto-generated certificate common
@@ -815,6 +1165,11 @@ spec:
                   sharedKey:
                     description: A key string known by the remote Fluentd used for
                       authorization.
+                    type: string
+                  tag:
+                    description: |-
+                      Overwrite the tag as we transmit. This allows the receiving pipeline start
+                      fresh, or to attribute source.
                     type: string
                   timeAsInteger:
                     description: Set timestamps in integer format, it enable compatibility
@@ -835,9 +1190,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -865,10 +1220,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -902,9 +1260,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -945,6 +1307,64 @@ spec:
                     - tcp
                     - udp
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   packetSize:
                     description: If transport protocol is udp, it sets the size of
                       packets to be sent.
@@ -979,9 +1399,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -1009,10 +1429,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -1036,17 +1459,18 @@ spec:
                 description: HTTP defines HTTP Output configuration.
                 properties:
                   allowDuplicatedHeaders:
-                    description: Specify if duplicated headers are allowed. If a duplicated
-                      header is found, the latest key/value set is preserved.
+                    description: |-
+                      Specify if duplicated headers are allowed.
+                      If a duplicated header is found, the latest key/value set is preserved.
                     type: boolean
                   compress:
                     description: Set payload compression mechanism. Option available
                       is 'gzip'
                     type: string
                   format:
-                    description: Specify the data format to be used in the HTTP request
-                      body, by default it uses msgpack. Other supported formats are
-                      json, json_stream and json_lines and gelf.
+                    description: |-
+                      Specify the data format to be used in the HTTP request body, by default it uses msgpack.
+                      Other supported formats are json, json_stream and json_lines and gelf.
                     enum:
                     - msgpack
                     - json
@@ -1098,9 +1522,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1126,9 +1554,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1141,13 +1573,73 @@ spec:
                         type: object
                     type: object
                   jsonDateFormat:
-                    description: 'Specify the format of the date. Supported formats
-                      are double, epoch and iso8601 (eg: 2018-05-30T09:39:52.000681Z)'
+                    description: |-
+                      Specify the format of the date. Supported formats are double, epoch
+                      and iso8601 (eg: 2018-05-30T09:39:52.000681Z)
                     type: string
                   jsonDateKey:
-                    description: Specify the name of the time key in the output record.
+                    description: |-
+                      Specify the name of the time key in the output record.
                       To disable the time key just set the value to false.
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   port:
                     description: TCP port of the target HTTP Server
                     format: int32
@@ -1155,14 +1647,14 @@ spec:
                     minimum: 1
                     type: integer
                   proxy:
-                    description: Specify an HTTP Proxy. The expected format of this
-                      value is http://host:port. Note that https is not supported
-                      yet.
+                    description: |-
+                      Specify an HTTP Proxy. The expected format of this value is http://host:port.
+                      Note that https is not supported yet.
                     type: string
                   tls:
-                    description: HTTP output plugin supports TTL/SSL, for more details
-                      about the properties available and general configuration, please
-                      refer to the TLS/SSL section.
+                    description: |-
+                      HTTP output plugin supports TTL/SSL, for more details about the properties available
+                      and general configuration, please refer to the TLS/SSL section.
                     properties:
                       caFile:
                         description: Absolute path to CA certificate file
@@ -1174,9 +1666,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -1204,10 +1696,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -1246,7 +1741,6 @@ spec:
                     type: string
                   host:
                     description: IP address or hostname of the target InfluxDB service.
-                    format: ipv6
                     type: string
                   httpPassword:
                     description: Password for user defined in HTTP_User
@@ -1262,9 +1756,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1291,9 +1789,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1319,9 +1821,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1333,6 +1839,64 @@ spec:
                             x-kubernetes-map-type: atomic
                         type: object
                     type: object
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   org:
                     description: InfluxDB organization name where the bucket is (v2
                       only)
@@ -1340,8 +1904,8 @@ spec:
                   port:
                     description: TCP port of the target InfluxDB service.
                     format: int32
-                    maximum: 65536
-                    minimum: 0
+                    maximum: 65535
+                    minimum: 1
                     type: integer
                   sequenceTag:
                     description: The name of the tag whose value is incremented for
@@ -1375,9 +1939,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -1405,10 +1969,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -1438,7 +2005,7 @@ spec:
                       192.168.1.4:9092.'
                     type: string
                   dynamicTopic:
-                    description: adds unknown topics (found in Topic_Key) to Topics.
+                    description: Adds unknown topics (found in Topic_Key) to Topics.
                       So in Topics only a default topic needs to be configured
                     type: boolean
                   format:
@@ -1448,18 +2015,17 @@ spec:
                     description: Optional key to store the message
                     type: string
                   messageKeyField:
-                    description: If set, the value of Message_Key_Field in the record
-                      will indicate the message key. If not set nor found in the record,
-                      Message_Key will be used (if set).
+                    description: |-
+                      If set, the value of Message_Key_Field in the record will indicate the message key.
+                      If not set nor found in the record, Message_Key will be used (if set).
                     type: string
                   queueFullRetries:
-                    description: Fluent Bit queues data into rdkafka library, if for
-                      some reason the underlying library cannot flush the records
-                      the queue might fills up blocking new addition of records. The
-                      queue_full_retries option set the number of local retries to
-                      enqueue the data. The default value is 10 times, the interval
-                      between each retry is 1 second. Setting the queue_full_retries
-                      value to 0 set's an unlimited number of retries.
+                    description: |-
+                      Fluent Bit queues data into rdkafka library,
+                      if for some reason the underlying library cannot flush the records the queue might fills up blocking new addition of records.
+                      The queue_full_retries option set the number of local retries to enqueue the data.
+                      The default value is 10 times, the interval between each retry is 1 second.
+                      Setting the queue_full_retries value to 0 set's an unlimited number of retries.
                     format: int64
                     type: integer
                   rdkafka:
@@ -1474,20 +2040,28 @@ spec:
                     description: Set the key to store the record timestamp
                     type: string
                   topicKey:
-                    description: 'If multiple Topics exists, the value of Topic_Key
-                      in the record will indicate the topic to use. E.g: if Topic_Key
-                      is router and the record is {"key1": 123, "router": "route_2"},
-                      Fluent Bit will use topic route_2. Note that if the value of
-                      Topic_Key is not present in Topics, then by default the first
-                      topic in the Topics list will indicate the topic to be used.'
+                    description: |-
+                      If multiple Topics exists, the value of Topic_Key in the record will indicate the topic to use.
+                      E.g: if Topic_Key is router and the record is {"key1": 123, "router": "route_2"},
+                      Fluent Bit will use topic route_2. Note that if the value of Topic_Key is not present in Topics,
+                      then by default the first topic in the Topics list will indicate the topic to be used.
                     type: string
                   topics:
-                    description: Single entry or list of topics separated by comma
-                      (,) that Fluent Bit will use to send messages to Kafka. If only
-                      one topic is set, that one will be used for all records. Instead
-                      if multiple topics exists, the one set in the record by Topic_Key
-                      will be used.
+                    description: |-
+                      Single entry or list of topics separated by comma (,) that Fluent Bit will use to send messages to Kafka.
+                      If only one topic is set, that one will be used for all records.
+                      Instead if multiple topics exists, the one set in the record by Topic_Key will be used.
                     type: string
+                  totalLimitSize:
+                    description: Limit the maximum number of Chunks in the filesystem
+                      for the current output logical destination.
+                    type: string
+                  workers:
+                    description: Enables dedicated thread(s) for this output. Default
+                      value is set since version 1.8.13. For previous versions is
+                      0.
+                    format: int32
+                    type: integer
                 type: object
               kinesis:
                 description: Kinesis defines Kinesis Output configuration.
@@ -1517,6 +2091,7 @@ spec:
                     type: string
                   region:
                     description: The AWS region.
+                    minLength: 1
                     type: string
                   roleARN:
                     description: ARN of an IAM role to assume (for cross account access).
@@ -1566,20 +2141,10 @@ spec:
                     - "on"
                     - "off"
                     type: string
-                  dropSingleKey:
-                    description: If set to true and after extracting labels only a
-                      single key remains, the log line sent to Loki will be the value
-                      of that key in line_format.
-                    enum:
-                    - "on"
-                    - "off"
-                    type: string
-                  host:
-                    description: Loki hostname or IP address.
-                    type: string
-                  httpPassword:
-                    description: Password for user defined in HTTP_User Set HTTP basic
-                      authentication password
+                  bearerToken:
+                    description: |-
+                      Set bearer token authentication token value.
+                      Can be used as alterntative to HTTP basic authentication
                     properties:
                       valueFrom:
                         description: ValueSource defines how to find a value's key.
@@ -1592,9 +2157,58 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        type: object
+                    type: object
+                  dropSingleKey:
+                    description: If set to true and after extracting labels only a
+                      single key remains, the log line sent to Loki will be the value
+                      of that key in line_format.
+                    enum:
+                    - "on"
+                    - "off"
+                    type: string
+                  host:
+                    description: Loki hostname or IP address.
+                    type: string
+                  httpPassword:
+                    description: |-
+                      Password for user defined in HTTP_User
+                      Set HTTP basic authentication password
+                    properties:
+                      valueFrom:
+                        description: ValueSource defines how to find a value's key.
+                        properties:
+                          secretKeyRef:
+                            description: Selects a key of a secret in the pod's namespace
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1620,9 +2234,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1635,9 +2253,9 @@ spec:
                         type: object
                     type: object
                   labelKeys:
-                    description: Optional list of record keys that will be placed
-                      as stream labels. This configuration property is for records
-                      key only.
+                    description: |-
+                      Optional list of record keys that will be placed as stream labels.
+                      This configuration property is for records key only.
                     items:
                       type: string
                     type: array
@@ -1646,24 +2264,79 @@ spec:
                       how to extract labels from each record.
                     type: string
                   labels:
-                    description: Stream labels for API request. It can be multiple
-                      comma separated of strings specifying  key=value pairs. In addition
-                      to fixed parameters, it also allows to add custom record keys
-                      (similar to label_keys property).
+                    description: |-
+                      Stream labels for API request. It can be multiple comma separated of strings specifying  key=value pairs.
+                      In addition to fixed parameters, it also allows to add custom record keys (similar to label_keys property).
                     items:
                       type: string
                     type: array
                   lineFormat:
-                    description: Format to use when flattening the record to a log
-                      line. Valid values are json or key_value. If set to json,  the
-                      log line sent to Loki will be the Fluent Bit record dumped as
-                      JSON. If set to key_value, the log line will be each item in
-                      the record concatenated together (separated by a single space)
-                      in the format.
+                    description: |-
+                      Format to use when flattening the record to a log line. Valid values are json or key_value.
+                      If set to json,  the log line sent to Loki will be the Fluent Bit record dumped as JSON.
+                      If set to key_value, the log line will be each item in the record concatenated together (separated by a single space) in the format.
                     enum:
                     - json
                     - key_value
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   port:
                     description: Loki TCP port
                     format: int32
@@ -1675,10 +2348,25 @@ spec:
                     items:
                       type: string
                     type: array
+                  structuredMetadata:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Stream structured metadata for API request. It can be multiple comma separated key=value pairs.
+                      This is used for high cardinality data that isn't suited for using labels.
+                      Only supported in Loki 3.0+ with schema v13 and TSDB storage.
+                    type: object
+                  structuredMetadataKeys:
+                    description: |-
+                      Optional list of record keys that will be placed as structured metadata.
+                      This allows using record accessor patterns (e.g. $kubernetes['pod_name']) to reference record keys.
+                    items:
+                      type: string
+                    type: array
                   tenantID:
-                    description: Tenant ID used by default to push logs to Loki. If
-                      omitted or empty it assumes Loki is running in single-tenant
-                      mode and no X-Scope-OrgID header is sent.
+                    description: |-
+                      Tenant ID used by default to push logs to Loki.
+                      If omitted or empty it assumes Loki is running in single-tenant mode and no X-Scope-OrgID header is sent.
                     properties:
                       valueFrom:
                         description: ValueSource defines how to find a value's key.
@@ -1691,9 +2379,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1706,10 +2398,9 @@ spec:
                         type: object
                     type: object
                   tenantIDKey:
-                    description: Specify the name of the key from the original record
-                      that contains the Tenant ID. The value of the key is set as
-                      X-Scope-OrgID of HTTP header. It is useful to set Tenant ID
-                      dynamically.
+                    description: |-
+                      Specify the name of the key from the original record that contains the Tenant ID.
+                      The value of the key is set as X-Scope-OrgID of HTTP header. It is useful to set Tenant ID dynamically.
                     type: string
                   tls:
                     description: Fluent Bit provides integrated support for Transport
@@ -1726,9 +2417,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -1756,10 +2447,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -1778,16 +2472,32 @@ spec:
                         description: Hostname to be used for TLS SNI extension
                         type: string
                     type: object
+                  totalLimitSize:
+                    description: Limit the maximum number of Chunks in the filesystem
+                      for the current output logical destination.
+                    type: string
+                  uri:
+                    description: Specify a custom HTTP URI. It must start with forward
+                      slash.
+                    type: string
+                  workers:
+                    description: Enables dedicated thread(s) for this output. Default
+                      value is set since version 1.8.13. For previous versions is
+                      0.
+                    format: int32
+                    type: integer
                 required:
                 - host
                 type: object
               match:
-                description: A pattern to match against the tags of incoming records.
+                description: |-
+                  A pattern to match against the tags of incoming records.
                   It's case sensitive and support the star (*) character as a wildcard.
                 type: string
               matchRegex:
-                description: A regular expression to match against the tags of incoming
-                  records. Use this option if you want to use the full regex syntax.
+                description: |-
+                  A regular expression to match against the tags of incoming records.
+                  Use this option if you want to use the full regex syntax.
                 type: string
               "null":
                 description: Null defines Null Output configuration.
@@ -1795,12 +2505,6 @@ spec:
               opensearch:
                 description: OpenSearch defines OpenSearch Output configuration.
                 properties:
-                  Workers:
-                    description: Enables dedicated thread(s) for this output. Default
-                      value is set since version 1.8.13. For previous versions is
-                      0.
-                    format: int32
-                    type: integer
                   awsAuth:
                     description: Enable AWS Sigv4 Authentication for Amazon OpenSearch
                       Service.
@@ -1820,21 +2524,25 @@ spec:
                       API for Amazon OpenSearch Service.
                     type: string
                   bufferSize:
-                    description: Specify the buffer size used to read the response
-                      from the OpenSearch HTTP service. This option is useful for
-                      debugging purposes where is required to read full responses,
-                      note that response size grows depending of the number of records
-                      inserted. To set an unlimited amount of memory set this value
-                      to False, otherwise the value must be according to the Unit
-                      Size specification.
+                    description: |-
+                      Specify the buffer size used to read the response from the OpenSearch HTTP service.
+                      This option is useful for debugging purposes where is required to read full responses,
+                      note that response size grows depending of the number of records inserted.
+                      To set an unlimited amount of memory set this value to False,
+                      otherwise the value must be according to the Unit Size specification.
                     pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
+                    type: string
+                  compress:
+                    enum:
+                    - gzip
                     type: string
                   currentTimeIndex:
                     description: Use current time for index generation instead of
                       message record
                     type: boolean
                   generateID:
-                    description: When enabled, generate _id for outgoing records.
+                    description: |-
+                      When enabled, generate _id for outgoing records.
                       This prevents duplicate records when retrying OpenSearch.
                     type: boolean
                   host:
@@ -1855,9 +2563,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1883,9 +2595,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -1912,30 +2628,89 @@ spec:
                       part of the Index name.
                     type: string
                   logstashFormat:
-                    description: 'Enable Logstash format compatibility. This option
-                      takes a boolean value: True/False, On/Off'
+                    description: |-
+                      Enable Logstash format compatibility.
+                      This option takes a boolean value: True/False, On/Off
                     type: boolean
                   logstashPrefix:
-                    description: 'When Logstash_Format is enabled, the Index name
-                      is composed using a prefix and the date, e.g: If Logstash_Prefix
-                      is equals to ''mydata'' your index will become ''mydata-YYYY.MM.DD''.
-                      The last string appended belongs to the date when the data is
-                      being generated.'
+                    description: |-
+                      When Logstash_Format is enabled, the Index name is composed using a prefix and the date,
+                      e.g: If Logstash_Prefix is equals to 'mydata' your index will become 'mydata-YYYY.MM.DD'.
+                      The last string appended belongs to the date when the data is being generated.
                     type: string
                   logstashPrefixKey:
                     description: Prefix keys with this string
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   path:
-                    description: OpenSearch accepts new data on HTTP query path "/_bulk".
-                      But it is also possible to serve OpenSearch behind a reverse
-                      proxy on a subpath. This option defines such path on the fluent-bit
-                      side. It simply adds a path prefix in the indexing HTTP POST
-                      URI.
+                    description: |-
+                      OpenSearch accepts new data on HTTP query path "/_bulk".
+                      But it is also possible to serve OpenSearch behind a reverse proxy on a subpath.
+                      This option defines such path on the fluent-bit side.
+                      It simply adds a path prefix in the indexing HTTP POST URI.
                     type: string
                   pipeline:
-                    description: OpenSearch allows to setup filters called pipelines.
-                      This option allows to define which pipeline the database should
-                      use. For performance reasons is strongly suggested to do parsing
+                    description: |-
+                      OpenSearch allows to setup filters called pipelines.
+                      This option allows to define which pipeline the database should use.
+                      For performance reasons is strongly suggested to do parsing
                       and filtering on Fluent Bit side, avoid pipelines.
                     type: string
                   port:
@@ -1947,7 +2722,7 @@ spec:
                     type: integer
                   replaceDots:
                     description: When enabled, replace field name dots with underscore,
-                      required by Elasticsearch 2.0-2.3.
+                      required by Opensearch 2.0-2.3.
                     type: boolean
                   suppressTypeName:
                     description: When enabled, mapping types is removed and Type option
@@ -1959,9 +2734,9 @@ spec:
                       the key name for the tag.
                     type: string
                   timeKey:
-                    description: When Logstash_Format is enabled, each record will
-                      get a new timestamp field. The Time_Key property defines the
-                      name of that field.
+                    description: |-
+                      When Logstash_Format is enabled, each record will get a new timestamp field.
+                      The Time_Key property defines the name of that field.
                     type: string
                   timeKeyFormat:
                     description: When Logstash_Format is enabled, this property defines
@@ -1986,9 +2761,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -2016,10 +2791,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -2043,16 +2821,22 @@ spec:
                       for the current output logical destination.
                     type: string
                   traceError:
-                    description: When enabled print the elasticsearch API calls to
-                      stdout when elasticsearch returns an error
+                    description: When enabled print the Opensearch API calls to stdout
+                      when Opensearch returns an error
                     type: boolean
                   traceOutput:
-                    description: When enabled print the elasticsearch API calls to
-                      stdout (for diag only)
+                    description: When enabled print the Opensearch API calls to stdout
+                      (for diag only)
                     type: boolean
                   type:
                     description: Type name
                     type: string
+                  workers:
+                    description: Enables dedicated thread(s) for this output. Default
+                      value is set since version 1.8.13. For previous versions is
+                      0.
+                    format: int32
+                    type: integer
                   writeOperation:
                     description: Operation to use to write in bulk requests.
                     type: string
@@ -2091,9 +2875,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -2119,9 +2907,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -2136,6 +2928,13 @@ spec:
                   logResponsePayload:
                     description: Log the response payload within the Fluent Bit log.
                     type: boolean
+                  logsBodyKey:
+                    description: The log body key to look up in the log events body/message.
+                      Sets the Body field of the opentelemtry logs data model.
+                    type: string
+                  logsBodyKeyAttributes:
+                    description: If true, remaining unmatched keys are added as attributes.
+                    type: boolean
                   logsUri:
                     description: 'Specify an optional HTTP URI for the target web
                       server listening for logs, e.g: /v1/logs'
@@ -2144,6 +2943,64 @@ spec:
                     description: 'Specify an optional HTTP URI for the target web
                       server listening for metrics, e.g: /v1/metrics'
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   port:
                     description: TCP port of the target OpenSearch instance, default
                       `80`
@@ -2152,11 +3009,9 @@ spec:
                     minimum: 1
                     type: integer
                   proxy:
-                    description: Specify an HTTP Proxy. The expected format of this
-                      value is http://HOST:PORT. Note that HTTPS is not currently
-                      supported. It is recommended not to set this and to configure
-                      the HTTP proxy environment variables instead as they support
-                      both HTTP and HTTPS.
+                    description: |-
+                      Specify an HTTP Proxy. The expected format of this value is http://HOST:PORT. Note that HTTPS is not currently supported.
+                      It is recommended not to set this and to configure the HTTP proxy environment variables instead as they support both HTTP and HTTPS.
                     type: string
                   tls:
                     description: Fluent Bit provides integrated support for Transport
@@ -2173,9 +3028,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -2203,10 +3058,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -2230,6 +3088,10 @@ spec:
                       server listening for traces, e.g: /v1/traces'
                     type: string
                 type: object
+              processors:
+                description: Processors defines the processors configuration
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
               prometheusExporter:
                 description: PrometheusExporter_types defines Prometheus exporter
                   configuration to expose metrics from Fluent Bit.
@@ -2277,7 +3139,9 @@ spec:
                       default: 127.0.0.1'
                     type: string
                   httpPasswd:
-                    description: Basic Auth Password. Requires HTTP_user to be se
+                    description: |-
+                      Basic Auth Password.
+                      Requires HTTP_user to be se
                     properties:
                       valueFrom:
                         description: ValueSource defines how to find a value's key.
@@ -2290,9 +3154,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -2318,9 +3186,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -2336,6 +3208,64 @@ spec:
                     description: 'Log the response payload within the Fluent Bit log,default:
                       false'
                     type: boolean
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   port:
                     description: TCP port of the target HTTP Serveri, default:80
                     format: int32
@@ -2361,9 +3291,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -2391,10 +3321,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -2427,10 +3360,9 @@ spec:
                 - host
                 type: object
               retry_limit:
-                description: RetryLimit represents configuration for the scheduler
-                  which can be set independently on each output section. This option
-                  allows to disable retries or impose a limit to try N times and then
-                  discard the data after reaching that limit.
+                description: |-
+                  RetryLimit represents configuration for the scheduler which can be set independently on each output section.
+                  This option allows to disable retries or impose a limit to try N times and then discard the data after reaching that limit.
                 type: string
               s3:
                 description: S3 defines S3 Output configuration.
@@ -2480,6 +3412,9 @@ spec:
                       a later chunk, resulting in data shuffling. This feature prevents
                       this shuffling by using a queue logic for uploads.
                     type: boolean
+                  Profile:
+                    description: Option to specify an AWS Profile for credentials.
+                    type: string
                   Region:
                     description: The AWS region of your S3 bucket
                     type: string
@@ -2542,173 +3477,11 @@ spec:
                     description: Use the S3 PutObject API, instead of the multipart
                       upload API.
                     type: boolean
-                required:
-                - Bucket
-                - Region
-                type: object
-              splunk:
-                description: Splunk defines Splunk Output Configuration
-                properties:
                   Workers:
-                    description: Enables dedicated thread(s) for this output. Default
-                      value `2` is set since version 1.8.13. For previous versions
-                      is 0.
+                    description: Specify number of worker threads to use to output
+                      to S3
                     format: int32
                     type: integer
-                  channel:
-                    description: Specify X-Splunk-Request-Channel Header for the HTTP
-                      Event Collector interface.
-                    type: string
-                  compress:
-                    description: Set payload compression mechanism. The only available
-                      option is gzip.
-                    type: string
-                  eventFields:
-                    description: Set event fields for the record. This option is an
-                      array and the format is "key_name record_accessor_pattern".
-                    items:
-                      type: string
-                    type: array
-                  eventHost:
-                    description: Specify the key name that contains the host value.
-                      This option allows a record accessors pattern.
-                    type: string
-                  eventIndex:
-                    description: The name of the index by which the event data is
-                      to be indexed.
-                    type: string
-                  eventIndexKey:
-                    description: Set a record key that will populate the index field.
-                      If the key is found, it will have precedence over the value
-                      set in event_index.
-                    type: string
-                  eventKey:
-                    description: Specify the key name that will be used to send a
-                      single value as part of the record.
-                    type: string
-                  eventSource:
-                    description: Set the source value to assign to the event data.
-                    type: string
-                  eventSourcetype:
-                    description: Set the sourcetype value to assign to the event data.
-                    type: string
-                  eventSourcetypeKey:
-                    description: Set a record key that will populate 'sourcetype'.
-                      If the key is found, it will have precedence over the value
-                      set in event_sourcetype.
-                    type: string
-                  host:
-                    description: IP address or hostname of the target OpenSearch instance,
-                      default `127.0.0.1`
-                    type: string
-                  httpBufferSize:
-                    description: 'Buffer size used to receive Splunk HTTP responses:
-                      Default `2M`'
-                    pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
-                    type: string
-                  httpDebugBadRequest:
-                    description: If the HTTP server response code is 400 (bad request)
-                      and this flag is enabled, it will print the full HTTP request
-                      and response to the stdout interface. This feature is available
-                      for debugging purposes.
-                    type: boolean
-                  httpPassword:
-                    description: Password for user defined in HTTP_User
-                    properties:
-                      valueFrom:
-                        description: ValueSource defines how to find a value's key.
-                        properties:
-                          secretKeyRef:
-                            description: Selects a key of a secret in the pod's namespace
-                            properties:
-                              key:
-                                description: The key of the secret to select from.  Must
-                                  be a valid secret key.
-                                type: string
-                              name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
-                                type: string
-                              optional:
-                                description: Specify whether the Secret or its key
-                                  must be defined
-                                type: boolean
-                            required:
-                            - key
-                            type: object
-                            x-kubernetes-map-type: atomic
-                        type: object
-                    type: object
-                  httpUser:
-                    description: Optional username credential for access
-                    properties:
-                      valueFrom:
-                        description: ValueSource defines how to find a value's key.
-                        properties:
-                          secretKeyRef:
-                            description: Selects a key of a secret in the pod's namespace
-                            properties:
-                              key:
-                                description: The key of the secret to select from.  Must
-                                  be a valid secret key.
-                                type: string
-                              name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
-                                type: string
-                              optional:
-                                description: Specify whether the Secret or its key
-                                  must be defined
-                                type: boolean
-                            required:
-                            - key
-                            type: object
-                            x-kubernetes-map-type: atomic
-                        type: object
-                    type: object
-                  port:
-                    description: TCP port of the target Splunk instance, default `8088`
-                    format: int32
-                    maximum: 65535
-                    minimum: 1
-                    type: integer
-                  splunkSendRaw:
-                    description: When enabled, the record keys and values are set
-                      in the top level of the map instead of under the event key.
-                      Refer to the Sending Raw Events section from the docs more details
-                      to make this option work properly.
-                    type: boolean
-                  splunkToken:
-                    description: Specify the Authentication Token for the HTTP Event
-                      Collector interface.
-                    properties:
-                      valueFrom:
-                        description: ValueSource defines how to find a value's key.
-                        properties:
-                          secretKeyRef:
-                            description: Selects a key of a secret in the pod's namespace
-                            properties:
-                              key:
-                                description: The key of the secret to select from.  Must
-                                  be a valid secret key.
-                                type: string
-                              name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
-                                type: string
-                              optional:
-                                description: Specify whether the Secret or its key
-                                  must be defined
-                                type: boolean
-                            required:
-                            - key
-                            type: object
-                            x-kubernetes-map-type: atomic
-                        type: object
-                    type: object
                   tls:
                     description: Fluent Bit provides integrated support for Transport
                       Layer Security (TLS) and it predecessor Secure Sockets Layer
@@ -2724,9 +3497,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -2754,10 +3527,319 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    type: string
+                                  optional:
+                                    description: Specify whether the Secret or its
+                                      key must be defined
+                                    type: boolean
+                                required:
+                                - key
+                                type: object
+                                x-kubernetes-map-type: atomic
+                            type: object
+                        type: object
+                      verify:
+                        description: Force certificate validation
+                        type: boolean
+                      vhost:
+                        description: Hostname to be used for TLS SNI extension
+                        type: string
+                    type: object
+                required:
+                - Bucket
+                - Region
+                type: object
+              splunk:
+                description: Splunk defines Splunk Output Configuration
+                properties:
+                  Workers:
+                    description: Enables dedicated thread(s) for this output. Default
+                      value `2` is set since version 1.8.13. For previous versions
+                      is 0.
+                    format: int32
+                    type: integer
+                  channel:
+                    description: Specify X-Splunk-Request-Channel Header for the HTTP
+                      Event Collector interface.
+                    type: string
+                  compress:
+                    description: Set payload compression mechanism. The only available
+                      option is gzip.
+                    type: string
+                  eventFields:
+                    description: |-
+                      Set event fields for the record. This option is an array and the format is "key_name
+                      record_accessor_pattern".
+                    items:
+                      type: string
+                    type: array
+                  eventHost:
+                    description: Specify the key name that contains the host value.
+                      This option allows a record accessors pattern.
+                    type: string
+                  eventIndex:
+                    description: The name of the index by which the event data is
+                      to be indexed.
+                    type: string
+                  eventIndexKey:
+                    description: |-
+                      Set a record key that will populate the index field. If the key is found, it will have precedence
+                      over the value set in event_index.
+                    type: string
+                  eventKey:
+                    description: Specify the key name that will be used to send a
+                      single value as part of the record.
+                    type: string
+                  eventSource:
+                    description: Set the source value to assign to the event data.
+                    type: string
+                  eventSourcetype:
+                    description: Set the sourcetype value to assign to the event data.
+                    type: string
+                  eventSourcetypeKey:
+                    description: |-
+                      Set a record key that will populate 'sourcetype'. If the key is found, it will have precedence
+                      over the value set in event_sourcetype.
+                    type: string
+                  host:
+                    description: IP address or hostname of the target OpenSearch instance,
+                      default `127.0.0.1`
+                    type: string
+                  httpBufferSize:
+                    description: 'Buffer size used to receive Splunk HTTP responses:
+                      Default `2M`'
+                    pattern: ^\d+(k|K|KB|kb|m|M|MB|mb|g|G|GB|gb)?$
+                    type: string
+                  httpDebugBadRequest:
+                    description: |-
+                      If the HTTP server response code is 400 (bad request) and this flag is enabled, it will print the full HTTP request
+                      and response to the stdout interface. This feature is available for debugging purposes.
+                    type: boolean
+                  httpPassword:
+                    description: Password for user defined in HTTP_User
+                    properties:
+                      valueFrom:
+                        description: ValueSource defines how to find a value's key.
+                        properties:
+                          secretKeyRef:
+                            description: Selects a key of a secret in the pod's namespace
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        type: object
+                    type: object
+                  httpUser:
+                    description: Optional username credential for access
+                    properties:
+                      valueFrom:
+                        description: ValueSource defines how to find a value's key.
+                        properties:
+                          secretKeyRef:
+                            description: Selects a key of a secret in the pod's namespace
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        type: object
+                    type: object
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
+                  port:
+                    description: TCP port of the target Splunk instance, default `8088`
+                    format: int32
+                    maximum: 65535
+                    minimum: 1
+                    type: integer
+                  splunkSendRaw:
+                    description: |-
+                      When enabled, the record keys and values are set in the top level of the map instead of under the event key. Refer to
+                      the Sending Raw Events section from the docs more details to make this option work properly.
+                    type: boolean
+                  splunkToken:
+                    description: Specify the Authentication Token for the HTTP Event
+                      Collector interface.
+                    properties:
+                      valueFrom:
+                        description: ValueSource defines how to find a value's key.
+                        properties:
+                          secretKeyRef:
+                            description: Selects a key of a secret in the pod's namespace
+                            properties:
+                              key:
+                                description: The key of the secret to select from.  Must
+                                  be a valid secret key.
+                                type: string
+                              name:
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                type: string
+                              optional:
+                                description: Specify whether the Secret or its key
+                                  must be defined
+                                type: boolean
+                            required:
+                            - key
+                            type: object
+                            x-kubernetes-map-type: atomic
+                        type: object
+                    type: object
+                  tls:
+                    description: Fluent Bit provides integrated support for Transport
+                      Layer Security (TLS) and it predecessor Secure Sockets Layer
+                      (SSL) respectively.
+                    properties:
+                      caFile:
+                        description: Absolute path to CA certificate file
+                        type: string
+                      caPath:
+                        description: Absolute path to scan for certificate files
+                        type: string
+                      crtFile:
+                        description: Absolute path to Certificate file
+                        type: string
+                      debug:
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
+                        enum:
+                        - 0
+                        - 1
+                        - 2
+                        - 3
+                        - 4
+                        format: int32
+                        type: integer
+                      keyFile:
+                        description: Absolute path to private Key file
+                        type: string
+                      keyPassword:
+                        description: Optional password for tls.key_file file
+                        properties:
+                          valueFrom:
+                            description: ValueSource defines how to find a value's
+                              key.
+                            properties:
+                              secretKeyRef:
+                                description: Selects a key of a secret in the pod's
+                                  namespace
+                                properties:
+                                  key:
+                                    description: The key of the secret to select from.  Must
+                                      be a valid secret key.
+                                    type: string
+                                  name:
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -2839,7 +3921,7 @@ spec:
                     description: Set resource types of data
                     type: string
                   resourceLabels:
-                    description: Optional list of comma seperated strings. Setting
+                    description: Optional list of comma separated strings. Setting
                       these fields overrides the Stackdriver monitored resource API
                       values
                     items:
@@ -2859,9 +3941,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -2887,9 +3973,13 @@ spec:
                                   be a valid secret key.
                                 type: string
                               name:
-                                description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                  TODO: Add other useful fields. apiVersion, kind,
-                                  uid?'
+                                default: ""
+                                description: |-
+                                  Name of the referent.
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                 type: string
                               optional:
                                 description: Specify whether the Secret or its key
@@ -2912,6 +4002,10 @@ spec:
                   taskID:
                     description: Identifier for a task within a namespace. Required
                       if Resource is generic_task
+                    type: string
+                  textPayloadKey:
+                    description: The key used to select the text payload from the
+                      record
                     type: string
                   workers:
                     description: Number of dedicated threads for the Stackdriver Output
@@ -2953,6 +4047,64 @@ spec:
                     description: Mode of the desired transport type, the available
                       options are tcp, tls and udp.
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   port:
                     description: TCP or UDP port of the remote Syslog server.
                     format: int32
@@ -2999,9 +4151,9 @@ spec:
                       severity number.
                     type: string
                   tls:
-                    description: Syslog output plugin supports TTL/SSL, for more details
-                      about the properties available and general configuration, please
-                      refer to the TLS/SSL section.
+                    description: |-
+                      Syslog output plugin supports TTL/SSL, for more details about the properties available
+                      and general configuration, please refer to the TLS/SSL section.
                     properties:
                       caFile:
                         description: Absolute path to CA certificate file
@@ -3013,9 +4165,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -3043,10 +4195,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its
@@ -3065,6 +4220,10 @@ spec:
                         description: Hostname to be used for TLS SNI extension
                         type: string
                     type: object
+                  totalLimitSize:
+                    description: Limit the maximum number of Chunks in the filesystem
+                      for the current output logical destination.
+                    type: string
                 type: object
               tcp:
                 description: TCP defines TCP Output configuration.
@@ -3083,17 +4242,77 @@ spec:
                       for Forward messages.
                     type: string
                   jsonDateFormat:
-                    description: 'Specify the format of the date. Supported formats
-                      are double, epoch and iso8601 (eg: 2018-05-30T09:39:52.000681Z)'
+                    description: |-
+                      Specify the format of the date. Supported formats are double, epoch
+                      and iso8601 (eg: 2018-05-30T09:39:52.000681Z)
                     enum:
                     - double
                     - epoch
                     - iso8601
                     type: string
                   jsonDateKey:
-                    description: TSpecify the name of the time key in the output record.
+                    description: |-
+                      TSpecify the name of the time key in the output record.
                       To disable the time key just set the value to false.
                     type: string
+                  networking:
+                    description: Include fluentbit networking options for this output-plugin
+                    properties:
+                      DNSMode:
+                        description: Select the primary DNS connection type (TCP or
+                          UDP).
+                        enum:
+                        - TCP
+                        - UDP
+                        type: string
+                      DNSPreferIPv4:
+                        description: Prioritize IPv4 DNS results when trying to establish
+                          a connection.
+                        type: boolean
+                      DNSResolver:
+                        description: Select the primary DNS resolver type (LEGACY
+                          or ASYNC).
+                        enum:
+                        - LEGACY
+                        - ASYNC
+                        type: string
+                      connectTimeout:
+                        description: Set maximum time expressed in seconds to wait
+                          for a TCP connection to be established, this include the
+                          TLS handshake time.
+                        format: int32
+                        type: integer
+                      connectTimeoutLogError:
+                        description: On connection timeout, specify if it should log
+                          an error. When disabled, the timeout is logged as a debug
+                          message.
+                        type: boolean
+                      keepalive:
+                        description: 'Enable or disable connection keepalive support.
+                          Accepts a boolean value: on / off.'
+                        enum:
+                        - "on"
+                        - "off"
+                        type: string
+                      keepaliveIdleTimeout:
+                        description: Set maximum time expressed in seconds for an
+                          idle keepalive connection.
+                        format: int32
+                        type: integer
+                      keepaliveMaxRecycle:
+                        description: Set maximum number of times a keepalive connection
+                          can be used before it is retired.
+                        format: int32
+                        type: integer
+                      maxWorkerConnections:
+                        description: Set maximum number of TCP connections that can
+                          be established per worker.
+                        format: int32
+                        type: integer
+                      sourceAddress:
+                        description: Specify network address to bind for data traffic.
+                        type: string
+                    type: object
                   port:
                     description: TCP Port of the target service.
                     format: int32
@@ -3115,9 +4334,9 @@ spec:
                         description: Absolute path to Certificate file
                         type: string
                       debug:
-                        description: 'Set TLS debug verbosity level. It accept the
-                          following values: 0 (No debug), 1 (Error), 2 (State change),
-                          3 (Informational) and 4 Verbose'
+                        description: |-
+                          Set TLS debug verbosity level.
+                          It accept the following values: 0 (No debug), 1 (Error), 2 (State change), 3 (Informational) and 4 Verbose
                         enum:
                         - 0
                         - 1
@@ -3145,10 +4364,13 @@ spec:
                                       be a valid secret key.
                                     type: string
                                   name:
-                                    description: 'Name of the referent. More info:
-                                      https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                      TODO: Add other useful fields. apiVersion, kind,
-                                      uid?'
+                                    default: ""
+                                    description: |-
+                                      Name of the referent.
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                     type: string
                                   optional:
                                     description: Specify whether the Secret or its

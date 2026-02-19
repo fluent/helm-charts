@@ -51,7 +51,7 @@ helm.sh/chart: {{ include "fluent-operator.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 {{- end }}
 
 {{/*
@@ -59,7 +59,7 @@ Selector labels
 */}}
 {{- define "fluent-operator.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "fluent-operator.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end }}
 
 {{/*
@@ -70,5 +70,16 @@ Create the name of the service account to use
 {{- default (include "fluent-operator.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Util function for generating the image URL based on the provided options.
+*/}}
+{{- define "fluent-operator.image" -}}
+{{- $defaultTag := index . 1 -}}
+{{- with index . 0 -}}
+{{- if .registry -}}{{ printf "%s/%s" .registry .repository }}{{- else -}}{{- .repository -}}{{- end -}}
+{{- if .digest -}}{{ printf "@%s" .digest }}{{- else -}}{{ printf ":%s" (default $defaultTag .tag) }}{{- end -}}
 {{- end }}
 {{- end }}

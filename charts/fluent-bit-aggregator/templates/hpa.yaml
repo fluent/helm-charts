@@ -1,0 +1,22 @@
+{{- if and .Values.autoscaling.enabled .Values.autoscaling.metrics }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "fluent-bit-aggregator.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluent-bit-aggregator.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: {{ include "fluent-bit-aggregator.fullname" . }}
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  {{- with .Values.autoscaling.behavior }}
+  behavior:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  metrics:
+    {{- toYaml .Values.autoscaling.metrics | nindent 4 }}
+{{- end }}

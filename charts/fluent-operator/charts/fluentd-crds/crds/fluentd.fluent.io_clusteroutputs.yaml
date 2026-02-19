@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.11.3
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.18.0
   name: clusteroutputs.fluentd.fluent.io
 spec:
   group: fluentd.fluent.io
@@ -23,14 +22,19 @@ spec:
         description: ClusterOutput is the Schema for the clusteroutputs API
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -63,16 +67,17 @@ spec:
                           pattern: ^\d+(KB|MB|GB|TB)$
                           type: string
                         chunkLimitSize:
-                          description: 'Buffer parameters The max size of each chunks:
-                            events will be written into chunks until the size of chunks
-                            become this size Default: 8MB (memory) / 256MB (file)'
+                          description: |-
+                            Buffer parameters
+                            The max size of each chunks: events will be written into chunks until the size of chunks become this size
+                            Default: 8MB (memory) / 256MB (file)
                           pattern: ^\d+(KB|MB|GB|TB)$
                           type: string
                         compress:
-                          description: Fluentd will decompress these compressed chunks
-                            automatically before passing them to the output plugin
-                            If gzip is set, Fluentd compresses data records before
-                            writing to buffer chunks. Default:text.
+                          description: |-
+                            Fluentd will decompress these compressed chunks automatically before passing them to the output plugin
+                            If gzip is set, Fluentd compresses data records before writing to buffer chunks.
+                            Default:text.
                           enum:
                           - text
                           - gzip
@@ -88,20 +93,21 @@ spec:
                             new in Fluentd v1.2.6.
                           type: boolean
                         flushAtShutdown:
-                          description: Flush parameters This specifies whether to
-                            flush/write all buffer chunks on shutdown or not.
+                          description: |-
+                            Flush parameters
+                            This specifies whether to flush/write all buffer chunks on shutdown or not.
                           type: boolean
                         flushInterval:
                           description: FlushInterval defines the flush interval
                           pattern: ^\d+(\.[0-9]{0,2})?(s|m|h|d)?$
                           type: string
                         flushMode:
-                          description: 'FlushMode defines the flush mode: lazy: flushes/writes
-                            chunks once per timekey interval: flushes/writes chunks
-                            per specified time via flush_interval immediate: flushes/writes
-                            chunks immediately after events are appended into chunks
-                            default: equals to lazy if time is specified as chunk
-                            key, interval otherwise'
+                          description: |-
+                            FlushMode defines the flush mode:
+                            lazy: flushes/writes chunks once per timekey
+                            interval: flushes/writes chunks per specified time via flush_interval
+                            immediate: flushes/writes chunks immediately after events are appended into chunks
+                            default: equals to lazy if time is specified as chunk key, interval otherwise
                           enum:
                           - default
                           - lazy
@@ -125,8 +131,9 @@ spec:
                             logging level
                           type: string
                         overflowAction:
-                          description: 'OverflowAtction defines the output plugin
-                            behave when its buffer queue is full. Default: throw_exception'
+                          description: |-
+                            OverflowAtction defines the output plugin behave when its buffer queue is full.
+                            Default: throw_exception
                           type: string
                         path:
                           description: The path where buffer chunks are stored. This
@@ -141,11 +148,12 @@ spec:
                           pattern: ^\d+.?\d+$
                           type: string
                         queuedChunksLimitSize:
-                          description: 'Limit the number of queued chunks. Default:
-                            1 If a smaller flush_interval is set, e.g. 1s, there are
-                            lots of small queued chunks in the buffer. With file buffer,
-                            it may consume a lot of fd resources when output destination
-                            has a problem. This parameter mitigates such situations.'
+                          description: |-
+                            Limit the number of queued chunks. Default: 1
+                            If a smaller flush_interval is set, e.g. 1s,
+                            there are lots of small queued chunks in the buffer.
+                            With file buffer, it may consume a lot of fd resources when output destination has a problem.
+                            This parameter mitigates such situations.
                           minimum: 1
                           type: integer
                         retryExponentialBackoffBase:
@@ -176,9 +184,9 @@ spec:
                           pattern: ^\d+.?\d+$
                           type: string
                         retryTimeout:
-                          description: Retry parameters The maximum time (seconds)
-                            to retry to flush again the failed chunks, until the plugin
-                            discards the buffer chunks
+                          description: |-
+                            Retry parameters
+                            The maximum time (seconds) to retry to flush again the failed chunks, until the plugin discards the buffer chunks
                           pattern: ^\d+(\.[0-9]{0,2})?(s|m|h|d)?$
                           type: string
                         retryType:
@@ -191,12 +199,12 @@ spec:
                           pattern: ^\d+(\.[0-9]{0,2})?(s|m|h|d)?$
                           type: string
                         tag:
-                          description: The output plugins group events into chunks.
-                            Chunk keys, specified as the argument of <buffer> section,
-                            control how to group events into chunks. If tag is empty,
-                            which means blank Chunk Keys. Tag also supports Nested
-                            Field, combination of Chunk Keys, placeholders, etc. See
-                            https://docs.fluentd.org/configuration/buffer-section.
+                          description: |-
+                            The output plugins group events into chunks.
+                            Chunk keys, specified as the argument of <buffer> section, control how to group events into chunks.
+                            If tag is empty, which means blank Chunk Keys.
+                            Tag also supports Nested Field, combination of Chunk Keys, placeholders, etc.
+                            See https://docs.fluentd.org/configuration/buffer-section.
                           type: string
                         timeFormat:
                           description: Process value according to the specified format.
@@ -229,8 +237,9 @@ spec:
                           description: Uses the specified timezone.
                           type: string
                         totalLimitSize:
-                          description: 'The size limitation of this buffer plugin
-                            instance Default: 512MB (memory) / 64GB (file)'
+                          description: |-
+                            The size limitation of this buffer plugin instance
+                            Default: 512MB (memory) / 64GB (file)
                           pattern: ^\d+(KB|MB|GB|TB)$
                           type: string
                         type:
@@ -270,10 +279,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -301,10 +313,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -448,10 +463,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -581,10 +599,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -596,6 +617,86 @@ spec:
                                   x-kubernetes-map-type: atomic
                               type: object
                           type: object
+                        cloudAuth:
+                          description: Authenticate towards Elastic Cloud using cloudAuth.
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
+                        cloudId:
+                          description: |-
+                            Authenticate towards Elastic Cloud using CloudId. If set, cloudAuth must
+                            be set as well and host, port, user and password are ignored.
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
+                        enableIlm:
+                          description: Optional, Enable Index Lifecycle Management
+                            (ILM)
+                          type: boolean
+                        failOnPuttingTemplateRetryExceeded:
+                          description: 'Optional, Indicates whether to fail when max_retry_putting_template
+                            is exceeded. If you have multiple output plugin, you could
+                            use this property to do not fail on fluentd statup (default:
+                            false)'
+                          type: boolean
                         host:
                           description: 'The hostname of your Elasticsearch node (default:
                             localhost).'
@@ -604,10 +705,24 @@ spec:
                           description: Hosts defines a list of hosts if you want to
                             connect to more than one Elasticsearch nodes
                           type: string
+                        ilmPolicy:
+                          description: Optional, Specify ILM policy contents as Hash
+                          type: string
+                        ilmPolicyId:
+                          description: Optional, Specify ILM policy id
+                          type: string
+                        ilmPolicyOverride:
+                          description: Optional, Specify whether overwriting ilm policy
+                            or not
+                          type: boolean
                         indexName:
                           description: IndexName defines the placeholder syntax of
                             Fluentd plugin API. See https://docs.fluentd.org/configuration/buffer-section.
                           type: string
+                        logEs400Reason:
+                          description: Optional, Enable logging of 400 reason without
+                            enabling debug log level
+                          type: boolean
                         logstashFormat:
                           description: 'If true, Fluentd uses the conventional index
                             name format logstash-%Y.%m.%d (default: false). This option
@@ -618,6 +733,11 @@ spec:
                             index name to write events when logstash_format is true
                             (default: logstash).'
                           type: string
+                        maxRetryPuttingTemplate:
+                          description: 'Optional, You can specify times of retry putting
+                            template (default: 10)'
+                          format: int32
+                          type: integer
                         password:
                           description: Optional, The login credentials to connect
                             to Elasticsearch
@@ -635,10 +755,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -661,12 +784,50 @@ spec:
                           maximum: 65535
                           minimum: 1
                           type: integer
+                        reconnectOnError:
+                          description: 'Optional, Indicates that the plugin should
+                            reset connection on any error (reconnect on next send)
+                            (default: false)'
+                          type: boolean
+                        reloadAfter:
+                          description: Optional, When ReloadConnections true, this
+                            is the integer number of operations after which the plugin
+                            will reload the connections. The default value is 10000.
+                          format: int32
+                          type: integer
+                        reloadConnections:
+                          description: 'Optional, Automatically reload connection
+                            after 10000 documents (default: true)'
+                          type: boolean
+                        reloadOnFailure:
+                          description: 'Optional, Indicates that the elasticsearch-transport
+                            will try to reload the nodes addresses if there is a failure
+                            while making the request, this can be useful to quickly
+                            remove a dead node from the list of addresses (default:
+                            false)'
+                          type: boolean
+                        requestTimeout:
+                          description: 'Optional, HTTP Timeout (default: 5)'
+                          pattern: ^\d+(s|m|h|d)$
+                          type: string
                         scheme:
                           description: 'Specify https if your Elasticsearch endpoint
                             supports SSL (default: http).'
                           type: string
+                        snifferClassName:
+                          description: Optional, Provide a different sniffer class
+                            name
+                          type: string
                         sslVerify:
                           description: Optional, Force certificate validation
+                          type: boolean
+                        suppressTypeName:
+                          description: Optional, Suppress '[types removal]' warnings
+                            on elasticsearch 7.x
+                          type: boolean
+                        templateOverwrite:
+                          description: 'Optional, Always update the template, even
+                            if it already exists (default: false)'
                           type: boolean
                         user:
                           description: Optional, The login credentials to connect
@@ -685,10 +846,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -700,6 +864,323 @@ spec:
                                   x-kubernetes-map-type: atomic
                               type: object
                           type: object
+                      type: object
+                    elasticsearchDataStream:
+                      description: out_es datastreams plugin
+                      properties:
+                        caFile:
+                          description: Optional, Absolute path to CA certificate file
+                          type: string
+                        clientCert:
+                          description: Optional, Absolute path to client Certificate
+                            file
+                          type: string
+                        clientKey:
+                          description: Optional, Absolute path to client private Key
+                            file
+                          type: string
+                        clientKeyPassword:
+                          description: Optional, password for ClientKey file
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
+                        cloudAuth:
+                          description: Authenticate towards Elastic Cloud using cloudAuth.
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
+                        cloudId:
+                          description: |-
+                            Authenticate towards Elastic Cloud using CloudId. If set, cloudAuth must
+                            be set as well and host, port, user and password are ignored.
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
+                        dataStreamIlmName:
+                          description: Optional, You can specify the name of an existing
+                            ILM policy, which will be applied to the data stream.
+                            If not present, it creates a new ILM default policy (unless
+                            data_stream_template_name is defined, in that case the
+                            ILM will be set to the one specified in the matching index
+                            template)
+                          type: string
+                        dataStreamIlmPolicy:
+                          description: Optional, You can specify the ILM policy contents
+                            as hash. If not present, it will apply the ILM default
+                            policy
+                          type: string
+                        dataStreamIlmPolicyOverwrite:
+                          description: Optional, Specify whether the data stream ILM
+                            policy should be overwritten
+                          type: boolean
+                        dataStreamName:
+                          description: You can specify Elasticsearch data stream name
+                            by this parameter. This parameter is mandatory for elasticsearch_data_stream
+                          type: string
+                        dataStreamTemplateName:
+                          description: Optional, You can specify an existing matching
+                            index template for the data stream. If not present, it
+                            creates a new matching index template
+                          type: string
+                        dataStreamTemplateUseIndexPatternsWildcard:
+                          description: Optional, Specify whether index patterns should
+                            include a wildcard (*) when creating an index template.
+                            This is particularly useful to prevent errors in scenarios
+                            where index templates are generated automatically, and
+                            multiple services with distinct suffixes are in use
+                          type: boolean
+                        enableIlm:
+                          description: Optional, Enable Index Lifecycle Management
+                            (ILM)
+                          type: boolean
+                        failOnPuttingTemplateRetryExceeded:
+                          description: 'Optional, Indicates whether to fail when max_retry_putting_template
+                            is exceeded. If you have multiple output plugin, you could
+                            use this property to do not fail on fluentd statup (default:
+                            false)'
+                          type: boolean
+                        host:
+                          description: 'The hostname of your Elasticsearch node (default:
+                            localhost).'
+                          type: string
+                        hosts:
+                          description: Hosts defines a list of hosts if you want to
+                            connect to more than one Elasticsearch nodes
+                          type: string
+                        ilmPolicy:
+                          description: Optional, Specify ILM policy contents as Hash
+                          type: string
+                        ilmPolicyId:
+                          description: Optional, Specify ILM policy id
+                          type: string
+                        ilmPolicyOverride:
+                          description: Optional, Specify whether overwriting ilm policy
+                            or not
+                          type: boolean
+                        logEs400Reason:
+                          description: Optional, Enable logging of 400 reason without
+                            enabling debug log level
+                          type: boolean
+                        maxRetryPuttingTemplate:
+                          description: 'Optional, You can specify times of retry putting
+                            template (default: 10)'
+                          format: int32
+                          type: integer
+                        password:
+                          description: Optional, The login credentials to connect
+                            to Elasticsearch
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
+                        path:
+                          description: 'Path defines the REST API endpoint of Elasticsearch
+                            to post write requests (default: nil).'
+                          type: string
+                        port:
+                          description: 'The port number of your Elasticsearch node
+                            (default: 9200).'
+                          format: int32
+                          maximum: 65535
+                          minimum: 1
+                          type: integer
+                        reconnectOnError:
+                          description: 'Optional, Indicates that the plugin should
+                            reset connection on any error (reconnect on next send)
+                            (default: false)'
+                          type: boolean
+                        reloadAfter:
+                          description: Optional, When ReloadConnections true, this
+                            is the integer number of operations after which the plugin
+                            will reload the connections. The default value is 10000.
+                          format: int32
+                          type: integer
+                        reloadConnections:
+                          description: 'Optional, Automatically reload connection
+                            after 10000 documents (default: true)'
+                          type: boolean
+                        reloadOnFailure:
+                          description: 'Optional, Indicates that the elasticsearch-transport
+                            will try to reload the nodes addresses if there is a failure
+                            while making the request, this can be useful to quickly
+                            remove a dead node from the list of addresses (default:
+                            false)'
+                          type: boolean
+                        requestTimeout:
+                          description: 'Optional, HTTP Timeout (default: 5)'
+                          pattern: ^\d+(s|m|h|d)$
+                          type: string
+                        scheme:
+                          description: 'Specify https if your Elasticsearch endpoint
+                            supports SSL (default: http).'
+                          type: string
+                        snifferClassName:
+                          description: Optional, Provide a different sniffer class
+                            name
+                          type: string
+                        sslVerify:
+                          description: Optional, Force certificate validation
+                          type: boolean
+                        suppressTypeName:
+                          description: Optional, Suppress '[types removal]' warnings
+                            on elasticsearch 7.x
+                          type: boolean
+                        templateOverwrite:
+                          description: 'Optional, Always update the template, even
+                            if it already exists (default: false)'
+                          type: boolean
+                        user:
+                          description: Optional, The login credentials to connect
+                            to Elasticsearch
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
+                      required:
+                      - dataStreamName
                       type: object
                     format:
                       description: format section
@@ -783,11 +1264,9 @@ spec:
                           pattern: ^\d+(\.[0-9]{0,2})?(s|m|h|d)?$
                           type: string
                         dnsRoundRobin:
-                          description: Enable client-side DNS round robin. Uniform
-                            randomly pick an IP address to send data when a hostname
-                            has several IP addresses. heartbeat_type udp is not available
-                            with dns_round_robintrue. Use heartbeat_type tcp or heartbeat_type
-                            none.
+                          description: |-
+                            Enable client-side DNS round robin. Uniform randomly pick an IP address to send data when a hostname has several IP addresses.
+                            heartbeat_type udp is not available with dns_round_robintrue. Use heartbeat_type tcp or heartbeat_type none.
                           type: boolean
                         expireDnsCache:
                           description: Sets TTL to expire DNS cache in seconds. Set
@@ -874,10 +1353,13 @@ spec:
                                                 key.
                                               type: string
                                             name:
-                                              description: 'Name of the referent.
+                                              default: ""
+                                              description: |-
+                                                Name of the referent.
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                                TODO: Add other useful fields. apiVersion,
-                                                kind, uid?'
                                               type: string
                                             optional:
                                               description: Specify whether the Secret
@@ -906,10 +1388,13 @@ spec:
                                                 key.
                                               type: string
                                             name:
-                                              description: 'Name of the referent.
+                                              default: ""
+                                              description: |-
+                                                Name of the referent.
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                                TODO: Add other useful fields. apiVersion,
-                                                kind, uid?'
                                               type: string
                                             optional:
                                               description: Specify whether the Secret
@@ -971,10 +1456,13 @@ spec:
                                               key.
                                             type: string
                                           name:
-                                            description: 'Name of the referent. More
-                                              info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                              TODO: Add other useful fields. apiVersion,
-                                              kind, uid?'
+                                            default: ""
+                                            description: |-
+                                              Name of the referent.
+                                              This field is effectively required, but due to backwards compatibility is
+                                              allowed to be empty. Instances of this type with an empty value here are
+                                              almost certainly wrong.
+                                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                             type: string
                                           optional:
                                             description: Specify whether the Secret
@@ -1020,10 +1508,13 @@ spec:
                                               key.
                                             type: string
                                           name:
-                                            description: 'Name of the referent. More
-                                              info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                              TODO: Add other useful fields. apiVersion,
-                                              kind, uid?'
+                                            default: ""
+                                            description: |-
+                                              Name of the referent.
+                                              This field is effectively required, but due to backwards compatibility is
+                                              allowed to be empty. Instances of this type with an empty value here are
+                                              almost certainly wrong.
+                                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                             type: string
                                           optional:
                                             description: Specify whether the Secret
@@ -1114,10 +1605,13 @@ spec:
                                                 key.
                                               type: string
                                             name:
-                                              description: 'Name of the referent.
+                                              default: ""
+                                              description: |-
+                                                Name of the referent.
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                                TODO: Add other useful fields. apiVersion,
-                                                kind, uid?'
                                               type: string
                                             optional:
                                               description: Specify whether the Secret
@@ -1165,10 +1659,13 @@ spec:
                                                 key.
                                               type: string
                                             name:
-                                              description: 'Name of the referent.
+                                              default: ""
+                                              description: |-
+                                                Name of the referent.
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                                TODO: Add other useful fields. apiVersion,
-                                                kind, uid?'
                                               type: string
                                             optional:
                                               description: Specify whether the Secret
@@ -1276,10 +1773,13 @@ spec:
                                             from.  Must be a valid secret key.
                                           type: string
                                         name:
-                                          description: 'Name of the referent. More
-                                            info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                            TODO: Add other useful fields. apiVersion,
-                                            kind, uid?'
+                                          default: ""
+                                          description: |-
+                                            Name of the referent.
+                                            This field is effectively required, but due to backwards compatibility is
+                                            allowed to be empty. Instances of this type with an empty value here are
+                                            almost certainly wrong.
+                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                           type: string
                                         optional:
                                           description: Specify whether the Secret
@@ -1307,10 +1807,13 @@ spec:
                                             from.  Must be a valid secret key.
                                           type: string
                                         name:
-                                          description: 'Name of the referent. More
-                                            info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                            TODO: Add other useful fields. apiVersion,
-                                            kind, uid?'
+                                          default: ""
+                                          description: |-
+                                            Name of the referent.
+                                            This field is effectively required, but due to backwards compatibility is
+                                            allowed to be empty. Instances of this type with an empty value here are
+                                            almost certainly wrong.
+                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                           type: string
                                         optional:
                                           description: Specify whether the Secret
@@ -1323,6 +1826,13 @@ spec:
                                   type: object
                               type: object
                           type: object
+                        compress:
+                          description: Compress enables the given compression method
+                            for HTTP requests.
+                          enum:
+                          - text
+                          - gzip
+                          type: string
                         contentType:
                           description: ContentType defines Content-Type for HTTP request.
                             out_http automatically set Content-Type for built-in formatters
@@ -1494,6 +2004,11 @@ spec:
                     loki:
                       description: out_loki plugin
                       properties:
+                        bearerTokenFile:
+                          description: |-
+                            Set path to file with bearer authentication token
+                            Can be used as alterntative to HTTP basic authentication
+                          type: string
                         dropSingleKey:
                           description: If a record only has 1 key, then just set the
                             log line to the value and discard the key.
@@ -1503,8 +2018,9 @@ spec:
                             labels to the Stream labels.
                           type: boolean
                         httpPassword:
-                          description: Password for user defined in HTTP_User Set
-                            HTTP basic authentication password
+                          description: |-
+                            Password for user defined in HTTP_User
+                            Set HTTP basic authentication password
                           properties:
                             valueFrom:
                               description: ValueSource defines how to find a value's
@@ -1519,10 +2035,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -1550,10 +2069,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -1573,42 +2095,39 @@ spec:
                           description: Disable certificate validation
                           type: boolean
                         labelKeys:
-                          description: Optional list of record keys that will be placed
-                            as stream labels. This configuration property is for records
-                            key only.
+                          description: |-
+                            Optional list of record keys that will be placed as stream labels.
+                            This configuration property is for records key only.
                           items:
                             type: string
                           type: array
                         labels:
-                          description: Stream labels for API request. It can be multiple
-                            comma separated of strings specifying  key=value pairs.
-                            In addition to fixed parameters, it also allows to add
-                            custom record keys (similar to label_keys property).
+                          description: |-
+                            Stream labels for API request. It can be multiple comma separated of strings specifying  key=value pairs.
+                            In addition to fixed parameters, it also allows to add custom record keys (similar to label_keys property).
                           items:
                             type: string
                           type: array
                         lineFormat:
-                          description: Format to use when flattening the record to
-                            a log line. Valid values are json or key_value. If set
-                            to json,  the log line sent to Loki will be the Fluentd
-                            record dumped as JSON. If set to key_value, the log line
-                            will be each item in the record concatenated together
-                            (separated by a single space) in the format.
+                          description: |-
+                            Format to use when flattening the record to a log line. Valid values are json or key_value.
+                            If set to json,  the log line sent to Loki will be the Fluentd record dumped as JSON.
+                            If set to key_value, the log line will be each item in the record concatenated together (separated by a single space) in the format.
                           enum:
                           - json
                           - key_value
                           type: string
                         removeKeys:
-                          description: Optional list of record keys that will be removed
-                            from stream labels. This configuration property is for
-                            records key only.
+                          description: |-
+                            Optional list of record keys that will be removed from stream labels.
+                            This configuration property is for records key only.
                           items:
                             type: string
                           type: array
                         tenantID:
-                          description: Tenant ID used by default to push logs to Loki.
-                            If omitted or empty it assumes Loki is running in single-tenant
-                            mode and no X-Scope-OrgID header is sent.
+                          description: |-
+                            Tenant ID used by default to push logs to Loki.
+                            If omitted or empty it assumes Loki is running in single-tenant mode and no X-Scope-OrgID header is sent.
                           properties:
                             valueFrom:
                               description: ValueSource defines how to find a value's
@@ -1623,10 +2142,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -1655,6 +2177,14 @@ spec:
                           type: string
                       required:
                       - url
+                      type: object
+                    nullPlugin:
+                      description: null plugin
+                      properties:
+                        neverFlush:
+                          description: NeverFlush for testing to simulate the output
+                            plugin that never succeeds to flush.
+                          type: boolean
                       type: object
                     opensearch:
                       description: out_opensearch plugin
@@ -1698,10 +2228,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -1728,6 +2261,9 @@ spec:
                           description: 'Specify https if your Opensearch endpoint
                             supports SSL (default: http).'
                           type: string
+                        sslVerify:
+                          description: Optional, Force certificate validation
+                          type: boolean
                         user:
                           description: Optional, The login credentials to connect
                             to Opensearch
@@ -1745,10 +2281,13 @@ spec:
                                         from.  Must be a valid secret key.
                                       type: string
                                     name:
-                                      description: 'Name of the referent. More info:
-                                        https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                                        TODO: Add other useful fields. apiVersion,
-                                        kind, uid?'
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
                                       type: string
                                     optional:
                                       description: Specify whether the Secret or its
@@ -1767,9 +2306,77 @@ spec:
                         awsKeyId:
                           description: The AWS access key id.
                           type: string
+                        awsKeyIdFromSecret:
+                          description: The AWS access key id from Secrets.
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
                         awsSecKey:
                           description: The AWS secret key.
                           type: string
+                        awsSecKeyFromSecret:
+                          description: The AWS secret key from Secrets.
+                          properties:
+                            valueFrom:
+                              description: ValueSource defines how to find a value's
+                                key.
+                              properties:
+                                secretKeyRef:
+                                  description: Selects a key of a secret in the pod's
+                                    namespace
+                                  properties:
+                                    key:
+                                      description: The key of the secret to select
+                                        from.  Must be a valid secret key.
+                                      type: string
+                                    name:
+                                      default: ""
+                                      description: |-
+                                        Name of the referent.
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      type: string
+                                    optional:
+                                      description: Specify whether the Secret or its
+                                        key must be defined
+                                      type: boolean
+                                  required:
+                                  - key
+                                  type: object
+                                  x-kubernetes-map-type: atomic
+                              type: object
+                          type: object
                         forcePathStyle:
                           description: This prevents AWS SDK from breaking endpoint
                             URL
@@ -1793,6 +2400,18 @@ spec:
                         s3Region:
                           description: The Amazon S3 region name
                           type: string
+                        sseCustomerAlgorithm:
+                          description: The AWS KMS enctyption algorithm.
+                          type: string
+                        sseCustomerKey:
+                          description: The AWS KMS key.
+                          type: string
+                        sseCustomerKeyMd5:
+                          description: The AWS KMS key MD5.
+                          type: string
+                        ssekmsKeyId:
+                          description: The AWS KMS key ID.
+                          type: string
                         sslVerifyPeer:
                           description: Verify the SSL certificate of the endpoint.
                           type: boolean
@@ -1806,6 +2425,9 @@ spec:
                           type: string
                         timeSliceFormat:
                           description: This timestamp is added to each file name
+                          type: string
+                        useServerSideEncryption:
+                          description: the following parameters are for S3 kms https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
                           type: string
                       type: object
                     stdout:

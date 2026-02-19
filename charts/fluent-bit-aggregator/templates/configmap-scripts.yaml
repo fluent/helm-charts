@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fluent-bit-aggregator.scriptsConfigMapName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluent-bit-aggregator.labels" . | nindent 4 }}
+data:
+{{- range $k, $v := .Values.luaScripts }}
+  {{ $k }}: |-
+{{- (tpl $v $) | nindent 4 }}
+{{- end }}

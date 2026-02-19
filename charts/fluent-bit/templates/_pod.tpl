@@ -1,4 +1,7 @@
 {{- define "fluent-bit.pod" -}}
+{{- if ne .Values.serviceAccount.automountServiceAccountToken nil }}
+automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
+{{- end }}
 serviceAccountName: {{ include "fluent-bit.serviceAccountName" . }}
 {{- with .Values.imagePullSecrets }}
 imagePullSecrets:
@@ -103,16 +106,27 @@ containers:
     {{- end }}
 {{- if .Values.hotReload.enabled }}
   - name: reloader
+  {{- with .Values.hotReload.securityContext }}
+    securityContext:
+      {{- toYaml . | nindent 6 }}
+  {{- end }}
     image: {{ include "fluent-bit.image" .Values.hotReload.image }}
     args:
       - {{ printf "-webhook-url=http://localhost:%s/api/v2/reload" (toString .Values.metricsPort) }}
       - -volume-dir=/watch/config
       - -volume-dir=/watch/scripts
+      {{- range $idx, $val := .Values.hotReload.extraWatchVolumes }}
+      - {{ printf "-volume-dir=/watch/extra-%d" (int $idx) }}
+      {{- end }}
     volumeMounts:
       - name: config
         mountPath: /watch/config
       - name: luascripts
         mountPath: /watch/scripts
+      {{- range $idx, $val := .Values.hotReload.extraWatchVolumes }}
+      - name: {{ $val }}
+        mountPath: {{ printf "/watch/extra-%d" (int $idx) }}
+      {{- end }}
     {{- with .Values.hotReload.resources }}
     resources:
       {{- toYaml . | nindent 12 }}
