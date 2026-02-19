@@ -1,39 +1,54 @@
-{{- if .Values.Kubernetes -}}
-{{- if .Values.fluentd.enable -}}
+{{- if .Values.Kubernetes }}
+{{- if .Values.fluentd.enable }}
+{{- with  .Values.fluentd }}
 apiVersion: fluentd.fluent.io/v1alpha1
 kind: Fluentd
 metadata:
-  name: {{ .Values.fluentd.name }}
+  name: {{ .name | quote }}
+  namespace: {{ $.Release.Namespace | quote }}
   labels:
     app.kubernetes.io/name: fluentd
 spec:
   globalInputs:
     - forward:
         bind: 0.0.0.0
-        port: {{ .Values.fluentd.port }}
-  replicas: {{ .Values.fluentd.replicas }}
-  image: {{ .Values.fluentd.image.repository }}:{{ .Values.fluentd.image.tag }}
-  {{- if .Values.fluentd.imagePullSecrets }}
+        port: {{ .port }}
+  replicas: {{ .replicas }}
+  image: {{ template "fluent-operator.image" (tuple .image "") }}
+  {{- with .imagePullSecrets }}
   imagePullSecrets:
-  {{ toYaml .Values.fluentd.imagePullSecrets | indent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
-  mode: {{ .Values.fluentd.mode }}
+  mode: {{ .mode }}
   resources:
-  {{- toYaml .Values.fluentd.resources | nindent 4  }}
+    {{- toYaml .resources | nindent 4  }}
   fluentdCfgSelector:
     matchLabels:
       config.fluentd.fluent.io/enabled: "true"
-  {{- if .Values.fluentd.schedulerName }}
-  schedulerName: {{ .Values.fluentd.schedulerName }}
+  {{- if .envVars }}
+  envVars:
+    {{- toYaml .envVars | nindent 4 }}
   {{- end }}
-  {{- if .Values.fluentd.logLevel }}
-  logLevel: {{ .Values.fluentd.logLevel }}
+  {{- with .securityContext }}
+  containerSecurityContext:
+    {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- with .Values.fluentd.priorityClassName }}
+  {{- with .podSecurityContext }}
+  securityContext:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .schedulerName }}
+  schedulerName: {{ . | quote }}
+  {{- end }}
+  {{- with .logLevel }}
+  logLevel: {{ . }}
+  {{- end }}
+  {{- with .priorityClassName }}
   priorityClassName: {{ . }}
   {{- end }}
-  {{- if .Values.fluentd.extras }}
-  {{ .Values.fluentd.extras | toYaml | nindent 2 }}
+  {{- with .extras }}
+  {{ toYaml . | nindent 2 }}
   {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}

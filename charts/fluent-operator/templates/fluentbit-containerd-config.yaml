@@ -1,10 +1,11 @@
-{{- if .Values.Kubernetes -}}
-{{- if .Values.fluentbit.enable -}}
-{{- if .Values.fluentbit.filter.containerd.enable -}}
+{{- if .Values.Kubernetes }}
+{{- if .Values.fluentbit.enable }}
+{{- if .Values.fluentbit.filter.containerd.enable }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluent-bit-containerd-config
+  namespace: {{ .Release.Namespace | quote }}
 data:
   containerd.lua: |
     function containerd( tag, timestamp, record)

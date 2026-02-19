@@ -12,7 +12,7 @@ image:
   # Set to "-" to not use the default value
   tag:
   digest:
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 testFramework:
   enabled: true
@@ -31,6 +31,7 @@ serviceAccount:
   create: true
   annotations: {}
   name:
+  automountServiceAccountToken:
 
 rbac:
   create: true
@@ -45,6 +46,11 @@ rbac:
 podSecurityPolicy:
   create: false
   annotations: {}
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    # This policy assumes the nodes are using AppArmor rather than SELinux.
+    rule: RunAsAny
 
 # OpenShift-specific configuration
 openShift:
@@ -54,6 +60,10 @@ openShift:
     create: true
     name: ""
     annotations: {}
+    runAsUser:
+      type: RunAsAny
+    seLinuxContext:
+      type: MustRunAs
     # Use existing SCC in cluster, rather then create new one
     existingName: ""
 
@@ -91,15 +101,20 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 2020
+  internalTrafficPolicy:
   loadBalancerClass:
   loadBalancerSourceRanges: []
+  loadBalancerIP:
   labels: {}
   # nodePort: 30020
   # clusterIP: 172.16.10.1
   annotations: {}
-#   prometheus.io/path: "/api/v1/metrics/prometheus"
-#   prometheus.io/port: "2020"
-#   prometheus.io/scrape: "true"
+  #   prometheus.io/path: "/api/v1/metrics/prometheus"
+  #   prometheus.io/port: "2020"
+  #   prometheus.io/scrape: "true"
+  externalIPs: []
+  # externalIPs:
+  #  - 2.2.2.2
 
 serviceMonitor:
   enabled: false
@@ -128,7 +143,7 @@ serviceMonitor:
   #  scheme: ""
   #  tlsConfig: {}
 
-  ## Beare in mind if youn want to collec metrics from a different port
+  ## Bear in mind if you want to collect metrics from a different port
   ## you will need to configure the new ports on the extraPorts property.
   additionalEndpoints: []
   # - port: metrics
@@ -177,6 +192,7 @@ dashboards:
   labelValue: 1
   annotations: {}
   namespace: ""
+  deterministicUid: false
 
 lifecycle: {}
 #   preStop:
@@ -228,6 +244,9 @@ autoscaling:
 
     # List of resources that the vertical pod autoscaler can control. Defaults to cpu and memory
     controlledResources: []
+
+    # Values that the vertical pod autoscaler can control. Allowed values are RequestsAndLimits and RequestsOnly. Default is RequestsAndLimits.
+    controlledValues:
 
     # Define the max allowed resources for the pod
     maxAllowed: {}
@@ -313,10 +332,20 @@ envWithTpl: []
 
 envFrom: []
 
+# This supports either a structured array or a templatable string
 extraContainers: []
+
+# Array mode
+# extraContainers:
 #   - name: do-something
 #     image: busybox
 #     command: ['do', 'something']
+
+# String mode
+# extraContainers: |-
+#   - name: do-something
+#     image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}
+#     command: ['kubectl', 'version']
 
 flush: 1
 
@@ -346,6 +375,7 @@ networkPolicy:
 #   ingress:
 #     from: []
 
+# See Lua script configuration example in README.md
 luaScripts: {}
 
 ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
@@ -418,7 +448,7 @@ config:
         Time_Key time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
 
-  # This allows adding more files with arbitary filenames to /fluent-bit/etc/conf by providing key/value pairs.
+  # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
   # The key becomes the filename, the value becomes the file content.
   extraFiles: {}
 #     upstream.conf: |
@@ -490,7 +520,18 @@ hotReload:
   enabled: false
   image:
     repository: ghcr.io/jimmidyson/configmap-reload
-    tag: v0.11.1
+    tag: v0.15.0
     digest:
     pullPolicy: IfNotPresent
   resources: {}
+  extraWatchVolumes: []
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 65532
+    runAsGroup: 65532
+    capabilities:
+      drop:
+        - ALL

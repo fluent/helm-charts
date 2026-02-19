@@ -1,0 +1,99 @@
+name: Validate PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: read-all
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    outputs:
+      changed: ${{ steps.changed.outputs.any_changed }}
+      k8s_versions: ${{ steps.setup.outputs.k8s_versions }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          fetch-depth: 2
+
+      - name: Set-up rumdl
+        uses: action-stars/install-tool-from-github-release@1fa61c3bea52eca3bcdb1f5c961a3b113fe7fa54 # v0.2.6
+        with:
+          github_token: ${{ github.token }}
+          owner: rvben
+          repository: rumdl
+          filename_format: "{name}-v{version}-{arch}-{os}.{ext}"
+          arch_amd64: x86_64
+          os_linux: unknown-linux-gnu
+          check_command: rumdl --version
+          version: latest
+
+      - name: Lint markdown files
+        run: rumdl check --output-format github .
+
+      - name: Chart changes
+        id: changed
+        uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
+        with:
+          files: charts/**
+
+      - name: Setup
+        id: setup
+        run: |
+          set -euo pipefail
+
+          k8s_versions="$(curl -s https://endoflife.date/api/kubernetes.json | jq -r '[sort_by(.releaseDate) | reverse | .[0:4] | "\(.[].cycle).0"] | join(",")')"
+          echo "k8s_versions=${k8s_versions}" >> "${GITHUB_OUTPUT}"
+
+  validate:
+    name: Validate
+    uses: action-stars/helm-workflows/.github/workflows/validate.yaml@36888a15bf48a91e7481ea4f626c84416c57bf07 # v0.9.0
+    needs: setup
+    if: needs.setup.outputs.changed == 'true'
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    with:
+      chart_dir: charts
+      target_branch: main
+      helm_docs: true
+      helm_docs_args: --template-files=./_templates.gotmpl --template-files=./_chart-readme.md.gotmpl
+      changelog: true
+      ah_lint: true
+      kubeconform: true
+      kubeconform_k8s_versions: ${{ needs.setup.outputs.k8s_versions }}
+      helm_extra_args: "--timeout 600s"
+
+  check:
+    name: Check
+    needs: validate
+    if: always()
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check
+        env:
+          INPUT_RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          set -euo pipefail
+          read -a results <<< "${INPUT_RESULTS}"
+          for result in "${results[@]}"; do
+            if [[ "${result}" == "failure" ]] || [[ "${result}" == "cancelled" ]]; then
+              echo "::error::Workflow failed!"
+              exit 1
+            fi
+          done
