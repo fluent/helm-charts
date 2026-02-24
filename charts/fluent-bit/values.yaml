@@ -378,75 +378,60 @@ networkPolicy:
 # See Lua script configuration example in README.md
 luaScripts: {}
 
-## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
 config:
-  service: |
-    [SERVICE]
-        Daemon Off
-        Flush {{ .Values.flush }}
-        Log_Level {{ .Values.logLevel }}
-        Parsers_File /fluent-bit/etc/parsers.conf
-        Parsers_File /fluent-bit/etc/conf/custom_parsers.conf
-        HTTP_Server On
-        HTTP_Listen 0.0.0.0
-        HTTP_Port {{ .Values.metricsPort }}
-        Health_Check On
-
-  ## https://docs.fluentbit.io/manual/pipeline/inputs
-  inputs: |
-    [INPUT]
-        Name tail
-        Path /var/log/containers/*.log
-        multiline.parser docker, cri
-        Tag kube.*
-        Mem_Buf_Limit 5MB
-        Skip_Long_Lines On
-
-    [INPUT]
-        Name systemd
-        Tag host.*
-        Systemd_Filter _SYSTEMD_UNIT=kubelet.service
-        Read_From_Tail On
-
-  ## https://docs.fluentbit.io/manual/pipeline/filters
-  filters: |
-    [FILTER]
-        Name kubernetes
-        Match kube.*
-        Merge_Log On
-        Keep_Log Off
-        K8S-Logging.Parser On
-        K8S-Logging.Exclude On
-
-  ## https://docs.fluentbit.io/manual/pipeline/outputs
-  outputs: |
-    [OUTPUT]
-        Name es
-        Match kube.*
-        Host elasticsearch-master
-        Logstash_Format On
-        Retry_Limit False
-
-    [OUTPUT]
-        Name es
-        Match host.*
-        Host elasticsearch-master
-        Logstash_Format On
-        Logstash_Prefix node
-        Retry_Limit False
-
-  ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
-  ## This configuration is deprecated, please use `extraFiles` instead.
-  upstream: {}
-
-  ## https://docs.fluentbit.io/manual/pipeline/parsers
+  config: |
+    service:
+      daemon: Off
+      flush: {{ .Values.flush }}
+      log_level: {{ .Values.logLevel }}
+      http_server: On
+      http_listen: 0.0.0.0
+      http_port: {{ .Values.metricsPort }}
+      health_check: On
+ 
+    pipeline:
+      inputs:
+        - name: tail
+          path: /var/log/containers/*.log
+          multiline.parser: docker, cri
+          tag: kube.*
+          mem_buf_limit: 5MB
+          skip_long_lines: On
+        - name: systemd
+          tag: host.*
+          systemd_filter: _SYSTEMD_UNIT=kubelet.service
+          read_from_tail: On
+ 
+      filters:
+        - name: kubernetes
+          match: kube.*
+          merge_log: On
+          keep_log: Off
+          k8s-logging.parser: On
+          k8s-logging.exclude: On
+ 
+      outputs:
+        - name: es
+          match: kube.*
+          host: elasticsearch-master
+          logstash_format: On
+          retry_limit: False
+        - name: es
+          match: host.*
+          host: elasticsearch-master
+          logstash_format: On
+          logstash_prefix: node
+          retry_limit: False
+        - name: stdout
+          match: '*'
+ 
   customParsers: |
-    [PARSER]
-        Name docker_no_time
-        Format json
-        Time_Keep Off
-        Time_Key time
-        Time_Format %Y-%m-%dT%H:%M:%S.%L
+    parsers:
+      name: docker_no_time
+      format: json
+      time_keep: Off
+      time_key: time
+      time_format: %Y-%m-%dT%H:%M:%S.%L
 
   # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
   # The key becomes the filename, the value becomes the file content.
@@ -497,7 +482,7 @@ command:
 
 args:
   - --workdir=/fluent-bit/etc
-  - --config=/fluent-bit/etc/conf/fluent-bit.conf
+  - --config=/fluent-bit/etc/conf/fluent-bit.yaml
 
 # This supports either a structured array or a templatable string
 initContainers: []
