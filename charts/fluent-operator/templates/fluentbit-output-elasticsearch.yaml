@@ -23,11 +23,23 @@ spec:
     {{- with .Values.fluentbit.output.es.index }}
     index: {{ . | quote }}
     {{- end }}
-    {{- with .Values.fluentbit.output.es.httpUser }}
-    httpUser: {{ . | quote }}
+    {{- $user := .Values.fluentbit.output.es.httpUser }}
+    {{- if $user }}
+    {{- if kindIs "map" $user }}
+    httpUser:
+    {{ toYaml $user | indent 6 }}
+    {{- else }}
+    httpUser: {{ $user | quote }}
     {{- end }}
-    {{- with .Values.fluentbit.output.es.httpPassword }}
-    httpPassword: {{ . | quote }}
+    {{- end }}
+    {{- $pass := .Values.fluentbit.output.es.httpPassword }}
+    {{- if $pass }}
+    {{- if kindIs "map" $pass }}
+    httpPassword:
+    {{ toYaml $pass | indent 6 }}
+    {{- else }}
+    httpPassword: {{ $pass | quote }}
+    {{- end }}
     {{- end }}
     logstashFormat: {{ .Values.fluentbit.output.es.logstashFormat | default true }}
     {{- with .Values.fluentbit.output.es.logstashPrefix }}
