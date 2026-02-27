@@ -49,19 +49,12 @@ See `git help commit`:
     http://developercertificate.org/ for more information).
 ```
 
-## How to Contribute
-
-1. Fork this repository, develop, and test your changes
-2. Remember to sign off your commits as described above
-3. Submit a pull request
-
-> [!Note]
-> In order to make testing and merging of PRs easier, please submit changes to multiple charts in separate PRs.
+## Chart Instructions
 
 ### Fluent Operator Chart
 
 > [!Important]
-> The fluent-operator Chart is maintained in [this repository][fluent-operator-chart]. Please **do NOT submit PRs** for the fluent-operator Chart in this repository! Do all contributions in the [fluent-operator repository][fluent-operator-chart].
+> The _fluent-operator_ chart is maintained in the [fluent/fluent-operator][fluent-operator-chart] repository. Please **DO NOT** submit PRs for the _fluent-operator_ chart directly in this repository!
 
 ### Technical Requirements
 
