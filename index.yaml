@@ -5811,6 +5811,36 @@ entries:
       artifacthub.io/alternativeName: fluent-bit
       artifacthub.io/changes: |-
         - kind: changed
+          description: "Update Fluent Bit OCI image to v4.2.3."
+    apiVersion: v2
+    appVersion: 4.2.3
+    created: "2026-02-27T15:02:13.072374015Z"
+    description: Helm chart for Fluent Bit running as an aggregation stateful set.
+    digest: 3137fd874fe8bfe8c7a8c08c15de2a5a9578a92e000f9912ff3119701945221b
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluent-bit-aggregator/icon.png
+    keywords:
+    - fluent
+    - fluentd
+    - fluent bit
+    - logging
+    - aggregator
+    maintainers:
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+      url: https://github.com/stevehipwell
+    name: fluent-bit-aggregator
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    - https://github.com/fluent/helm-charts/
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-aggregator-1.0.0-beta.3/fluent-bit-aggregator-1.0.0-beta.3.tgz
+    version: 1.0.0-beta.3
+  - annotations:
+      artifacthub.io/alternativeName: fluent-bit
+      artifacthub.io/changes: |-
+        - kind: changed
           description: "Add Artifact Hub metadata file to verify charts."
     apiVersion: v2
     appVersion: 4.2.2
@@ -7052,4 +7082,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-27T15:01:24.181031156Z"
+generated: "2026-02-27T15:02:13.072680224Z"
