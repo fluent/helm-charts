@@ -58,6 +58,8 @@ containers:
     {{- end }}
     livenessProbe:
       {{- toYaml .Values.livenessProbe | nindent 6 }}
+    startupProbe:
+      {{- toYaml .Values.startupProbe | nindent 6 }}
     readinessProbe:
       {{- toYaml .Values.readinessProbe | nindent 6 }}
     resources:
