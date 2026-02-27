@@ -121,8 +121,9 @@ serviceMonitor:
   #   namespace: monitoring
   #   interval: 10s
   #   scrapeTimeout: 10s
-  #   selector:
-  #    prometheus: my-prometheus
+  #   additionalLabels:
+  #     prometheus: kube-prometheus
+  #     release: prometheus
   #  ## metric relabel configs to apply to samples before ingestion.
   #  ##
   #  metricRelabelings:

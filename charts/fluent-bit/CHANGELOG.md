@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- **BREAKING**: Renamed `serviceMonitor.selector` to `serviceMonitor.additionalLabels` for consistency with PrometheusRule configuration. ([#691](https://github.com/fluent/helm-charts/pull/691)) _@kalavt_
+
 ## [v0.55.0] - 2026-01-22
 
 ### Changed
