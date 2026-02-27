@@ -161,6 +161,15 @@ updateStrategy: {}
 #   rollingUpdate:
 #     maxUnavailable: 1
 
+persistentVolumeClaimRetentionPolicy: {}
+#  whenDeleted: Delete
+#  whenScaled: Delete
+
+podDisruptionBudget:
+  enabled: false
+#  minAvailable: 1
+#  maxUnavailable: 1
+
 ## Additional environment variables to set for fluentd pods
 env: []
   # - name: "FLUENTD_CONF"
@@ -205,6 +214,16 @@ service:
   annotations: {}
   # loadBalancerIP:
   # externalTrafficPolicy: Local
+  ports: []
+  # - name: "forwarder"
+  #   protocol: TCP
+  #   containerPort: 24224
+
+## Headless service for StatefulSet
+##
+headlessService:
+  enabled: false
+  annotations: {}
   ports: []
   # - name: "forwarder"
   #   protocol: TCP
