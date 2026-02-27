@@ -91,6 +91,19 @@ Name of the configMap used for additional configuration files; allows users to o
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Pdb apiVersion according k8s version and capabilities
+*/}}
+{{- define "fluentd.pdb.apiVersion" -}}
+{{- if and (.Capabilities.APIVersions.Has "policy/v1") (semverCompare ">=1.21-0" .Capabilities.KubeVersion.GitVersion) -}}
+policy/v1
+{{- else -}}
+policy/v1beta1
+{{- end }}
+{{- end -}}
+
+
 {{/*
 HPA ApiVersion according k8s version
 Check legacy first so helm template / kustomize will default to latest version
