@@ -14,18 +14,19 @@
 
 ## [UNRELEASED]
 
+## [v0.9.5] - 2026-03-05
+
+### Changed
+
+- Upgraded 10x engine to appVersion 0.9.5.
+- Switch 10x images from GHCR to Docker Hub
+
 ## [v0.9.0] - 2026-02-06
 
 ### Changed
 
-- Upgraded 10x engine to appVersion 0.3.0.
-- Added fluent keyword to chart metadata.
-
-## [v0.2.1] - 2025-01-31
-
-### Changed
-
 - Added 10x Observability engine integration to fluentd.
+- Added fluent keyword to chart metadata.
 - Updated container image to use Log10x fluentd-10x image.
 - Added 10x configuration options (report, regulate, optimize modes).
 - Added GitHub config fetcher init container for fetching config and symbols.

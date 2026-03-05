@@ -7,7 +7,7 @@ kind: DaemonSet
 replicaCount: 1
 
 image:
-  repository: ghcr.io/log-10x/fluent-bit-10x
+  repository: log10x/fluent-bit-10x
   # Overrides the image tag whose default is {{ .Chart.AppVersion }}-{{ .Values.tenx.variant }}
   # Set to "-" to not use the default value
   tag:
@@ -218,7 +218,7 @@ tenx:
 # Most users will not need to modify these values
 #
 githubConfigFetcherImage:
-  repository: ghcr.io/log-10x/github-config-fetcher
+  repository: log10x/github-config-fetcher
   tag: "0.9.0"
   pullPolicy: Always
 

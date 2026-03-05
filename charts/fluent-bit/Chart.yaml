@@ -7,8 +7,8 @@ keywords:
   - logging
   - fluent
   - fluent-bit
-version: 0.9.0
-appVersion: 0.9.0
+version: 0.9.5
+appVersion: 0.9.5
 icon: https://raw.githubusercontent.com/log-10x/fluent-helm-charts/main/icon.png
 home: https://github.com/log-10x/fluent-helm-charts
 sources:
