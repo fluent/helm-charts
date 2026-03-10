@@ -1,5 +1,7 @@
 {{- define "fluent-bit.pod" -}}
-{{- $tenxGHInit := or .Values.tenx.github.config.enabled .Values.tenx.github.symbols.enabled -}}
+{{- $tenxGitInit := and .Values.tenx.enabled (or .Values.tenx.config.git.enabled .Values.tenx.symbols.git.enabled) -}}
+{{- $tenxVolumeInit := and .Values.tenx.enabled (or .Values.tenx.config.volume.enabled .Values.tenx.symbols.volume.enabled) -}}
+{{- $tenxConfigEnabled := or $tenxGitInit $tenxVolumeInit -}}
 {{- if ne .Values.serviceAccount.automountServiceAccountToken nil }}
 automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
 {{- end }}
@@ -28,46 +30,44 @@ dnsConfig:
 hostAliases:
   {{- toYaml . | nindent 2 }}
 {{- end }}
-{{- if and .Values.tenx.enabled $tenxGHInit }}
+{{- if or $tenxGitInit .Values.initContainers }}
 initContainers:
+{{- if $tenxGitInit }}
   - name: tenx-git-config
-    image: "{{ $.Values.githubConfigFetcherImage.repository }}:{{ $.Values.githubConfigFetcherImage.tag }}"
-    imagePullPolicy: {{ $.Values.githubConfigFetcherImage.pullPolicy }}
+    image: "{{ $.Values.tenx.configFetcherImage.repository }}:{{ $.Values.tenx.configFetcherImage.tag }}"
+    imagePullPolicy: {{ $.Values.tenx.configFetcherImage.pullPolicy }}
+    env:
+      - name: GIT_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: {{ include "fluent-bit.fullname" . }}-tenx-git-token
+            key: token
     args:
-      {{- if .Values.tenx.github.config.enabled }}
+      {{- if .Values.tenx.config.git.enabled }}
       - "--config-repo"
-      - "https://{{ .Values.tenx.github.config.token }}@github.com/{{ .Values.tenx.github.config.repo }}.git"
-      {{- if .Values.tenx.github.config.branch }}
+      - {{ .Values.tenx.config.git.url | quote }}
+      {{- if .Values.tenx.config.git.branch }}
       - "--config-branch"
-      - "{{ .Values.tenx.github.config.branch }}"
+      - {{ .Values.tenx.config.git.branch | quote }}
       {{- end }}
       {{- end }}
-      {{- if .Values.tenx.github.symbols.enabled }}
+      {{- if .Values.tenx.symbols.git.enabled }}
       - "--symbols-repo"
-      - "https://{{ .Values.tenx.github.symbols.token }}@github.com/{{ .Values.tenx.github.symbols.repo }}.git"
-      {{- if .Values.tenx.github.symbols.branch }}
+      - {{ .Values.tenx.symbols.git.url | quote }}
+      {{- if .Values.tenx.symbols.git.branch }}
       - "--symbols-branch"
-      - "{{ .Values.tenx.github.symbols.branch }}"
+      - {{ .Values.tenx.symbols.git.branch | quote }}
       {{- end }}
-      {{- if .Values.tenx.github.symbols.path }}
+      {{- if .Values.tenx.symbols.git.path }}
       - "--symbols-path"
-      - "{{ .Values.tenx.github.symbols.path }}"
+      - {{ .Values.tenx.symbols.git.path | quote }}
       {{- end }}
       {{- end }}
     volumeMounts:
-      - name: shared-git-volume
+      - name: tenx-git
         mountPath: /data
-{{- with .Values.initContainers }}
-initContainers:
-{{- if kindIs "string" . }}
-  {{- tpl . $ | nindent 2 }}
-{{- else }}
-  {{-  toYaml . | nindent 2 }}
-{{- end -}}
 {{- end }}
-{{- else }}
 {{- with .Values.initContainers }}
-initContainers:
 {{- if kindIs "string" . }}
   {{- tpl . $ | nindent 2 }}
 {{- else }}
@@ -86,7 +86,14 @@ containers:
     env:
     {{- if .Values.tenx.enabled }}
       - name: TENX_API_KEY
-        value: "{{ .Values.tenx.apiKey }}"
+    {{- if and .Values.tenx.apiKey (ne .Values.tenx.apiKey "NO-API-KEY") }}
+        valueFrom:
+          secretKeyRef:
+            name: {{ include "fluent-bit.fullname" . }}-tenx-api-key
+            key: api-key
+    {{- else }}
+        value: {{ .Values.tenx.apiKey | quote }}
+    {{- end }}
       - name: FLUENT_BIT_CONF_FILE
     {{- if eq $.Values.tenx.kind "optimize" }}
         value: "/fluent-bit/etc/conf/tenx-main-optimize.conf"
@@ -97,15 +104,21 @@ containers:
     {{- end }}
     {{- if .Values.tenx.runtimeName }}
       - name: TENX_RUNTIME_NAME
-        value: "{{ .Values.tenx.runtimeName }}"
+        value: {{ .Values.tenx.runtimeName | quote }}
     {{- end }}
-    {{- if .Values.tenx.github.config.enabled }}
+    {{- if .Values.tenx.config.git.enabled }}
       - name: TENX_CONFIG
         value: "/etc/tenx/git/config"
+    {{- else if .Values.tenx.config.volume.enabled }}
+      - name: TENX_CONFIG
+        value: "/etc/tenx/config"
     {{- end }}
-    {{- if .Values.tenx.github.symbols.enabled }}
+    {{- if .Values.tenx.symbols.git.enabled }}
       - name: TENX_SYMBOLS_PATH
         value: "/etc/tenx/git/config/data/shared/symbols"
+    {{- else if .Values.tenx.symbols.volume.enabled }}
+      - name: TENX_SYMBOLS_PATH
+        value: "/etc/tenx/symbols"
     {{- end }}
     {{- else }}
       - name: FLUENT_BIT_CONF_FILE
@@ -159,9 +172,17 @@ containers:
     volumeMounts:
       - name: config
         mountPath: /fluent-bit/etc/conf
-    {{- if and .Values.tenx.enabled $tenxGHInit }}
-      - name: shared-git-volume
+    {{- if $tenxGitInit }}
+      - name: tenx-git
         mountPath: /etc/tenx/git
+    {{- end }}
+    {{- if and .Values.tenx.enabled .Values.tenx.config.volume.enabled }}
+      - name: tenx-config-volume
+        mountPath: /etc/tenx/config
+    {{- end }}
+    {{- if and .Values.tenx.enabled .Values.tenx.symbols.volume.enabled }}
+      - name: tenx-symbols-volume
+        mountPath: /etc/tenx/symbols
     {{- end }}
     {{- if or .Values.luaScripts .Values.hotReload.enabled }}
       - name: luascripts
@@ -212,9 +233,19 @@ volumes:
   - name: config
     configMap:
       name: {{ default (include "fluent-bit.fullname" .) .Values.existingConfigMap }}
-{{- if and .Values.tenx.enabled $tenxGHInit }}
-  - name: shared-git-volume
+{{- if $tenxGitInit }}
+  - name: tenx-git
     emptyDir: {}
+{{- end }}
+{{- if and .Values.tenx.enabled .Values.tenx.config.volume.enabled }}
+  - name: tenx-config-volume
+    persistentVolumeClaim:
+      claimName: {{ .Values.tenx.config.volume.claimName }}
+{{- end }}
+{{- if and .Values.tenx.enabled .Values.tenx.symbols.volume.enabled }}
+  - name: tenx-symbols-volume
+    persistentVolumeClaim:
+      claimName: {{ .Values.tenx.symbols.volume.claimName }}
 {{- end }}
 {{- if or .Values.luaScripts .Values.hotReload.enabled }}
   - name: luascripts

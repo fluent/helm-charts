@@ -64,20 +64,25 @@ Your 10x API key for metrics reporting. Default: `"NO-API-KEY"`
 ### tenx.kind
 10x mode of operation. Options: `report`, `regulate` (default), `optimize`
 
-### tenx.github.config
-Configuration for fetching 10x config from GitHub:
-- `enabled`: Enable config fetching (default: `false`)
-- `token`: GitHub access token
-- `repo`: Repository in format `user/repo`
-- `branch`: Optional branch name
+### tenx.gitToken
+Git access token for fetching config/symbols from private Git repositories. Works with any Git provider (GitHub, GitLab, Bitbucket, self-hosted). When set, a Kubernetes Secret is created and injected via `secretKeyRef`.
 
-### tenx.github.symbols
-Configuration for fetching 10x symbols from GitHub:
-- `enabled`: Enable symbols fetching (default: `false`)
-- `token`: GitHub access token
-- `repo`: Repository in format `user/repo`
-- `branch`: Optional branch name
-- `path`: Optional sub-folder path within the repo
+### tenx.config
+Configuration for fetching 10x config:
+- `git.enabled`: Enable config fetching from a git repository (default: `false`)
+- `git.url`: Full HTTPS URL of the git repository
+- `git.branch`: Optional branch name
+- `volume.enabled`: Mount an existing PVC for config (default: `false`)
+- `volume.claimName`: Name of the PersistentVolumeClaim
+
+### tenx.symbols
+Configuration for fetching 10x symbols:
+- `git.enabled`: Enable symbols fetching from a git repository (default: `false`)
+- `git.url`: Full HTTPS URL of the git repository
+- `git.branch`: Optional branch name
+- `git.path`: Optional sub-folder path within the repo
+- `volume.enabled`: Mount an existing PVC for symbols (default: `false`)
+- `volume.claimName`: Name of the PersistentVolumeClaim
 
 ## Usage
 

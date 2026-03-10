@@ -14,6 +14,13 @@
 
 ## [UNRELEASED]
 
+## [v0.9.7] - 2026-03-10
+
+### Changed
+
+- Added custom configuration option via volume mount
+- Switched github config fetcher to git agnostic one
+
 ## [v0.9.5] - 2026-03-05
 
 ### Changed
@@ -36,5 +43,7 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/log-10x/fluent-helm-charts/tree/main/charts/fluentd
+[v0.9.7]: https://github.com/log-10x/fluent-helm-charts/releases/tag/fluentd-0.9.7
+[v0.9.5]: https://github.com/log-10x/fluent-helm-charts/releases/tag/fluentd-0.9.5
 [v0.9.0]: https://github.com/log-10x/fluent-helm-charts/releases/tag/fluentd-0.9.0
 [v0.2.1]: https://github.com/log-10x/fluent-helm-charts/releases/tag/fluentd-0.2.1

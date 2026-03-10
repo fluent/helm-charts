@@ -39,53 +39,64 @@ tenx:
   # If empty, will use default from 10x configuration
   runtimeName:
 
-  # Control fetching 10x config and/or symbols from github.
-  # If either config.enabled or symbols.enabled are true, the deployment will setup an
-  # init container to fetch config/symbols before the fluent-bit pod is live, and will share
-  # the result files via a shared volume 'shared-git-volume' that's mounted to the fluent-bit
-  # pod at '/etc/tenx/git'
+  # Git access token for fetching config/symbols from private Git repositories.
+  # Works with any Git provider (GitHub, GitLab, Bitbucket, self-hosted).
+  # When set, a Kubernetes Secret is created and injected via secretKeyRef.
   #
-  # To learn more about the 10 github config fetcher, see:
-  # https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher
+  gitToken: ""
+
+  # Git config fetcher init container image
+  # Used to clone config/symbols repositories when git integration is enabled
   #
-  github:
-    config:
-      # If config.enabled is true, the init container will fetch the config from github.
+  configFetcherImage:
+    repository: log10x/git-config-fetcher
+    tag: "0.9.7"
+    pullPolicy: IfNotPresent
+
+  # Control fetching 10x config and/or symbols from a git repository or a volume mount.
+  # If either config or symbols git is enabled, the deployment will setup an init container
+  # to fetch config/symbols before the fluentd pod is live, and will share the result files
+  # via a shared volume 'tenx-git' that's mounted at '/etc/tenx/git'
+  #
+  # To learn more about the git config fetcher, see:
+  # https://github.com/log-10x/docker-images/tree/main/ext/git-config-fetcher
+  #
+  config:
+    git:
+      # If enabled, the init container will clone the config from a git repository.
       # The config will be at '/etc/tenx/git/config', and the TENX_CONFIG env var will
       # be set to point to it.
       #
-      # Otherwise, the default config bundled with the fluent-bit + 10x image will be used.
+      # Otherwise, the default config bundled with the fluentd + 10x image will be used.
       #
       enabled: false
 
-      # Access token for GitHub.
-      # To learn more, see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+      # Full HTTPS URL of the git repository
       #
-      token: "MY-TOKEN"
-
-      # The repo to fetch the config from
-      #
-      repo: "user-name/config-repo"
+      url: ""
 
       # Optional - a branch to pull.
       # If omitted, the default repo branch will be used.
       # branch: "main"
 
-    symbols:
-      # If symbols.enabled is true, the init container will fetch the symbols from github.
-      # The symbols will be at '/etc/tenx/git/config/data/shared/symbols', and the environment
-      # variable TENX_SYMBOLS_PATH will be set to match
+    volume:
+      # Mount an existing PersistentVolumeClaim for config (for air-gapped environments
+      # or config managed outside of Git).
+      #
+      enabled: false
+      claimName: ""
+
+  symbols:
+    git:
+      # If enabled, the init container will clone the symbols from a git repository.
+      # The symbols will be at '/etc/tenx/git/config/data/shared/symbols', and the
+      # environment variable TENX_SYMBOLS_PATH will be set to match.
       #
       enabled: false
 
-      # Access token for GitHub.
-      # To learn more, see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+      # Full HTTPS URL of the git repository
       #
-      token: "MY-TOKEN"
-
-      # The repo to fetch the config from
-      #
-      repo: "user-name/symbols-repo"
+      url: ""
 
       # Optional - a branch to pull.
       # If omitted, the default repo branch will be used.
@@ -94,6 +105,13 @@ tenx:
       # Optional - a sub folder inside the repo where symbols were placed.
       # If omitted, the entire repo is considered as the symbols path.
       # path: "tenx/my-app/symbols"
+
+    volume:
+      # Mount an existing PersistentVolumeClaim for symbols (for air-gapped environments
+      # or symbols managed outside of Git).
+      #
+      enabled: false
+      claimName: ""
 
   # Main config files, used internally by the template to setup the correct overall fluentd configuration
   #
@@ -277,15 +295,6 @@ tenx:
       </label>
 
     # REMINDER NOTE - also look at 'originalFluentOutput' for complete configuration
-
-# GitHub config fetcher init container image
-# Used to clone config/symbols repositories when github integration is enabled
-# Most users will not need to modify these values
-#
-githubConfigFetcherImage:
-  repository: log10x/github-config-fetcher
-  tag: "0.9.0"
-  pullPolicy: Always
 
 ## Optional array of imagePullSecrets containing private registry credentials
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
