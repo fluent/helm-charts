@@ -12,7 +12,7 @@ The chart is derived from the base [Fluentd chart](https://github.com/fluent/hel
 
 1. Container image is derived from [Fluentd k8s daemonset](https://github.com/fluent/fluentd-kubernetes-daemonset), with the 10x engine on it. For more details, see [Dockerfile](https://github.com/log-10x/docker-images/blob/main/fwd/fluentd/daemonset/Dockerfile)
 2. Fluentd configuration is adapted to include emitting/receiving events to/from 10x. For more details on how Fluentd communicates with 10x, see [here](https://doc.log10x.com/run/input/forwarder/fluentd/)
-3. Added easy fetching of 10x application configuration and [symbols](https://doc.log10x.com/run/symbol/) from Github using an init container which pulls and mounts the needed files onto the main pod. For more details, see [Dockerfile](https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher/Dockerfile) 
+3. Added easy fetching of 10x application configuration and [symbols](https://doc.log10x.com/run/symbol/) from any Git provider using an init container which pulls and mounts the needed files onto the main pod. For more details, see [git-config-fetcher](https://github.com/log-10x/docker-images/tree/main/ext/git-config-fetcher)
 
 ## Installation
 

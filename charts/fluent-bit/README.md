@@ -12,7 +12,7 @@ The chart is derived from the base [Fluent Bit chart](https://github.com/fluent/
 
 1. Container image is derived from the official Fluent Bit image, with the 10x engine on it. For more details, see [Dockerfile](https://github.com/log-10x/docker-images/blob/main/fwd/fluentbit/Dockerfile)
 2. Fluent Bit configuration is adapted to include emitting/receiving events to/from 10x. For more details on how Fluent Bit communicates with 10x, see [here](https://doc.log10x.com/run/input/forwarder/fluentbit/)
-3. Added easy fetching of 10x application configuration and [symbols](https://doc.log10x.com/run/symbol/) from Github using an init container which pulls and mounts the needed files onto the main pod. For more details, see [Dockerfile](https://github.com/log-10x/docker-images/tree/main/ext/github-config-fetcher/Dockerfile)
+3. Added easy fetching of 10x application configuration and [symbols](https://doc.log10x.com/run/symbol/) from any Git provider using an init container which pulls and mounts the needed files onto the main pod. For more details, see [git-config-fetcher](https://github.com/log-10x/docker-images/tree/main/ext/git-config-fetcher)
 
 ## Installation
 
