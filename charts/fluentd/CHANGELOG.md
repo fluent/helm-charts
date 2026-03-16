@@ -16,7 +16,7 @@
 
 ### Changed
 
-- Update Fluentd OCI image to [v1.19.1](https://github.com/fluent/fluentd/releases/tag/v1.19.1). ([#661](https://github.com/fluent/helm-charts/pull/661)) _@discostur_
+- Update Fluentd OCI image to [v1.19.2](https://github.com/fluent/fluentd/releases/tag/v1.19.2). ([#661](https://github.com/fluent/helm-charts/pull/661)) _@discostur_
 
 ## [v0.5.3] - 2025-05-05
 
