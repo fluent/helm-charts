@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v0.56.0] - 2026-02-27
+
+### Added
+
+- VPA recommender may be specified with `.autoscaling.vpa.recommender`
+
 ## [v0.55.1] - 2026-02-27
 
 ### Changed
@@ -41,7 +47,9 @@
 <!--
 RELEASE LINKS
 -->
+
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-bit
+[v0.56.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.56.0
 [v0.55.1]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.55.1
 [v0.55.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.55.0
 [v0.54.1]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.54.1
