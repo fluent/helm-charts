@@ -21,6 +21,9 @@ nameOverride:
 # -- (string) Override the full name of the chart.
 fullnameOverride:
 
+# -- (string) Override the namespace of the chart.
+namespaceOverride:
+
 # -- Labels to add to all chart resources.
 commonLabels: {}
 
