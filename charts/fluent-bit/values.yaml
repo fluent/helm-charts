@@ -109,7 +109,7 @@ service:
   # nodePort: 30020
   # clusterIP: 172.16.10.1
   annotations: {}
-  #   prometheus.io/path: "/api/v1/metrics/prometheus"
+  #   prometheus.io/path: "/api/v2/metrics/prometheus"
   #   prometheus.io/port: "2020"
   #   prometheus.io/scrape: "true"
   externalIPs: []
@@ -206,7 +206,7 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /api/v1/health
+    path: /api/v2/health
     port: http
 
 resources: {}
