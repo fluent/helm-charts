@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v1.0.0] - 2026-03-26
+
+### Changed
+
+- Upgraded 10x engine to appVersion 1.0.0
+
 ## [v0.9.7] - 2026-03-10
 
 ### Changed
