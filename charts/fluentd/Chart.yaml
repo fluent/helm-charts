@@ -8,8 +8,8 @@ keywords:
   - fluent
   - fluentd
 # type: application
-version: 1.0.0
-appVersion: 1.0.0
+version: 1.0.5
+appVersion: 1.0.5
 icon: https://raw.githubusercontent.com/log-10x/fluent-helm-charts/main/icon.png
 home: https://github.com/log-10x/fluent-helm-charts
 sources:
