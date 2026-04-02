@@ -6055,6 +6055,36 @@ entries:
       artifacthub.io/alternativeName: fluent-bit
       artifacthub.io/changes: |-
         - kind: changed
+          description: "Update Fluent Bit OCI image to v5.0.1."
+    apiVersion: v2
+    appVersion: 5.0.1
+    created: "2026-04-02T09:48:36.564004377Z"
+    description: Helm chart for Fluent Bit running as a collector DaemonSet.
+    digest: 29dbaa1dea60703976e844c8f98ed76998ec8d8a97abb549d189fae9f51c0b86
+    home: https://fluentbit.io/
+    icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluent-bit-collector/icon.png
+    keywords:
+    - fluent
+    - fluentd
+    - fluent bit
+    - logging
+    - collector
+    maintainers:
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+      url: https://github.com/stevehipwell
+    name: fluent-bit-collector
+    sources:
+    - https://github.com/fluent/fluent-bit/
+    - https://github.com/fluent/helm-charts/
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-bit-collector-1.0.1/fluent-bit-collector-1.0.1.tgz
+    version: 1.0.1
+  - annotations:
+      artifacthub.io/alternativeName: fluent-bit
+      artifacthub.io/changes: |-
+        - kind: changed
           description: "Update Fluent Bit OCI image to v5.0.0."
     apiVersion: v2
     appVersion: 5.0.0
@@ -7295,4 +7325,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-02T09:47:39.64054206Z"
+generated: "2026-04-02T09:48:36.564418369Z"
