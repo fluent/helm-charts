@@ -1,0 +1,45 @@
+{{- $serviceName := include "fluent-bit-aggregator.fullname" . -}}
+{{- range $i, $v := .Values.ingresses -}}
+{{- $servicePort := $v.servicePort -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ (printf "%s-%s" ((include "fluent-bit-aggregator.fullname" $) | trunc 60) (toString $i)) | trunc 63 | trimSuffix "-" }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "fluent-bit-aggregator.labels" $ | nindent 4 }}
+  {{- with $v.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ $v.className }}
+  rules:
+  {{- range $v.hosts }}
+    - host: {{ quote .host }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ $serviceName }}
+                port:
+                {{- if regexMatch "^[0-9]+$" (toString $servicePort) }}
+                  number: {{ $servicePort }}
+                {{- else }}
+                  name: {{ $servicePort }}
+                {{- end }}
+        {{- end }}
+  {{- end }}
+  {{- with $v.tls }}
+  tls:
+  {{- range . }}
+    - hosts:
+        {{- toYaml .hosts | nindent 8 }}
+      secretName: {{ .secretName }}
+  {{- end }}
+  {{- end }}
+---
+{{- end }}

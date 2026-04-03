@@ -120,7 +120,7 @@ service:
   # nodePort: 30020
   # clusterIP: 172.16.10.1
   annotations: {}
-  #   prometheus.io/path: "/api/v1/metrics/prometheus"
+  #   prometheus.io/path: "/api/v2/metrics/prometheus"
   #   prometheus.io/port: "2020"
   #   prometheus.io/scrape: "true"
   externalIPs: []
@@ -217,7 +217,7 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /api/v1/health
+    path: /api/v2/health
     port: http
 
 resources: {}
@@ -267,6 +267,9 @@ autoscaling:
     minAllowed: {}
     # cpu: 200m
     # memory: 100Mi
+
+    # Name of the VPA recommender that will provide recommendations for vertical scaling.
+    recommender: default
 
     updatePolicy:
       # Specifies whether recommended updates are applied when a Pod is started and whether recommended updates

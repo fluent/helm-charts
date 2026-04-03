@@ -1,0 +1,235 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "fluent-bit-aggregator.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluent-bit-aggregator.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "fluent-bit-aggregator.headlessServiceName" . }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- with .Values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.ordinals }}
+  ordinals:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.podManagementPolicy }}
+  podManagementPolicy: {{ . }}
+  {{- end }}
+  {{- with .Values.minReadySeconds }}
+  minReadySeconds: {{ . }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "fluent-bit-aggregator.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "fluent-bit-aggregator.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if or (not .Values.hotReload.enabled) .Values.podAnnotations }}
+      annotations:
+      {{- if not .Values.hotReload.enabled }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-config.yaml") . | sha256sum }}
+      {{- if .Values.luaScripts }}
+        checksum/scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
+      {{- end }}
+      {{- end }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- end }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "fluent-bit-aggregator.serviceAccountName" . }}
+    {{- if ne .Values.automountServiceAccountToken nil }}
+      automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
+    {{- end }}
+    {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.priorityClassName }}
+      priorityClassName: {{ . }}
+    {{- end }}
+    {{- with .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ . }}
+    {{- end }}
+      containers:
+        - name: aggregator
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: {{ include "fluent-bit-aggregator.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: POD_INDEX
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+          {{- range $p := .Values.service.additionalPorts }}
+            - name: {{ printf "ADDITIONAL_PORT_%s" (upper $p.name | replace "-" "_") }}
+              value: {{ quote $p.containerPort }}
+          {{- end }}
+            - name: CONFIG_PATH
+              value: /fluent-bit/etc/conf
+            - name: STORAGE_PATH
+              value: /fluent-bit/data
+          {{- if .Values.luaScripts }}
+            - name: SCRIPTS_PATH
+              value: /fluent-bit/scripts
+          {{- end }}
+          {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          args:
+            - --workdir=/fluent-bit/etc
+            - --config=/fluent-bit/etc/conf/fluent-bit.yaml
+          {{- if .Values.hotReload.enabled }}
+            - --enable-hot-reload
+          {{- end }}
+          {{- with .Values.args }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.httpPort }}
+              protocol: TCP
+          {{- range .Values.service.additionalPorts }}
+            - name: {{ .name }}
+              containerPort: {{ default .port .containerPort }}
+              protocol: {{ default "TCP" .protocol }}
+          {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /fluent-bit/etc/conf
+          {{- if or .Values.hotReload.enabled .Values.luaScripts }}
+            - name: scripts
+              mountPath: /fluent-bit/scripts
+          {{- end }}
+            - name: data
+              mountPath: /fluent-bit/data
+          {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- if .Values.hotReload.enabled }}
+        - name: reloader
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+            capabilities:
+              drop:
+                - ALL
+          image: {{ include "fluent-bit-aggregator.reloaderImage" . }}
+          imagePullPolicy: {{ .Values.hotReload.image.pullPolicy }}
+          args:
+            - {{ printf "-webhook-url=http://localhost:%s/api/v2/reload" (toString .Values.service.httpPort) }}
+            - -volume-dir=/watch/config
+            - -volume-dir=/watch/scripts
+          {{- range $idx, $val := .Values.hotReload.extraWatchVolumes }}
+            - {{ printf "-volume-dir=/watch/extra-%d" (int $idx) }}
+          {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /watch/config
+            - name: scripts
+              mountPath: /watch/scripts
+          {{- range $idx, $val := .Values.hotReload.extraWatchVolumes }}
+            - name: {{ $val }}
+              mountPath: {{ printf "/watch/extra-%d" (int $idx) }}
+          {{- end }}
+          {{- with .Values.hotReload.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "fluent-bit-aggregator.configConfigMapName" . }}
+      {{- if or .Values.hotReload.enabled .Values.luaScripts }}
+        - name: scripts
+          configMap:
+            name: {{ include "fluent-bit-aggregator.scriptsConfigMapName" . }}
+      {{- end }}
+      {{- if not .Values.persistence.enabled }}
+        - name: data
+          emptyDir: {}
+      {{- end }}
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      {{- $_ := include "fluent-bit-aggregator.patchAffinity" $ }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      {{- $_ := include "fluent-bit-aggregator.patchTopologySpreadConstraints" $ }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          {{- include "fluent-bit-aggregator.selectorLabels" . | nindent 10 }}
+        {{- with .Values.persistence.annotations }}
+        annotations:
+          {{- . | toYaml | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.accessMode | quote }}
+        {{- with .Values.persistence.storageClass }}
+        {{- if (eq "-" .) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+  {{- if semverCompare ">= 1.27-0" .Capabilities.KubeVersion.Version }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: {{ ternary "Retain" "Delete" .Values.persistence.retainDeleted }}
+    whenScaled: {{ ternary "Retain" "Delete" .Values.persistence.retainScaled }}
+  {{- end }}
+  {{- end }}

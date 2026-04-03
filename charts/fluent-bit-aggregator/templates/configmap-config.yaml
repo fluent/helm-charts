@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fluent-bit-aggregator.configConfigMapName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluent-bit-aggregator.labels" . | nindent 4 }}
+data:
+{{- $env := merge (dict "STORAGE_PATH" "/fluent-bit/data") .Values.config.env }}
+{{- range $i, $p := .Values.service.additionalPorts }}
+{{- $env = merge $env (dict (printf "ADDITIONAL_PORT_%d" $i) (toString $p.containerPort)) }}
+{{- end }}
+{{- $service := merge (dict "daemon" false "http_server" true "http_Port" .Values.service.httpPort "hot_reload" .Values.hotReload.enabled "storage.path" "${STORAGE_PATH}") .Values.config.service }}
+{{- $config := dict "service" $service "plugins" .Values.config.plugins "parsers" .Values.config.parsers "multiline_parsers" .Values.config.multilineParsers "pipeline" .Values.config.pipeline "upstream_servers" .Values.config.upstreamServers "includes" .Values.config.includes }}
+  fluent-bit.yaml: |-
+    env:
+{{- range $k, $v := $env }}
+      {{ printf "%s: %s" $k ((tpl $v $) | quote) }}
+{{- end }}
+{{- toYaml $config | nindent 4 }}
+{{- range $k, $v := .Values.extraConfig }}
+  {{ printf "%s.yaml" $k }}: |-
+{{- toYaml $v | nindent 4 }}
+{{- end }}

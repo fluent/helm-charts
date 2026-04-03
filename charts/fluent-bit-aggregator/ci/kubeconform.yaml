@@ -1,0 +1,116 @@
+service:
+  trafficDistribution: PreferClose
+
+ingresses:
+  - servicePort: 24224
+    className: my-ingress-class
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - chart-example.local
+        secretName: chart-example-tls
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 12
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 3600
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 33%
+  unhealthyPodEvictionPolicy: AlwaysAllow
+
+priorityClassName: system-cluster-critical
+terminationGracePeriodSeconds: 120
+
+env:
+  - name: TEST
+    value: my-value
+
+persistence:
+  enabled: true
+  annotations: {}
+  accessMode: ReadWriteOnce
+  storageClass: my-storage-class
+  size: 8Gi
+  retainDeleted: false
+  retainScaled: true
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 256Mi
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          topologyKey: kubernetes.io/hostname
+        weight: 100
+
+topologySpreadConstraints:
+  - maxSkew: 1
+    minDomains: 3
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+    nodeAffinityPolicy: Honor
+    nodeTaintsPolicy: Honor
+
+tolerations:
+  - key: system
+    operator: Exists
+
+serviceMonitor:
+  enabled: true
+
+dashboards:
+  enabled: true
+
+config:
+  parsers:
+    - name: docker_no_time
+      format: json
+      time_keep: false
+      time_key: time
+      time_format: "%Y-%m-%dT%H:%M:%S.%L"
+
+  includes:
+    - upstream.yaml
+
+extraConfig:
+  upstream:
+    upstream_servers:
+      - name: test
+        nodes:
+          - name: node-1
+            host: 127.0.0.1
+            port: 43000
+
+luaScripts:
+  test.lua: |-
+    function append_tag(tag, timestamp, record)
+        new_record = record
+        new_record["tag"] = tag
+        return 1, timestamp, new_record
+    end
+
+hotReload:
+  enabled: true

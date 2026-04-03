@@ -1,0 +1,64 @@
+service:
+  enabled: true
+  additionalPorts:
+    - name: http-otel
+      port: 4318
+      containerPort: 4318
+      protocol: TCP
+
+priorityClassName: system-node-critical
+
+env:
+  - name: TEST
+    value: my-value
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 256Mi
+
+serviceMonitor:
+  enabled: true
+
+dashboards:
+  enabled: true
+
+kubeletEndpoint:
+  enabled: true
+
+storage:
+  enabled: true
+
+config:
+  parsers:
+    - name: docker_no_time
+      format: json
+      time_keep: false
+      time_key: time
+      time_format: "%Y-%m-%dT%H:%M:%S.%L"
+
+  includes:
+    - upstream.yaml
+
+extraConfig:
+  upstream:
+    upstream_servers:
+      - name: test
+        nodes:
+          - name: node-1
+            host: 127.0.0.1
+            port: 43000
+
+luaScripts:
+  test.lua: |-
+    function append_tag(tag, timestamp, record)
+        new_record = record
+        new_record["tag"] = tag
+        return 1, timestamp, new_record
+    end
+
+hotReload:
+  enabled: true
