@@ -14,6 +14,15 @@
 
 ## [UNRELEASED]
 
+### Changed
+
+- Added support for serviceAccount.automountToken to service account and pod spec. ([#633](https://github.com/fluent/helm-charts/pull/633)) _@gsmith-sas_
+- Added support for automountServiceAccountToken (pod-level override) to pod spec. ([#633](https://github.com/fluent/helm-charts/pull/633)) _@gsmith-sas_
+
+### Deprecated
+
+- Deprecated serviceAccount.automountServiceAccountToken (use serviceAccount.automountToken instead). ([#633](https://github.com/fluent/helm-charts/pull/633)) _@gsmith-sas_
+
 ## [v0.57.2] - 2026-04-02
 
 ### Changed
