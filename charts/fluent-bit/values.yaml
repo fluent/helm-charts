@@ -201,7 +201,7 @@ lifecycle: {}
 
 livenessProbe:
   httpGet:
-    path: /
+    path: /api/v2/health
     port: http
 
 readinessProbe:
