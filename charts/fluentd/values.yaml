@@ -181,6 +181,10 @@ initContainers: []
 ## NOTE: This will replace ALL default files in the aforementioned path!
 # extraFilesConfigMapNameOverride: ""
 
+## Checksum of externally managed extra configMap files.
+## When set, this value is used to trigger pod restarts on config changes.
+# extraFilesConfigMapChecksum: ""
+
 mountVarLogDirectory: true
 mountDockerContainersDirectory: true
 

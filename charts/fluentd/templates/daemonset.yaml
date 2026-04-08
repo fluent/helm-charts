@@ -26,7 +26,10 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/fluentd-configurations-cm.yaml") . | sha256sum }}
+        {{- $checksum := include "fluentd.configChecksum" . -}}
+        {{- if $checksum }}
+        checksum/config: {{ $checksum }}
+        {{- end }}
         {{- with .Values.podAnnotations }}
           {{- toYaml . | nindent 8 }}
         {{- end }}

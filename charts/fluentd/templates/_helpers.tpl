@@ -92,6 +92,17 @@ Name of the configMap used for additional configuration files; allows users to o
 {{- end -}}
 
 {{/*
+Compute checksum for config to trigger pod restart.
+*/}}
+{{- define "fluentd.configChecksum" -}}
+{{- if .Values.extraFilesConfigMapNameOverride -}}
+  {{- default "" .Values.extraFilesConfigMapChecksum -}}
+{{- else -}}
+  {{- include (print $.Template.BasePath "/fluentd-configurations-cm.yaml") . | sha256sum -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 HPA ApiVersion according k8s version
 Check legacy first so helm template / kustomize will default to latest version
 */}}
