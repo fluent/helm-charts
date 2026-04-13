@@ -140,7 +140,7 @@ annotations: {}
 ##
 labels: {}
 
-## Annotations to be added to fluentd pods
+## Annotations to be added to fluentd pods. Supports tpl evaluation.
 ##
 podAnnotations: {}
 
