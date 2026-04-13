@@ -26,12 +26,9 @@ spec:
   template:
     metadata:
       annotations:
-        {{- $checksum := include "fluentd.configChecksum" . -}}
-        {{- if $checksum }}
-        checksum/config: {{ $checksum }}
-        {{- end }}
-        {{- with .Values.podAnnotations }}
-          {{- toYaml . | nindent 8 }}
+        checksum/config: {{ include (print $.Template.BasePath "/fluentd-configurations-cm.yaml") . | sha256sum }}
+        {{- range $k, $v := .Values.podAnnotations }}
+        {{ $k }}: {{ tpl ($v | toString) $ | quote }}
         {{- end }}
       labels:
         {{- include "fluentd.selectorLabels" . | nindent 8 }}
