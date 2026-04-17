@@ -1,6 +1,6 @@
 # fluent-bit
 
-![Version: 0.57.2](https://img.shields.io/badge/Version-0.57.2-informational?style=flat-square) ![AppVersion: 5.0.2](https://img.shields.io/badge/AppVersion-5.0.2-informational?style=flat-square)
+![Version: 0.57.3](https://img.shields.io/badge/Version-0.57.3-informational?style=flat-square) ![AppVersion: 5.0.3](https://img.shields.io/badge/AppVersion-5.0.3-informational?style=flat-square)
 
 Fast and lightweight log processor and forwarder for Linux, OSX and BSD family operating systems.
 
@@ -26,7 +26,7 @@ Fast and lightweight log processor and forwarder for Linux, OSX and BSD family o
 To install the chart using the recommended OCI method you can use the following command.
 
 ```shell
-helm upgrade --install fluent-bit oci://ghcr.io/fluent/helm-charts/fluent-bit --version 0.57.2
+helm upgrade --install fluent-bit oci://ghcr.io/fluent/helm-charts/fluent-bit --version 0.57.3
 ```
 
 #### Verification
@@ -34,7 +34,7 @@ helm upgrade --install fluent-bit oci://ghcr.io/fluent/helm-charts/fluent-bit --
 As the OCI chart release is signed by [Cosign](https://github.com/sigstore/cosign) you can verify the chart before installing it by running the following command.
 
 ```shell
-cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluent-bit:0.57.2
+cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluent-bit:0.57.3
 ```
 
 ### Non-OCI Repository
@@ -43,7 +43,7 @@ Alternatively you can use the legacy non-OCI method via the following commands.
 
 ```shell
 helm repo add fluent https://fluent.github.io/helm-charts/
-helm upgrade --install fluent-bit fluent/fluent-bit --version 0.57.2
+helm upgrade --install fluent-bit fluent/fluent-bit --version 0.57.3
 ```
 
 ## Values

@@ -2,8 +2,8 @@ apiVersion: v2
 name: fluent-bit-aggregator
 description: Helm chart for Fluent Bit running as an aggregation stateful set.
 type: application
-version: 1.0.2
-appVersion: 5.0.2
+version: 1.0.3
+appVersion: 5.0.3
 keywords:
   - fluent
   - fluentd
