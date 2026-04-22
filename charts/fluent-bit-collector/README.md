@@ -89,4 +89,3 @@ Helm chart for Fluent Bit running as a collector DaemonSet.
 | terminationGracePeriodSeconds | int | `nil` | Termination grace period for the pod in seconds. |
 | tolerations | list | `[]` | Node taints which will be tolerated for pod scheduling. |
 | updateStrategy | object | `{}` | Update strategy for the `DaemonSet`. |
-

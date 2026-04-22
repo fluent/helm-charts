@@ -106,4 +106,3 @@ Helm chart for Fluent Bit running as an aggregation stateful set.
 | tolerations | list | `[]` | Node taints which will be tolerated for pod scheduling. |
 | topologySpreadConstraints | list | `[]` | Topology spread constraints for pod scheduling. If an explicit label selector is not provided one will be created from the pod selector labels. |
 | updateStrategy | object | `{}` | Update strategy for the `StatefulSet`. |
-

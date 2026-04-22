@@ -23,4 +23,3 @@ Custom Resource Definitions (CRDs) for Fluent Bit. Provides full Helm lifecycle 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | additionalAnnotations | object | `{}` | Additional annotations for all CRDs (e.g., helm.sh/resource-policy: keep to prevent deletion on uninstall) |
-
