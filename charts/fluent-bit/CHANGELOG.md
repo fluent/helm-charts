@@ -22,6 +22,11 @@
 ### Deprecated
 
 - Deprecated serviceAccount.automountServiceAccountToken (use serviceAccount.automountToken instead). ([#633](https://github.com/fluent/helm-charts/pull/633)) _@gsmith-sas_
+## [v0.57.3] - 2026-04-17
+
+### Changed
+
+- Update _Fluent Bit_ OCI image to [v5.0.3](https://github.com/fluent/fluent-bit/releases/tag/v5.0.3). ([#710](https://github.com/fluent/helm-charts/pull/710)) _@stevehipwell_
 
 ## [v0.57.2] - 2026-04-02
 
@@ -76,6 +81,7 @@ RELEASE LINKS
 -->
 
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-bit
+[v0.57.3]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.57.3
 [v0.57.2]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.57.2
 [v0.57.1]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.57.1
 [v0.57.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.57.0
