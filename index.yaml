@@ -6384,6 +6384,37 @@ entries:
     - https://github.com/fluent/helm-charts/releases/download/fluent-bit-collector-1.0.0-beta.1/fluent-bit-collector-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
   fluent-operator:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
+          description: "Initial release of v4 chart."
+    apiVersion: v2
+    appVersion: 3.7.0
+    created: "2026-04-29T09:03:27.654712389Z"
+    description: Kubernetes operator for Fluent Bit and Fluentd—define collectors,
+      pipelines, and outputs as custom resources.
+    digest: d07e47d68ce041c34d933f750af3cfbb4f9e73210b20b15770b8852313a88386
+    home: https://github.com/fluent/fluent-operator
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    - operator
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    - email: marco.franssen@gmail.com
+      name: marcofranssen
+      url: https://marcofranssen.nl
+    - email: joshbaird@gmail.com
+      name: joshuabaird
+    name: fluent-operator
+    sources:
+    - https://github.com/fluent/fluent-operator
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-4.0.0/fluent-operator-4.0.0.tgz
+    version: 4.0.0
   - apiVersion: v2
     appVersion: 3.5.0
     created: "2025-10-24T19:56:10.369244624Z"
@@ -7573,4 +7604,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-27T13:37:48.255343825Z"
+generated: "2026-04-29T09:03:27.655092359Z"
