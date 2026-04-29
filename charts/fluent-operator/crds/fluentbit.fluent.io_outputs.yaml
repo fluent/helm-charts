@@ -1,25 +1,24 @@
----
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.18.0
-  name: clusteroutputs.fluentbit.fluent.io
+  name: outputs.fluentbit.fluent.io
 spec:
   group: fluentbit.fluent.io
   names:
-    kind: ClusterOutput
-    listKind: ClusterOutputList
-    plural: clusteroutputs
+    kind: Output
+    listKind: OutputList
+    plural: outputs
     shortNames:
-    - cfbo
-    singular: clusteroutput
-  scope: Cluster
+    - fbo
+    singular: output
+  scope: Namespaced
   versions:
   - name: v1alpha2
     schema:
       openAPIV3Schema:
-        description: ClusterOutput is the Schema for the cluster-level outputs API
+        description: Output is the schema for namespace level output API
         properties:
           apiVersion:
             description: |-
@@ -1582,6 +1581,10 @@ spec:
                       Specify the name of the time key in the output record.
                       To disable the time key just set the value to false.
                     type: string
+                  logResponsePayload:
+                    description: Specify if the response paylod should be logged or
+                      not.
+                    type: boolean
                   networking:
                     description: Include fluentbit networking options for this output-plugin
                     properties:
@@ -1721,6 +1724,10 @@ spec:
                         description: Hostname to be used for TLS SNI extension
                         type: string
                     type: object
+                  totalLimitSize:
+                    description: Limit the maximum number of Chunks in the filesystem
+                      for the current output logical destination.
+                    type: string
                   uri:
                     description: 'Specify an optional HTTP URI for the target web
                       server, e.g: /something'
@@ -3083,6 +3090,10 @@ spec:
                         description: Hostname to be used for TLS SNI extension
                         type: string
                     type: object
+                  totalLimitSize:
+                    description: Limit the maximum number of Chunks in the filesystem
+                      for the current output logical destination.
+                    type: string
                   tracesUri:
                     description: 'Specify an optional HTTP URI for the target web
                       server listening for traces, e.g: /v1/traces'

@@ -1,27 +1,23 @@
 apiVersion: v2
 name: fluent-operator
-description: Fluent Operator provides great flexibility in building a logging layer based on Fluent Bit and Fluentd.
+description: Kubernetes operator for Fluent Bit and Fluentd—define collectors, pipelines, and outputs as custom resources.
 keywords:
   - logging
   - fluent-bit
   - fluentd
   - operator
-version: 3.5.0
+version: 4.0.0
 # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluent-operator
-appVersion: "3.5.0"
+appVersion: 3.7.0
 icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
-home: https://www.fluentd.org/
+home: https://github.com/fluent/fluent-operator
 sources:
   - https://github.com/fluent/fluent-operator
 maintainers:
   - name: wenchajun
     email: dehaocheng@kubesphere.io
-dependencies:
-  - name: fluent-bit-crds
-    repository: "file://charts/fluent-bit-crds"
-    version: 3.5.0
-    condition: fluentbit.crdsEnable
-  - name: fluentd-crds
-    repository: "file://charts/fluentd-crds"
-    version: 3.5.0
-    condition: fluentd.crdsEnable
+  - name: marcofranssen
+    email: marco.franssen@gmail.com
+    url: https://marcofranssen.nl
+  - name: joshuabaird
+    email: joshbaird@gmail.com

@@ -14,10 +14,14 @@
 
 ## [UNRELEASED]
 
-### [v3.5.0] - 2025-10-24
+## [v4.0.0] - 2026-04-19
+
+### Changed
+
+- Initial release of v4 chart
 
 <!--
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-operator
-[v3.5.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-3.5.0
+[v4.0.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.0.0
