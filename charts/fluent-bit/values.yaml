@@ -31,7 +31,18 @@ serviceAccount:
   create: true
   annotations: {}
   name:
+  # DEPRECATED: use serviceAccount.automountToken instead
   automountServiceAccountToken:
+  # Automatically mount the ServiceAccount token
+  # on *all* pods using this ServiceAccount unless
+  # they explicitly opt out.
+  automountToken:
+
+# Automatically mount the ServiceAccount token
+# on the Fluent Bit pod(s).  NOTE: This setting
+# overrides serviceAccount.automountToken for
+# the Fluent Bit pod(s).
+automountServiceAccountToken:
 
 rbac:
   create: true
