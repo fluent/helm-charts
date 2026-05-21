@@ -1,6 +1,6 @@
 # fluent-operator
 
-![Version: 4.0.0](https://img.shields.io/badge/Version-4.0.0-informational?style=flat-square) ![AppVersion: 3.7.0](https://img.shields.io/badge/AppVersion-3.7.0-informational?style=flat-square)
+![Version: 4.1.0](https://img.shields.io/badge/Version-4.1.0-informational?style=flat-square) ![AppVersion: 3.8.0](https://img.shields.io/badge/AppVersion-3.8.0-informational?style=flat-square)
 
 Kubernetes operator for Fluent Bit and Fluentd—define collectors, pipelines, and outputs as custom resources.
 
@@ -28,7 +28,7 @@ Kubernetes operator for Fluent Bit and Fluentd—define collectors, pipelines, a
 To install the chart using the recommended OCI method you can use the following command.
 
 ```shell
-helm upgrade --install fluent-operator oci://ghcr.io/fluent/helm-charts/fluent-operator --version 4.0.0
+helm upgrade --install fluent-operator oci://ghcr.io/fluent/helm-charts/fluent-operator --version 4.1.0
 ```
 
 #### Verification
@@ -36,7 +36,7 @@ helm upgrade --install fluent-operator oci://ghcr.io/fluent/helm-charts/fluent-o
 As the OCI chart release is signed by [Cosign](https://github.com/sigstore/cosign) you can verify the chart before installing it by running the following command.
 
 ```shell
-cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluent-operator:4.0.0
+cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluent-operator:4.1.0
 ```
 
 ### Non-OCI Repository
@@ -45,7 +45,7 @@ Alternatively you can use the legacy non-OCI method via the following commands.
 
 ```shell
 helm repo add fluent https://fluent.github.io/helm-charts/
-helm upgrade --install fluent-operator fluent/fluent-operator --version 4.0.0
+helm upgrade --install fluent-operator fluent/fluent-operator --version 4.1.0
 ```
 
 ## Values
@@ -333,11 +333,11 @@ See [MIGRATION-v4.md](https://github.com/fluent/fluent-operator/blob/master/char
 helm repo update
 
 # Manually update CRDs first (Helm doesn't upgrade CRDs in crds/ directory)
-helm pull fluent/fluent-operator --version 4.0.0 --untar
+helm pull fluent/fluent-operator --version 4.1.0 --untar
 kubectl apply -f fluent-operator/crds/
 
 # Then upgrade the chart
-helm upgrade fluent-operator fluent/fluent-operator --version 4.0.0
+helm upgrade fluent-operator fluent/fluent-operator --version 4.1.0
 ```
 
 ----------------------------------------------
