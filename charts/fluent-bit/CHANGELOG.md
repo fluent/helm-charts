@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v0.57.6] - 2026-05-22
+
+### Changed
+
+- Update _Fluent Bit_ OCI image to [v5.0.6](https://github.com/fluent/fluent-bit/releases/tag/v5.0.6). ([#724](https://github.com/fluent/helm-charts/pull/724)) _@stevehipwell_
+
 ## [v0.57.5] - 2026-05-12
 
 ### Changed
@@ -85,6 +91,7 @@ RELEASE LINKS
 -->
 
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-bit
+[v0.57.6]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.57.6
 [v0.57.5]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.57.5
 [v0.57.4]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.57.4
 [v0.57.3]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.57.3
