@@ -314,6 +314,7 @@ fluentbit:
       pauseOnChunksOverlimit: "off"
       # -- Multiline parser for tail input
       # multilineParser: "docker, cri"
+      extraParams: {}
     systemd:
       # -- Enable systemd input
       enable: true
