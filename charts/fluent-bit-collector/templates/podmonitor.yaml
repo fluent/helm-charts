@@ -19,7 +19,7 @@ spec:
       {{- include "fluent-bit-collector.selectorLabels" . | nindent 6 }}
   podMetricsEndpoints:
     - port: http
-      path: /api/v1/metrics/prometheus
+      path: /api/v2/metrics/prometheus
     {{- with .Values.serviceMonitor.endpointConfig }}
       {{- toYaml . | nindent 6 }}
     {{- end }}

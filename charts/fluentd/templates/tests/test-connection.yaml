@@ -8,22 +8,19 @@ this will fail.
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "fluentd.fullname" . }}-test-connection"
+  name: {{ include "fluentd.fullname" . }}-test-connection
   labels:
-    {{- include "fluentd.labels" . | nindent 4 }}
+    helm.sh/chart: {{ include "fluentd.chart" . }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
-    "helm.sh/hook": test-success
+    helm.sh/hook: test
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 spec:
   containers:
     - name: wget
       image: busybox
-      command:
-        - sh
-        - -c
-        - |
-          set -e
-          # Give fluentd some time to start up
-          while :; do nc -vz {{ include "fluentd.fullname" . }}:24231 && break; sleep 1; done
-          wget '{{ include "fluentd.fullname" . }}:24231/metrics'
+      command: ["sh"]
+      args: ["-c", "sleep 10s && wget -O- {{ include "fluentd.fullname" . }}:24231/metrics"]
   restartPolicy: Never
 {{ end }}
