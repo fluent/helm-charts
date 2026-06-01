@@ -23,7 +23,7 @@ jobs:
       k8s_versions: ${{ steps.setup.outputs.k8s_versions }}
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 2
 
@@ -44,7 +44,7 @@ jobs:
 
       - name: Chart changes
         id: changed
-        uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v47.0.1
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
           files: charts/**
 
@@ -58,7 +58,7 @@ jobs:
 
   validate:
     name: Validate
-    uses: action-stars/helm-workflows/.github/workflows/validate.yaml@36888a15bf48a91e7481ea4f626c84416c57bf07 # v0.9.0
+    uses: action-stars/helm-workflows/.github/workflows/validate.yaml@0f9a4a90be6ea74c9ec60ee4f75e669d8d9f4a76 # v0.12.0
     needs: setup
     if: needs.setup.outputs.changed == 'true'
     permissions:

@@ -181,7 +181,7 @@ livenessProbe:
 # @default -- See _values.yaml_
 readinessProbe:
   httpGet:
-    path: /api/v1/health
+    path: /api/v2/health
     port: http
   initialDelaySeconds: 15
   periodSeconds: 10
