@@ -6659,6 +6659,43 @@ entries:
   fluent-operator:
   - annotations:
       artifacthub.io/changes: |-
+        - kind: added
+          description: "Operator deployment now includes configurable liveness and readiness probes (hitting /healthz and /readyz) (#1956)."
+        - kind: changed
+          description: "Hardened default podSecurityContext and securityContext for the operator: runAsNonRoot, runAsUser/Group 65532, readOnlyRootFilesystem, drop ALL capabilities, seccompProfile: RuntimeDefault (#1956)."
+        - kind: changed
+          description: "Bumped default Fluent Bit image tag to v5.0."
+        - kind: changed
+          description: "Bumped fluent-operator to v3.8."
+    apiVersion: v2
+    appVersion: 3.8.0
+    created: "2026-06-02T09:25:45.630059542Z"
+    description: Kubernetes operator for Fluent Bit and Fluentd—define collectors,
+      pipelines, and outputs as custom resources.
+    digest: 34c5c785f0c72d90aac7b176dd664a57c73d994518f00186996546fce6ed73ac
+    home: https://github.com/fluent/fluent-operator
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    - operator
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    - email: marco.franssen@gmail.com
+      name: marcofranssen
+      url: https://marcofranssen.nl
+    - email: joshbaird@gmail.com
+      name: joshuabaird
+    name: fluent-operator
+    sources:
+    - https://github.com/fluent/fluent-operator
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-4.1.0/fluent-operator-4.1.0.tgz
+    version: 4.1.0
+  - annotations:
+      artifacthub.io/changes: |-
         - kind: changed
           description: "Initial release of v4 chart."
     apiVersion: v2
@@ -7877,4 +7914,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-05-22T13:22:42.959570188Z"
+generated: "2026-06-02T09:25:45.630395162Z"
