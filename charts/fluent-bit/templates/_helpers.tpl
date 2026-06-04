@@ -32,13 +32,26 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
+Application version used for the app.kubernetes.io/version label.
+Uses the overridden image tag to match the image actually deployed, falling back
+to the chart appVersion when the tag is unset or set to the "-" sentinel.
+*/}}
+{{- define "fluent-bit.version" -}}
+{{- if or (empty .Values.image.tag) (eq "-" (toString .Values.image.tag)) -}}
+{{- .Chart.AppVersion -}}
+{{- else -}}
+{{- .Values.image.tag -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Common labels
 */}}
 {{- define "fluent-bit.labels" -}}
 helm.sh/chart: {{ include "fluent-bit.chart" . }}
 {{ include "fluent-bit.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- with (include "fluent-bit.version" .) }}
+app.kubernetes.io/version: {{ . | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
