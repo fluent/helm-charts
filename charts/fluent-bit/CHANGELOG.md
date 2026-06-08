@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Fixed
+
+- Set the `app.kubernetes.io/version` label to the resolved image tag when `image.tag` is overridden, falling back to the chart `appVersion` (including the `-` sentinel), so the label reflects the image actually deployed.
+
 ## [v0.57.6] - 2026-05-22
 
 ### Changed

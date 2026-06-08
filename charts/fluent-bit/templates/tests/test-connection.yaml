@@ -6,7 +6,7 @@ metadata:
   namespace: {{ default .Release.Namespace .Values.testFramework.namespace }}
   labels:
     helm.sh/chart: {{ include "fluent-bit.chart" . }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/version: {{ include "fluent-bit.version" . | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
     helm.sh/hook: test
