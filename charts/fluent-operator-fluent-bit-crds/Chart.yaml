@@ -4,7 +4,7 @@ description: Custom Resource Definitions (CRDs) for Fluent Bit. Provides full He
 type: application
 version: 4.2.0
 # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluent-operator
-appVersion: 3.9.0  # x-release-please-version
+appVersion: 3.9.0
 keywords:
   - logging
   - fluent-bit
