@@ -1,6 +1,6 @@
 # fluent-operator-fluentd-crds
 
-![Version: 4.1.0](https://img.shields.io/badge/Version-4.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.8.0](https://img.shields.io/badge/AppVersion-3.8.0-informational?style=flat-square)
+![Version: 4.2.0](https://img.shields.io/badge/Version-4.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.8.0](https://img.shields.io/badge/AppVersion-3.8.0-informational?style=flat-square)
 
 Custom Resource Definitions (CRDs) for Fluentd. Provides full Helm lifecycle management for all Fluentd CRDs used by Fluent Operator.
 
@@ -25,7 +25,7 @@ Custom Resource Definitions (CRDs) for Fluentd. Provides full Helm lifecycle man
 To install the chart using the recommended OCI method you can use the following command.
 
 ```shell
-helm upgrade --install fluent-operator-fluentd-crds oci://ghcr.io/fluent/helm-charts/fluent-operator-fluentd-crds --version 4.1.0
+helm upgrade --install fluent-operator-fluentd-crds oci://ghcr.io/fluent/helm-charts/fluent-operator-fluentd-crds --version 4.2.0
 ```
 
 #### Verification
@@ -33,7 +33,7 @@ helm upgrade --install fluent-operator-fluentd-crds oci://ghcr.io/fluent/helm-ch
 As the OCI chart release is signed by [Cosign](https://github.com/sigstore/cosign) you can verify the chart before installing it by running the following command.
 
 ```shell
-cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluent-operator-fluentd-crds:4.1.0
+cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluent-operator-fluentd-crds:4.2.0
 ```
 
 ### Non-OCI Repository
@@ -42,7 +42,7 @@ Alternatively you can use the legacy non-OCI method via the following commands.
 
 ```shell
 helm repo add fluent https://fluent.github.io/helm-charts/
-helm upgrade --install fluent-operator-fluentd-crds fluent/fluent-operator-fluentd-crds --version 4.1.0
+helm upgrade --install fluent-operator-fluentd-crds fluent/fluent-operator-fluentd-crds --version 4.2.0
 ```
 
 ## Values

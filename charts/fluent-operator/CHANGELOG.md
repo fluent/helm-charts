@@ -14,6 +14,16 @@
 
 ## [UNRELEASED]
 
+## [v4.2.0] - 2026-06-09
+
+### Added
+
+- `fluentd.forward.retainMetadataInForwardMode` value to configure metadata retention when forwarding in forward mode ([#1973](https://github.com/fluent/fluent-operator/pull/1973))
+
+### Changed
+
+- Bumped default Fluent Bit image tag to `5.0.6` ([#1977](https://github.com/fluent/fluent-operator/pull/1977))
+
 ## [v4.1.0] - 2026-05-21
 
 ### Added
@@ -36,5 +46,6 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-operator
+[v4.2.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.2.0
 [v4.1.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.1.0
 [v4.0.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.0.0
