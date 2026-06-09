@@ -6751,6 +6751,43 @@ entries:
   - annotations:
       artifacthub.io/changes: |-
         - kind: added
+          description: "fluentd.forward."
+        - kind: added
+          description: "fluentbit.metadata."
+        - kind: changed
+          description: "Bumped default Fluent Bit image tag to 5.0."
+        - kind: changed
+          description: "Bumped fluent-operator to v3.9."
+    apiVersion: v2
+    appVersion: 3.9.0
+    created: "2026-06-09T16:48:16.704763795Z"
+    description: Kubernetes operator for Fluent Bit and Fluentd—define collectors,
+      pipelines, and outputs as custom resources.
+    digest: d1aa881d0ecd83ff12e18fe719c83dc6f8eb7b4faeee4ca3d3b1f125d9f7a501
+    home: https://github.com/fluent/fluent-operator
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    - operator
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    - email: marco.franssen@gmail.com
+      name: marcofranssen
+      url: https://marcofranssen.nl
+    - email: joshbaird@gmail.com
+      name: joshuabaird
+    name: fluent-operator
+    sources:
+    - https://github.com/fluent/fluent-operator
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-4.2.0/fluent-operator-4.2.0.tgz
+    version: 4.2.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
           description: "Operator deployment now includes configurable liveness and readiness probes (hitting /healthz and /readyz) (#1956)."
         - kind: changed
           description: "Hardened default podSecurityContext and securityContext for the operator: runAsNonRoot, runAsUser/Group 65532, readOnlyRootFilesystem, drop ALL capabilities, seccompProfile: RuntimeDefault (#1956)."
@@ -8069,4 +8106,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-06-08T14:24:44.614976373Z"
+generated: "2026-06-09T16:48:16.705172093Z"
