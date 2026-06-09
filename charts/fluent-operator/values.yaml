@@ -150,6 +150,9 @@ fluentbit:
   enable: true
   # -- Override the namespace for FluentBit resources; defaults to .Release.Namespace
   namespaceOverride: ""
+  metadata:
+    # -- Allow adding custom annotations to the FluentBit resource's metadata
+    annotations: {}
   serviceMonitor:
     # -- Enable Prometheus ServiceMonitor for Fluent Bit
     enable: false
@@ -191,7 +194,7 @@ fluentbit:
     repository: fluent/fluent-operator/fluent-bit
     # -- Fluent Bit image tag
     # renovate: datasource=docker depName=ghcr.io/fluent/fluent-operator/fluent-bit
-    tag: "5.0.5"
+    tag: "5.0.6"
 
   # -- Fluent Bit resource requests and limits. You can adjust it based on the log volume.
   # If you do want to specify resources, adjust them as necessary
@@ -627,6 +630,9 @@ fluentd:
   forward:
     # -- Forward input port
     port: 24224
+    # -- Retain metadata when forwarding in forward mode.
+    # Set to false for Fluentd compatibility with Fluent Bit v5.0.5+.
+    retainMetadataInForwardMode: ~
   # -- Namespaces to watch for Fluentd resources
   watchedNamespaces:
     - kube-system

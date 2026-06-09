@@ -14,6 +14,13 @@
 
 ## [UNRELEASED]
 
+## [v4.2.0] - 2026-06-09
+
+### Changed
+
+- Updated Output CRDs with `retainMetadataInForwardMode` field ([#1973](https://github.com/fluent/fluent-operator/pull/1973))
+- Updated Firehose output CRDs with additional settings ([#1954](https://github.com/fluent/fluent-operator/pull/1954))
+
 ## [v4.1.0] - 2026-05-21
 
 ### Changed
@@ -30,5 +37,6 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-operator-crds-fluent-bit
+[v4.2.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.2.0
 [v4.1.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.1.0
 [v4.0.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.0.0
