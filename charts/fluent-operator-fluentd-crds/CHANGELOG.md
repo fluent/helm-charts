@@ -18,7 +18,7 @@
 
 ### Changed
 
-- No chart changes; version aligned with fluent-operator v4.2.0 release
+- No chart changes; version aligned with fluent-operator v4.2.0 release (appVersion v3.9.0)
 
 ## [v4.1.0] - 2026-05-21
 

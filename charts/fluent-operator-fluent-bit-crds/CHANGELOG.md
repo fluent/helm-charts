@@ -19,6 +19,7 @@
 ### Changed
 
 - Updated Output CRDs with `retainMetadataInForwardMode` field ([#1973](https://github.com/fluent/fluent-operator/pull/1973))
+- Updated Firehose output CRDs with additional settings ([#1954](https://github.com/fluent/fluent-operator/pull/1954))
 
 ## [v4.1.0] - 2026-05-21
 
