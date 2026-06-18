@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Fixed
+
+- Only mount the `data` volume when `storage.enabled` is `true`. The template previously checked `.Values.storage` (a map that is always truthy), so the volume was mounted even when storage was disabled. ([#732](https://github.com/fluent/helm-charts/pull/732)) _@yugstar_
+
 ## [v1.0.7] - 2026-06-08
 
 ### Changed
