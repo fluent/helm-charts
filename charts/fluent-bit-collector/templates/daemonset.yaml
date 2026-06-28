@@ -122,7 +122,7 @@ spec:
               mountPath: {{ .mountPath }}
               readOnly: true
           {{- end }}
-          {{- if .Values.storage }}
+          {{- if .Values.storage.enabled }}
             - name: data
               mountPath: /fluent-bit/data
               readOnly: false
@@ -183,7 +183,7 @@ spec:
           hostPath:
             {{- toYaml .hostPath | nindent 12 }}
       {{- end }}
-      {{- if .Values.storage }}
+      {{- if .Values.storage.enabled }}
         - name: data
           hostPath:
             path: {{ .Values.storage.hostPath }}
