@@ -2,8 +2,8 @@ apiVersion: v2
 name: fluentd
 description: Helm chart for deploying Fluentd on Kubernetes.
 # type: application
-version: 0.5.3
-appVersion: 1.19.2
+version: 0.5.4
+appVersion: 1.19.3
 icon: https://www.fluentd.org/images/miscellany/fluentd-logo_2x.png
 home: https://www.fluentd.org/
 sources:
