@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.5.4] - 2026-07-01
+
 ### Added
 
 - Add `variantVersion` value to specify the version of the variant to use. ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
@@ -21,8 +23,9 @@
 ### Changed
 
 - Use SemVer for chart versioning (remove `v` prefix from `appVersion`). ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
-- Update _Fluentd_ app version to [`1.19.2`](https://github.com/fluent/fluentd/releases/tag/v1.19.2). ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
-- Update _elasticsearch7_ variant version to `1.6`. ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
+- Update _Fluentd_ app version to [`1.19.3`](https://github.com/fluent/fluentd/releases/tag/v1.19.3). ([#661](https://github.com/fluent/helm-charts/pull/661)) _@discostur_
+- Update _elasticsearch7_ variant version to `1.0` to match the `1.19.3` daemonset image. ([#661](https://github.com/fluent/helm-charts/pull/661)) _@discostur_
+- Set the `K8S_NODE_NAME` environment variable from `spec.nodeName` so the `kubernetes_metadata` filter watches only the local node. ([#661](https://github.com/fluent/helm-charts/pull/661)) _@discostur_
 
 ### Fixed
 
@@ -39,4 +42,5 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluentd
+[v0.5.4]: https://github.com/fluent/helm-charts/releases/tag/fluentd-0.5.4
 [v0.5.3]: https://github.com/fluent/helm-charts/releases/tag/fluentd-0.5.3
