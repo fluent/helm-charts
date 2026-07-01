@@ -5,7 +5,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ (printf "%s-%s" ((include "fluent-bit-aggregator.fullname" $) | trunc 60) (toString $i)) | trunc 63 | trimSuffix "-" }}
-  namespace: {{ $.Release.Namespace }}
+  namespace: {{ include "fluent-bit-aggregator.namespace" $ }}
   labels:
     {{- include "fluent-bit-aggregator.labels" $ | nindent 4 }}
   {{- with $v.annotations }}
