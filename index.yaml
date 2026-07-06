@@ -8354,4 +8354,34 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-0.1.0/fluentd-0.1.0.tgz
     version: 0.1.0
-generated: "2026-07-06T15:39:13.893746834Z"
+  fluentd-aggregator:
+  - annotations:
+      artifacthub.io/alternativeName: fluentd
+      artifacthub.io/changes: |-
+        - kind: added
+          description: "Added initial release."
+    apiVersion: v2
+    appVersion: 2.0.0
+    created: "2026-07-06T17:12:27.195497315Z"
+    description: Helm chart for Fluentd running as an aggregation StatefulSet and
+      using the fluent-plugin-route router.
+    digest: 1087f177c29a23c581b707073713912bff888d324f461d779f2d9fa6db690762
+    home: https://www.fluentd.org/
+    icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluentd-aggregator/icon.png
+    keywords:
+    - fluent
+    - fluentd
+    - logging
+    - aggregator
+    maintainers:
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluentd-aggregator
+    sources:
+    - https://github.com/fluent/fluentd-aggregator-docker-image/
+    - https://github.com/fluent/helm-charts/
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0-beta.1/fluentd-aggregator-1.0.0-beta.1.tgz
+    version: 1.0.0-beta.1
+generated: "2026-07-06T17:12:27.195924575Z"
