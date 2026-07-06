@@ -1,0 +1,102 @@
+service:
+  trafficDistribution: PreferClose
+
+ingresses:
+  - servicePort: 24224
+    className: my-ingress-class
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - chart-example.local
+        secretName: chart-example-tls
+
+httpRoutes:
+  - servicePort: 24224
+    parentRefs:
+      - name: gateway
+        namespace: gateway
+    hostnames:
+      - chart-example.local
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 12
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 3600
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+podDisruptionBudget:
+  enabled: true
+  maxUnavailable: 33%
+  unhealthyPodEvictionPolicy: AlwaysAllow
+
+priorityClassName: system-cluster-critical
+terminationGracePeriodSeconds: 120
+
+env:
+  - name: TEST
+    value: my-value
+
+persistence:
+  enabled: true
+  annotations: {}
+  accessMode: ReadWriteOnce
+  storageClass: my-storage-class
+  size: 8Gi
+  retainDeleted: false
+  retainScaled: true
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 256Mi
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          topologyKey: kubernetes.io/hostname
+        weight: 100
+
+topologySpreadConstraints:
+  - maxSkew: 1
+    minDomains: 3
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+    nodeAffinityPolicy: Honor
+    nodeTaintsPolicy: Honor
+
+tolerations:
+  - key: system
+    operator: Exists
+
+serviceMonitor:
+  enabled: true
+
+dashboards:
+  enabled: true
+
+config:
+  filters: |-
+    <filter foo.bar>
+      @type record_transformer
+      <record>
+        foo bar
+      </record>
+    </filter>

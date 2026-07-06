@@ -31,6 +31,7 @@ You can then run `helm search repo fluent` to see the charts.
 - [fluent-bit](./charts/fluent-bit/README.md) _(use one of the above instead if possible)_
 - [fluent-operator](./charts/fluent-operator/README.md)
 - [fluentd](./charts/fluentd/README.md)
+- [fluentd-aggregator](./charts/fluentd-aggregator/README.md)
 
 ## Contributing
 

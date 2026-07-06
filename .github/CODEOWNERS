@@ -1,12 +1,13 @@
 # https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners
 
-*                                             @patrick-stephens @stevehipwell
+*                                          @patrick-stephens @stevehipwell
 
-/charts/fluent-bit/                           @stevehipwell @patrick-stephens @edsiper @naseemkullah
-/charts/fluent-bit-aggregator/                @stevehipwell @patrick-stephens
-/charts/fluent-bit-collector/                 @stevehipwell @patrick-stephens
-/charts/fluent-operator/                      @benjaminhuo @wanjunlei @wenchajun @marcofranssen @joshuabaird @cw-Guo
-/charts/fluent-operator-fluent-bit-crds/      @benjaminhuo @wanjunlei @wenchajun @marcofranssen @joshuabaird @cw-Guo
-/charts/fluent-operator-fluentd-crds/         @benjaminhuo @wanjunlei @wenchajun @marcofranssen @joshuabaird @cw-Guo
+/charts/fluent-bit/                        @stevehipwell @patrick-stephens @edsiper @naseemkullah
+/charts/fluent-bit-aggregator/             @stevehipwell @patrick-stephens
+/charts/fluent-bit-collector/              @stevehipwell @patrick-stephens
+/charts/fluent-operator/                   @benjaminhuo @wanjunlei @wenchajun @marcofranssen @joshuabaird @cw-Guo
+/charts/fluent-operator-fluent-bit-crds/   @benjaminhuo @wanjunlei @wenchajun @marcofranssen @joshuabaird @cw-Guo
+/charts/fluent-operator-fluentd-crds/      @benjaminhuo @wanjunlei @wenchajun @marcofranssen @joshuabaird @cw-Guo
+/charts/fluentd-aggregator/                @stevehipwell @patrick-stephens
 
-/.github/workflows/                           @patrick-stephens @stevehipwell
+/.github/workflows/                        @patrick-stephens @stevehipwell
