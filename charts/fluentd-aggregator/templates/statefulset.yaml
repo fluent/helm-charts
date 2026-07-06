@@ -1,0 +1,197 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "fluentd-aggregator.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluentd-aggregator.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ ternary (include "fluentd-aggregator.serviceName" .) (include "fluentd-aggregator.headlessServiceName" .) .Values.service.legacy }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- with .Values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.ordinals }}
+  ordinals:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.podManagementPolicy }}
+  podManagementPolicy: {{ . }}
+  {{- end }}
+  {{- with .Values.minReadySeconds }}
+  minReadySeconds: {{ . }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "fluentd-aggregator.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "fluentd-aggregator.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-config.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "fluentd-aggregator.serviceAccountName" . }}
+    {{- if ne .Values.automountServiceAccountToken nil }}
+      automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
+    {{- end }}
+    {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.priorityClassName }}
+      priorityClassName: {{ . }}
+    {{- end }}
+    {{- with .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ . }}
+    {{- end }}
+      initContainers:
+        - name: tmpdir
+          image: {{ include "fluentd-aggregator.image" .Values.bashImage }}
+          imagePullPolicy: {{ .Values.bashImage.pullPolicy }}
+          {{- with .Values.initNonRootSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          args: ["mkdir /tmp/fluentd; chmod 700 /tmp/fluentd"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+              readOnly: false
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 1000m
+              memory: 16Mi
+      containers:
+        - name: aggregator
+          {{- with .Values.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          image: {{ include "fluentd-aggregator.image" (merge .Values.image (dict "tag" .Chart.AppVersion)) }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: TMPDIR
+              value: /tmp/fluentd
+            - name: FLUENTD_CONF
+              value: fluentd.conf
+          {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.httpPort }}
+              protocol: TCP
+          {{- if .Values.config.metrics }}
+            - name: http-metrics
+              containerPort: {{ .Values.service.metricsPort }}
+              protocol: TCP
+          {{- end }}
+          {{- range .Values.service.additionalPorts }}
+            - name: {{ .name }}
+              containerPort: {{ default .port .containerPort }}
+              protocol: {{ default "TCP" .protocol }}
+          {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /fluentd/etc
+              readOnly: true
+            - name: {{ ternary .Values.persistence.legacyName "data" (and .Values.persistence.enabled .Values.persistence.legacy) }}
+              mountPath: /fluentd/data
+              readOnly: false
+            - name: tmp
+              mountPath: /tmp
+              readOnly: false
+          {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "fluentd-aggregator.configConfigMapName" . }}
+      {{- if not .Values.persistence.enabled }}
+        - name: data
+          emptyDir: {}
+      {{- end }}
+        - name: tmp
+          emptyDir: {}
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      {{- $_ := include "fluentd-aggregator.patchAffinity" $ }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      {{- $_ := include "fluentd-aggregator.patchTopologySpreadConstraints" $ }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ ternary .Values.persistence.legacyName "data" .Values.persistence.legacy }}
+      {{- if not .Values.persistence.legacy }}
+        labels:
+          {{- include "fluentd-aggregator.selectorLabels" . | nindent 10 }}
+      {{- end }}
+      {{- with .Values.persistence.annotations }}
+        annotations:
+          {{- . | toYaml | nindent 10 }}
+      {{- end }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.accessMode | quote }}
+        {{- with .Values.persistence.storageClass }}
+        {{- if (eq "-" .) }}
+        storageClassName: ""
+        {{- else }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+  {{- if semverCompare ">= 1.27-0" .Capabilities.KubeVersion.Version }}
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: {{ ternary "Retain" "Delete" .Values.persistence.retainDeleted }}
+    whenScaled: {{ ternary "Retain" "Delete" .Values.persistence.retainScaled }}
+  {{- end }}
+  {{- end }}

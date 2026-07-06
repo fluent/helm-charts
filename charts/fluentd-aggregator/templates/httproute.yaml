@@ -1,0 +1,35 @@
+{{- $serviceName := include "fluentd-aggregator.fullname" . -}}
+{{- range $i, $v := .Values.httpRoutes -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ (printf "%s-%s" ((include "fluentd-aggregator.fullname" $) | trunc 60) (toString $i)) | trunc 63 | trimSuffix "-" }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "fluentd-aggregator.labels" $ | nindent 4 }}
+    {{- with $v.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $v.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with $v.parentRefs }}
+  parentRefs:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $v.hostnames }}
+  hostnames:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+  {{- if $v.rules }}
+    {{- toYaml $v.rules | nindent 4 }}
+  {{- else }}
+    - backendRefs:
+        - name: {{ $serviceName }}
+          port: {{ $v.servicePort }}
+  {{- end }}
+---
+{{- end }}

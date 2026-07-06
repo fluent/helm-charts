@@ -1,0 +1,14 @@
+
+{{- if .Values.dashboards.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fluentd-aggregator.dashboardConfigMapName" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluentd-aggregator.labels" . | nindent 4 }}
+    grafana_dashboard: "1"
+data:
+  {{ printf "%s.json" (include "fluentd-aggregator.fullname" .) }}: |
+{{- tpl (.Files.Get "dashboards/fluentd-aggregator.json") . | nindent 4 }}
+{{- end -}}

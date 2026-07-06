@@ -1,0 +1,322 @@
+# Default values for fluentd-aggregator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  # -- Image repository for the default container.
+  repository: ghcr.io/fluent/fluentd-aggregator-docker-image
+  # -- (string) Image tag for the default container, this will default to `.Chart.AppVersion` if not set and will be omitted if set to `-`.
+  tag:
+  # -- (string) Optional image digest for the default container.
+  digest:
+  # --  Image pull policy for the default container.
+  pullPolicy: IfNotPresent
+
+bashImage:
+  # -- Image repository for bash containers.
+  repository: cgr.dev/chainguard/bash
+  # -- Image tag for bash containers, this will be omitted if set to `-`.
+  tag: latest
+  # -- (string) Optional image digest for the bash containers.
+  digest:
+  # -- Image pull policy for bash containers.
+  pullPolicy: IfNotPresent
+
+# -- Image pull secrets.
+imagePullSecrets: []
+
+# -- (string) Override the name of the chart.
+nameOverride:
+
+# -- (string) Override the full name of the chart.
+fullnameOverride:
+
+# -- Labels to add to all chart resources.
+commonLabels: {}
+
+serviceAccount:
+  # -- If `true`, create a new `ServiceAccount`.
+  create: true
+  # -- Labels to add to the service account.
+  labels: {}
+  # -- Annotations to add to the service account.
+  annotations: {}
+  # -- (string) If this is set and `serviceAccount.create` is `true` this will be used for the created `ServiceAccount` name, if set and `serviceAccount.create` is `false` then this will define an existing `ServiceAccount` to use.
+  name:
+  # -- If `true`, mount the `ServiceAccount` token.
+  automountToken: false
+
+service:
+  # -- Service type.
+  type: ClusterIP
+  # -- Service annotations.
+  annotations: {}
+  # -- Fluentd port used for status.
+  httpPort: 9880
+  # -- Fluentd port used for metrics.
+  metricsPort: 24231
+  # -- Additional ports to expose.
+  # @default -- See _values.yaml_
+  additionalPorts:
+    - name: http-forward
+      port: 24224
+      containerPort: 24224
+      protocol: TCP
+  # -- (string) Traffic distribution for the service.
+  trafficDistribution:
+  # -- If `true`, use legacy naming so the headless service doesn't change.
+  legacy: false
+
+# -- (list) Ingresses, each input plugin will need it's own.
+# @default -- See _values.yaml_
+ingresses: []
+#  - servicePort: 24224
+#    className: my-ingress-class
+#    annotations: {}
+#    hosts:
+#      - host: chart-example.local
+#        paths:
+#          - path: /
+#            pathType: Prefix
+#    tls:
+#      - hosts:
+#          - chart-example.local
+#        secretName: chart-example-tls
+
+# -- (list) `HTTPRoute` resources, each input plugin will need its own.
+# @default -- See _values.yaml_
+httpRoutes: []
+#  - servicePort: 24224
+#    annotations: {}
+#    labels: {}
+#    parentRefs:
+#      - name: gateway
+#        namespace: gateway
+#    hostnames:
+#      - chart-example.local
+#    rules: []
+
+# -- Number of replicas to create if `autoscaling.enabled` is `false`.
+replicas: 1
+
+autoscaling:
+  # -- If `true`, create a `HorizontalPodAutoscaler` to scale the `StatefulSet`.
+  enabled: false
+  # -- Minimum number of replicas for the `HorizontalPodAutoscaler`.
+  minReplicas: 1
+  # -- Maximum number of replicas for the `HorizontalPodAutoscaler`.
+  maxReplicas: 3
+  # -- Behaviour configuration for the `HorizontalPodAutoscaler`.
+  behavior: {}
+  # -- (list) Metrics configuration for the `HorizontalPodAutoscaler`.
+  # @default -- See _values.yaml_
+  metrics: []
+  #  - type: Resource
+  #    resource:
+  #      name: cpu
+  #      target:
+  #        type: Utilization
+  #        averageUtilization: 80
+
+# -- Update strategy for the `StatefulSet`.
+updateStrategy: {}
+
+# -- Ordinals configuration for the `StatefulSet`.
+ordinals: {}
+
+# -- Pod management policy for the `StatefulSet`.
+podManagementPolicy:
+
+# -- (int) Min ready seconds for the `StatefulSet`.
+minReadySeconds:
+
+podDisruptionBudget:
+  # -- If `true`, create a `PodDisruptionBudget` resource.
+  enabled: false
+  # -- (string) Minimum number of available pods, either a number or a percentage.
+  minAvailable:
+  # -- (string) Minimum number of unavailable pods, either a number or a percentage.
+  maxUnavailable:
+  # -- (string) Unhealthy pod eviction policy for the PDB.
+  unhealthyPodEvictionPolicy:
+
+# -- Labels to add to the pod.
+podLabels: {}
+
+# -- Annotations to add to the pod.
+podAnnotations: {}
+
+# -- (bool) If the service account token should be mounted to the pod, this overrides `serviceAccount.automountToken`.
+automountServiceAccountToken:
+
+# -- Security context for the pod.
+# @default -- See _values.yaml_
+podSecurityContext:
+  runAsNonRoot: true
+  fsGroup: 65534
+  seccompProfile:
+    type: RuntimeDefault
+
+# -- (string) Priority class name for the pod.
+priorityClassName:
+
+# -- (int) Termination grace period for the pod in seconds.
+terminationGracePeriodSeconds:
+
+# -- Security context for non-root init containers.
+initNonRootSecurityContext:
+  privileged: false
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  capabilities:
+    drop:
+      - ALL
+
+# -- Security context for the default container.
+# @default -- See _values.yaml_
+securityContext:
+  privileged: false
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  capabilities:
+    drop:
+      - ALL
+
+# -- Environment variables for the default container.
+env: []
+
+# -- Args for the default container.
+args: []
+
+# -- Liveness probe configuration for the default container.
+# @default -- See _values.yaml_
+livenessProbe:
+  httpGet:
+    path: /fluent.live?json=%7B%22ping%22%3A+%22pong%22%7D
+    port: http
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 12
+
+# -- Readiness probe configuration for the default container.
+# @default -- See _values.yaml_
+readinessProbe:
+  httpGet:
+    path: /fluent.ready?json=%7B%22ping%22%3A+%22pong%22%7D
+    port: http
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  timeoutSeconds: 2
+  successThreshold: 1
+  failureThreshold: 6
+
+persistence:
+  # -- If `true`, persistence should be enabled for the `StatefulSet`.
+  enabled: false
+  # -- Annotations for the `PersistentVolumeClaim`.
+  annotations: {}
+  # -- Access mode for the `PersistentVolumeClaim`.
+  accessMode: ReadWriteOnce
+  # -- Storage class for the `PersistentVolumeClaim`, if not set the default will be used.
+  storageClass:
+  # -- Size of the `PersistentVolumeClaim`.
+  size: 8Gi
+  # -- If `true`, keep `PersistentVolumeClaims` when the `StatefulSet` is deleted.
+  retainDeleted: true
+  # -- If `true`, keep `PersistentVolumeClaim` when the `StatefulSet` is scaled down.
+  retainScaled: true
+  # -- If `true`, use the legacy volume claim pattern.
+  legacy: false
+  # -- The name to use for legacy volume claims, either `buffer` or `state`.
+  legacyName: buffer
+
+# -- Extra volumes for the pod.
+extraVolumes: []
+
+# -- Extra volume mounts for the default container.
+extraVolumeMounts: []
+
+# -- Resources for the default container.
+resources: {}
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
+
+# -- Node labels to match for pod scheduling.
+nodeSelector: {}
+
+# -- Affinity settings for pod scheduling. If an explicit label selector is not provided for pod affinity or pod anti-affinity one will be created from the pod selector labels.
+affinity: {}
+
+# -- Topology spread constraints for pod scheduling. If an explicit label selector is not provided one will be created from the pod selector labels.
+topologySpreadConstraints: []
+
+# -- Node taints which will be tolerated for pod scheduling.
+tolerations: []
+
+serviceMonitor:
+  # -- If `true`, create a `ServiceMonitor` resource to support the _Prometheus Operator_.
+  enabled: false
+  # -- Additional labels for the `ServiceMonitor`.
+  additionalLabels: {}
+  # -- Additional endpoint configuration for the default `ServiceMonitor` endpoint.
+  endpointConfig: {}
+
+dashboards:
+  # -- If `true`, install the _Grafana_ dashboards provided by the chart.
+  enabled: false
+
+config:
+  # -- Fluent Bit system configuration.
+  # @default -- See _values.yaml_
+  system:
+    # root_dir: /fluentd/data - This can't be set
+    workers: 1
+    log_level: info
+
+  # -- If `true`, configure metrics
+  metrics: true
+
+  # -- Label for input sources which will be used to route logs through the pipeline.
+  sourceLabel: "@INPUT"
+
+  # -- Fluentd source configuration.
+  # @default -- See _values.yaml_
+  sources: |-
+    <source>
+      @type forward
+      @id input
+      @label {{ .Values.config.sourceLabel }}
+      port {{ (index .Values.service.additionalPorts 0).containerPort }}
+      bind 0.0.0.0
+    </source>
+
+  # -- Fluentd filter configuration.
+  # @default -- See _values.yaml_
+  filters: |-
+
+  # -- Fluentd router configuration.
+  # @default -- See _values.yaml_
+  routes:
+    - match: "**"
+      label: "@DEFAULT"
+      copy: false
+      config: |-
+        <match **>
+          @type stdout
+        </match>
