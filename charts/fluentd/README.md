@@ -1,6 +1,6 @@
 # fluentd
 
-![Version: 0.5.3](https://img.shields.io/badge/Version-0.5.3-informational?style=flat-square) ![AppVersion: 1.19.2](https://img.shields.io/badge/AppVersion-1.19.2-informational?style=flat-square)
+![Version: 0.5.4](https://img.shields.io/badge/Version-0.5.4-informational?style=flat-square) ![AppVersion: 1.19.3](https://img.shields.io/badge/AppVersion-1.19.3-informational?style=flat-square)
 
 Helm chart for deploying Fluentd on Kubernetes. [Fluentd](https://www.fluentd.org/) is an open source data collector for unified logging layer. Fluentd allows you to unify data collection and consumption for a better use and understanding of data.
 
@@ -25,7 +25,7 @@ Helm chart for deploying Fluentd on Kubernetes. [Fluentd](https://www.fluentd.or
 To install the chart using the recommended OCI method you can use the following command.
 
 ```shell
-helm upgrade --install fluentd oci://ghcr.io/fluent/helm-charts/fluentd --version 0.5.3
+helm upgrade --install fluentd oci://ghcr.io/fluent/helm-charts/fluentd --version 0.5.4
 ```
 
 #### Verification
@@ -33,7 +33,7 @@ helm upgrade --install fluentd oci://ghcr.io/fluent/helm-charts/fluentd --versio
 As the OCI chart release is signed by [Cosign](https://github.com/sigstore/cosign) you can verify the chart before installing it by running the following command.
 
 ```shell
-cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluentd:0.5.3
+cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluentd:0.5.4
 ```
 
 ### Non-OCI Repository
@@ -42,7 +42,7 @@ Alternatively you can use the legacy non-OCI method via the following commands.
 
 ```shell
 helm repo add fluent https://fluent.github.io/helm-charts/
-helm upgrade --install fluentd fluent/fluentd --version 0.5.3
+helm upgrade --install fluentd fluent/fluentd --version 0.5.4
 ```
 
 ## Values
@@ -122,7 +122,7 @@ helm upgrade --install fluentd fluent/fluentd --version 0.5.3
 | tolerations | list | `[]` |  |
 | updateStrategy | object | `{}` |  |
 | variant | string | `"elasticsearch7"` |  |
-| variantVersion | string | `"1.6"` |  |
+| variantVersion | string | `"1.0"` |  |
 | volumeMounts | list | `[]` |  |
 | volumes | list | `[]` |  |
 
