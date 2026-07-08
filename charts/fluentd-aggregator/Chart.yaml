@@ -1,0 +1,21 @@
+apiVersion: v2
+name: fluentd-aggregator
+description: Helm chart for Fluentd running as an aggregation StatefulSet and using the fluent-plugin-route router.
+type: application
+version: 1.0.0-beta.1
+appVersion: 2.0.0
+keywords:
+  - fluent
+  - fluentd
+  - logging
+  - aggregator
+home: https://www.fluentd.org/
+icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluentd-aggregator/icon.png
+sources:
+  - https://github.com/fluent/fluentd-aggregator-docker-image/
+  - https://github.com/fluent/helm-charts/
+maintainers:
+  - name: stevehipwell
+    email: steve.hipwell@gmail.com
+annotations:
+  artifacthub.io/alternativeName: fluentd
