@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v1.0.0] - 2026-07-15
+
+### Changed
+
+- Update _Fluentd Aggregator_ OCI image to [v2.1.0](https://github.com/fluent/fluentd-aggregator-docker-image/releases/tag/v2.1.0) (_Fluentd_ [v1.19.3](https://github.com/fluent/fluentd/releases/tag/v1.19.3)). ([#739](https://github.com/fluent/helm-charts/pull/739)) @stevehipwell
+
 ## [v1.0.0-beta.1] - 2026-06-07
 
 ### Added
@@ -24,4 +30,5 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluentd-aggregator
+[v1.0.0]: https://github.com/fluent/helm-charts/releases/tag/fluentd-aggregator-1.0.0
 [v1.0.0-beta.1]: https://github.com/fluent/helm-charts/releases/tag/fluentd-aggregator-1.0.0-beta.1
