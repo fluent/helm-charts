@@ -8358,6 +8358,35 @@ entries:
   - annotations:
       artifacthub.io/alternativeName: fluentd
       artifacthub.io/changes: |-
+        - kind: changed
+          description: "Update Fluentd Aggregator OCI image to v2.1.0 (Fluentd v1.19.3)."
+    apiVersion: v2
+    appVersion: 2.1.0
+    created: "2026-07-16T09:52:35.367832943Z"
+    description: Helm chart for Fluentd running as an aggregation StatefulSet and
+      using the fluent-plugin-route router.
+    digest: 1f9b4ccb57a74b0b1e4817760a3e5138c89d6c26ef79c682f7561bd8914e5d5a
+    home: https://www.fluentd.org/
+    icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluentd-aggregator/icon.png
+    keywords:
+    - fluent
+    - fluentd
+    - logging
+    - aggregator
+    maintainers:
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluentd-aggregator
+    sources:
+    - https://github.com/fluent/fluentd-aggregator-docker-image/
+    - https://github.com/fluent/helm-charts/
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0/fluentd-aggregator-1.0.0.tgz
+    version: 1.0.0
+  - annotations:
+      artifacthub.io/alternativeName: fluentd
+      artifacthub.io/changes: |-
         - kind: added
           description: "Added initial release."
     apiVersion: v2
@@ -8384,4 +8413,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0-beta.1/fluentd-aggregator-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
-generated: "2026-07-06T17:12:27.195924575Z"
+generated: "2026-07-16T09:52:35.368230641Z"
