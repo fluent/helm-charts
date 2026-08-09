@@ -120,6 +120,7 @@ helm upgrade --install fluentd fluent/fluentd --version 0.5.3
 | serviceAccount.name | string | `nil` |  |
 | terminationGracePeriodSeconds | string | `nil` |  |
 | tolerations | list | `[]` |  |
+| topologySpreadConstraints | list | `[]` |  |
 | updateStrategy | object | `{}` |  |
 | variant | string | `"elasticsearch7"` |  |
 | variantVersion | string | `"1.6"` |  |

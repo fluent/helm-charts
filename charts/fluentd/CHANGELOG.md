@@ -17,6 +17,7 @@
 ### Added
 
 - Add `variantVersion` value to specify the version of the variant to use. ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
+- Add `topologySpreadConstraints` value to spread pods across zones or nodes. ([#747](https://github.com/fluent/helm-charts/pull/747)) @ranyhb
 
 ### Changed
 
