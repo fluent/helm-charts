@@ -27,8 +27,8 @@ spec:
     metadata:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/fluentd-configurations-cm.yaml") . | sha256sum }}
-        {{- with .Values.podAnnotations }}
-          {{- toYaml . | nindent 8 }}
+        {{- range $k, $v := .Values.podAnnotations }}
+        {{ printf "%s: %s" $k ((tpl $v $) | quote) }}
         {{- end }}
       labels:
         {{- include "fluentd.selectorLabels" . | nindent 8 }}

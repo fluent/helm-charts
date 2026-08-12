@@ -16,6 +16,7 @@
 
 ### Added
 
+- Support `tpl` evaluation in `podAnnotations` to allow dynamic checksums from parent charts. ([#709](https://github.com/fluent/helm-charts/pull/709)) @elimayost
 - Add `variantVersion` value to specify the version of the variant to use. ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
 
 ### Changed
