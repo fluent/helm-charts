@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v1.1.0] - 2026-08-12
+
+### Changed
+
+- Update _Fluent Bit_ OCI image to [v5.1.0](https://github.com/fluent/fluent-bit/releases/tag/v5.1.0). ([#749](https://github.com/fluent/helm-charts/pull/749)) @stevehipwell
+
 ### Fixed
 
 - Only mount the `data` volume when `storage.enabled` is `true`. The template previously checked `.Values.storage` (a map that is always truthy), so the volume was mounted even when storage was disabled. ([#732](https://github.com/fluent/helm-charts/pull/732)) _@yugstar_
@@ -100,6 +106,7 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-bit-collector
+[v1.1.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-collector-1.1.0
 [v1.0.9]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-collector-1.0.9
 [v1.0.8]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-collector-1.0.8
 [v1.0.7]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-collector-1.0.7
