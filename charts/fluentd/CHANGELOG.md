@@ -28,6 +28,7 @@
 ### Fixed
 
 - Fix test connection pod to actually run so CI can pass. ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
+- Don't render `spec.replicas` on the _Deployment_ when `autoscaling.enabled` is `true` or `replicaCount` is unset, so the _HorizontalPodAutoscaler_ owns the replica count. ([#745](https://github.com/fluent/helm-charts/pull/745)) @ranyhb
 
 ## [v0.5.3] - 2025-05-05
 
