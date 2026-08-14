@@ -11,7 +11,6 @@ Helm chart for deploying Fluentd on Kubernetes. [Fluentd](https://www.fluentd.or
 | Name | Email | Url |
 | ---- | ------ | --- |
 | edsiper | <eduardo@treasure-data.com> |  |
-| dioguerra | <diogo.filipe.tomas.guerra@cern.ch> |  |
 
 ## Source Code
 
