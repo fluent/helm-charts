@@ -48,3 +48,27 @@ See `git help commit`:
     license and agrees to a Developer Certificate of Origin (see
     http://developercertificate.org/ for more information).
 ```
+
+## Chart Instructions
+
+### Fluent Operator Chart
+
+> [!Important]
+> The _fluent-operator_ chart is maintained in the [fluent/fluent-operator][fluent-operator-chart] repository. Please **DO NOT** submit PRs for the _fluent-operator_ chart directly in this repository!
+
+### Technical Requirements
+
+- Must pass [DCO check](#sign-off-your-work)
+- Must follow [Charts best practices](https://helm.sh/docs/topics/chart_best_practices/)
+- Must pass CI jobs for linting and installing changed charts with the [chart-testing](https://github.com/helm/chart-testing) tool
+- Any change to a chart requires a version bump following [semver](https://semver.org/) principles.
+
+Once changes have been merged, the release job will automatically run to package and release changed charts.
+
+### Community Requirements
+
+This project is released with a [Contributor Covenant](https://www.contributor-covenant.org).
+By participating in this project you agree to abide by its terms.
+See [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
+
+[fluent-operator-chart]: https://github.com/fluent/fluent-operator/tree/master/charts/fluent-operator "Sources for the fluent-operator Chart"
