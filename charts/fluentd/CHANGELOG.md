@@ -14,6 +14,8 @@
 
 ## [UNRELEASED]
 
+## [v0.6.0] - 2025-08-14
+
 ### Added
 
 - Support `tpl` evaluation in `podAnnotations` to allow dynamic checksums from parent charts. ([#709](https://github.com/fluent/helm-charts/pull/709)) @elimayost
@@ -25,6 +27,8 @@
 - Use SemVer for chart versioning (remove `v` prefix from `appVersion`). ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
 - Update _Fluentd_ app version to [`1.19.2`](https://github.com/fluent/fluentd/releases/tag/v1.19.2). ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
 - Update _elasticsearch7_ variant version to `1.6`. ([#720](https://github.com/fluent/helm-charts/pull/720)) @stevehipwell
+- Update _Fluentd_ app version to [`1.19.3`](https://github.com/fluent/fluentd/releases/tag/v1.19.3). ([#750](https://github.com/fluent/helm-charts/pull/750)) @stevehipwell
+- Update _elasticsearch7_ variant version to `1.1`. ([#750](https://github.com/fluent/helm-charts/pull/750)) @stevehipwell
 
 ### Fixed
 
@@ -42,4 +46,5 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluentd
+[v0.6.0]: https://github.com/fluent/helm-charts/releases/tag/fluentd-0.6.0
 [v0.5.3]: https://github.com/fluent/helm-charts/releases/tag/fluentd-0.5.3
