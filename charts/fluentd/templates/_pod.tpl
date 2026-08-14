@@ -36,6 +36,13 @@ containers:
     env:
     - name: FLUENTD_CONF
       value: "../../../etc/fluent/fluent.conf"
+    # Pass the node name to the kubernetes_metadata filter so it can watch only
+    # the local node's pods instead of the whole cluster (reduces API server load
+    # and silences the "K8S_NODE_NAME is not set" warning).
+    - name: K8S_NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
     {{- if .Values.env }}
     {{- toYaml .Values.env | nindent 4 }}
     {{- end }}
