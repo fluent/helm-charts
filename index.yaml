@@ -7789,6 +7789,47 @@ entries:
     - https://github.com/fluent/helm-charts/releases/download/fluent-operator-fluentd-crds-4.0.0/fluent-operator-fluentd-crds-4.0.0.tgz
     version: 4.0.0
   fluentd:
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: "Support tpl evaluation in podAnnotations to allow dynamic checksums from parent charts."
+        - kind: added
+          description: "Add variantVersion value to specify the version of the variant to use."
+        - kind: added
+          description: "Add topologySpreadConstraints value to spread pods across zones or nodes."
+        - kind: changed
+          description: "Use SemVer for chart versioning (remove v prefix from appVersion)."
+        - kind: changed
+          description: "Update Fluentd app version to 1.19.2."
+        - kind: changed
+          description: "Update elasticsearch7 variant version to 1.6."
+        - kind: changed
+          description: "Update Fluentd app version to 1.19.3."
+        - kind: changed
+          description: "Update elasticsearch7 variant version to 1.1."
+        - kind: fixed
+          description: "Fix test connection pod to actually run so CI can pass."
+        - kind: fixed
+          description: "Don't render spec.replicas on the Deployment when autoscaling.enabled is true or replicaCount is unset, so the HorizontalPodAutoscaler owns the replica count."
+    apiVersion: v2
+    appVersion: 1.19.3
+    created: "2026-08-14T10:03:38.316948794Z"
+    description: Helm chart for deploying Fluentd on Kubernetes.
+    digest: 0e3ca3829c695e8b6f13d314b45d4c46329a5e6549fb264db037fef8f2be1bb8
+    home: https://www.fluentd.org/
+    icon: https://www.fluentd.org/images/miscellany/fluentd-logo_2x.png
+    maintainers:
+    - email: eduardo@treasure-data.com
+      name: edsiper
+    - email: diogo.filipe.tomas.guerra@cern.ch
+      name: dioguerra
+    name: fluentd
+    sources:
+    - https://github.com/fluent/fluentd/
+    - https://github.com/fluent/fluentd-kubernetes-daemonset
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluentd-0.6.0/fluentd-0.6.0.tgz
+    version: 0.6.0
   - apiVersion: v2
     appVersion: v1.17.1
     created: "2025-05-05T14:40:10.141155348Z"
@@ -8506,4 +8547,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0-beta.1/fluentd-aggregator-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
-generated: "2026-08-13T17:55:54.848069482Z"
+generated: "2026-08-14T10:03:38.31750125Z"
