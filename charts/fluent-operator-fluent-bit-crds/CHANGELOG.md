@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v4.3.0] - 2026-08-17
+
+### Changed
+
+- Updated Output CRDs with `batchSize` (OpenTelemetry), `rawLogKey` (Kafka), and `totalLimitSize` (Splunk) fields ([#2015](https://github.com/fluent/fluent-operator/pull/2015), [#2000](https://github.com/fluent/fluent-operator/pull/2000), [#2009](https://github.com/fluent/fluent-operator/pull/2009))
+
 ## [v4.2.0] - 2026-06-09
 
 ### Changed
@@ -37,6 +43,7 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-operator-crds-fluent-bit
+[v4.3.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.3.0
 [v4.2.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.2.0
 [v4.1.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.1.0
 [v4.0.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.0.0
