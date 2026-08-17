@@ -3,7 +3,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "fluent-bit-aggregator.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "fluent-bit-aggregator.namespace" . }}
   labels:
     {{- include "fluent-bit-aggregator.labels" . | nindent 4 }}
 spec:
