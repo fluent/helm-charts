@@ -14,6 +14,20 @@
 
 ## [UNRELEASED]
 
+## [v4.3.0] - 2026-08-17
+
+### Added
+
+- `batchSize` support for the OpenTelemetry Fluent Bit output ([#2015](https://github.com/fluent/fluent-operator/pull/2015))
+- `rawLogKey` and raw format support for the Kafka Fluent Bit output ([#2000](https://github.com/fluent/fluent-operator/pull/2000))
+- `totalLimitSize` (storage total limit) support for the Splunk Fluent Bit output ([#2009](https://github.com/fluent/fluent-operator/pull/2009))
+
+### Changed
+
+- `fluentbit.service` value now accepts any valid Fluent Bit `[service]` field, merged over the chart defaults ([#2010](https://github.com/fluent/fluent-operator/pull/2010))
+- Bumped default Fluent Bit image tag to `5.1.0` ([#2027](https://github.com/fluent/fluent-operator/pull/2027))
+- Bumped fluent-operator to v3.10.0
+
 ## [v4.2.0] - 2026-06-09
 
 ### Added
@@ -48,6 +62,7 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-operator
+[v4.3.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.3.0
 [v4.2.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.2.0
 [v4.1.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.1.0
 [v4.0.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.0.0
