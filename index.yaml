@@ -7117,6 +7117,47 @@ entries:
   - annotations:
       artifacthub.io/changes: |-
         - kind: added
+          description: "batchSize support for the OpenTelemetry Fluent Bit output (#2015)."
+        - kind: added
+          description: "rawLogKey and raw format support for the Kafka Fluent Bit output (#2000)."
+        - kind: added
+          description: "totalLimitSize (storage total limit) support for the Splunk Fluent Bit output (#2009)."
+        - kind: changed
+          description: "fluentbit."
+        - kind: changed
+          description: "Bumped default Fluent Bit image tag to 5.1."
+        - kind: changed
+          description: "Bumped fluent-operator to v3.10."
+    apiVersion: v2
+    appVersion: 3.10.0
+    created: "2026-08-18T07:35:38.84098248Z"
+    description: Kubernetes operator for Fluent Bit and Fluentd—define collectors,
+      pipelines, and outputs as custom resources.
+    digest: b5e2edbaf5faea471492a118a30777c52d0ea1a3b3e0bd427df5350680ef2828
+    home: https://github.com/fluent/fluent-operator
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    - operator
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    - email: marco.franssen@gmail.com
+      name: marcofranssen
+      url: https://marcofranssen.nl
+    - email: joshbaird@gmail.com
+      name: joshuabaird
+    name: fluent-operator
+    sources:
+    - https://github.com/fluent/fluent-operator
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-4.3.0/fluent-operator-4.3.0.tgz
+    version: 4.3.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
           description: "fluentd.forward."
         - kind: added
           description: "fluentbit.metadata."
@@ -8638,4 +8679,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0-beta.1/fluentd-aggregator-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
-generated: "2026-08-17T09:33:41.585042417Z"
+generated: "2026-08-18T07:35:38.841274354Z"
