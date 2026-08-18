@@ -7728,6 +7728,38 @@ entries:
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
+          description: "Updated Output CRDs with batchSize (OpenTelemetry), rawLogKey (Kafka), and totalLimitSize (Splunk) fields (#2015, #2000, #2009)."
+    apiVersion: v2
+    appVersion: 3.10.0
+    created: "2026-08-18T07:36:13.177986462Z"
+    description: Custom Resource Definitions (CRDs) for Fluent Bit. Provides full
+      Helm lifecycle management for all Fluent Bit CRDs used by Fluent Operator.
+    digest: cd3c8c45e143fdbf2c5cbeff476903a723f41d121c1b51c077dc3ddf63090517
+    home: https://github.com/fluent/fluent-operator
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluent-operator
+    - crds
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    - email: marco.franssen@gmail.com
+      name: marcofranssen
+      url: https://marcofranssen.nl
+    - email: joshbaird@gmail.com
+      name: joshuabaird
+    name: fluent-operator-fluent-bit-crds
+    sources:
+    - https://github.com/fluent/fluent-operator/tree/master/charts/fluent-operator-fluent-bit-crds
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-fluent-bit-crds-4.3.0/fluent-operator-fluent-bit-crds-4.3.0.tgz
+    version: 4.3.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
           description: "Updated Output CRDs with retainMetadataInForwardMode field (#1973)."
         - kind: changed
           description: "Updated Firehose output CRDs with additional settings (#1954)."
@@ -8679,4 +8711,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0-beta.1/fluentd-aggregator-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
-generated: "2026-08-18T07:35:38.841274354Z"
+generated: "2026-08-18T07:36:13.178471695Z"
