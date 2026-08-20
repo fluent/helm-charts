@@ -156,7 +156,7 @@ helm upgrade --install fluent-bit fluent/fluent-bit --version 0.58.1
 | openShift.securityContextConstraints.name | string | `""` |  |
 | openShift.securityContextConstraints.runAsUser.type | string | `"RunAsAny"` |  |
 | openShift.securityContextConstraints.seLinuxContext.type | string | `"MustRunAs"` |  |
-| podAnnotations | object | `{}` |  |
+| podAnnotations | object | `{}` | Annotations to be added to the pods. Supports tpl evaluation. |
 | podDisruptionBudget.annotations | object | `{}` |  |
 | podDisruptionBudget.enabled | bool | `false` |  |
 | podDisruptionBudget.maxUnavailable | string | `"30%"` |  |
