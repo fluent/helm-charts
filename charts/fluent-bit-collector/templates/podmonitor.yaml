@@ -3,7 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: {{ include "fluent-bit-collector.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "fluent-bit-collector.namespace" . }}
   labels:
     {{- include "fluent-bit-collector.labels" . | nindent 4 }}
   {{- with .Values.serviceMonitor.additionalLabels }}
@@ -13,7 +13,7 @@ spec:
   jobLabel: app.kubernetes.io/instance
   namespaceSelector:
     matchNames:
-      - {{ .Release.Namespace }}
+      - {{ include "fluent-bit-collector.namespace" . }}
   selector:
     matchLabels:
       {{- include "fluent-bit-collector.selectorLabels" . | nindent 6 }}

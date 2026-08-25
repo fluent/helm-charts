@@ -3,7 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: {{ include "fluent-bit-collector.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "fluent-bit-collector.namespace" . }}
   labels:
     {{- include "fluent-bit-collector.labels" . | nindent 4 }}
 roleRef:
@@ -13,5 +13,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: {{ include "fluent-bit-collector.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ include "fluent-bit-collector.namespace" . }}
 {{- end }}
