@@ -3,6 +3,8 @@ apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: {{ include "fluent-bit.fullname" . }}
+  labels:
+    {{- include "fluent-bit.labels" . | nindent 4 }}
 {{- if .Values.podSecurityPolicy.annotations }}
   annotations:
     {{- toYaml .Values.podSecurityPolicy.annotations | nindent 4 }}
