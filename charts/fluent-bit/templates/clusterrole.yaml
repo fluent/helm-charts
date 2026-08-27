@@ -11,6 +11,7 @@ rules:
     resources:
       - namespaces
       - pods
+      - pods/logs
       {{- if .Values.rbac.nodeAccess }}
       - nodes
       - nodes/metrics
