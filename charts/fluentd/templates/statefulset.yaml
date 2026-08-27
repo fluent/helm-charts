@@ -15,6 +15,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   serviceName: {{ include "fluentd.fullname" . }}
+  podManagementPolicy: {{ .Values.podManagementPolicy }}
   {{- with .Values.updateStrategy }}
   updateStrategy:
     {{- toYaml . | nindent 4 }}
