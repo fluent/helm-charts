@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ include "fluent-bit-collector.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "fluent-bit-collector.namespace" . }}
   labels:
     {{- include "fluent-bit-collector.labels" . | nindent 4 }}
 spec:

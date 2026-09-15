@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "fluent-bit-collector.configConfigMapName" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "fluent-bit-collector.namespace" . }}
   labels:
     {{- include "fluent-bit-collector.labels" . | nindent 4 }}
 data:

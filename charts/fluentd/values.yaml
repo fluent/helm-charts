@@ -1,5 +1,6 @@
 nameOverride: ""
 fullnameOverride: ""
+namespaceOverride: ""
 
 # DaemonSet, Deployment or StatefulSet
 kind: "DaemonSet"
