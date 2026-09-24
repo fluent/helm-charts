@@ -14,9 +14,9 @@
 
 ## [UNRELEASED]
 
-### Changed
+### Added
 
-- Support `tpl` evaluation in `podAnnotations` to allow dynamic checksums from parent charts. ([#754](https://github.com/fluent/helm-charts/pull/754)) @Frapschen
+- Add support for `tpl` evaluation in `podAnnotations`. ([#754](https://github.com/fluent/helm-charts/pull/754)) @Frapschen
 
 ## [v0.58.3] - 2026-10-01
 
