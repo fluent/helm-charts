@@ -122,7 +122,7 @@ podDisruptionBudget:
 # -- Labels to add to the pod.
 podLabels: {}
 
-# -- Annotations to add to the pod.
+# -- Annotations to add to the pod; supports `tpl` evaluation.
 podAnnotations: {}
 
 # -- (bool) If the service account token should be mounted to the pod, this overrides `serviceAccount.automountToken`.

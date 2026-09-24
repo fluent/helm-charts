@@ -89,7 +89,7 @@ helm upgrade --install fluent-bit-collector fluent/fluent-bit-collector --versio
 | minReadySeconds | int | `nil` | Min ready seconds for the `DaemonSet`. |
 | nameOverride | string | `nil` | Override the name of the chart. |
 | nodeSelector | object | `{}` | Node labels to match for pod scheduling. |
-| podAnnotations | object | `{}` | Annotations to add to the pod. |
+| podAnnotations | object | `{}` | Annotations to add to the pod; supports `tpl` evaluation. |
 | podLabels | object | `{}` | Labels to add to the pod. |
 | podSecurityContext | object | See _values.yaml_ | Security context for the pod. |
 | priorityClassName | string | `nil` | Priority class name for the pod. |

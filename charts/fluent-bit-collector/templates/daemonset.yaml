@@ -31,8 +31,8 @@ spec:
         checksum/scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
       {{- end }}
       {{- end }}
-      {{- with .Values.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
+      {{- range $key, $value := .Values.podAnnotations }}
+        {{ printf "%s: %s" $key ((tpl (toString $value) $) | quote) }}
       {{- end }}
     {{- end }}
     spec:

@@ -100,7 +100,7 @@ helm upgrade --install fluent-bit-aggregator fluent/fluent-bit-aggregator --vers
 | persistence.retainScaled | bool | `true` | If `true`, keep `PersistentVolumeClaim` when the `StatefulSet` is scaled down. |
 | persistence.size | string | `"8Gi"` | Size of the `PersistentVolumeClaim`. |
 | persistence.storageClass | string | `nil` | Storage class for the `PersistentVolumeClaim`, if not set the default will be used. |
-| podAnnotations | object | `{}` | Annotations to add to the pod. |
+| podAnnotations | object | `{}` | Annotations to add to the pod; supports `tpl` evaluation. |
 | podDisruptionBudget.enabled | bool | `false` | If `true`, create a `PodDisruptionBudget` resource. |
 | podDisruptionBudget.maxUnavailable | string | `nil` | Minimum number of unavailable pods, either a number or a percentage. |
 | podDisruptionBudget.minAvailable | string | `nil` | Minimum number of available pods, either a number or a percentage. |
