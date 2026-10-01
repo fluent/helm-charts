@@ -89,6 +89,7 @@ helm upgrade --install fluentd fluent/fluentd --version 0.6.0
 | metrics.serviceMonitor.metricRelabelings | list | `[]` |  |
 | metrics.serviceMonitor.namespace | string | `""` |  |
 | metrics.serviceMonitor.namespaceSelector | object | `{}` |  |
+| metrics.serviceMonitor.path | string | `"/metrics"` | Path to scrape. Use `/aggregated_metrics` to get every worker when running with multiple `workers`. |
 | metrics.serviceMonitor.relabelings | list | `[]` |  |
 | minReadySeconds | string | `nil` |  |
 | mountDockerContainersDirectory | bool | `true` |  |

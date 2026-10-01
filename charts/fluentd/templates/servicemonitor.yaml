@@ -15,7 +15,7 @@ spec:
   jobLabel: {{ .Values.metrics.serviceMonitor.jobLabel | default .Release.Name }}
   endpoints:
     - port: metrics
-      path: /metrics
+      path: {{ .Values.metrics.serviceMonitor.path | default "/metrics" }}
       {{- with .Values.metrics.serviceMonitor.interval }}
       interval: {{ . }}
       {{- end }}
