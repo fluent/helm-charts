@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Added
+
+- Add `metrics.serviceMonitor.path` value to scrape `/aggregated_metrics` when running multiple workers. ([#758](https://github.com/fluent/helm-charts/pull/758)) @yakir-shriker
+
 ## [v0.6.0] - 2025-08-14
 
 ### Added

@@ -232,6 +232,8 @@ metrics:
       release: prometheus-operator
     namespace: ""
     namespaceSelector: {}
+    # -- Path to scrape. Use `/aggregated_metrics` to get every worker when running with multiple `workers`.
+    path: /metrics
     ## metric relabel configs to apply to samples before ingestion.
     ##
     metricRelabelings: []
