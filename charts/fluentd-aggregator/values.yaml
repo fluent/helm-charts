@@ -275,7 +275,8 @@ serviceMonitor:
   # -- Additional labels for the `ServiceMonitor`.
   additionalLabels: {}
   # -- Additional endpoint configuration for the default `ServiceMonitor` endpoint.
-  endpointConfig: {}
+  endpointConfig:
+    path: /metrics
 
 dashboards:
   # -- If `true`, install the _Grafana_ dashboards provided by the chart.

@@ -24,7 +24,6 @@ spec:
           - "false"
   endpoints:
     - port: http-metrics
-      path: /metrics
     {{- with .Values.serviceMonitor.endpointConfig }}
       {{- toYaml . | nindent 6 }}
     {{- end }}
