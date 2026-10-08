@@ -1,6 +1,6 @@
 # fluentd-aggregator
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
 
 Helm chart for Fluentd running as an aggregation StatefulSet and using the fluent-plugin-route router.
 
@@ -24,7 +24,7 @@ Helm chart for Fluentd running as an aggregation StatefulSet and using the fluen
 To install the chart using the recommended OCI method you can use the following command.
 
 ```shell
-helm upgrade --install fluentd-aggregator oci://ghcr.io/fluent/helm-charts/fluentd-aggregator --version 1.0.0
+helm upgrade --install fluentd-aggregator oci://ghcr.io/fluent/helm-charts/fluentd-aggregator --version 1.1.0
 ```
 
 #### Verification
@@ -32,7 +32,7 @@ helm upgrade --install fluentd-aggregator oci://ghcr.io/fluent/helm-charts/fluen
 As the OCI chart release is signed by [Cosign](https://github.com/sigstore/cosign) you can verify the chart before installing it by running the following command.
 
 ```shell
-cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluentd-aggregator:1.0.0
+cosign verify --certificate-oidc-issuer https://token.actions.githubusercontent.com --certificate-identity-regexp 'https://github\.com/action-stars/helm-workflows/\.github/workflows/release\.yaml@.+' --certificate-github-workflow-repository fluent/helm-charts --certificate-github-workflow-name Release ghcr.io/fluent/helm-charts/fluentd-aggregator:1.1.0
 ```
 
 ### Non-OCI Repository
@@ -41,7 +41,7 @@ Alternatively you can use the legacy non-OCI method via the following commands.
 
 ```shell
 helm repo add fluent https://fluent.github.io/helm-charts/
-helm upgrade --install fluentd-aggregator fluent/fluentd-aggregator --version 1.0.0
+helm upgrade --install fluentd-aggregator fluent/fluentd-aggregator --version 1.1.0
 ```
 
 ## Values
@@ -121,7 +121,7 @@ helm upgrade --install fluentd-aggregator fluent/fluentd-aggregator --version 1.
 | serviceAccount.name | string | `nil` | If this is set and `serviceAccount.create` is `true` this will be used for the created `ServiceAccount` name, if set and `serviceAccount.create` is `false` then this will define an existing `ServiceAccount` to use. |
 | serviceMonitor.additionalLabels | object | `{}` | Additional labels for the `ServiceMonitor`. |
 | serviceMonitor.enabled | bool | `false` | If `true`, create a `ServiceMonitor` resource to support the _Prometheus Operator_. |
-| serviceMonitor.endpointConfig | object | `{}` | Additional endpoint configuration for the default `ServiceMonitor` endpoint. |
+| serviceMonitor.endpointConfig | object | `{"path":"/metrics"}` | Additional endpoint configuration for the default `ServiceMonitor` endpoint. |
 | terminationGracePeriodSeconds | int | `nil` | Termination grace period for the pod in seconds. |
 | tolerations | list | `[]` | Node taints which will be tolerated for pod scheduling. |
 | topologySpreadConstraints | list | `[]` | Topology spread constraints for pod scheduling. If an explicit label selector is not provided one will be created from the pod selector labels. |
