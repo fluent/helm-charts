@@ -8871,6 +8871,37 @@ entries:
       artifacthub.io/alternativeName: fluentd
       artifacthub.io/changes: |-
         - kind: changed
+          description: "Update Fluentd Aggregator OCI image to v2.2.0 (Fluentd v1.9.4)."
+        - kind: changed
+          description: "Make ServiceMonitor path configurable via serviceMonitor.endpointConfig.path."
+    apiVersion: v2
+    appVersion: 2.2.0
+    created: "2026-10-08T12:03:27.386528556Z"
+    description: Helm chart for Fluentd running as an aggregation StatefulSet and
+      using the fluent-plugin-route router.
+    digest: f8bbee2085a94ad5d14b84aba3f3b9f67222efe4a5ed68d4e8f89e438529f8c0
+    home: https://www.fluentd.org/
+    icon: https://raw.githubusercontent.com/fluent/helm-charts/main/charts/fluentd-aggregator/icon.png
+    keywords:
+    - fluent
+    - fluentd
+    - logging
+    - aggregator
+    maintainers:
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: fluentd-aggregator
+    sources:
+    - https://github.com/fluent/fluentd-aggregator-docker-image/
+    - https://github.com/fluent/helm-charts/
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.1.0/fluentd-aggregator-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      artifacthub.io/alternativeName: fluentd
+      artifacthub.io/changes: |-
+        - kind: changed
           description: "Update Fluentd Aggregator OCI image to v2.1.0 (Fluentd v1.19.3)."
     apiVersion: v2
     appVersion: 2.1.0
@@ -8925,4 +8956,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0-beta.1/fluentd-aggregator-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
-generated: "2026-10-01T13:47:56.876626089Z"
+generated: "2026-10-08T12:03:27.38688353Z"
