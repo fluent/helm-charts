@@ -223,6 +223,19 @@ service:
   #   protocol: TCP
   #   containerPort: 24224
 
+## Network policy for the fluentd pods, disabled by default
+## When enabled without `ingress`, all ingress traffic to the pods is denied.
+## With `ingress`, traffic from `ingress.from` is allowed to the metrics port and to the `service.ports`
+## (an empty `from` allows all sources).
+## Prometheus and the helm test pod must be allowed in `ingress.from`.
+## Ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+##
+networkPolicy:
+  # -- Create a NetworkPolicy for the fluentd pods.
+  enabled: false
+  # ingress:
+  #   from: []
+
 ## Prometheus Monitoring
 ##
 metrics:

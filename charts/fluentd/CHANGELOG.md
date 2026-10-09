@@ -17,6 +17,7 @@
 ### Added
 
 - Add `metrics.serviceMonitor.path` value to scrape `/aggregated_metrics` when running multiple workers. ([#758](https://github.com/fluent/helm-charts/pull/758)) @yakir-shriker
+- Add optional `networkPolicy` value to create a _NetworkPolicy_ for the _Fluentd_ pods (disabled by default). ([#761](https://github.com/fluent/helm-charts/pull/761)) @berlewis
 
 ## [v0.6.0] - 2025-08-14
 

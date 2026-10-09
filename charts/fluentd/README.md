@@ -95,6 +95,7 @@ helm upgrade --install fluentd fluent/fluentd --version 0.6.0
 | mountDockerContainersDirectory | bool | `true` |  |
 | mountVarLogDirectory | bool | `true` |  |
 | nameOverride | string | `""` |  |
+| networkPolicy.enabled | bool | `false` | Create a NetworkPolicy for the fluentd pods. |
 | nodeSelector | object | `{}` |  |
 | persistence.accessMode | string | `"ReadWriteOnce"` |  |
 | persistence.enabled | bool | `false` |  |
