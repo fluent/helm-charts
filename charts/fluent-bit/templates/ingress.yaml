@@ -9,7 +9,7 @@ apiVersion: {{ include "fluent-bit.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ include "fluent-bit.namespace" . }}
   labels:
     {{- include "fluent-bit.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}

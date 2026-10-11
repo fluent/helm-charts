@@ -12,5 +12,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: {{ include "fluent-bit.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ include "fluent-bit.namespace" . }}
 {{- end -}}
