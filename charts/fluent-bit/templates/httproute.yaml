@@ -1,0 +1,37 @@
+{{- if eq .Values.kind "Deployment" }}
+{{- $fullName := include "fluent-bit.fullname" . -}}
+{{- range $i, $v := .Values.httpRoutes }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ (printf "%s-%s" ($fullName | trunc 60) (toString $i)) | trunc 63 | trimSuffix "-" }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "fluent-bit.labels" $ | nindent 4 }}
+    {{- with $v.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $v.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with $v.parentRefs }}
+  parentRefs:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $v.hostnames }}
+  hostnames:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+  {{- if $v.rules }}
+    {{- toYaml $v.rules | nindent 4 }}
+  {{- else }}
+    - backendRefs:
+        - name: {{ $fullName }}
+          port: {{ $v.servicePort | default $.Values.service.port }}
+  {{- end }}
+{{- end }}
+{{- end }}
