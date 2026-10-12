@@ -14,6 +14,12 @@
 
 ## [UNRELEASED]
 
+## [v0.59.0] - 2026-10-12
+
+### Added
+
+- Gateway API `HTTPRoute` support via `httpRoutes`, available when `kind` is `Deployment`.
+
 ## [v0.58.3] - 2026-10-01
 
 ### Changed
@@ -133,6 +139,7 @@ RELEASE LINKS
 -->
 
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-bit
+[v0.59.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.59.0
 [v0.58.3]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.58.3
 [v0.58.2]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.58.2
 [v0.58.1]: https://github.com/fluent/helm-charts/releases/tag/fluent-bit-0.58.1
