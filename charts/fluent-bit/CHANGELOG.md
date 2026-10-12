@@ -18,7 +18,7 @@
 
 ### Added
 
-- Gateway API `HTTPRoute` support via `httpRoutes`, available when `kind` is `Deployment`.
+- Gateway API `HTTPRoute` support via `httpRoutes`, available when `kind` is `Deployment`. ([#763](https://github.com/fluent/helm-charts/pull/763)) @lexfrei
 
 ## [v0.58.3] - 2026-10-01
 
