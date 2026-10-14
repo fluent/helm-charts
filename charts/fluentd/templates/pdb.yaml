@@ -1,0 +1,21 @@
+{{- if and  (or ( eq .Values.kind "Deployment" )  ( eq .Values.kind "StatefulSet" ))  .Values.podDisruptionBudget.enabled }}
+apiVersion: {{ include "fluentd.pdb.apiVersion" . }}
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "fluentd.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+{{- with .Values.podDisruptionBudget.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
+spec:
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+  selector:
+    matchLabels:
+      {{- include "fluentd.selectorLabels" . | nindent 6 }}
+      {{- with .Values.labels }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+{{- end }}
