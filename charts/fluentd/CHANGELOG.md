@@ -17,7 +17,7 @@
 ### Added
 
 - Add `metrics.serviceMonitor.path` value to scrape `/aggregated_metrics` when running multiple workers. ([#758](https://github.com/fluent/helm-charts/pull/758)) @yakir-shriker
-- Add `service.trafficDistribution` value to set `spec.trafficDistribution` on the _Service_. @ranyhb
+- Add `service.trafficDistribution` value to set `spec.trafficDistribution` on the _Service_. ([#766](https://github.com/fluent/helm-charts/pull/766)) @ranyhb
 
 ## [v0.6.0] - 2025-08-14
 
