@@ -114,6 +114,7 @@ helm upgrade --install fluentd fluent/fluentd --version 0.6.0
 | service.annotations | object | `{}` |  |
 | service.enabled | bool | `true` |  |
 | service.ports | list | `[]` |  |
+| service.trafficDistribution | string | `""` | Traffic distribution preference for the _Service_; `PreferSameZone` and `PreferSameNode` require _Kubernetes_ v1.35 or later (`PreferClose` is available from v1.31). |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
