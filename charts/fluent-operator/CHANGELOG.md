@@ -14,6 +14,21 @@
 
 ## [UNRELEASED]
 
+## [v4.4.0] - 2026-10-28
+
+### Added
+
+- `excludePath` support for the Fluent Bit tail input ([#2074](https://github.com/fluent/fluent-operator/pull/2074))
+- `autoExtractTimestamp` support for the Splunk Fluent Bit output ([#2063](https://github.com/fluent/fluent-operator/pull/2063))
+- `workers` support for the HTTP Fluent Bit output ([#2076](https://github.com/fluent/fluent-operator/pull/2076))
+- `timeStrict` support for Fluent Bit parsers ([#2081](https://github.com/fluent/fluent-operator/pull/2081))
+
+### Changed
+
+- Updated CRDs with the latest Kubernetes API schemas ([#2041](https://github.com/fluent/fluent-operator/pull/2041))
+- Bumped default Fluent Bit image tag to `5.1.5` ([#2079](https://github.com/fluent/fluent-operator/pull/2079))
+- Bumped fluent-operator to v3.11.0
+
 ## [v4.3.0] - 2026-08-17
 
 ### Added
@@ -62,6 +77,7 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-operator
+[v4.4.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.4.0
 [v4.3.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.3.0
 [v4.2.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.2.0
 [v4.1.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-4.1.0
