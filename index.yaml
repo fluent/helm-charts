@@ -7953,6 +7953,42 @@ entries:
   - annotations:
       artifacthub.io/changes: |-
         - kind: changed
+          description: "Updated Output CRDs with autoExtractTimestamp (Splunk) and workers (HTTP) fields (#2063, #2076)."
+        - kind: changed
+          description: "Updated Parser CRDs with the timeStrict field (#2081)."
+        - kind: changed
+          description: "Updated FluentBit and Collector CRDs with the latest Kubernetes API schemas (#2041)."
+    apiVersion: v2
+    appVersion: 3.11.0
+    created: "2026-10-29T16:20:50.087226316Z"
+    description: Custom Resource Definitions (CRDs) for Fluent Bit. Provides full
+      Helm lifecycle management for all Fluent Bit CRDs used by Fluent Operator.
+    digest: 1743d7add7a7a3f8b08fcbcfbf0a297ba115afe88325a1174ba88247d72e3956
+    home: https://github.com/fluent/fluent-operator
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluent-operator
+    - crds
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    - email: marco.franssen@gmail.com
+      name: marcofranssen
+      url: https://marcofranssen.nl
+    - email: joshbaird@gmail.com
+      name: joshuabaird
+    name: fluent-operator-fluent-bit-crds
+    sources:
+    - https://github.com/fluent/fluent-operator/tree/master/charts/fluent-operator-fluent-bit-crds
+    type: application
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-fluent-bit-crds-4.4.0/fluent-operator-fluent-bit-crds-4.4.0.tgz
+    version: 4.4.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: changed
           description: "Updated Output CRDs with batchSize (OpenTelemetry), rawLogKey (Kafka), and totalLimitSize (Splunk) fields (#2015, #2000, #2009)."
     apiVersion: v2
     appVersion: 3.10.0
@@ -8999,4 +9035,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0-beta.1/fluentd-aggregator-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
-generated: "2026-10-29T16:19:55.427031081Z"
+generated: "2026-10-29T16:20:50.087600036Z"
