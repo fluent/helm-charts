@@ -7299,6 +7299,49 @@ entries:
   - annotations:
       artifacthub.io/changes: |-
         - kind: added
+          description: "excludePath support for the Fluent Bit tail input (#2074)."
+        - kind: added
+          description: "autoExtractTimestamp support for the Splunk Fluent Bit output (#2063)."
+        - kind: added
+          description: "workers support for the HTTP Fluent Bit output (#2076)."
+        - kind: added
+          description: "timeStrict support for Fluent Bit parsers (#2081)."
+        - kind: changed
+          description: "Updated CRDs with the latest Kubernetes API schemas (#2041)."
+        - kind: changed
+          description: "Bumped default Fluent Bit image tag to 5.1."
+        - kind: changed
+          description: "Bumped fluent-operator to v3.11."
+    apiVersion: v2
+    appVersion: 3.11.0
+    created: "2026-10-29T16:19:55.42679065Z"
+    description: Kubernetes operator for Fluent Bit and Fluentd—define collectors,
+      pipelines, and outputs as custom resources.
+    digest: 0674238162dd5195c9d34e841fc0e1dde4580993f33f3c3a0839582b543040d7
+    home: https://github.com/fluent/fluent-operator
+    icon: https://raw.githubusercontent.com/fluent/fluent-operator/master/docs/images/fluent-operator-icon.svg
+    keywords:
+    - logging
+    - fluent-bit
+    - fluentd
+    - operator
+    maintainers:
+    - email: dehaocheng@kubesphere.io
+      name: wenchajun
+    - email: marco.franssen@gmail.com
+      name: marcofranssen
+      url: https://marcofranssen.nl
+    - email: joshbaird@gmail.com
+      name: joshuabaird
+    name: fluent-operator
+    sources:
+    - https://github.com/fluent/fluent-operator
+    urls:
+    - https://github.com/fluent/helm-charts/releases/download/fluent-operator-4.4.0/fluent-operator-4.4.0.tgz
+    version: 4.4.0
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
           description: "batchSize support for the OpenTelemetry Fluent Bit output (#2015)."
         - kind: added
           description: "rawLogKey and raw format support for the Kafka Fluent Bit output (#2000)."
@@ -8956,4 +8999,4 @@ entries:
     urls:
     - https://github.com/fluent/helm-charts/releases/download/fluentd-aggregator-1.0.0-beta.1/fluentd-aggregator-1.0.0-beta.1.tgz
     version: 1.0.0-beta.1
-generated: "2026-10-08T12:03:27.38688353Z"
+generated: "2026-10-29T16:19:55.427031081Z"
