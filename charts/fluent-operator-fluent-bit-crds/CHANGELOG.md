@@ -14,6 +14,14 @@
 
 ## [UNRELEASED]
 
+## [v4.4.0] - 2026-10-28
+
+### Changed
+
+- Updated Output CRDs with `autoExtractTimestamp` (Splunk) and `workers` (HTTP) fields ([#2063](https://github.com/fluent/fluent-operator/pull/2063), [#2076](https://github.com/fluent/fluent-operator/pull/2076))
+- Updated Parser CRDs with the `timeStrict` field ([#2081](https://github.com/fluent/fluent-operator/pull/2081))
+- Updated FluentBit and Collector CRDs with the latest Kubernetes API schemas ([#2041](https://github.com/fluent/fluent-operator/pull/2041))
+
 ## [v4.3.0] - 2026-08-17
 
 ### Changed
@@ -43,6 +51,7 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluent-operator-crds-fluent-bit
+[v4.4.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.4.0
 [v4.3.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.3.0
 [v4.2.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.2.0
 [v4.1.0]: https://github.com/fluent/helm-charts/releases/tag/fluent-operator-crds-fluent-bit-4.1.0
