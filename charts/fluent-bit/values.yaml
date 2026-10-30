@@ -306,6 +306,7 @@ labels: {}
 
 annotations: {}
 
+# -- Annotations to be added to the pods; supports `tpl` evaluation.
 podAnnotations: {}
 
 podLabels: {}
