@@ -218,6 +218,8 @@ service:
   annotations: {}
   # loadBalancerIP:
   # externalTrafficPolicy: Local
+  # -- Traffic distribution preference for the _Service_; `PreferSameZone` and `PreferSameNode` require _Kubernetes_ v1.35 or later (`PreferClose` is available from v1.31).
+  trafficDistribution: ""
   ports: []
   # - name: "forwarder"
   #   protocol: TCP
