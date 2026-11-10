@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Fixed
+
+- Fix `helm test` failing with "already exists" after a previous failed test run by adding the `before-hook-creation` delete policy to the test pod. ([#769](https://github.com/fluent/helm-charts/pull/769))
+
 ## [v0.58.3] - 2026-10-01
 
 ### Changed
