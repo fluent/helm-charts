@@ -118,7 +118,7 @@ autoscaling/v2
 {{- end -}}
 {{- $values := deepCopy $root.Values -}}
 {{- if $zone.name -}}
-{{- $_ := set $values "nodeSelector" (merge (dict "topology.kubernetes.io/zone" $zone.name) ($values.nodeSelector | default dict)) -}}
+{{- $_ := set $values "nodeSelector" (merge (dict $root.Values.zonalDeploymentsTopologyKey $zone.name) ($values.nodeSelector | default dict)) -}}
 {{- if hasKey $zone "replicaCount" -}}
 {{- $_ := set $values "replicaCount" $zone.replicaCount -}}
 {{- end -}}

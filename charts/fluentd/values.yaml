@@ -145,12 +145,15 @@ topologySpreadConstraints: []
 
 ## One Deployment per zone, only applicable for Deployment
 ##
-# -- Zones to run one Deployment in each, with its own HorizontalPodAutoscaler when `autoscaling.enabled` is `true`, instead of a single Deployment. Each zone's pods are pinned to it through `nodeSelector` on `topology.kubernetes.io/zone`, and the Service keeps selecting the pods of every zone. Each entry needs a `name`. Every zone's Deployment and HorizontalPodAutoscaler start from `replicaCount` and `autoscaling`, so `autoscaling.minReplicas` and `autoscaling.maxReplicas` apply to each zone, and an entry can set `replicaCount`, `minReplicas` and `maxReplicas` to override them for that zone. Only applicable when `kind` is `Deployment`.
+# -- Zones to run one Deployment in each, with its own HorizontalPodAutoscaler when `autoscaling.enabled` is `true`, instead of a single Deployment. Each zone's pods are pinned to it through `nodeSelector` on `zonalDeploymentsTopologyKey`, and the Service keeps selecting the pods of every zone. Each entry needs a `name`. Every zone's Deployment and HorizontalPodAutoscaler start from `replicaCount` and `autoscaling`, so `autoscaling.minReplicas` and `autoscaling.maxReplicas` apply to each zone, and an entry can set `replicaCount`, `minReplicas` and `maxReplicas` to override them for that zone. Only applicable when `kind` is `Deployment`.
 zonalDeployments: []
 # - name: us-east-1a
 # - name: us-east-1b
 #   minReplicas: 2
 #   maxReplicas: 20
+
+# -- Node label that pins each zone in `zonalDeployments` to its zone through `nodeSelector`.
+zonalDeploymentsTopologyKey: topology.kubernetes.io/zone
 
 ## Annotations to be added to fluentd DaemonSet/Deployment
 ##
