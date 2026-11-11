@@ -126,7 +126,7 @@ helm upgrade --install fluentd fluent/fluentd --version 0.6.0
 | variantVersion | string | `"1.1"` |  |
 | volumeMounts | list | `[]` |  |
 | volumes | list | `[]` |  |
-| zonalDeployments | list | `[]` | Zones to run one Deployment in each, with its own HorizontalPodAutoscaler when `autoscaling.enabled` is `true`, instead of a single Deployment. Each zone's pods are pinned to it through `nodeSelector` on `topology.kubernetes.io/zone`, and the Service keeps selecting the pods of every zone. An entry is a zone name, or a map with a `name` and optional `replicaCount`, `minReplicas` and `maxReplicas` that override `replicaCount`, `autoscaling.minReplicas` and `autoscaling.maxReplicas` for that zone. Only applicable when `kind` is `Deployment`. |
+| zonalDeployments | list | `[]` | Zones to run one Deployment in each, with its own HorizontalPodAutoscaler when `autoscaling.enabled` is `true`, instead of a single Deployment. Each zone's pods are pinned to it through `nodeSelector` on `topology.kubernetes.io/zone`, and the Service keeps selecting the pods of every zone. Each entry needs a `name`. Every zone's Deployment and HorizontalPodAutoscaler start from `replicaCount` and `autoscaling`, so `autoscaling.minReplicas` and `autoscaling.maxReplicas` apply to each zone, and an entry can set `replicaCount`, `minReplicas` and `maxReplicas` to override them for that zone. Only applicable when `kind` is `Deployment`. |
 
 ## Upgrading
 

@@ -106,15 +106,15 @@ autoscaling/v2
 {{- if .Values.zonalDeployments -}}
 {{- toJson .Values.zonalDeployments -}}
 {{- else -}}
-{{- toJson (list "") -}}
+{{- toJson (list (dict "name" "")) -}}
 {{- end -}}
 {{- end -}}
 
 {{- define "fluentd.zoneContext" -}}
 {{- $root := .root -}}
-{{- $zone := ternary (dict "name" .zone) .zone (kindIs "string" .zone) -}}
-{{- if and $root.Values.zonalDeployments (not $zone.name) -}}
-{{- fail "every entry in zonalDeployments needs a zone name" -}}
+{{- $zone := .zone -}}
+{{- if and $root.Values.zonalDeployments (not (and (kindIs "map" $zone) $zone.name)) -}}
+{{- fail "every entry in zonalDeployments must be a map with a name" -}}
 {{- end -}}
 {{- $values := deepCopy $root.Values -}}
 {{- if $zone.name -}}
