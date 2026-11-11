@@ -103,11 +103,8 @@ autoscaling/v2
 {{- end -}}
 {{- end -}}
 {{- define "fluentd.zones" -}}
-{{- if .Values.zonalDeployments.enabled -}}
-{{- if not .Values.zonalDeployments.zones -}}
-{{- fail "zonalDeployments.zones must list at least one zone when zonalDeployments.enabled is true" -}}
-{{- end -}}
-{{- toJson .Values.zonalDeployments.zones -}}
+{{- if .Values.zonalDeployments -}}
+{{- toJson .Values.zonalDeployments -}}
 {{- else -}}
 {{- toJson (list "") -}}
 {{- end -}}
@@ -116,12 +113,12 @@ autoscaling/v2
 {{- define "fluentd.zoneContext" -}}
 {{- $root := .root -}}
 {{- $zone := ternary (dict "name" .zone) .zone (kindIs "string" .zone) -}}
-{{- if and $root.Values.zonalDeployments.enabled (not $zone.name) -}}
-{{- fail "every entry in zonalDeployments.zones needs a zone name" -}}
+{{- if and $root.Values.zonalDeployments (not $zone.name) -}}
+{{- fail "every entry in zonalDeployments needs a zone name" -}}
 {{- end -}}
 {{- $values := deepCopy $root.Values -}}
 {{- if $zone.name -}}
-{{- $_ := set $values "nodeSelector" (merge (dict $root.Values.zonalDeployments.topologyKey $zone.name) ($values.nodeSelector | default dict)) -}}
+{{- $_ := set $values "nodeSelector" (merge (dict "topology.kubernetes.io/zone" $zone.name) ($values.nodeSelector | default dict)) -}}
 {{- if hasKey $zone "replicaCount" -}}
 {{- $_ := set $values "replicaCount" $zone.replicaCount -}}
 {{- end -}}
