@@ -1,10 +1,20 @@
 {{- if and  ( eq  .Values.kind "Deployment" )  .Values.autoscaling.enabled  }}
+{{- range $index, $zone := include "fluentd.zones" . | fromJsonArray }}
+{{- $ctx := dict }}
+{{- $_ := include "fluentd.zoneContext" (dict "root" $ "zone" $zone "ctx" $ctx) }}
+{{- with $ctx }}
+{{- if $index }}
+---
+{{- end }}
 apiVersion: {{ include "fluentd.hpa.apiVersion" . }}
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "fluentd.fullname" . }}
+  name: {{ include "fluentd.workloadName" . }}
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
+    {{- with .Zone }}
+    zone: {{ . }}
+    {{- end }}
 spec:
   {{- if .Values.autoscaling.behavior }}
   behavior:
@@ -13,7 +23,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "fluentd.fullname" . }}
+    name: {{ include "fluentd.workloadName" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
@@ -36,4 +46,6 @@ spec:
   {{- if .Values.autoscaling.customRules -}}
     {{- toYaml .Values.autoscaling.customRules | nindent 4}}
   {{- end -}}
+{{- end }}
+{{- end }}
 {{- end }}

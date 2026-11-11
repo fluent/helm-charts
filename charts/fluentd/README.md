@@ -114,6 +114,7 @@ helm upgrade --install fluentd fluent/fluentd --version 0.6.0
 | service.annotations | object | `{}` |  |
 | service.enabled | bool | `true` |  |
 | service.ports | list | `[]` |  |
+| service.trafficDistribution | string | `""` | Traffic distribution preference for the _Service_; `PreferSameZone` and `PreferSameNode` require _Kubernetes_ v1.35 or later (`PreferClose` is available from v1.31). |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
@@ -126,6 +127,8 @@ helm upgrade --install fluentd fluent/fluentd --version 0.6.0
 | variantVersion | string | `"1.1"` |  |
 | volumeMounts | list | `[]` |  |
 | volumes | list | `[]` |  |
+| zonalDeployments | list | `[]` | Zones to run one Deployment in each, with its own HorizontalPodAutoscaler when `autoscaling.enabled` is `true`, instead of a single Deployment. Each zone's pods are pinned to it through `nodeSelector` on `zonalDeploymentsTopologyKey`, and the Service keeps selecting the pods of every zone. Each entry needs a `name`. Every zone's Deployment and HorizontalPodAutoscaler start from `replicaCount` and `autoscaling`, so `autoscaling.minReplicas` and `autoscaling.maxReplicas` apply to each zone, and an entry can set `replicaCount`, `minReplicas` and `maxReplicas` to override them for that zone. Only applicable when `kind` is `Deployment`. |
+| zonalDeploymentsTopologyKey | string | `"topology.kubernetes.io/zone"` | Node label that pins each zone in `zonalDeployments` to its zone through `nodeSelector`. |
 
 ## Upgrading
 
