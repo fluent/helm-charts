@@ -236,6 +236,20 @@ ingress:
   #      - fluent-bit.example.tld
 
 ## only available if kind is Deployment
+## Gateway API HTTPRoute resources, may be used alongside or instead of ingress
+httpRoutes: []
+#  - servicePort: 2020 # defaults to service.port
+#    annotations: {}
+#    labels: {}
+#    parentRefs:
+#      - name: gateway
+#        namespace: gateway
+#        sectionName: https
+#    hostnames:
+#      - fluent-bit.example.tld
+#    rules: [] # overrides the default rule routing every request to the Service
+
+## only available if kind is Deployment
 autoscaling:
   vpa:
     enabled: false
