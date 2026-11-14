@@ -1,0 +1,30 @@
+{{- if .Values.headlessService.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fluentd.fullname" . }}-headless
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+  {{- with .Values.headlessService.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 24231
+    targetPort: metrics
+    protocol: TCP
+    name: metrics
+  {{- if .Values.headlessService.ports }}
+  {{- range $port := .Values.headlessService.ports }}
+  - name: {{ $port.name }}
+    port: {{ $port.containerPort }}
+    targetPort: {{ $port.containerPort }}
+    protocol: {{ $port.protocol }}
+  {{- end }}
+  {{- end }}
+  selector:
+    {{- include "fluentd.selectorLabels" . | nindent 4 }}
+{{- end -}}
