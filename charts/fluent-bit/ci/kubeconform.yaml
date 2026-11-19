@@ -1,0 +1,9 @@
+kind: Deployment
+
+httpRoutes:
+  - parentRefs:
+      - name: gateway
+        namespace: gateway
+        sectionName: https
+    hostnames:
+      - fluent-bit.example.tld
