@@ -14,6 +14,10 @@
 
 ## [UNRELEASED]
 
+### Added
+
+- Add support for `tpl` evaluation in `podAnnotations`. ([#754](https://github.com/fluent/helm-charts/pull/754)) @Frapschen
+
 ## [v1.1.3] - 2026-10-01
 
 ### Changed
