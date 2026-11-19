@@ -14,11 +14,17 @@
 
 ## [UNRELEASED]
 
+## [v1.2.0] - 2026-11-18
+
+### Changed
+
+- Update _Fluentd Aggregator_ OCI image to [v2.3.0](https://github.com/fluent/fluentd-aggregator-docker-image/releases/tag/v2.3.0) (_Fluentd_ [v1.20.1](https://github.com/fluent/fluentd/releases/tag/v1.20.1)). ([#772](https://github.com/fluent/helm-charts/pull/772)) @stevehipwell
+
 ## [v1.1.0] - 2026-10-07
 
 ### Changed
 
-- Update _Fluentd Aggregator_ OCI image to [v2.2.0](https://github.com/fluent/fluentd-aggregator-docker-image/releases/tag/v2.2.0) (_Fluentd_ [v1.9.4](https://github.com/fluent/fluentd/releases/tag/v1.9.4)). ([#760](https://github.com/fluent/helm-charts/pull/760)) @stevehipwell
+- Update _Fluentd Aggregator_ OCI image to [v2.2.0](https://github.com/fluent/fluentd-aggregator-docker-image/releases/tag/v2.2.0) (_Fluentd_ [v1.19.4](https://github.com/fluent/fluentd/releases/tag/v1.19.4)). ([#760](https://github.com/fluent/helm-charts/pull/760)) @stevehipwell
 - Make `ServiceMonitor` path configurable via `serviceMonitor.endpointConfig.path`. ([#760](https://github.com/fluent/helm-charts/pull/760)) @stevehipwell
 
 ## [v1.0.0] - 2026-07-15
@@ -37,6 +43,7 @@
 RELEASE LINKS
 -->
 [UNRELEASED]: https://github.com/fluent/helm-charts/tree/main/charts/fluentd-aggregator
+[v1.2.0]: https://github.com/fluent/helm-charts/releases/tag/fluentd-aggregator-1.2.0
 [v1.1.0]: https://github.com/fluent/helm-charts/releases/tag/fluentd-aggregator-1.1.0
 [v1.0.0]: https://github.com/fluent/helm-charts/releases/tag/fluentd-aggregator-1.0.0
 [v1.0.0-beta.1]: https://github.com/fluent/helm-charts/releases/tag/fluentd-aggregator-1.0.0-beta.1
