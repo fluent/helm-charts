@@ -1,10 +1,20 @@
 {{- if eq .Values.kind "Deployment" }}
+{{- range $index, $zone := include "fluentd.zones" . | fromJsonArray }}
+{{- $ctx := dict }}
+{{- $_ := include "fluentd.zoneContext" (dict "root" $ "zone" $zone "ctx" $ctx) }}
+{{- with $ctx }}
+{{- if $index }}
+---
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "fluentd.fullname" . }}
+  name: {{ include "fluentd.workloadName" . }}
   labels:
     {{- include "fluentd.labels" . | nindent 4 }}
+    {{- with .Zone }}
+    zone: {{ . }}
+    {{- end }}
     {{- with .Values.labels }}
       {{- toYaml . | nindent 4 }}
     {{- end }}
@@ -23,21 +33,29 @@ spec:
   selector:
     matchLabels:
       {{- include "fluentd.selectorLabels" . | nindent 6 }}
+      {{- with .Zone }}
+      zone: {{ . }}
+      {{- end }}
   {{- with .Values.minReadySeconds }}
   minReadySeconds: {{ . }}
   {{- end }}
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/fluentd-configurations-cm.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/fluentd-configurations-cm.yaml") $ | sha256sum }}
         {{- with .Values.podAnnotations }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
         {{- include "fluentd.selectorLabels" . | nindent 8 }}
+        {{- with .Zone }}
+        zone: {{ . }}
+        {{- end }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
       {{- include "fluentd.pod" . | nindent 6 }}
+{{- end }}
+{{- end }}
 {{- end }}

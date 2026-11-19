@@ -102,3 +102,45 @@ autoscaling/v2beta2
 autoscaling/v2
 {{- end -}}
 {{- end -}}
+{{- define "fluentd.zones" -}}
+{{- if .Values.zonalDeployments -}}
+{{- toJson .Values.zonalDeployments -}}
+{{- else -}}
+{{- toJson (list (dict "name" "")) -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "fluentd.zoneContext" -}}
+{{- $root := .root -}}
+{{- $zone := .zone -}}
+{{- if and $root.Values.zonalDeployments (not (and (kindIs "map" $zone) $zone.name)) -}}
+{{- fail "every entry in zonalDeployments must be a map with a name" -}}
+{{- end -}}
+{{- $values := deepCopy $root.Values -}}
+{{- if $zone.name -}}
+{{- $_ := set $values "nodeSelector" (merge (dict $root.Values.zonalDeploymentsTopologyKey $zone.name) ($values.nodeSelector | default dict)) -}}
+{{- if hasKey $zone "replicaCount" -}}
+{{- $_ := set $values "replicaCount" $zone.replicaCount -}}
+{{- end -}}
+{{- if hasKey $zone "minReplicas" -}}
+{{- $_ := set $values.autoscaling "minReplicas" $zone.minReplicas -}}
+{{- end -}}
+{{- if hasKey $zone "maxReplicas" -}}
+{{- $_ := set $values.autoscaling "maxReplicas" $zone.maxReplicas -}}
+{{- end -}}
+{{- end -}}
+{{- $_ := set .ctx "Values" $values -}}
+{{- $_ := set .ctx "Zone" ($zone.name | default "") -}}
+{{- range $key := list "Release" "Chart" "Capabilities" "Files" "Template" -}}
+{{- $_ := set $.ctx $key (index $root $key) -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "fluentd.workloadName" -}}
+{{- if .Zone -}}
+{{- $suffix := printf "-%s" .Zone -}}
+{{- printf "%s%s" (include "fluentd.fullname" . | trunc (int (sub 63 (len $suffix))) | trimSuffix "-") $suffix -}}
+{{- else -}}
+{{- include "fluentd.fullname" . -}}
+{{- end -}}
+{{- end -}}

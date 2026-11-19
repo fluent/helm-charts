@@ -17,6 +17,8 @@
 ### Added
 
 - Add `metrics.serviceMonitor.path` value to scrape `/aggregated_metrics` when running multiple workers. ([#758](https://github.com/fluent/helm-charts/pull/758)) @yakir-shriker
+- Add `service.trafficDistribution` value to set `spec.trafficDistribution` on the _Service_. ([#770](https://github.com/fluent/helm-charts/pull/770)) @ranyhb
+- Add `zonalDeployments` and `zonalDeploymentsTopologyKey` values to run one Deployment and one HorizontalPodAutoscaler per zone when `kind` is `Deployment`. ([#770](https://github.com/fluent/helm-charts/pull/770)) @ranyhb
 
 ## [v0.6.0] - 2025-08-14
 
