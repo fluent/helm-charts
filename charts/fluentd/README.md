@@ -59,6 +59,8 @@ helm upgrade --install fluentd fluent/fluentd --version 0.6.0
 | dashboards.enabled | string | `"true"` |  |
 | dashboards.labels.grafana_dashboard | string | `"\"1\""` |  |
 | dashboards.namespace | string | `""` |  |
+| dnsConfig | object | `{}` |  |
+| dnsPolicy | string | `"ClusterFirst"` |  |
 | env | list | `[]` |  |
 | envFrom | list | `[]` |  |
 | fileConfigs."01_sources.conf" | string | `"## logs from podman\n<source>\n  @type tail\n  @id in_tail_container_logs\n  @label @KUBERNETES\n  path /var/log/containers/*.log\n  pos_file /var/log/fluentd-containers.log.pos\n  tag kubernetes.*\n  read_from_head true\n  <parse>\n    @type multi_format\n    <pattern>\n      format json\n      time_key time\n      time_type string\n      time_format \"%Y-%m-%dT%H:%M:%S.%NZ\"\n      keep_time_key false\n    </pattern>\n    <pattern>\n      format regexp\n      expression /^(?<time>.+) (?<stream>stdout|stderr)( (.))? (?<log>.*)$/\n      time_format '%Y-%m-%dT%H:%M:%S.%NZ'\n      keep_time_key false\n    </pattern>\n  </parse>\n  emit_unmatched_lines true\n</source>\n\n# expose metrics in prometheus format\n<source>\n  @type prometheus\n  bind 0.0.0.0\n  port 24231\n  metrics_path /metrics\n</source>"` |  |
